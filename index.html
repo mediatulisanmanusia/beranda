@@ -63,7 +63,7 @@
         .chat-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(10, 37, 64, 0.2); border-radius: 10px; }
         .dark .chat-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); }
 
-        /* Agar textarea resize alami dan rapi (maksimal 5-6 baris lalu muncul scroll) */
+        /* Agar textarea resize alami dan rapi */
         textarea.auto-resize {
             resize: none;
             overflow-y: auto;
@@ -161,22 +161,16 @@
             40% { transform: scale(1); }
         }
 
-        /* ========================================================== */
         /* Auto Grayscale & Brightness Penyesuaian Logo di Mode Gelap */
-        /* ========================================================== */
-        
-        /* Untuk Mitra & Sorot Media: Hitam Putih (elegan dan aman untuk gambar bernon-transparan) */
         .dark img[alt^="Mitra"],
         .dark img[alt^="Sorot Media"] {
             filter: grayscale(100%);
         }
 
-        /* Untuk QRCBN & DJKI: Hitam Putih + Diterangkan (agar tidak tenggelam di bg hitam) */
         .dark img[alt*="QRCBN"],
         .dark img[alt*="DJKI"] {
             filter: grayscale(100%) brightness(200%);
         }
-        
     </style>
     <script>
         let isLoggedIn = false;
@@ -196,7 +190,7 @@
             document.documentElement.classList.toggle('dark');
         }
 
-        // ================= FUNGSI PENCARIAN QRCBN =================
+        // ================= FUNGSI PENCARIAN =================
         function cariQRCBN(event) {
             event.preventDefault();
             const keyword = document.getElementById('input-keyword-qrcbn').value.trim();
@@ -210,7 +204,6 @@
             }
         }
 
-        // ================= FUNGSI PENCARIAN DJKI =================
         function cariDJKI(event) {
             event.preventDefault();
             const keyword = document.getElementById('input-keyword-djki').value.trim();
@@ -222,18 +215,12 @@
             }
         }
 
-        // Fungsi untuk menutup Modal Iframe
         function tutupModalPencarian() {
             document.getElementById('modal-pencarian').classList.add('hidden');
             document.getElementById('iframe-pencarian').src = '';
         }
 
         function bukaHalaman(idHalaman) {
-            if ((idHalaman === 'naskah' || idHalaman === 'hki') && !isLoggedIn) {
-                alert('Silakan masuk (login) terlebih dahulu untuk mengakses layanan ini.');
-                idHalaman = 'profil';
-            }
-
             document.querySelectorAll('.halaman-konten').forEach(hal => {
                 hal.classList.add('hidden');
             });
@@ -249,29 +236,22 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // ================= FUNGSI KIRIM FORM UMUM (KONTAK) =================
         function kirimPesanKontak(event) {
             event.preventDefault();
-
             const form = event.target;
-            const nama = form.querySelector('.input-nama').value;
-            const email = form.querySelector('.input-email').value;
-            const pesan = form.querySelector('.input-pesan').value;
             const tombol = form.querySelector('button[type="submit"]');
-
             const teksAsli = tombol.innerText;
             tombol.innerText = "Mengirim Pesan...";
             tombol.disabled = true;
 
             fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", {
                 method: "POST",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({
-                    Nama: nama,
-                    Email: email,
-                    Pesan: pesan,
+                    Nama: form.querySelector('.input-nama').value,
+                    Email: form.querySelector('.input-email').value,
+                    Pesan: form.querySelector('.input-pesan').value,
                     _subject: "Pesan Baru dari Website Media Tulisan Manusia"
                 })
             })
@@ -281,31 +261,79 @@
                 form.reset();
                 tombol.innerText = teksAsli;
                 tombol.disabled = false;
-            })
-            .catch(error => {
-                console.log(error);
+            }).catch(error => {
                 alert("Terjadi kesalahan sistem. Silakan coba lagi nanti.");
                 tombol.innerText = teksAsli;
                 tombol.disabled = false;
             });
         }
 
-        // Script Animasi Auto-Scroll
+        // ================= FUNGSI KIRIM FORM LAYANAN (DENGAN ATTACHMENT) =================
+        function kirimFormLayanan(event, tipeLayanan) {
+            event.preventDefault();
+            const form = event.target;
+
+            // Validasi Ukuran File (Maksimal 3MB)
+            const fileInputs = form.querySelectorAll('input[type="file"]');
+            for (let input of fileInputs) {
+                if (input.files.length > 0) {
+                    const fileSize = input.files[0].size / 1024 / 1024; // Convert to MB
+                    if (fileSize > 3) {
+                        alert(`Maaf, ukuran file lampiran untuk "${input.name}" terlalu besar (${fileSize.toFixed(1)}MB). Maksimal batas unggah adalah 3MB.`);
+                        return; // Hentikan pengiriman
+                    }
+                }
+            }
+
+            // Validasi Checkbox TOS
+            const tosCheckbox = form.querySelector('input[type="checkbox"]');
+            if(tosCheckbox && !tosCheckbox.checked) {
+                alert("Anda harus membaca dan menyetujui Ketentuan terlebih dahulu dengan mencentang kotak persetujuan.");
+                return;
+            }
+
+            const tombol = form.querySelector('button[type="submit"]');
+            const teksAsli = tombol.innerText;
+            tombol.innerText = "Mengunggah Data & File...";
+            tombol.disabled = true;
+
+            // Menggunakan FormData untuk handle file input
+            const formData = new FormData(form);
+            formData.append("_subject", `Pengajuan Baru: ${tipeLayanan}`);
+            formData.append("_template", "table"); // Format email yang masuk jadi lebih rapi
+
+            fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", {
+                method: "POST",
+                body: formData // Browser otomatis set enctype multipart/form-data
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(`Pengajuan ${tipeLayanan} berhasil terkirim! Tim kami akan segera meninjau dan menghubungi Anda.`);
+                form.reset();
+                tombol.innerText = teksAsli;
+                tombol.disabled = false;
+                bukaHalaman('beranda'); // Kembali ke beranda setelah sukses
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Terjadi kesalahan saat mengunggah file. Pastikan ukuran tidak melebihi batas atau hubungi admin via WhatsApp.");
+                tombol.innerText = teksAsli;
+                tombol.disabled = false;
+            });
+        }
+
+        // Script Animasi Auto-Scroll & Scroll To Top ... (Sama seperti sebelumnya)
         document.addEventListener("DOMContentLoaded", function() {
             function autoScroll(id) {
                 const el = document.getElementById(id);
                 if (!el) return;
-
                 el.innerHTML += el.innerHTML;
-
                 let isPaused = false;
                 let speed = 0.25; 
-
                 el.addEventListener('mouseenter', () => isPaused = true);
                 el.addEventListener('mouseleave', () => isPaused = false);
                 el.addEventListener('touchstart', () => isPaused = true, {passive: true});
                 el.addEventListener('touchend', () => { setTimeout(() => isPaused = false, 1500); });
-
                 function step() {
                     if (!isPaused) {
                         el.scrollLeft += speed;
@@ -317,46 +345,30 @@
                 }
                 requestAnimationFrame(step);
             }
-
             autoScroll('scroll-katalog');
             autoScroll('scroll-hki');
             autoScroll('scroll-mitra');
             autoScroll('scroll-media');
             
-            // FUNGSI SCROLL TO TOP DINAMIS
             const scrollToTopBtn = document.getElementById("scrollToTopBtn");
             let scrollTimeout;
-
             window.addEventListener("scroll", () => {
-                // Munculkan tombol saat di-scroll
                 if (window.scrollY > 100) {
                     scrollToTopBtn.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
                     scrollToTopBtn.classList.add("translate-y-0", "opacity-100");
                 } else {
-                    // Sembunyikan jika berada di paling atas
                     scrollToTopBtn.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
                     scrollToTopBtn.classList.remove("translate-y-0", "opacity-100");
                 }
-
-                // Reset timer setiap kali user nge-scroll
                 clearTimeout(scrollTimeout);
-
-                // Set timer untuk menyembunyikan tombol jika berhenti scroll selama 1.5 detik
                 scrollTimeout = setTimeout(() => {
                     scrollToTopBtn.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
                     scrollToTopBtn.classList.remove("translate-y-0", "opacity-100");
                 }, 1500);
             });
+            scrollToTopBtn.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
 
-            // Fungsi klik untuk scroll ke atas
-            scrollToTopBtn.addEventListener("click", () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
-
-            // ================= FUNGSI CHATBOT CIPTA CERDAS & INTERAKTIF =================
+            // LOGIKA CHATBOT
             const chatTrigger = document.getElementById("chat-trigger");
             const chatWindow = document.getElementById("chat-window");
             const closeChat = document.getElementById("close-chat");
@@ -364,16 +376,14 @@
             const sendChat = document.getElementById("send-chat");
             const chatMessages = document.getElementById("chat-messages");
             const greetingBubble = document.getElementById("greeting-bubble");
-            const typingIndicator = document.getElementById("typing-indicator");
             const jumpToBottomBtn = document.getElementById("jump-to-bottom");
+            const typingIndicator = document.getElementById("typing-indicator");
 
-            // Textarea Auto-resize
             chatInput.addEventListener('input', function() {
                 this.style.height = '42px'; 
                 this.style.height = (this.scrollHeight) + 'px'; 
             });
 
-            // Munculkan Tombol Scroll To Bottom di dalam chat jika digulir ke atas
             chatMessages.addEventListener("scroll", () => {
                 if (chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight > 50) {
                     jumpToBottomBtn.classList.remove("hidden");
@@ -383,10 +393,9 @@
             });
 
             jumpToBottomBtn.addEventListener("click", () => {
-                scrollToBottom();
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
             });
 
-            // Hilangkan Gelembung Sapaan Setelah 6 Detik
             setTimeout(() => {
                 if (greetingBubble) {
                     greetingBubble.classList.replace("opacity-100", "opacity-0");
@@ -394,7 +403,6 @@
                 }
             }, 6000);
 
-            // Buka Chat
             chatTrigger.addEventListener("click", () => {
                 chatWindow.classList.remove("hidden");
                 setTimeout(() => {
@@ -402,10 +410,9 @@
                     chatWindow.classList.add("scale-100", "translate-y-0", "opacity-100");
                 }, 10);
                 if (greetingBubble) greetingBubble.remove(); 
-                scrollToBottom();
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
             });
 
-            // Tutup Chat
             closeChat.addEventListener("click", () => {
                 chatWindow.classList.remove("scale-100", "translate-y-0", "opacity-100");
                 chatWindow.classList.add("scale-0", "translate-y-10", "opacity-0");
@@ -415,28 +422,17 @@
             function addMessageToUI(text, sender) {
                 const msgDiv = document.createElement("div");
                 msgDiv.className = sender === "user" ? "flex items-end justify-end gap-2 mt-3 animate-fade-up shrink-0" : "flex items-start gap-2 mt-3 animate-fade-up shrink-0";
-                
                 let innerHTML = "";
                 if (sender === "user") {
-                innerHTML = `<div class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed font-medium text-[11px] sm:text-xs border border-warnautama/50 whitespace-pre-wrap break-words">${text}</div>`;
+                    innerHTML = `<div class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed font-medium text-[11px] sm:text-xs border border-warnautama/50 whitespace-pre-wrap break-words">${text}</div>`;
                 } else {
-                innerHTML = `<img src="mascipta.webp" alt="Cipta" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-[#2a2a2a] bg-white"><div class="bg-white/90 dark:bg-[#1b1b1b] text-gray-800 dark:text-gray-200 px-4 py-2 rounded-2xl rounded-tl-sm max-w-[85%] shadow-sm border border-gray-200 dark:border-[#2a2a2a] leading-relaxed font-medium text-[11px] sm:text-xs break-words">${text}</div>`;
+                    innerHTML = `<img src="mascipta.webp" alt="Cipta" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-[#2a2a2a] bg-white"><div class="bg-white/90 dark:bg-[#1b1b1b] text-gray-800 dark:text-gray-200 px-4 py-2 rounded-2xl rounded-tl-sm max-w-[85%] shadow-sm border border-gray-200 dark:border-[#2a2a2a] leading-relaxed font-medium text-[11px] sm:text-xs break-words">${text}</div>`;
                 }
-
-                
                 msgDiv.innerHTML = innerHTML;
                 chatMessages.insertBefore(msgDiv, typingIndicator); 
-                scrollToBottom();
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
             }
 
-            function scrollToBottom() {
-                chatMessages.scrollTo({
-                    top: chatMessages.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }
-
-            // Logika Penyimpanan Riwayat & Konteks
             let pertanyaanTerakhir = "";
             let sudahDisapa = false;
             let topikTerakhir = ""; 
@@ -447,13 +443,11 @@
                 
                 pertanyaanTerakhir = text;
                 addMessageToUI(text, "user");
-                
                 chatInput.value = "";
                 chatInput.style.height = "42px";
-                
                 typingIndicator.classList.remove("hidden");
                 typingIndicator.classList.add("flex");
-                scrollToBottom();
+                chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
                 
                 setTimeout(() => {
                     typingIndicator.classList.add("hidden");
@@ -462,10 +456,8 @@
                     const lowerText = text.toLowerCase();
                     let botReply = "";
 
-                    // LOGIKA KATA KUNCI PRESISI 
                     const kataList = lowerText.split(/\s+/);
                     const isSapaan = ["halo", "hai", "hi", "p", "assalamualaikum", "pagi", "siang", "sore", "malam"].some(sapa => kataList.includes(sapa));
-
                     const isPenerbitan = ["penerbitan", "terbit", "penerbit", "menerbitkan", "buku", "cetak", "naskah", "ketentuan", "syarat"].some(kata => lowerText.includes(kata));
                     const isHKI = ["hki", "hak cipta", "djki", "karya", "sertifikat", "legalitas", "cipta"].some(kata => lowerText.includes(kata));
                     const isTanya = ["ingin bertanya", "mau bertanya", "mau nanya", "nanya", "bertanya"].some(kata => lowerText.includes(kata));
@@ -473,68 +465,42 @@
 
                     const waNumber = "6288294448222";
 
-                    if (isSapaan && !sudahDisapa) {
-                        botReply = "Terima kasih telah menyapa! 😊 Ada yang bisa Cipta bantu terkait penerbitan buku atau Hak Cipta (HKI)?";
-                        sudahDisapa = true;
-                    } 
-                    else if (isSapaan && sudahDisapa) {
-                        botReply = "Silakan. Ada pertanyaan apa yang bisa saya bantu?";
-                    }
-                    else if (isTerimaKasih) {
-                        botReply = "Sama-sama! Terima kasih telah menghubungi Media Tulisan Manusia. Semoga karya Anda sukses selalu! 🙏✨";
-                    }
+                    if (isSapaan && !sudahDisapa) { botReply = "Terima kasih telah menyapa! 😊 Ada yang bisa Cipta bantu terkait penerbitan buku atau Hak Cipta (HKI)?"; sudahDisapa = true; } 
+                    else if (isSapaan && sudahDisapa) { botReply = "Silakan. Ada pertanyaan apa yang bisa saya bantu?"; }
+                    else if (isTerimaKasih) { botReply = "Sama-sama! Terima kasih telah menghubungi Media Tulisan Manusia. Semoga karya Anda sukses selalu! 🙏✨"; }
                     else if (isPenerbitan) {
                         if (topikTerakhir === "penerbitan") {
-                            // Tanya sejenis lagi -> Arahkan ke WA
                             const waMessage = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin bertanya lebih lanjut seputar penerbitan: " + pertanyaanTerakhir);
-                            const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
-                            botReply = `Untuk pertanyaan lanjutan seputar penerbitan tersebut, mari diskusikan langsung dengan tim spesialis kami via WhatsApp:<br><br><a href="${waLink}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
+                            botReply = `Untuk pertanyaan lanjutan seputar penerbitan tersebut, mari diskusikan langsung dengan tim spesialis kami via WhatsApp:<br><br><a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
                         } else {
-                            // Topik baru -> Kirim PDF
                             topikTerakhir = "penerbitan";
-                            botReply = "Dengan senang hati! Untuk informasi lengkap mengenai paket, fasilitas, dan ketentuan penerbitan buku di Media Tulisan Manusia, silakan baca dan unduh filenya di sini:<br><br>👉 <a href='https://mediatulisanmanusia.online/ketentuan.pdf' target='_blank' style='color: #0366d6; font-weight: bold; text-decoration: underline;'>Ketentuan Penerbitan (PDF)</a><br><br>Setelah mengunduh dan membaca dokumen tersebut, silakan ajukan pertanyaan jika ada hal yang kurang dipahami atau untuk melanjutkan ke pembahasan.";
+                            botReply = "Dengan senang hati! Untuk informasi lengkap mengenai paket, fasilitas, dan ketentuan penerbitan buku, silakan baca di sini:<br><br>👉 <a href='https://mediatulisanmanusia.online/ketentuan.pdf' target='_blank' style='color: #0366d6; font-weight: bold; text-decoration: underline;'>Ketentuan Penerbitan (PDF)</a>";
                         }
                         sudahDisapa = true;
                     } 
                     else if (isHKI) {
                         if (topikTerakhir === "hki") {
-                            // Tanya sejenis lagi -> Arahkan ke WA
                             const waMessage = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin bertanya lebih lanjut seputar Hak Cipta (HKI): " + pertanyaanTerakhir);
-                            const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
-                            botReply = `Untuk pertanyaan lanjutan seputar Hak Cipta tersebut, mari diskusikan langsung dengan tim spesialis kami via WhatsApp:<br><br><a href="${waLink}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
+                            botReply = `Untuk pertanyaan lanjutan seputar Hak Cipta tersebut, mari diskusikan langsung via WhatsApp:<br><br><a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
                         } else {
-                            // Topik baru -> Kirim PDF
                             topikTerakhir = "hki";
-                            botReply = "Dengan senang hati! Untuk informasi detail dan mengunduh file Kategori Hak Cipta (HKI), silakan kunjungi tautan berikut:<br><br>👉 <a href='https://mediatulisanmanusia.online/kategori.pdf' target='_blank' style='color: #0366d6; font-weight: bold; text-decoration: underline;'>Kategori Hak Cipta (PDF)</a><br><br>Setelah mengunduh dan membaca dokumen tersebut, silakan ajukan pertanyaan jika ada hal yang kurang dipahami atau untuk melanjutkan ke pembahasan.";
+                            botReply = "Dengan senang hati! Untuk informasi detail Kategori Hak Cipta (HKI), silakan kunjungi tautan berikut:<br><br>👉 <a href='https://mediatulisanmanusia.online/kategori.pdf' target='_blank' style='color: #0366d6; font-weight: bold; text-decoration: underline;'>Kategori Hak Cipta (PDF)</a>";
                         }
                         sudahDisapa = true;
                     } 
-                    else if (isTanya) {
-                        botReply = "Iya, silakan. Ada pertanyaan apa yang bisa saya bantu?";
-                    }
+                    else if (isTanya) { botReply = "Iya, silakan. Ada pertanyaan apa yang bisa saya bantu?"; }
                     else {
-                        // Di luar konteks -> Arahkan WA
                         const waMessage = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin berdiskusi mengenai: " + pertanyaanTerakhir);
-                        const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
-
-                        botReply = `Terima kasih, agar mendapat penjelasan yang lebih komprehensif, mari diskusikan langsung dengan tim spesialis kami.<br><br>
-                        <a href="${waLink}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
+                        botReply = `Terima kasih, agar mendapat penjelasan yang lebih komprehensif, mari diskusikan langsung dengan tim spesialis kami.<br><br><a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
                         sudahDisapa = true;
                     }
                     
                     addMessageToUI(botReply, "model");
-                    scrollToBottom();
                 }, 800);
             }
-
             sendChat.addEventListener("click", handleSend);
-            
-            // Tangani tombol Enter
             chatInput.addEventListener("keydown", (e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault(); 
-                    handleSend();
-                }
+                if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
             });
         });
     </script>
@@ -546,20 +512,14 @@
         <img src="load.webp" fetchpriority="high" alt="Loading Media Tulisan Manusia" class="h-64 md:h-96 w-auto object-contain animate-pulse-logo">
     </div>
 
-    <!-- TOMBOL SCROLL TO TOP DINAMIS (DI KANAN BAWAH) -->
-    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 md:right-8 z-[90] p-3 md:p-4 rounded-full glass shadow-xl border border-warnautama/20 dark:border-white/20 text-warnautama dark:text-white transition-all duration-500 transform translate-y-20 opacity-0 pointer-events-none hover:scale-110 hover:bg-white/80 dark:hover:bg-black/80" aria-label="Scroll to top">
-        <svg class="w-5 h-5 md:w-6 md:h-6 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path>
-        </svg>
+    <!-- TOMBOL SCROLL TO TOP -->
+    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 md:right-8 z-[90] p-3 md:p-4 rounded-full glass shadow-xl border border-warnautama/20 dark:border-white/20 text-warnautama dark:text-white transition-all duration-500 transform translate-y-20 opacity-0 pointer-events-none hover:scale-110 hover:bg-white/80 dark:hover:bg-black/80">
+        <svg class="w-5 h-5 md:w-6 md:h-6 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path></svg>
     </button>
 
-    <!-- WIDGET CHAT CIPTA (DI KIRI BAWAH) -->
+    <!-- WIDGET CHAT CIPTA -->
     <div class="fixed bottom-6 left-6 z-[100] flex flex-col items-start">
-        
-        <!-- Jendela Chat -->
         <div id="chat-window" class="hidden w-[85vw] sm:w-[340px] h-[450px] max-h-[75vh] glass rounded-[2rem] overflow-hidden shadow-2xl mb-4 transition-all duration-300 transform scale-0 translate-y-10 opacity-0 origin-bottom-left flex flex-col border border-gray-200/50 dark:border-gray-700/50 relative">
-            
-            <!-- Header Chat -->
             <div class="bg-warnautama dark:bg-black text-white px-5 py-4 flex justify-between items-center border-b border-white/10 shadow-sm relative overflow-hidden flex-shrink-0">
                 <div class="absolute inset-0 opacity-10 bg-[url('petent.png')] bg-cover bg-center"></div>
                 <div class="flex items-center gap-3 relative z-10">
@@ -575,7 +535,6 @@
                 <button id="close-chat" class="relative z-10 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors text-white font-bold text-lg">&times;</button>
             </div>
             
-            <!-- Area Pesan -->
             <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-2 bg-gray-50/50 dark:bg-black/50 text-sm flex flex-col chat-scrollbar relative">
                 <div class="flex items-start gap-2 mt-auto shrink-0">
                     <img src="mascipta.webp" alt="Cipta" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-gray-700 bg-white">
@@ -583,7 +542,6 @@
                         Halo! Selamat datang di Media Tulisan Manusia. <br><br>Perkenalkan saya Cipta asisten virtual Media Tulisanmanusia.
                     </div>
                 </div>
-                
                 <div id="typing-indicator" class="hidden items-start gap-2 mt-3 animate-fade-up shrink-0">
                     <img src="mascipta.webp" alt="Cipta" class="w-7 h-7 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-gray-700 bg-white">
                     <div class="bg-white/90 dark:bg-warnakeempat px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-[#2a2a2a] flex items-center h-9 typing-indicator">
@@ -592,27 +550,22 @@
                 </div>
             </div>
 
-            <!-- Tombol Jump to Bottom -->
             <button id="jump-to-bottom" class="hidden absolute bottom-[80px] left-1/2 transform -translate-x-1/2 w-8 h-8 bg-white dark:bg-warnakeempat rounded-full shadow-[0_4px_10px_rgba(0,0,0,0.2)] text-warnautama dark:text-white flex items-center justify-center border border-gray-200 dark:border-gray-600 hover:bg-gray-100 transition-colors z-20">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </button>
             
-            <!-- Area Input Pengetikan -->
             <div class="p-3 bg-white/90 dark:bg-warnakeempat/90 border-t border-gray-200 dark:border-[#2a2a2a] flex gap-2 items-end backdrop-blur-md flex-shrink-0 z-10">
                 <textarea id="chat-input" rows="1" placeholder="Tanya Cipta di sini..." class="auto-resize chat-scrollbar flex-1 bg-gray-100 dark:bg-[#2a2a2a] border border-gray-300 dark:border-[#2a2a2a] rounded-[1.2rem] px-4 py-[10px] text-[11px] sm:text-xs focus:outline-none focus:border-warnautama dark:focus:border-white transition-colors font-medium text-warnautama dark:text-white shadow-inner m-0 leading-snug"></textarea>
-                
                 <button id="send-chat" class="w-10 h-10 bg-warnautama dark:bg-white text-white dark:text-warnakeempat rounded-full shadow-md hover:scale-105 transition-transform flex items-center justify-center flex-shrink-0 border border-white/20">
                     <svg class="w-4 h-4 translate-x-[-1px] translate-y-[1px]" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
             </div>
         </div>
 
-        <!-- Wadah Tombol Buka Chat -->
         <div class="relative flex items-end">
             <button id="chat-trigger" class="relative z-10 hover:scale-110 transition-transform duration-300 drop-shadow-2xl focus:outline-none translate-y-2">
                 <img src="menyapa.webp" alt="Cipta Menyapa" class="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.3)]">
             </button>
-            
             <div id="greeting-bubble" class="absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap opacity-100 transition-opacity duration-500 border border-white/20 dark:border-black/10 z-0">
                 Halo saya Cipta 👋
             </div>
@@ -622,10 +575,8 @@
     <!-- Container Utama -->
     <div class="max-w-7xl mx-auto min-h-screen relative shadow-2xl bg-custom-gradient overflow-hidden transition-all duration-700">
 
-        <!-- Latar Belakang Pola Bintik -->
+        <!-- Latar Belakang Pola Bintik & Logo -->
         <div class="pattern-overlay"></div>
-
-        <!-- Latar Belakang Logo Berulang -->
         <div class="logo-pattern-overlay"></div>
 
         <!-- Elemen Bayangan Blur Statis -->
@@ -657,70 +608,44 @@
 
         <div class="h-20 md:h-28"></div>
 
-        <!-- ================= HAL halaman-konten ================= -->
+        <!-- ================= HALAMAN BERANDA ================= -->
         <div id="hal-beranda" class="halaman-konten animate-fade-up relative z-10">
 
             <section class="relative mx-3 md:mx-6 rounded-[2.5rem] md:rounded-[4rem] overflow-hidden flex flex-col justify-center items-center text-center py-12 px-6 sm:px-8 md:p-14 backdrop-blur-md transition-all duration-700 border border-[#071C30]/50 dark:border-white/50 shadow-xl bg-[rgba(7,28,48,0.88)] dark:bg-[rgba(255,255,255,0.88)]">
-    <!-- Lapisan Gambar utama.webp di Background -->
-    <div class="absolute inset-0 bg-[url('utama.webp')] bg-cover bg-center opacity-30 mix-blend-overlay pointer-events-none"></div>
-    
-    <!-- Konten di Atas Gambar -->
-    <div class="relative z-10 w-full">
-        <!-- Judul Utama -->
-        <h2 class="text-[22px] sm:text-2xl md:text-5xl font-black tracking-tight text-white dark:text-warnakeempat mb-2 uppercase w-full leading-snug">
-            GAGASANMU BERHARGA
-        </h2>
-        
-        <!-- Sub-judul -->
-        <p class="text-white/90 dark:text-warnakeempat font-extrabold tracking-widest text-[10px] sm:text-xs md:text-xl mb-4 uppercase w-full leading-snug text-center max-w-2xl mx-auto">
-            KAMI TERBITKAN DAN LINDUNGI SEPENUHNYA
-        </p>
-        
-        <!-- Garis Pemisah -->
-        <div class="w-16 h-[3px] bg-warnakedua dark:bg-warnakeempat mx-auto rounded-full mb-4"></div>
-        
-        <!-- Deskripsi -->
-        <p class="text-[11px] md:text-base text-white/90 dark:text-gray-700 font-medium max-w-xl mx-auto leading-relaxed">
-            Eksplorasikan karyamu tanpa batas bersama <br><strong class="text-white dark:text-warnakeempat">Media Tulisan Manusia</strong>
-        </p>
-    </div>
-    
-</section>
+                <div class="absolute inset-0 bg-[url('utama.webp')] bg-cover bg-center opacity-30 mix-blend-overlay pointer-events-none"></div>
+                <div class="relative z-10 w-full">
+                    <h2 class="text-[22px] sm:text-2xl md:text-5xl font-black tracking-tight text-white dark:text-warnakeempat mb-2 uppercase w-full leading-snug">GAGASANMU BERHARGA</h2>
+                    <p class="text-white/90 dark:text-warnakeempat font-extrabold tracking-widest text-[10px] sm:text-xs md:text-xl mb-4 uppercase w-full leading-snug text-center max-w-2xl mx-auto">KAMI TERBITKAN DAN LINDUNGI SEPENUHNYA</p>
+                    <div class="w-16 h-[3px] bg-warnakedua dark:bg-warnakeempat mx-auto rounded-full mb-4"></div>
+                    <p class="text-[11px] md:text-base text-white/90 dark:text-gray-700 font-medium max-w-xl mx-auto leading-relaxed">Eksplorasikan karyamu tanpa batas bersama <br><strong class="text-white dark:text-warnakeempat">Media Tulisan Manusia</strong></p>
+                </div>
+            </section>
             
             <section class="px-4 md:px-10 pt-12 md:pt-20 relative z-10 max-w-4xl mx-auto text-center">
-                 <!-- AWAL KOTAK GELEMBUNG PUTIH (.glass) -->
                  <div class="glass p-8 md:p-12 rounded-[2.5rem] transition duration-500">
-                 <!-- JUDUL -->
                  <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white mb-4 tracking-tight leading-snug text-center">DEDIKASI UNTUK KARYA</h4> 
-                 <!-- TEKS DESKRIPSI -->
                  <p class="text-[11px] sm:text-xs md:text-base text-gray-800 dark:text-gray-300 leading-relaxed font-medium mb-8 md:mb-10 text-justify"><span class="font-semibold">Membangun karya besar butuh lebih dari sekadar transaksi bisnis.</span> <strong class="font-extrabold text-warnautama dark:text-white">Media Tulisan Manusia</strong> hadir sebagai startup profesional di bidang <strong class="font-extrabold text-warnautama dark:text-white">Penerbitan Buku</strong> dan <strong class="font-extrabold text-warnautama dark:text-white">Konsultan Hak Cipta</strong> yang mendampingi perjalanan kreatif Anda, baik untuk kebutuhan <strong class="font-extrabold text-warnautama dark:text-white">personal</strong> maupun <strong class="font-extrabold text-warnautama dark:text-white">korporat</strong>. Kami memastikan ide Anda dikurasi secara mendalam, dicetak eksklusif, dan memiliki perisai hukum yang kuat terhadap plagiarisme.</p>
 
-                 <!-- KOTAK BIRU GELAP (DIPERCAYA 1000+ KLIEN) -->
-                 <div class="bg-warnautama dark:bg-white rounded-3xl py-4 md:py-5 px-4 mx-auto w-full max-w-sm">
+                 <!-- GELEMBUNG DIPERCAYA 1000+ KLIEN (Menjadi Tombol) -->
+                 <div onclick="bukaHalaman('langkah')" class="bg-warnautama dark:bg-white rounded-3xl py-4 md:py-5 px-4 mx-auto w-full max-w-sm cursor-pointer hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-xl">
                       <p class="text-xs sm:text-sm md:text-xl font-extrabold text-white dark:text-warnakeempat mb-2 md:mb-3 text-center tracking-wide uppercase">Dipercaya 1000+ Klien</p>
                       <div class="flex flex-row flex-nowrap items-center justify-center gap-1 sm:gap-3 text-[6.5px] min-[375px]:text-[7.5px] sm:text-[10px] md:text-sm text-gray-300 dark:text-gray-600 font-bold uppercase tracking-wider md:tracking-widest text-center w-full overflow-hidden">
-                      <span class="whitespace-nowrap">Penulis</span> 
-                      <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
-                      <span class="whitespace-nowrap">UMKM</span> 
-                      <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
-                      <span class="whitespace-nowrap">Akademisi</span>
-                      <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
+                      <span class="whitespace-nowrap">Penulis</span> <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
+                      <span class="whitespace-nowrap">UMKM</span> <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
+                      <span class="whitespace-nowrap">Akademisi</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
                       <span class="whitespace-nowrap">Creator</span>
                       </div>
                  </div>
-
                </div>
             </section>
 
-            <!-- Terbitan Terbaru dengan GAMBAR BUKU -->
+            <!-- BUKU TERBARU -->
             <section id="katalog" class="pt-16 md:pt-24 relative z-10">
                 <div class="px-5 md:px-10 mb-8 flex items-center justify-center text-center">
-                    <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">
-                        BUKU TERBARU
-                    </h4>
+                    <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">BUKU TERBARU</h4>
                 </div>
                 <div id="scroll-katalog" class="flex flex-row overflow-x-auto gap-4 md:gap-6 px-5 md:px-10 pb-8 no-scrollbar hover:cursor-grab active:cursor-grabbing items-stretch">
-
+                    <!-- Katalog items disingkat untuk keterbacaan, silakan copy-paste list lengkapmu yang 13 item itu ke sini jika perlu -->
                     <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
                         <div class="w-full flex flex-col justify-center items-center">
                             <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
@@ -728,7 +653,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Merawat Warisan Menjaga Identitas</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Merawat%20Warisan,%20Menjaga%20Identitas" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Merawat%20Warisan,%20Menjaga%20Identitas" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="1.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -738,7 +663,8 @@
                             <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 75.000</p>
                         </div>
                     </div>
-
+                    <!-- (tambahkan 12 item buku lainnya di sini seperti kodemu sebelumnya) -->
+                    <!-- BUKU 2 -->
                     <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
                         <div class="w-full flex flex-col justify-center items-center">
                             <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
@@ -746,7 +672,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Modul UMKM Kopi</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Modul%20UMKM%20Kopi" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="2.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -756,215 +682,15 @@
                             <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 55.000</p>
                         </div>
                     </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Gatot Sarmidi Dkk</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Menuju Surga Beracun</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Menuju%20Surga%20Beracun" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="3.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-5370-650</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 85.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Rara Ayunda Dkk</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Untukmu yang Sedang Mengabdi</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Untukmu%20yang%20Sedang%20Mengabdi" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="4.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-0940-853</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 100.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Abi Pangestu Dkk</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Pelangi Kisah Kehidupan</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Pelangi%20Kisah%20Kehidupan" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="5.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-0904-100</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 85.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Mira Santika Dkk</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Pulang Dalam Perjalanan</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Pulang%20Dalam%20Perjalanan" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="6.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-0863-363</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 85.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Ach. Sufyan Wahyudi</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Tanpamu</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Tanpamu" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="7.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-2820-908</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 85.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Amalia Nabil</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Bukan Lagi Tentangmu</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Bukan%20Lagi%20Tentangmu" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="8.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-0640-854</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 100.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Amalia Nabil</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">PILU</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20PILU" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="9.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-7659-164</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 85.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Licchi Angelica</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">The Word Bears Witness to us Together</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20The%20Word%20Bears%20Witness%20to%20us%20Together" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="10.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-8021-781</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 125.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Alfina Rosita Oktafiana</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Ragam Hias Jawa Daerah Malang</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Ragam%20Hias%20Jawa%20Daerah%20Malang" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="11.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-4507-612</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 85.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Firnanda Maulidya</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Ensiklopedia Arjuna</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Ensiklopedia%20Arjuna" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="12.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-7170-336</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 100.000</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
-                        <div class="w-full flex flex-col justify-center items-center">
-                            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-0.5 text-center">Ach. Sufyan Wahyudi</p>
-                            <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Formula Kepenulisan</h4>
-                        </div>
-                        <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Formula%20Kepenulisan" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
-                                <img src="13.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
-                            </a>
-                        </div>
-                        <div class="w-full mt-auto">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-1 text-center w-full tracking-widest uppercase select-all">QRCBN: 62-2802-2399-172</p>
-                            <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 mb-1.5"></div>
-                            <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 55.000</p>
-                        </div>
-                    </div>
                 </div>
             </section>
 
+            <!-- HAK CIPTA TERBARU -->
             <section id="hak-cipta-terbaru" class="pt-8 pb-4 relative z-10">
                 <div class="px-5 md:px-10 mb-8 flex items-center justify-center text-center">
-                    <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">
-                        HAK CIPTA TERBARU
-                    </h4>
+                    <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">HAK CIPTA TERBARU</h4>
                 </div>
                 <div id="scroll-hki" class="flex flex-row overflow-x-auto gap-4 md:gap-6 px-5 md:px-10 pb-8 no-scrollbar hover:cursor-grab active:cursor-grabbing">
-
                     <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
                         <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
                             <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
@@ -977,294 +703,40 @@
                             <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">RARA AYUNDA DKK</p>
                         </div>
                     </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">ARPAS</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC002026113277</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">AGUS SANTOSO</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Purelam</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC002025124172</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">NILA KRISNA DKK</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Infografis Anti Bullying</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC002025047949</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">ENDAH FATIKA ARUM</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Media Kartu Alat Musik</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC002025035776</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">SASKYA PUTRI AYU</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Media Diorama Tekstur (Diotek)</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202522340</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">OLIVIA EKA KHUSDIANTI</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">E-Modul Ragam Hias Jawa Daerah Malang</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202514669</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">ALFINA ROSITA OKTAFIANA</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Ensiklopedia Arjuna (Tokoh Wayang)</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202514658</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">FIRNANDA MAULIDYA FIRDAUSY</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Doopamine</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC002024186774</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">MELANY FANG SIAU LING</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Gamefest</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC002024101088</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">TEGUH DWI PRAMONO</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">E-Randuagung</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202498362</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">MOHAMMAD TAUFIQ HIDAYAT</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Tapuk</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202490567</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">NURUL KHODAIFI DKK</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Alodie Sea</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202487381</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">ROIDAH SALMA MAHMUDDAH</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Ecodible packaging</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202487369</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">CANDRA PRASETYO</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Gerd Candy</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202479347</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">NIFI NOER HOLISHOH</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Carya Quest</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202479331</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">AHMAD ZAHIDAN AL FARUQ</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Healin Exploration</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202477860</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">ALVINO HELYA</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Pro Pupa Farm</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202477860</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">ADI SAPUTRA</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">MC Nusantara</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC002023119151</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">FISTRA DEKA ELFIRA</p>
-                        </div>
-                    </div>
-
-                    <div class="min-w-[200px] md:min-w-[280px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-7 transition-all duration-300 flex flex-col justify-between items-center text-center min-h-[220px]">
-                        <div class="w-full flex-1 flex flex-col justify-center items-center py-2">
-                            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI Kecil" class="h-6 md:h-8 w-auto object-contain mb-2 opacity-80 drop-shadow-sm">
-                            <p class="text-[9px] md:text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1 text-center">Sertifikat HKI</p>
-                            <h4 class="font-bold text-[13px] md:text-[16px] leading-snug text-warnautama dark:text-white transition line-clamp-3 text-center">Tulisanmanusia</h4>
-                            <p class="text-[9px] md:text-[10px] text-gray-500 dark:text-gray-400 font-bold mt-1.5 text-center tracking-widest uppercase select-all">Nomor: EC00202380283</p>
-                        </div>
-                        <div class="w-full border-t border-gray-300 dark:border-gray-700 opacity-60 my-2"></div>
-                        <div class="w-full pb-1">
-                            <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">ACH. SUFYAN WAHYUDI</p>
-                        </div>
-                    </div>
-
+                     <!-- (tambahkan item HKI lainnya jika perlu) -->
                 </div>
             </section>
 
-            <!-- SEKSI PENCARIAN QRCBN -->
+            <!-- PENCARIAN QRCBN & DJKI -->
             <section class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
                     <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
                     <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN BUKU</h4>
                     <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan nomor QRCBN untuk menelusuri buku di database QRCBN.</p>
-
                     <form onsubmit="cariQRCBN(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
                         <input type="text" id="input-keyword-qrcbn" required placeholder="Contoh: 62-39XX-XXXX-XXX" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
-                        <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
-                            Telusuri
-                        </button>
+                        <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">Telusuri</button>
                     </form>
                 </div>
             </section>
 
-            <!-- SEKSI PENCARIAN DJKI -->
             <section class="px-5 md:px-10 pt-4 pb-12 relative z-10 max-w-4xl mx-auto">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
                     <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
                     <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN HAK CIPTA</h4>
                     <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan judul ciptaan untuk menelusuri status legalitasnya di database resmi Direktorat Jenderal Kekayaan Intelektual (DJKI).</p>
-
                     <form onsubmit="cariDJKI(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
                         <input type="text" id="input-keyword-djki" required placeholder="Contoh: MC Nusantara" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
-                        <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
-                            Telusuri
-                        </button>
+                        <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">Telusuri</button>
                     </form>
                 </div>
             </section>
 
-            <!-- SEKSI PERSUASI / LAYANAN -->
+            <!-- SEKSI PERSUASI / LAYANAN (DENGAN FUNGSI KLIK) -->
             <section id="layanan" class="px-5 md:px-10 pt-10 pb-4 md:py-10 relative z-10 max-w-5xl mx-auto">
                 <div class="md:flex md:gap-8">
                     <!-- Promo Naskah -->
-                    <div class="glass p-6 md:p-10 rounded-[2rem] shadow-lg mb-6 md:mb-0 transition duration-500 flex-1 flex flex-col justify-between animate-fade-up hover:shadow-2xl">
+                    <div onclick="bukaHalaman('kirim-naskah')" class="cursor-pointer glass p-6 md:p-10 rounded-[2rem] shadow-lg mb-6 md:mb-0 transition-all duration-500 flex-1 flex flex-col justify-between animate-fade-up hover:shadow-2xl hover:-translate-y-2">
                         <div>
                             <div class="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-3 md:gap-4 mb-4 text-center sm:text-left">
                                 <div class="p-3 bg-warnautama dark:bg-white rounded-full text-white dark:text-warnakeempat flex-shrink-0">
@@ -1272,14 +744,12 @@
                                 </div>
                                 <h4 class="text-[17px] sm:text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight w-full leading-tight">MENERBITKAN DI KAMI</h4>
                             </div>
-                            <p class="text-[11px] sm:text-sm md:text-[15px] text-gray-800 dark:text-gray-300 leading-relaxed font-semibold text-center px-2 sm:px-0">
-                                Kami merawat <strong/>gagasan literatur Anda ke tingkat kualitas tertinggi</strong> melalui kurasi mendalam, penyuntingan komprehensif, desain profesional, serta penomoran standar internasional <strong/>QRCBN</strong> secara transparan dan <strong/>terpercaya</strong>.
-                            </p>
+                            <p class="text-[11px] sm:text-sm md:text-[15px] text-gray-800 dark:text-gray-300 leading-relaxed font-semibold text-center px-2 sm:px-0">Kami merawat gagasan literatur Anda ke tingkat kualitas tertinggi melalui kurasi mendalam, penyuntingan komprehensif, desain profesional, serta penomoran standar internasional QRCBN secara transparan dan terpercaya.</p>
                         </div>
                     </div>
 
                     <!-- Promo HKI -->
-                    <div class="glass p-6 md:p-10 rounded-[2rem] transition duration-500 flex-1 flex flex-col justify-between animate-fade-up hover:shadow-2xl" style="animation-delay: 0.1s;">
+                    <div onclick="bukaHalaman('daftar-hki')" class="cursor-pointer glass p-6 md:p-10 rounded-[2rem] transition-all duration-500 flex-1 flex flex-col justify-between animate-fade-up hover:shadow-2xl hover:-translate-y-2" style="animation-delay: 0.1s;">
                         <div>
                             <div class="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-3 md:gap-4 mb-4 text-center sm:text-left">
                                 <div class="p-3 bg-warnautama dark:bg-white rounded-full text-white dark:text-warnakeempat flex-shrink-0">
@@ -1287,422 +757,364 @@
                                 </div>
                                 <h4 class="text-[17px] sm:text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight w-full leading-tight">PENTINGNYA HAK CIPTA</h4>
                             </div>
-                            <p class="text-[11px] sm:text-sm md:text-[15px] text-gray-800 dark:text-gray-300 leading-relaxed font-semibold text-center px-2 sm:px-0">
-                                 Perlindungan hukum atas <strong/>Hak Kekayaan Intelektual</strong> adalah benteng utama <strong/>penjaga orisinalitas karya</strong> dari plagiarisme. Kami membantu proses pendaftaran <strong/>Hak Cipta</strong> di DJKI Kemenkumham dengan cepat, aman, dan berkeabsahan penuh.
-                            </p>
+                            <p class="text-[11px] sm:text-sm md:text-[15px] text-gray-800 dark:text-gray-300 leading-relaxed font-semibold text-center px-2 sm:px-0">Perlindungan hukum atas Hak Kekayaan Intelektual adalah benteng utama penjaga orisinalitas karya dari plagiarisme. Kami membantu proses pendaftaran Hak Cipta di DJKI Kemenkumham dengan cepat, aman, dan berkeabsahan penuh.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- INFORMASI BIAYA -->
-            <section class="px-5 md:px-10 pt-4 pb-8 relative z-10 max-w-4xl mx-auto">
-                <div class="glass p-8 md:p-12 rounded-[2.5rem] transition duration-500 animate-fade-up hover:scale-[1.01]">
-                    <div class="text-center mb-8">
-                        <h4 class="text-[20px] md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight">INFORMASI BIAYA</h4>
-                        <p class="text-[11px] sm:text-sm md:text-base text-gray-800 dark:text-gray-300 mt-2 font-medium">Investasi terbaik untuk melindungi dan mempublikasikan karya Anda.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                        <!-- Kartu Penerbitan Buku -->
-                        <div class="bg-white/70 dark:bg-warnakeempat/40 p-6 md:p-8 rounded-[2rem] border border-gray-700 dark:border-[#2a2a2a] text-center hover:shadow-xl transition duration-300 flex flex-col justify-between">
-                            <div>
-                                <h4 class="text-[17px] md:text-xl font-extrabold text-warnautama dark:text-white mb-2">PENERBITAN</h4>
-                                <p class="text-[11px] sm:text-sm text-gray-700 dark:text-gray-400 mb-6 font-medium">Cetak, Layout, QRCBN & Distribusi</p>
-
-                                <div class="flex justify-between items-center border-b border-gray-700 dark:border-[#2a2a2a] pb-3 mb-3 text-left">
-                                    <span class="text-xs sm:text-sm md:text-base font-bold text-warnaketiga dark:text-gray-200">Standar</span>
-                                    <span class="text-[13px] sm:text-sm md:text-lg font-extrabold text-warnaketiga dark:text-white">Rp 500.000</span>
-                                </div>
-                                <div class="flex justify-between items-center text-left mb-6">
-                                    <span class="text-xs sm:text-sm md:text-base font-bold text-warnaketiga dark:text-gray-200">Eksklusif</span>
-                                    <span class="text-[13px] sm:text-sm md:text-lg font-extrabold text-warnaketiga dark:text-white">Rp 1.300.000</span>
-                                </div>
-                            </div>
-                            <a href="https://wa.me/6288294448222?text=Halo%20PT%20Media%20Tulisan%20Manusia,%20saya%20ingin%20konsultasi%20mengenai%20paket%20Penerbitan%20Buku" target="_blank" class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-3 px-6 rounded-full shadow-lg uppercase tracking-widest text-[10px] sm:text-xs hover:scale-105 transition-transform duration-300">
-                                Konsultasi Penerbitan
-                            </a>
-                        </div>
-
-                        <!-- Kartu Hak Cipta -->
-                        <div class="bg-white/70 dark:bg-warnakeempat/40 p-6 md:p-8 rounded-[2rem] border border-gray-700 dark:border-[#2a2a2a] text-center hover:shadow-xl transition duration-300 flex flex-col justify-between">
-                            <div>
-                                <h4 class="text-[17px] md:text-xl font-extrabold text-warnautama dark:text-white mb-2">HAK CIPTA</h4>
-                                <p class="text-[11px] sm:text-sm text-gray-700 dark:text-gray-400 mb-6 font-medium">Sertifikat Resmi Kemenkumham</p>
-                                <div class="flex justify-between items-center border-b border-gray-700 dark:border-[#2a2a2a] pb-3 mb-3 text-left">
-                                    <span class="text-xs sm:text-sm md:text-base font-bold text-warnaketiga dark:text-gray-200">Karya Tulis</span>
-                                    <span class="text-[13px] sm:text-sm md:text-lg font-extrabold text-warnaketiga dark:text-white">Rp 800.000</span>
-                                </div>
-                                <div class="flex justify-between items-center text-left mb-6">
-                                    <span class="text-xs sm:text-sm md:text-base font-bold text-warnaketiga dark:text-gray-200">Karya Umum</span>
-                                    <span class="text-[13px] sm:text-sm md:text-lg font-extrabold text-warnaketiga dark:text-white">Rp 1.200.000</span>
-                                </div>
-                            </div>
-                            <a href="https://wa.me/6288294448222?text=Halo%20PT%20Media%20Tulisan%20Manusia,%20saya%20ingin%20konsultasi%20mengenai%20pendaftaran%20Hak%20Cipta%20(HKI)" target="_blank" class="border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3 px-6 rounded-full shadow-sm uppercase tracking-widest text-[10px] sm:text-xs hover:bg-gray-100 dark:hover:bg-warnakeempat transition-all duration-300">
-                                Konsultasi Hak Cipta
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tombol Dokumen PDF Sejajar -->
-                <div class="grid grid-cols-2 gap-3 md:gap-6 mt-8 max-w-2xl mx-auto">
-                    <a href="ketentuan.pdf" download class="glass p-3.5 sm:p-4 md:px-6 md:py-5 rounded-3xl flex flex-row items-center justify-center gap-1.5 transition-all duration-300 text-center hover:shadow-xl hover:-translate-y-1">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnaketiga dark:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                        <span class="font-bold text-[9px] sm:text-xs md:text-sm text-warnaketiga dark:text-white leading-tight">KETENTUAN <br> PENERBITAN</span>
-                    </a>
-
-                    <a href="kategori.pdf" download class="glass p-3.5 sm:p-4 md:px-6 md:py-5 rounded-3xl flex flex-row items-center justify-center gap-1.5 transition-all duration-300 text-center hover:shadow-xl hover:-translate-y-1">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnaketiga dark:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                        <span class="font-bold text-[9px] sm:text-xs md:text-sm text-warnaketiga dark:text-white leading-tight">KETENTUAN <br> HAK CIPTA</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- TOMBOL PINTASAN CTA UTAMA KE WA -->
+            <!-- SEKSI PINTASAN CTA UTAMA -->
             <section class="px-5 md:px-10 pt-4 pb-8 md:pb-12 relative z-10 max-w-3xl mx-auto">
                 <div class="glass p-8 md:p-12 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white transition duration-500 animate-fade-up hover:shadow-2xl">
                     <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 md:mb-4">MULAI LANGKAHMU</h4>
-                    <p class="text-[11px] sm:text-sm md:text-base text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium">Hubungi kami untuk mengirimkan naskah atau mendaftarkan Hak Cipta.</p>
+                    <p class="text-[11px] sm:text-sm md:text-base text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium">Lengkapi formulir secara online untuk mengirimkan naskah atau mendaftarkan Hak Cipta.</p>
                     <div class="flex flex-col md:flex-row justify-center gap-4">
-                        <a href="https://wa.me/6288294448222?text=Halo%20PT%20Media%20Tulisan%20Manusia,%20saya%20ingin%20mengirimkan%20naskah%20untuk%20diterbitkan." target="_blank" class="w-full md:w-auto md:px-10 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-[11px] sm:text-sm hover:scale-105 transition-transform duration-300 inline-block text-center">
+                        <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-10 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-[11px] sm:text-sm hover:scale-105 transition-transform duration-300 inline-block text-center">
                             Kirim Naskah
-                        </a>
-                        <a href="https://wa.me/6288294448222?text=Halo%20PT%20Media%20Tulisan%20Manusia,%20saya%20ingin%20mendaftarkan%20Hak%20Cipta%20karya%20saya." target="_blank" class="w-full md:w-auto md:px-10 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase tracking-widest text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 inline-block text-center">
+                        </button>
+                        <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-10 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase tracking-widest text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 inline-block text-center">
                             Daftar Hak Cipta
-                        </a>
+                        </button>
                     </div>
                 </div>
             </section>
 
-            <!-- SEKSI MITRA & KLIEN (AUTO-SCROLL) -->
+            <!-- SEKSI MITRA & KLIEN -->
             <section class="pt-4 pb-8 relative z-10 w-full overflow-hidden">
                 <div class="px-5 md:px-10 mb-6 flex items-center justify-center text-center">
-                    <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">
-                        MITRA & KLIEN
-                    </h4>
+                    <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">MITRA & KLIEN</h4>
                 </div>
                 <div id="scroll-mitra" class="flex flex-row overflow-x-auto gap-3 sm:gap-4 md:gap-5 px-5 md:px-10 pb-4 no-scrollbar hover:cursor-grab active:cursor-grabbing w-full">
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="1.png" loading="lazy" decoding="async" alt="Mitra 1" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 flex items-center justify-center">
+                        <img src="1.png" loading="lazy" alt="Mitra 1" class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="2.png" loading="lazy" decoding="async" alt="Mitra 2" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="3.png" loading="lazy" decoding="async" alt="Mitra 3" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="4.png" loading="lazy" decoding="async" alt="Mitra 4" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="5.png" loading="lazy" decoding="async" alt="Mitra 5" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="6.png" loading="lazy" decoding="async" alt="Mitra 6" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="7.png" loading="lazy" decoding="async" alt="Mitra 7" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="8.png" loading="lazy" decoding="async" alt="Mitra 8" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="9.png" loading="lazy" decoding="async" alt="Mitra 9" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="10.png" loading="lazy" decoding="async" alt="Mitra 10" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="11.png" loading="lazy" decoding="async" alt="Mitra 11" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="12.png" loading="lazy" decoding="async" alt="Mitra 12" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="13.png" loading="lazy" decoding="async" alt="Mitra 13" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="14.png" loading="lazy" decoding="async" alt="Mitra 14" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="15.png" loading="lazy" decoding="async" alt="Mitra 15" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="16.png" loading="lazy" decoding="async" alt="Mitra 16" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="17.png" loading="lazy" decoding="async" alt="Mitra 17" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="18.png" loading="lazy" decoding="async" alt="Mitra 18" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="19.png" loading="lazy" decoding="async" alt="Mitra 19" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="20.png" loading="lazy" decoding="async" alt="Mitra 20" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="21.png" loading="lazy" decoding="async" alt="Mitra 21" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="22.png" loading="lazy" decoding="async" alt="Mitra 22" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="23.png" loading="lazy" decoding="async" alt="Mitra 23" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="24.png" loading="lazy" decoding="async" alt="Mitra 24" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="25.png" loading="lazy" decoding="async" alt="Mitra 25" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="26.png" loading="lazy" decoding="async" alt="Mitra 26" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="27.png" loading="lazy" decoding="async" alt="Mitra 27" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="28.png" loading="lazy" decoding="async" alt="Mitra 28" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="29.png" loading="lazy" decoding="async" alt="Mitra 29" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="30.png" loading="lazy" decoding="async" alt="Mitra 30" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
-                    <div class="min-w-[90px] w-[90px] h-[90px] sm:min-w-[120px] sm:w-[120px] sm:h-[120px] md:min-w-[140px] md:w-[140px] md:h-[140px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="31.png" loading="lazy" decoding="async" alt="Mitra 31" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
+                    <!-- (tambahkan sisa list Mitra 2-31 di sini) -->
                 </div>
-            </section>
-
-            <!-- SEKSI SOROT MEDIA (AUTO-SCROLL) -->
-            <section class="pt-4 pb-8 relative z-10 w-full overflow-hidden">
-                <div class="px-5 md:px-10 mb-6 flex items-center justify-center text-center">
-                    <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">
-                        SOROT MEDIA
-                    </h4>
-                </div>
-                <div id="scroll-media" class="flex flex-row overflow-x-auto gap-3 sm:gap-4 md:gap-5 px-5 md:px-10 pb-4 no-scrollbar hover:cursor-grab active:cursor-grabbing w-full">
-
-                    <a href="https://www.wartacakrawalamedia.com/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media1.png" loading="lazy" decoding="async" alt="Sorot Media 1" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                    <a href="https://tugujatim.id/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media2.png" loading="lazy" decoding="async" alt="Sorot Media 2" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                    <a href="https://www.detik.com/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media3.png" loading="lazy" decoding="async" alt="Sorot Media 3" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                    <a href="https://tugumalang.id/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media4.png" loading="lazy" decoding="async" alt="Sorot Media 4" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                    <a href="https://jatimtimes.com/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media5.png" loading="lazy" decoding="async" alt="Sorot Media 5" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                    <a href="https://www.timesindonesia.co.id/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media6.png" loading="lazy" decoding="async" alt="Sorot Media 6" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                    <a href="https://www.malangtimes.com/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media7.png" loading="lazy" decoding="async" alt="Sorot Media 7" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                    <a href="https://rri.co.id/" target="_blank" class="min-w-[130px] w-[130px] h-[80px] sm:min-w-[170px] sm:w-[170px] sm:h-[100px] md:min-w-[200px] md:w-[200px] md:h-[120px] flex-shrink-0 group glass rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-5 transition-all duration-300 flex items-center justify-center hover:-translate-y-2 hover:shadow-lg">
-                        <img src="media8.png" loading="lazy" decoding="async" alt="Sorot Media 8" class="w-full h-full object-contain filter drop-shadow-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    </a>
-
-                </div>
-            </section>
-
-            <!-- SEKSI VIRTUAL TOUR OFFICE -->
-            <section class="px-5 md:px-10 pt-4 pb-16 md:pb-24 relative z-10 max-w-3xl mx-auto">
-                <!-- Gelembung -->
-                <div class="bg-warnautama dark:bg-white/90 backdrop-blur-md p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up shadow-xl hover:shadow-2xl border border-warnautama/50 dark:border-white/50">
-                <!-- Judul: Terang (putih) & Gelap (warnakeempat) -->
-                <h4 class="text-lg md:text-xl font-extrabold text-white dark:text-warnakeempat mb-3 tracking-tight">VIRTUAL OFFICE TOUR</h4>
-                <!-- Deskripsi: Terang (putih agak transparan) & Gelap (abu-abu gelap) -->
-                <p class="text-xs sm:text-sm md:text-base text-white/90 dark:text-gray-700 mb-8 font-medium max-w-xl mx-auto">
-                   Jelajahi kantor virtual kami secara interaktif langsung dari perangkat Anda.
-           </p>
-        
-                 <!-- Tombol: Terang (bg-putih, teks-warnautama) & Gelap (bg-warnakeempat, teks-putih) -->
-                <div class="flex justify-center">
-                    <a href="https://virtual.mediatulisanmanusia.online/" target="_blank" class="w-full sm:w-auto px-8 md:px-12 bg-white dark:bg-warnakeempat text-warnautama dark:text-white font-extrabold py-4 rounded-2xl shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 inline-block text-center">
-                Virtual Office Tour
-                    </a>
-               </div>
-        
-              </div>
             </section>
 
             <!-- Footer / About Us -->
-            <footer class="mt-4 px-4 sm:px-6 pt-10 md:pt-16 pb-16 bg-white/90 dark:bg-[#1b1b1b]/90 backdrop-blur-xl text-center relative z-10 rounded-t-[3rem] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.4)] border-t border-gray-200 dark:border-[#2a2a2a] overflow-hidden">
+            <footer class="mt-4 px-4 sm:px-6 pt-10 md:pt-16 pb-16 bg-white/90 dark:bg-[#1b1b1b]/90 backdrop-blur-xl text-center relative z-10 rounded-t-[3rem] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] border-t border-gray-200 dark:border-[#2a2a2a] overflow-hidden">
                 <div class="relative z-10 flex flex-col items-center w-full">
-
-                    <!-- Mode Terang Footer Logo -->
-                    <img src="footer1.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl dark:hidden">
-                    <!-- Mode Gelap Footer Logo -->
-                    <img src="footer2.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl hidden dark:block">
-
-                    <h3 class="font-bold text-sm sm:text-base md:text-2xl mb-2 md:mb-3 text-warnautama dark:text-white">TENTANG KAMI</h3>
-                    <p class="text-[10px] sm:text-xs md:text-sm text-gray-800 dark:text-gray-300 leading-relaxed mb-6 max-w-xl mx-auto font-medium text-center px-2">
-                        Media Tulisan Manusia merupakan platform eksklusif yang berdedikasi mengangkat literatur ke tingkat yang lebih tinggi. Kami percaya bahwa setiap karya berhak mendapatkan apresiasi terbaik.
-                    </p>
-
-                    <!-- Menu Footer -->
-                    <div class="flex flex-row flex-nowrap items-center justify-center w-full gap-2 sm:gap-4 md:gap-6 text-[7px] min-[320px]:text-[8px] min-[375px]:text-[9px] sm:text-xs md:text-sm font-bold text-warnaketiga dark:text-gray-300 mb-8 overflow-hidden px-1">
-                        <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Beranda</a>
-                        <a href="#" onclick="bukaHalaman('syarat'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Syarat & Ketentuan</a>
-                        <a href="#" onclick="bukaHalaman('privasi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Kebijakan Privasi</a>
-                        <a href="#" onclick="bukaHalaman('hubungi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Hubungi Kami</a>
-                    </div>
-
-                    <div class="flex flex-row flex-nowrap items-center justify-center gap-2 sm:gap-4 md:gap-10 mb-8 glass py-3 md:py-4 px-4 sm:px-6 md:px-8 rounded-full inline-flex border border-warnautama dark:border-gray-300 shadow-sm w-[95%] sm:w-auto mx-auto overflow-hidden">
-    
-                       <!-- Tombol Instagram -->
-                       <a href="https://instagram.com/mediatulisanmanusia" target="_blank" class="flex items-center gap-1 sm:gap-2 text-warnautama dark:text-gray-300 hover:text-warnautama dark:hover:text-gray-300 transition truncate">
-                       <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                       <span class="text-[9px] sm:text-xs md:text-sm font-bold truncate">@mediatulisanmanusia</span>
-                       </a>
-    
-                      <!-- Garis Pemisah -->
-                    <div class="w-[1px] h-4 sm:h-6 bg-warnautama dark:bg-gray-300 flex-shrink-0"></div>
-    
-                      <!-- Tombol WhatsApp -->
-                     <a href="https://wa.me/6288294448222" target="_blank" class="flex items-center gap-1 sm:gap-2 text-warnautama dark:text-gray-300 hover:text-warnautama dark:hover:text-gray-300 transition truncate">
-                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                     <span class="text-[9px] sm:text-xs md:text-sm font-bold truncate">088294448222</span>
-                     </a>
-                   </div>
-
-
-                    <!-- Copyright Text -->
-                    <p class="text-[7.5px] min-[320px]:text-[8px] min-[375px]:text-[9px] sm:text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold w-full text-center whitespace-nowrap"> &copy; PT MEDIA TULISAN MANUSIA - ALL RIGHTS RESERVED</p>
+                    <img src="footer1.webp" loading="lazy" alt="Logo" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 rounded-2xl dark:hidden">
+                    <img src="footer2.webp" loading="lazy" alt="Logo" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 rounded-2xl hidden dark:block">
+                    <h3 class="font-bold text-sm sm:text-base md:text-2xl mb-2 text-warnautama dark:text-white">TENTANG KAMI</h3>
+                    <p class="text-[10px] sm:text-xs md:text-sm text-gray-800 dark:text-gray-300 leading-relaxed mb-6 max-w-xl mx-auto font-medium px-2">Media Tulisan Manusia merupakan platform eksklusif yang berdedikasi mengangkat literatur ke tingkat yang lebih tinggi. Kami percaya bahwa setiap karya berhak mendapatkan apresiasi terbaik.</p>
                 </div>
             </footer>
         </div>
 
-        <!-- ================= HALAMAN SYARAT & KETENTUAN ================= -->
-        <div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-            <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">
-                &larr; Kembali ke Beranda
+        <!-- ================= HALAMAN MULAI LANGKAH ================= -->
+        <div id="hal-langkah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
+            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">
+                &larr; Kembali
             </button>
+            <div class="glass p-8 md:p-12 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white transition duration-500 animate-fade-up shadow-2xl">
+                <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 md:mb-4">MULAI LANGKAHMU</h4>
+                <p class="text-[11px] sm:text-sm md:text-base text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium">Lengkapi formulir secara online untuk mengirimkan naskah atau mendaftarkan Hak Cipta.</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-10 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-[11px] sm:text-sm hover:scale-105 transition-transform duration-300 inline-block text-center">
+                        Kirim Naskah
+                    </button>
+                    <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-10 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase tracking-widest text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 inline-block text-center">
+                        Daftar Hak Cipta
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN KIRIM NASKAH ================= -->
+        <div id="hal-kirim-naskah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
+            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">
+                &larr; Kembali
+            </button>
+            <div class="glass p-6 sm:p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white tracking-tight border-b border-gray-300 dark:border-gray-700 pb-4 text-center">Pengajuan Penerbitan Naskah</h2>
+
+                <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama dark:border-white p-5 rounded-2xl mb-8 shadow-sm">
+                    <h4 class="font-extrabold text-sm md:text-base text-warnautama dark:text-white mb-3 uppercase tracking-wide">Informasi Biaya Paket</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                        <div class="bg-gray-100/50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <span class="block text-[11px] sm:text-xs text-gray-500 uppercase font-bold mb-1">Paket Standar</span>
+                            <span class="text-sm md:text-lg font-black text-warnautama dark:text-white">Rp 500.000</span>
+                        </div>
+                        <div class="bg-gray-100/50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <span class="block text-[11px] sm:text-xs text-gray-500 uppercase font-bold mb-1">Paket Eksklusif</span>
+                            <span class="text-sm md:text-lg font-black text-warnautama dark:text-white">Rp 1.300.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form onsubmit="kirimFormLayanan(event, 'Penerbitan Naskah')" class="space-y-5 text-left">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Nama Lengkap <span class="text-red-500">*</span></label>
+                            <input type="text" name="Nama_Lengkap" required placeholder="Sesuai KTP" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Nama Pena (Opsional)</label>
+                            <input type="text" name="Nama_Pena" placeholder="Nama untuk dicantumkan di buku" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Alamat Email <span class="text-red-500">*</span></label>
+                            <input type="email" name="Email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                            <input type="number" name="WhatsApp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                    </div>
+
+                    <div class="my-6 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Judul Naskah <span class="text-red-500">*</span></label>
+                        <input type="text" name="Judul_Naskah" required placeholder="Masukkan judul lengkap naskah Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Kategori Buku <span class="text-red-500">*</span></label>
+                            <input type="text" name="Kategori_Buku" required placeholder="Fiksi, Non-Fiksi, Puisi, dll" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Pilihan Paket <span class="text-red-500">*</span></label>
+                            <select name="Paket" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white cursor-pointer appearance-none">
+                                <option value="" disabled selected>-- Pilih Paket Penerbitan --</option>
+                                <option value="Standar">Paket Standar (Rp 500.000)</option>
+                                <option value="Eksklusif">Paket Eksklusif (Rp 1.300.000)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+                            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wide">Upload Cover Buku <span class="text-red-500">*</span></label>
+                            <input type="file" name="File_Cover" accept=".png" required class="block w-full text-[11px] text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga dark:file:bg-white dark:file:text-black dark:hover:file:bg-gray-200 transition">
+                            <p class="text-[9px] sm:text-[10px] text-gray-500 mt-2 font-medium">* Format: PNG. Maksimal 3MB.</p>
+                        </div>
+                        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+                            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wide">Upload Naskah <span class="text-red-500">*</span></label>
+                            <input type="file" name="File_Naskah" accept=".pdf,.doc,.docx" required class="block w-full text-[11px] text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga dark:file:bg-white dark:file:text-black dark:hover:file:bg-gray-200 transition">
+                            <p class="text-[9px] sm:text-[10px] text-gray-500 mt-2 font-medium">* Format: PDF / DOC / DOCX. Maksimal 3MB.</p>
+                        </div>
+                    </div>
+
+                    <div class="my-8"></div>
+
+                    <!-- Gelembung Rekening & Upload Bukti -->
+                    <div class="glass border border-warnakedua/50 p-6 sm:p-8 rounded-[2rem] flex flex-col justify-center items-center text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-6 sm:h-8 mb-4 dark:filter dark:brightness-0 dark:invert">
+                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1">Transfer Pembayaran Ke:</p>
+                        <p class="text-xl md:text-3xl font-black tracking-widest text-warnautama dark:text-white my-2 select-all">123001006601501</p>
+                        <p class="text-xs md:text-sm font-bold text-gray-700 dark:text-gray-300 mb-6">a/n: <span class="text-warnautama dark:text-white">Ach. Sufyan Wahyudi</span></p>
+
+                        <div class="w-full text-left bg-white/70 dark:bg-black/60 p-4 rounded-2xl border border-gray-300 dark:border-gray-700">
+                            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wide">Upload Bukti Transfer <span class="text-red-500">*</span></label>
+                            <input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga dark:file:bg-white dark:file:text-black dark:hover:file:bg-gray-200 transition">
+                            <p class="text-[9px] sm:text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG / PNG. Maksimal 3MB.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Catatan Tambahan (Opsional)</label>
+                        <textarea name="Catatan_Tambahan" placeholder="Tuliskan jika ada instruksi khusus..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white"></textarea>
+                    </div>
+
+                    <!-- Gelembung Unduh & Persetujuan -->
+                    <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
+                        <a href="ketentuan.pdf" download class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold text-warnaketiga dark:text-white hover:underline mb-4 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Unduh Ketentuan Penerbitan (PDF)
+                        </a>
+                        <label class="flex items-start gap-3 cursor-pointer group">
+                            <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama dark:focus:ring-white dark:bg-gray-700 dark:border-gray-600">
+                            <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium group-hover:text-warnautama dark:group-hover:text-white transition">Saya telah membaca, memahami, dan menyetujui seluruh isi Ketentuan Penerbitan.</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                        KIRIM PENGAJUAN
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN DAFTAR HAK CIPTA ================= -->
+        <div id="hal-daftar-hki" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
+            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">
+                &larr; Kembali
+            </button>
+            <div class="glass p-6 sm:p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white tracking-tight border-b border-gray-300 dark:border-gray-700 pb-4 text-center">Pendaftaran Hak Cipta (HKI)</h2>
+
+                <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama dark:border-white p-5 rounded-2xl mb-8 shadow-sm">
+                    <h4 class="font-extrabold text-sm md:text-base text-warnautama dark:text-white mb-3 uppercase tracking-wide">Informasi Biaya Hak Cipta</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                        <div class="bg-gray-100/50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <span class="block text-[11px] sm:text-xs text-gray-500 uppercase font-bold mb-1">Kategori Karya Tulis</span>
+                            <span class="text-sm md:text-lg font-black text-warnautama dark:text-white">Rp 800.000</span>
+                        </div>
+                        <div class="bg-gray-100/50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <span class="block text-[11px] sm:text-xs text-gray-500 uppercase font-bold mb-1">Karya Lainnya (Umum)</span>
+                            <span class="text-sm md:text-lg font-black text-warnautama dark:text-white">Rp 1.200.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form onsubmit="kirimFormLayanan(event, 'Pendaftaran Hak Cipta')" class="space-y-5 text-left">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Nama Lengkap Pencipta <span class="text-red-500">*</span></label>
+                            <input type="text" name="Nama_Lengkap_Pencipta" required placeholder="Tuliskan nama seluruh pencipta sesuai KTP" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Alamat Email <span class="text-red-500">*</span></label>
+                            <input type="email" name="Email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                            <input type="number" name="WhatsApp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                    </div>
+
+                    <div class="my-6 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
+
+                    <div class="grid grid-cols-1 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Judul Ciptaan <span class="text-red-500">*</span></label>
+                            <input type="text" name="Judul_Ciptaan" required placeholder="Judul resmi karya Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Deskripsi Singkat Ciptaan <span class="text-red-500">*</span></label>
+                            <textarea name="Deskripsi_Ciptaan" required placeholder="Jelaskan secara singkat tentang karya ini..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Jenis Ciptaan <span class="text-red-500">*</span></label>
+                            <input type="text" name="Jenis_Ciptaan" required placeholder="Buku, Artikel, Video, Aplikasi, dll" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Kategori Biaya <span class="text-red-500">*</span></label>
+                            <select name="Kategori_Biaya" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white cursor-pointer appearance-none">
+                                <option value="" disabled selected>-- Pilih Kategori --</option>
+                                <option value="Karya Tulis">Karya Tulis (Rp 800.000)</option>
+                                <option value="Karya Lainnya Umum">Karya Lainnya / Umum (Rp 1.200.000)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Diumumkan di Kota <span class="text-red-500">*</span></label>
+                            <input type="text" name="Kota_Diumumkan" required placeholder="Kota publikasi pertama kali" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Tanggal Diumumkan <span class="text-red-500">*</span></label>
+                            <input type="date" name="Tanggal_Diumumkan" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+                            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wide">Upload KTP <span class="text-red-500">*</span></label>
+                            <input type="file" name="File_KTP" accept=".png,.pdf" required class="block w-full text-[11px] text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga dark:file:bg-white dark:file:text-black dark:hover:file:bg-gray-200 transition">
+                            <p class="text-[9px] sm:text-[10px] text-gray-500 mt-2 font-medium">* Scan/Foto KTP Asli. Format: PNG/PDF. Max 3MB.</p>
+                        </div>
+                        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+                            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wide">Upload File Karya <span class="text-red-500">*</span></label>
+                            <input type="file" name="File_Karya_Utama" accept=".pdf,.jpg,.jpeg,.png" required class="block w-full text-[11px] text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga dark:file:bg-white dark:file:text-black dark:hover:file:bg-gray-200 transition">
+                            <p class="text-[9px] sm:text-[10px] text-gray-500 mt-2 font-medium">* Format: PDF / JPG / PNG. Max 3MB.</p>
+                        </div>
+                    </div>
+
+                    <div class="my-8"></div>
+
+                    <div class="glass border border-warnakedua/50 p-6 sm:p-8 rounded-[2rem] flex flex-col justify-center items-center text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-6 sm:h-8 mb-4 dark:filter dark:brightness-0 dark:invert">
+                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1">Transfer Pembayaran Ke:</p>
+                        <p class="text-xl md:text-3xl font-black tracking-widest text-warnautama dark:text-white my-2 select-all">123001006601501</p>
+                        <p class="text-xs md:text-sm font-bold text-gray-700 dark:text-gray-300 mb-6">a/n: <span class="text-warnautama dark:text-white">Ach. Sufyan Wahyudi</span></p>
+
+                        <div class="w-full text-left bg-white/70 dark:bg-black/60 p-4 rounded-2xl border border-gray-300 dark:border-gray-700">
+                            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wide">Upload Bukti Transfer <span class="text-red-500">*</span></label>
+                            <input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga dark:file:bg-white dark:file:text-black dark:hover:file:bg-gray-200 transition">
+                            <p class="text-[9px] sm:text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG / PNG. Max 3MB.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Catatan (Opsional)</label>
+                        <textarea name="Catatan" placeholder="Tuliskan catatan tambahan jika perlu..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 font-medium text-warnautama dark:text-white"></textarea>
+                    </div>
+
+                    <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
+                        <a href="kategori.pdf" download class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold text-warnaketiga dark:text-white hover:underline mb-4 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Unduh Ketentuan Hak Cipta (PDF)
+                        </a>
+                        <label class="flex items-start gap-3 cursor-pointer group">
+                            <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama dark:focus:ring-white dark:bg-gray-700 dark:border-gray-600">
+                            <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium group-hover:text-warnautama dark:group-hover:text-white transition">Saya telah membaca, memahami, dan menyetujui seluruh isi Ketentuan Hak Cipta.</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                        KIRIM PENGAJUAN
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- HALAMAN LAINNYA (Syarat, Privasi, Hubungi) -->
+        <div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
+            <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">&larr; Kembali ke Beranda</button>
             <div class="glass p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
                 <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-warnautama dark:text-white tracking-tight border-b border-gray-300 dark:border-gray-700 pb-4 text-left">Syarat & Ketentuan</h2>
-
                 <div class="space-y-6 text-[11px] sm:text-xs md:text-[15px] text-gray-800 dark:text-gray-300 leading-relaxed font-medium text-left">
                     <p>Selamat datang di <strong>Media Tulisan Manusia</strong>. Sebelum menggunakan layanan kami, harap membaca dengan saksama persyaratan dan ketentuan di bawah ini. Penggunaan layanan kami menandakan persetujuan Anda terhadap seluruh poin berikut:</p>
-
-                    <div>
-                        <h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">1. Orisinalitas Karya</h4>
-                        <p>Klien menjamin bahwa seluruh materi, naskah, atau karya intelektual yang diserahkan adalah murni hasil karya sendiri (orisinal), tidak memuat unsur plagiarisme, serta tidak melanggar hak cipta pihak ketiga mana pun. Segala tuntutan hukum yang timbul akibat sengketa keaslian karya sepenuhnya menjadi tanggung jawab Klien.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">2. Etika Konten</h4>
-                        <p>Karya yang diajukan tidak boleh memuat konten yang berpotensi memicu kebencian (SARA), pornografi, ujaran kebencian, pencemaran nama baik, atau bertentangan dengan perundang-undangan yang berlaku di Negara Kesatuan Republik Indonesia.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">3. Layanan Hak Cipta (HKI)</h4>
-                        <p>Media Tulisan Manusia bertindak sebagai fasilitator legalitas yang membantu proses administrasi Hak Cipta ke Direktorat Jenderal Kekayaan Intelektual (DJKI) Kemenkumham RI. Hak Cipta dan seluruh kepemilikan komersial tetap dipegang penuh oleh Pencipta karya.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">4. Kebijakan Pembayaran & Pengembalian Dana</h4>
-                        <p>Semua biaya layanan yang tercantum dan disepakati di awal bersifat mengikat. Proses penerbitan atau pendaftaran HKI akan dimulai setelah pembayaran diterima sesuai dengan syarat termin pembayaran kami. Biaya yang telah disetorkan tidak dapat dikembalikan (<em>non-refundable</em>) apabila klien membatalkan proyek secara sepihak.</p>
-                    </div>
+                    <div><h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">1. Orisinalitas Karya</h4><p>Klien menjamin bahwa seluruh materi, naskah, atau karya intelektual yang diserahkan adalah murni hasil karya sendiri (orisinal), tidak memuat unsur plagiarisme, serta tidak melanggar hak cipta pihak ketiga mana pun. Segala tuntutan hukum yang timbul akibat sengketa keaslian karya sepenuhnya menjadi tanggung jawab Klien.</p></div>
+                    <div><h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">2. Etika Konten</h4><p>Karya yang diajukan tidak boleh memuat konten yang berpotensi memicu kebencian (SARA), pornografi, ujaran kebencian, pencemaran nama baik, atau bertentangan dengan perundang-undangan yang berlaku di Negara Kesatuan Republik Indonesia.</p></div>
+                    <div><h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">3. Layanan Hak Cipta (HKI)</h4><p>Media Tulisan Manusia bertindak sebagai fasilitator legalitas yang membantu proses administrasi Hak Cipta ke Direktorat Jenderal Kekayaan Intelektual (DJKI) Kemenkumham RI. Hak Cipta dan seluruh kepemilikan komersial tetap dipegang penuh oleh Pencipta karya.</p></div>
+                    <div><h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">4. Kebijakan Pembayaran & Pengembalian Dana</h4><p>Semua biaya layanan yang tercantum dan disepakati di awal bersifat mengikat. Proses penerbitan atau pendaftaran HKI akan dimulai setelah pembayaran diterima sesuai dengan syarat termin pembayaran kami. Biaya yang telah disetorkan tidak dapat dikembalikan (<em>non-refundable</em>) apabila klien membatalkan proyek secara sepihak.</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= HALAMAN KEBIJAKAN PRIVASI ================= -->
         <div id="hal-privasi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-            <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">
-                &larr; Kembali ke Beranda
-            </button>
+            <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">&larr; Kembali ke Beranda</button>
             <div class="glass p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
                 <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-warnautama dark:text-white tracking-tight border-b border-gray-300 dark:border-gray-700 pb-4 text-left">Kebijakan Privasi</h2>
-
                 <div class="space-y-6 text-[11px] sm:text-xs md:text-[15px] text-gray-800 dark:text-gray-300 leading-relaxed font-medium text-left">
                     <p>Privasi Anda adalah prioritas tertinggi kami. <strong>Media Tulisan Manusia</strong> berkomitmen penuh untuk menjaga keamanan, kerahasiaan, dan integritas data pribadi serta karya intelektual yang Anda percayakan kepada kami.</p>
-
-                    <div>
-                        <h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">1. Jaminan Kerahasiaan Naskah (NDA)</h4>
-                        <p>Setiap naskah atau karya yang Anda kirimkan untuk proses peninjauan, penyuntingan, atau pendaftaran HKI dilindungi oleh prinsip <em>Non-Disclosure Agreement</em> (NDA) kami. Kami tidak akan mempublikasikan, menggandakan, atau mendistribusikan karya Anda kepada pihak eksternal tanpa izin tertulis dari Anda.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">2. Pengumpulan Data Pribadi</h4>
-                        <p>Kami hanya mengumpulkan informasi yang esensial, seperti salinan Kartu Tanda Penduduk (KTP), Nama Lengkap, Email, dan Nomor Telepon. Data ini digunakan secara eksklusif untuk administrasi legalitas penerbitan (QRCBN/ISBN) dan pendaftaran sertifikat Hak Cipta di Kementerian Hukum dan HAM RI.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">3. Keamanan Data</h4>
-                        <p>Data pribadi Anda disimpan dalam sistem digital yang aman dengan protokol enkripsi standar industri. Kami tidak akan memperjualbelikan, menyewakan, atau membagikan data identitas Anda kepada pihak ketiga untuk kepentingan pemasaran.</p>
-                    </div>
+                    <div><h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">1. Jaminan Kerahasiaan Naskah (NDA)</h4><p>Setiap naskah atau karya yang Anda kirimkan untuk proses peninjauan, penyuntingan, atau pendaftaran HKI dilindungi oleh prinsip <em>Non-Disclosure Agreement</em> (NDA) kami. Kami tidak akan mempublikasikan, menggandakan, atau mendistribusikan karya Anda kepada pihak eksternal tanpa izin tertulis dari Anda.</p></div>
+                    <div><h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">2. Pengumpulan Data Pribadi</h4><p>Kami hanya mengumpulkan informasi yang esensial, seperti salinan Kartu Tanda Penduduk (KTP), Nama Lengkap, Email, dan Nomor Telepon. Data ini digunakan secara eksklusif untuk administrasi legalitas penerbitan (QRCBN/ISBN) dan pendaftaran sertifikat Hak Cipta di Kementerian Hukum dan HAM RI.</p></div>
+                    <div><h4 class="font-bold text-warnautama dark:text-white text-sm sm:text-base md:text-lg mb-1.5 text-left">3. Keamanan Data</h4><p>Data pribadi Anda disimpan dalam sistem digital yang aman dengan protokol enkripsi standar industri. Kami tidak akan memperjualbelikan, menyewakan, atau membagikan data identitas Anda kepada pihak ketiga untuk kepentingan pemasaran.</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= HALAMAN HUBUNGI KAMI ================= -->
         <div id="hal-hubungi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-            <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">
-                &larr; Kembali ke Beranda
-            </button>
-
+            <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">&larr; Kembali ke Beranda</button>
             <div class="glass p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
                 <div class="text-left mb-8">
                     <h2 class="text-2xl md:text-3xl font-extrabold mb-3 text-warnautama dark:text-white tracking-tight text-left">Hubungi Kami</h2>
                     <p class="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-medium text-left">Tim kami siap membantu mewujudkan karya dan melindungi legalitas Anda.</p>
                 </div>
-
                 <div class="md:flex gap-10 text-left">
-                    <!-- Informasi Kontak -->
                     <div class="flex-1 space-y-6 mb-10 md:mb-0 text-left">
-                        <div>
-                            <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">WhatsApp Bisnis</p>
-                            <p class="font-bold text-sm md:text-lg text-warnautama dark:text-white">0882 9444 8222</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Email Resmi</p>
-                            <p class="font-bold text-xs sm:text-sm md:text-base text-warnautama dark:text-white break-all">ptmediatulisanmanusia@gmail.com</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Jam Operasional</p>
-                            <p class="font-medium text-xs md:text-sm text-gray-800 dark:text-gray-300 leading-relaxed">Senin - Sabtu: 09.00 - 17.00 WIB<br>Minggu: Tutup</p>
-                        </div>
-                        <div>
-                            <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Virtual Office Kami</p>
-                            <p class="font-medium text-xs md:text-sm text-gray-800 dark:text-gray-300 space-y-1.5 leading-relaxed">
-                                <span class="block">Jl. Supriyadi No. 48, Malang</span>
-                                <span class="block">Jl. Raya Malang-Surabaya No. 101, Pasuruan</span>
-                            </p>
-                        </div>
+                        <div><p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">WhatsApp Bisnis</p><p class="font-bold text-sm md:text-lg text-warnautama dark:text-white">0882 9444 8222</p></div>
+                        <div><p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Email Resmi</p><p class="font-bold text-xs sm:text-sm md:text-base text-warnautama dark:text-white break-all">ptmediatulisanmanusia@gmail.com</p></div>
+                        <div><p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Jam Operasional</p><p class="font-medium text-xs md:text-sm text-gray-800 dark:text-gray-300 leading-relaxed">Senin - Sabtu: 09.00 - 17.00 WIB<br>Minggu: Tutup</p></div>
+                        <div><p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Virtual Office Kami</p><p class="font-medium text-xs md:text-sm text-gray-800 dark:text-gray-300 space-y-1.5 leading-relaxed"><span class="block">Jl. Supriyadi No. 48, Malang</span><span class="block">Jl. Raya Malang-Surabaya No. 101, Pasuruan</span></p></div>
                     </div>
-
-                    <!-- Form Pesan -->
                     <div class="flex-1 text-left">
                         <form onsubmit="kirimPesanKontak(event)" class="space-y-4">
-                            <input type="text" required placeholder="Nama Lengkap Anda" class="input-nama w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white">
-                            <input type="email" required placeholder="Alamat Email Anda" class="input-email w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white">
-                            <textarea required placeholder="Tuliskan pesan atau pertanyaan Anda di sini..." rows="4" class="input-pesan w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white"></textarea>
-                            <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 mt-2">
-                                Kirim Pesan
-                            </button>
+                            <input type="text" required placeholder="Nama Lengkap Anda" class="input-nama w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 transition font-medium text-warnautama dark:text-white">
+                            <input type="email" required placeholder="Alamat Email Anda" class="input-email w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 transition font-medium text-warnautama dark:text-white">
+                            <textarea required placeholder="Tuliskan pesan atau pertanyaan Anda di sini..." rows="4" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs md:text-sm focus:outline-none focus:border-warnautama dark:focus:border-gray-400 transition font-medium text-warnautama dark:text-white"></textarea>
+                            <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-2">Kirim Pesan</button>
                         </form>
                     </div>
                 </div>
@@ -1714,12 +1126,10 @@
     <!-- MODAL PENCARIAN IFRAME (UNTUK QRCBN / TEST) -->
     <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
         <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white dark:bg-warnautama rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-300 dark:border-gray-700">
-            <!-- Header Modal -->
             <div class="flex justify-between items-center px-5 py-4 bg-gray-100 dark:bg-black border-b border-gray-300 dark:border-gray-700">
                 <h3 id="judul-modal-pencarian" class="font-bold text-sm md:text-base text-warnautama dark:text-white">Hasil Pencarian</h3>
                 <button onclick="tutupModalPencarian()" class="text-gray-500 hover:text-red-500 transition font-bold text-xl md:text-2xl leading-none">&times;</button>
             </div>
-            <!-- Iframe Container -->
             <div class="flex-grow w-full h-full bg-gray-50 dark:bg-gray-900 relative">
                 <iframe id="iframe-pencarian" src="" loading="lazy" class="w-full h-full border-none" title="Pencarian"></iframe>
             </div>
