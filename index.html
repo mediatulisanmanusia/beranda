@@ -257,7 +257,7 @@
                 </div>
                 <button onclick="navKe('kirim-naskah')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Kirim Naskah</button>
                 <button onclick="navKe('daftar-hki')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
-                <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="mt-2 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center">Hubungi Kami WA</a>
+                <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="mt-2 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center">Whatsapp Kami</a>
             </div>
         </header>
 
@@ -413,7 +413,7 @@
             <section class="px-5 md:px-10 pt-4 pb-8 md:pb-12 relative z-10 max-w-3xl mx-auto">
                 <div class="glass p-8 md:p-12 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white transition hover:shadow-2xl">
                     <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 md:mb-4">MULAI LANGKAHMU</h4>
-                    <p class="text-[11px] sm:text-sm md:text-base text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium">Lengkapi formulir secara online untuk mengirimkan naskah atau mendaftarkan Hak Cipta.</p>
+                    <p class="text-[11px] sm:text-sm md:text-base text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium">Lengkapi formulir online untuk mengirim naskah atau mendaftar Hak Cipta.</p>
                     <div class="flex flex-col md:flex-row justify-center gap-4">
                         <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-10 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase text-[11px] sm:text-sm hover:scale-105 transition">Kirim Naskah</button>
                         <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-10 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
@@ -483,27 +483,26 @@
                 </div>
             </section>
 
-                <!-- Footer / About Us -->
+     <!-- Footer / About Us -->
     <footer class="mt-4 px-4 sm:px-6 pt-10 md:pt-16 pb-16 bg-white/90 dark:bg-[#1b1b1b]/90 backdrop-blur-xl text-center relative z-10 rounded-t-[3rem] border-t border-gray-200 dark:border-[#2a2a2a] overflow-hidden">
-        <div class="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
+        <div class="relative z-10 flex flex-col items-center w-full max-w-xl mx-auto px-4">
             <img src="footer1.webp" loading="lazy" class="w-48 sm:w-60 md:w-72 object-contain mb-4 rounded-2xl dark:hidden">
             <img src="footer2.webp" loading="lazy" class="w-48 sm:w-60 md:w-72 object-contain mb-4 rounded-2xl hidden dark:block">
             
-            <h3 class="font-bold text-xs sm:text-sm md:text-xl mb-2 text-warnautama dark:text-white">TENTANG KAMI</h3>
-            
-            <!-- Teks Tentang Kami (Diperkecil pakai text-[10px] md:text-xs dan max-w lebih rapi) -->
-            <p class="text-[10px] sm:text-xs text-gray-700 dark:text-gray-300 mb-6 max-w-md mx-auto font-medium px-4 leading-relaxed">
+            <h4 class="font-bold text-xs sm:text-sm md:text-xl mb-2 text-warnautama dark:text-white">TENTANG KAMI</h4> 
+            <!-- Teks Tentang Kami -->
+            <p class="text-[10px] sm:text-xs text-gray-700 dark:text-gray-300 mb-6 max-w-md mx-auto font-medium leading-relaxed">
                 Media Tulisan Manusia merupakan platform eksklusif yang berdedikasi mengangkat literatur ke tingkat yang lebih tinggi.
             </p>
-            
-            <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-[9px] sm:text-xs font-bold text-warnaketiga dark:text-gray-300 mb-6 px-2">
+            <!-- Menu Bawah -->
+            <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[10px] sm:text-xs font-bold text-warnaketiga dark:text-gray-300 mb-6">
                 <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnaketiga transition">Beranda</a>
                 <a href="#" onclick="bukaHalaman('syarat'); return false;" class="hover:text-warnaketiga transition">Syarat & Ketentuan</a>
                 <a href="#" onclick="bukaHalaman('privasi'); return false;" class="hover:text-warnaketiga transition">Kebijakan Privasi</a>
+                <div class="w-full basis-full h-0 sm:hidden"></div> <!-- Pemisah baris khusus layar HP kecil jika diperlukan -->
                 <a href="#" onclick="bukaHalaman('hubungi'); return false;" class="hover:text-warnaketiga transition">Hubungi Kami</a>
             </div>
-
-            <!-- Gelembung IG & WA (Diperkecil padding-nya & pakai truncate supaya tidak keluar frame HP) -->
+            <!-- Gelembung IG & WA -->
             <div class="grid grid-cols-2 gap-2 sm:gap-4 mb-6 glass py-2.5 px-3 sm:px-6 rounded-3xl border border-warnautama/30 dark:border-gray-300/30 shadow-sm w-full max-w-md">
                <a href="https://instagram.com/mediatulisanmanusia" target="_blank" class="flex items-center justify-center gap-1.5 text-warnautama dark:text-gray-300 transition overflow-hidden">
                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -525,7 +524,7 @@
             <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full hover:text-warnautama transition">&larr; Kembali</button>
             <div class="glass p-8 md:p-12 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white shadow-2xl">
                 <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-4">MULAI LANGKAHMU</h4>
-                <p class="text-xs md:text-base mb-8">Lengkapi formulir secara online untuk mengirimkan naskah atau mendaftarkan Hak Cipta.</p>
+                <p class="text-xs md:text-base mb-8">Lengkapi formulir online untuk mengirim naskah atau mendaftar Hak Cipta.</p>
                 <div class="flex flex-col md:flex-row justify-center gap-4">
                     <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-10 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase text-xs hover:scale-105 transition">Kirim Naskah</button>
                     <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-10 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-xs hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
