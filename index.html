@@ -160,6 +160,17 @@
             0%, 80%, 100% { transform: scale(0); }
             40% { transform: scale(1); }
         }
+
+        /* ========================================================== */
+        /* Auto Invert Gambar QRCBN, DJKI, Mitra, & Media ke Putih di Mode Gelap */
+        /* ========================================================== */
+        .dark img[alt*="QRCBN"],
+        .dark img[alt*="DJKI"],
+        .dark img[alt^="Mitra"],
+        .dark img[alt^="Sorot Media"] {
+            filter: brightness(0) invert(1);
+        }
+
     </style>
     <script>
         let isLoggedIn = false;
@@ -1710,4 +1721,3 @@
     </div>
 </body>
 </html>
-
