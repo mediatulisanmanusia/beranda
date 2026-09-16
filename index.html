@@ -493,31 +493,97 @@
                 <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">Pengajuan Penerbitan Naskah</h2>
                 <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama p-5 rounded-2xl mb-8"><h4 class="font-extrabold mb-3 uppercase">Informasi Biaya Paket</h4><div class="grid sm:grid-cols-2 gap-4"><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Standar</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 500.000</span></div><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Eksklusif</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 1.300.000</span></div></div></div>
                 <form onsubmit="kirimFormLayanan(event, 'Penerbitan Naskah')" class="space-y-5 text-left">
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Nama Lengkap *</label><input type="text" name="Nama_Lengkap" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Nama Pena (Opsional)</label><input type="text" name="Nama_Pena" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Alamat Email *</label><input type="email" name="Email" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">No WhatsApp *</label><input type="number" name="WhatsApp" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 rounded-2xl p-3.5 text-sm"></div>
-                    </div>
-                    <div class="border-b border-gray-300 my-6 opacity-50"></div>
-                    <div><label class="block text-xs font-bold mb-1 uppercase">Judul Naskah *</label><input type="text" name="Judul_Naskah" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 rounded-2xl p-3.5 text-sm"></div>
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Kategori Buku *</label><input type="text" name="Kategori_Buku" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Paket *</label><select name="Paket" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 rounded-2xl p-3.5 text-sm"><option value="" disabled selected>-- Pilih --</option><option value="Standar">Standar</option><option value="Eksklusif">Eksklusif</option></select></div>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div class="border p-4 rounded-2xl"><label class="block text-xs font-bold mb-2 uppercase">Upload Cover *</label><input type="file" name="File_Cover" accept=".png" required class="w-full text-[10px] file:bg-warnautama file:text-white file:rounded-full file:px-4 file:py-2 file:border-0"><p class="text-[9px] mt-2">* Format PNG. Max 3MB</p></div>
-                        <div class="border p-4 rounded-2xl"><label class="block text-xs font-bold mb-2 uppercase">Upload Naskah *</label><input type="file" name="File_Naskah" accept=".pdf,.doc,.docx" required class="w-full text-[10px] file:bg-warnautama file:text-white file:rounded-full file:px-4 file:py-2 file:border-0"><p class="text-[9px] mt-2">* Format PDF/DOC. Max 3MB</p></div>
-                    </div>
-                    <div class="glass border-warnakedua/50 p-6 rounded-[2rem] text-center mt-8">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" class="h-6 mx-auto mb-4 dark:invert">
-                        <p class="text-[10px] font-bold uppercase mb-1">Transfer Pembayaran Ke:</p><p class="text-xl font-black text-warnautama dark:text-white my-2 select-all">123001006601501</p><p class="text-xs font-bold mb-6">a/n: Ach. Sufyan Wahyudi</p>
-                        <div class="bg-white/70 p-4 rounded-2xl border text-left"><label class="block text-xs font-bold mb-2 uppercase text-black">Upload Bukti Transfer *</label><input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="w-full text-[10px] file:bg-warnautama file:text-white file:rounded-full file:px-4 file:py-2 file:border-0"><p class="text-[9px] mt-2 text-gray-800">* Format JPG/PNG. Max 3MB</p></div>
-                    </div>
-                    <div><label class="block text-xs font-bold mb-1 uppercase">Catatan Tambahan</label><textarea name="Catatan_Tambahan" class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm auto-resize" rows="3"></textarea></div>
-                    <div class="bg-gray-100/50 p-5 rounded-2xl mt-6"><a href="ketentuan.pdf" download class="text-xs font-bold text-blue-600 underline block mb-4">Unduh Ketentuan (PDF)</a><label class="flex items-start gap-3 cursor-pointer"><input type="checkbox" required class="mt-0.5"><span class="text-xs">Saya telah membaca dan menyetujui Ketentuan Penerbitan.</span></label></div>
-                    <button type="submit" class="w-full bg-warnautama text-white font-extrabold py-4 rounded-full shadow-xl uppercase text-sm mt-6">KIRIM PENGAJUAN</button>
-                </form>
+    <!-- Keperluan FormSubmit agar lebih rapi -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Lengkap <span class="text-red-500">*</span></label>
+            <input type="text" name="Nama_Lengkap" required placeholder="Tuliskan sesuai KTP Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Pena (Opsional)</label>
+            <input type="text" name="Nama_Pena" placeholder="Nama untuk dicantumkan di buku" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Email <span class="text-red-500">*</span></label>
+            <input type="email" name="Email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nomor WhatsApp <span class="text-red-500">*</span></label>
+            <input type="number" name="WhatsApp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+    </div>
+
+    <div class="my-6 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
+
+    <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Judul Naskah <span class="text-red-500">*</span></label>
+        <input type="text" name="Judul_Naskah" required placeholder="Masukkan judul lengkap naskah Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Kategori Buku <span class="text-red-500">*</span></label>
+            <input type="text" name="Kategori_Buku" required placeholder="Contoh: Fiksi, Non-Fiksi, Puisi, dll" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Pilihan Paket <span class="text-red-500">*</span></label>
+            <select name="Paket" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white cursor-pointer appearance-none">
+                <option value="" disabled selected>-- Pilih Paket Penerbitan --</option>
+                <option value="Standar">Paket Standar (Rp 500.000)</option>
+                <option value="Eksklusif">Paket Eksklusif (Rp 1.300.000)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Cover Buku <span class="text-red-500">*</span></label>
+            <input type="file" name="File_Cover" accept=".png" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+            <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PNG. Maksimal 3MB.</p>
+        </div>
+        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Naskah <span class="text-red-500">*</span></label>
+            <input type="file" name="File_Naskah" accept=".pdf,.doc,.docx" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+            <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PDF / DOC / DOCX. Maksimal 3MB.</p>
+        </div>
+    </div>
+
+    <div class="my-8"></div>
+
+    <div class="glass border border-warnakedua/50 p-6 sm:p-8 rounded-[2rem] flex flex-col justify-center items-center text-center">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-6 sm:h-8 mb-4 dark:filter dark:brightness-0 dark:invert">
+        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1">Transfer Pembayaran Ke:</p>
+        <p class="text-xl md:text-3xl font-black tracking-widest text-warnautama dark:text-white my-2 select-all">123001006601501</p>
+        <p class="text-xs md:text-sm font-bold text-gray-700 dark:text-gray-300 mb-6">a/n: <span class="text-warnautama dark:text-white">Ach. Sufyan Wahyudi</span></p>
+
+        <div class="w-full text-left bg-white/70 dark:bg-black/60 p-4 rounded-2xl border border-gray-300 dark:border-gray-700">
+            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Bukti Transfer <span class="text-red-500">*</span></label>
+            <input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+            <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG / PNG. Maksimal 3MB.</p>
+        </div>
+    </div>
+
+    <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Catatan Tambahan (Opsional)</label>
+        <textarea name="Catatan_Tambahan" placeholder="Tuliskan instruksi khusus jika ada..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+    </div>
+
+    <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
+        <a href="ketentuan.pdf" download class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold text-warnaketiga dark:text-white hover:underline mb-4 transition">Unduh Ketentuan Penerbitan (PDF)</a>
+        <label class="flex items-start gap-3 cursor-pointer group">
+            <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
+            <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya telah membaca, memahami, dan menyetujui seluruh isi Ketentuan Penerbitan.</span>
+        </label>
+    </div>
+
+    <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+        KIRIM PENGAJUAN
+    </button>
+</form>
+
             </div>
         </div>
 
@@ -528,35 +594,109 @@
                 <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">Pendaftaran Hak Cipta (HKI)</h2>
                 <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama p-5 rounded-2xl mb-8"><h4 class="font-extrabold mb-3 uppercase">Informasi Biaya HKI</h4><div class="grid sm:grid-cols-2 gap-4"><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Karya Tulis</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 800.000</span></div><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Karya Umum</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 1.200.000</span></div></div></div>
                 <form onsubmit="kirimFormLayanan(event, 'Pendaftaran Hak Cipta')" class="space-y-5 text-left">
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div class="md:col-span-2"><label class="block text-xs font-bold mb-1 uppercase">Nama Lengkap Pencipta *</label><input type="text" name="Nama_Pencipta" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Alamat Email *</label><input type="email" name="Email" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">No WhatsApp *</label><input type="number" name="WhatsApp" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"></div>
-                    </div>
-                    <div class="border-b border-gray-300 my-6 opacity-50"></div>
-                    <div><label class="block text-xs font-bold mb-1 uppercase">Judul Ciptaan *</label><input type="text" name="Judul_Ciptaan" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"></div>
-                    <div><label class="block text-xs font-bold mb-1 uppercase">Deskripsi Singkat *</label><textarea name="Deskripsi" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm auto-resize"></textarea></div>
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Jenis Ciptaan *</label><input type="text" name="Jenis_Ciptaan" required placeholder="Buku/Video/Dll" class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Kategori Biaya *</label><select name="Kategori" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"><option value="" disabled selected>-- Pilih --</option><option value="Karya Tulis">Karya Tulis</option><option value="Umum">Karya Umum</option></select></div>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Kota Diumumkan *</label><input type="text" name="Kota" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold mb-1 uppercase">Tanggal Diumumkan *</label><input type="date" name="Tanggal" required class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm"></div>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div class="border p-4 rounded-2xl"><label class="block text-xs font-bold mb-2 uppercase">Upload KTP *</label><input type="file" name="File_KTP" accept=".png,.pdf" required class="w-full text-[10px] file:bg-warnautama file:text-white file:rounded-full file:px-4 file:py-2 file:border-0"><p class="text-[9px] mt-2">* PNG/PDF. Max 3MB</p></div>
-                        <div class="border p-4 rounded-2xl"><label class="block text-xs font-bold mb-2 uppercase">Upload File Karya *</label><input type="file" name="File_Karya" accept=".pdf,.jpg,.png" required class="w-full text-[10px] file:bg-warnautama file:text-white file:rounded-full file:px-4 file:py-2 file:border-0"><p class="text-[9px] mt-2">* PDF/JPG/PNG. Max 3MB</p></div>
-                    </div>
-                    <div class="glass border-warnakedua/50 p-6 rounded-[2rem] text-center mt-8">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" class="h-6 mx-auto mb-4 dark:invert">
-                        <p class="text-[10px] font-bold uppercase mb-1">Transfer Pembayaran Ke:</p><p class="text-xl font-black text-warnautama dark:text-white my-2 select-all">123001006601501</p><p class="text-xs font-bold mb-6">a/n: Ach. Sufyan Wahyudi</p>
-                        <div class="bg-white/70 p-4 rounded-2xl border text-left"><label class="block text-xs font-bold mb-2 uppercase text-black">Upload Bukti Transfer *</label><input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="w-full text-[10px] file:bg-warnautama file:text-white file:rounded-full file:px-4 file:py-2 file:border-0"><p class="text-[9px] mt-2 text-gray-800">* Format JPG/PNG. Max 3MB</p></div>
-                    </div>
-                    <div><label class="block text-xs font-bold mb-1 uppercase">Catatan</label><textarea name="Catatan" class="w-full bg-white/70 border rounded-2xl p-3.5 text-sm auto-resize" rows="3"></textarea></div>
-                    <div class="bg-gray-100/50 p-5 rounded-2xl mt-6"><a href="kategori.pdf" download class="text-xs font-bold text-blue-600 underline block mb-4">Unduh Ketentuan HKI (PDF)</a><label class="flex items-start gap-3 cursor-pointer"><input type="checkbox" required class="mt-0.5"><span class="text-xs">Saya menyetujui Ketentuan Hak Cipta.</span></label></div>
-                    <button type="submit" class="w-full bg-warnautama text-white font-extrabold py-4 rounded-full shadow-xl uppercase text-sm mt-6">KIRIM PENGAJUAN</button>
-                </form>
+    <!-- Keperluan FormSubmit agar lebih rapi -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="md:col-span-2">
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Lengkap Pencipta <span class="text-red-500">*</span></label>
+            <input type="text" name="Nama_Lengkap_Pencipta" required placeholder="Tuliskan nama seluruh pencipta sesuai KTP" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Email <span class="text-red-500">*</span></label>
+            <input type="email" name="Email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nomor WhatsApp <span class="text-red-500">*</span></label>
+            <input type="number" name="WhatsApp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+    </div>
+
+    <div class="my-6 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
+
+    <div class="grid grid-cols-1 gap-5">
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Judul Ciptaan <span class="text-red-500">*</span></label>
+            <input type="text" name="Judul_Ciptaan" required placeholder="Judul resmi karya Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Deskripsi Singkat Ciptaan <span class="text-red-500">*</span></label>
+            <textarea name="Deskripsi_Ciptaan" required placeholder="Jelaskan secara singkat tentang karya ini..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Jenis Ciptaan <span class="text-red-500">*</span></label>
+            <input type="text" name="Jenis_Ciptaan" required placeholder="Buku, Artikel, Video, Aplikasi, dll" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Kategori Biaya <span class="text-red-500">*</span></label>
+            <select name="Kategori_Biaya" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white cursor-pointer appearance-none">
+                <option value="" disabled selected>-- Pilih Kategori --</option>
+                <option value="Karya Tulis">Karya Tulis (Rp 800.000)</option>
+                <option value="Karya Lainnya Umum">Karya Lainnya / Umum (Rp 1.200.000)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Diumumkan di Kota <span class="text-red-500">*</span></label>
+            <input type="text" name="Kota_Diumumkan" required placeholder="Kota publikasi pertama kali" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Tanggal Diumumkan <span class="text-red-500">*</span></label>
+            <input type="date" name="Tanggal_Diumumkan" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload KTP <span class="text-red-500">*</span></label>
+            <input type="file" name="File_KTP" accept=".png,.pdf" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+            <p class="text-[10px] text-gray-500 mt-2 font-medium">* Scan/Foto KTP Asli. Format: PNG/PDF. Max 3MB.</p>
+        </div>
+        <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload File Karya <span class="text-red-500">*</span></label>
+            <input type="file" name="File_Karya_Utama" accept=".pdf,.jpg,.jpeg,.png" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+            <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PDF / JPG / PNG. Max 3MB.</p>
+        </div>
+    </div>
+
+    <div class="my-8"></div>
+
+    <div class="glass border border-warnakedua/50 p-6 sm:p-8 rounded-[2rem] flex flex-col justify-center items-center text-center">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-6 sm:h-8 mb-4 dark:filter dark:brightness-0 dark:invert">
+        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold mb-1">Transfer Pembayaran Ke:</p>
+        <p class="text-xl md:text-3xl font-black tracking-widest text-warnautama dark:text-white my-2 select-all">123001006601501</p>
+        <p class="text-xs md:text-sm font-bold text-gray-700 dark:text-gray-300 mb-6">a/n: <span class="text-warnautama dark:text-white">Ach. Sufyan Wahyudi</span></p>
+
+        <div class="w-full text-left bg-white/70 dark:bg-black/60 p-4 rounded-2xl border border-gray-300 dark:border-gray-700">
+            <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Bukti Transfer <span class="text-red-500">*</span></label>
+            <input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+            <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG / PNG. Max 3MB.</p>
+        </div>
+    </div>
+
+    <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Catatan (Opsional)</label>
+        <textarea name="Catatan" placeholder="Tuliskan catatan tambahan jika perlu..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+    </div>
+
+    <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
+        <a href="kategori.pdf" download class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold text-warnaketiga dark:text-white hover:underline mb-4 transition">Unduh Ketentuan Hak Cipta (PDF)</a>
+        <label class="flex items-start gap-3 cursor-pointer group">
+            <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
+            <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya telah membaca, memahami, dan menyetujui seluruh isi Ketentuan Hak Cipta.</span>
+        </label>
+    </div>
+
+    <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+        KIRIM PENGAJUAN
+    </button>
+</form>
             </div>
         </div>
 
