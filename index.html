@@ -49,8 +49,7 @@
         .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        .dark img[alt^="Mitra"], .dark img[alt^="Sorot Media"] { filter: grayscale(100%); }
-        .dark img[alt*="QRCBN"], .dark img[alt*="DJKI"] { filter: grayscale(100%) brightness(200%); }
+        .dark img[src*="qrcbn"], .dark img[src*="djki"], .dark #scroll-mitra img, .dark #scroll-media img { filter: saturate(200%) brightness(130%); }
     </style>
     <script>
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
