@@ -53,17 +53,14 @@
         }
     </script>
     <style>
-        /* Optimasi Scroll Bar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Kustom Scrollbar untuk Area Chat & Textarea ala WA/Gemini */
         .chat-scrollbar::-webkit-scrollbar { width: 4px; }
         .chat-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .chat-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(10, 37, 64, 0.2); border-radius: 10px; }
         .dark .chat-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); }
 
-        /* Agar textarea resize alami dan rapi */
         textarea.auto-resize {
             resize: none;
             overflow-y: auto;
@@ -73,7 +70,6 @@
 
         body { transition: background-color 0.5s ease, color 0.5s ease; }
 
-        /* Gradasi Latar Belakang Premium */
         .bg-custom-gradient {
             background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%);
         }
@@ -81,7 +77,6 @@
             background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%);
         }
 
-        /* Pola Bintik Super Tipis */
         .pattern-overlay {
             position: absolute;
             inset: 0;
@@ -94,7 +89,6 @@
             background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 1px, transparent 2px);
         }
 
-        /* Latar Belakang Logo Berulang */
         .logo-pattern-overlay {
             position: absolute;
             top: -10%;
@@ -125,7 +119,6 @@
             }
         }
 
-        /* Efek Kaca (Glassmorphism) */
         .glass {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(245, 245, 250, 0.35) 100%);
             backdrop-filter: blur(16px);
@@ -135,13 +128,12 @@
             transform: translateZ(0); 
         }
         .dark .glass {
-            background: linear-gradient(135deg, rgba(25, 25, 28, 0.55) 0%, rgba(10, 10, 12, 0.35) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(10, 10, 12, 0.35) 100%);
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75);
             transform: translateZ(0);
         }
         
-        /* Animasi Loading Chat */
         .typing-indicator span {
             display: inline-block;
             width: 5px;
@@ -161,7 +153,6 @@
             40% { transform: scale(1); }
         }
 
-        /* Auto Grayscale & Brightness Penyesuaian Logo di Mode Gelap */
         .dark img[alt^="Mitra"],
         .dark img[alt^="Sorot Media"] {
             filter: grayscale(100%);
@@ -175,7 +166,6 @@
     <script>
         let isLoggedIn = false;
 
-        // Script untuk Loading Screen
         setTimeout(function() {
             const loader = document.getElementById('loading-screen');
             if(loader) {
@@ -190,7 +180,32 @@
             document.documentElement.classList.toggle('dark');
         }
 
-        // ================= FUNGSI PENCARIAN =================
+        function toggleNavMenu() {
+            const menu = document.getElementById('nav-dropdown');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleSubMenu() {
+            const sub = document.getElementById('sub-penelusuran');
+            const panah = document.getElementById('panah-sub');
+            sub.classList.toggle('hidden');
+            panah.classList.toggle('rotate-180');
+        }
+
+        function navKe(idHal) {
+            bukaHalaman(idHal);
+            document.getElementById('nav-dropdown').classList.add('hidden');
+        }
+
+        function gulirKe(targetId) {
+            bukaHalaman('beranda');
+            document.getElementById('nav-dropdown').classList.add('hidden');
+            setTimeout(() => {
+                const el = document.getElementById(targetId);
+                if(el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 150);
+        }
+
         function cariQRCBN(event) {
             event.preventDefault();
             const keyword = document.getElementById('input-keyword-qrcbn').value.trim();
@@ -236,22 +251,28 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ================= FUNGSI KIRIM FORM UMUM (KONTAK) =================
         function kirimPesanKontak(event) {
             event.preventDefault();
             const form = event.target;
+            const nama = form.querySelector('.input-nama').value;
+            const email = form.querySelector('.input-email').value;
+            const pesan = form.querySelector('.input-pesan').value;
             const tombol = form.querySelector('button[type="submit"]');
+
             const teksAsli = tombol.innerText;
             tombol.innerText = "Mengirim Pesan...";
             tombol.disabled = true;
 
             fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", {
                 method: "POST",
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify({
-                    Nama: form.querySelector('.input-nama').value,
-                    Email: form.querySelector('.input-email').value,
-                    Pesan: form.querySelector('.input-pesan').value,
+                    Nama: nama,
+                    Email: email,
+                    Pesan: pesan,
                     _subject: "Pesan Baru dari Website Media Tulisan Manusia"
                 })
             })
@@ -261,67 +282,62 @@
                 form.reset();
                 tombol.innerText = teksAsli;
                 tombol.disabled = false;
-            }).catch(error => {
+            })
+            .catch(error => {
                 alert("Terjadi kesalahan sistem. Silakan coba lagi nanti.");
                 tombol.innerText = teksAsli;
                 tombol.disabled = false;
             });
         }
 
-        // ================= FUNGSI KIRIM FORM LAYANAN (DENGAN ATTACHMENT) =================
         function kirimFormLayanan(event, tipeLayanan) {
-            event.preventDefault();
             const form = event.target;
 
-            // Validasi Ukuran File (Maksimal 3MB)
             const fileInputs = form.querySelectorAll('input[type="file"]');
             for (let input of fileInputs) {
                 if (input.files.length > 0) {
-                    const fileSize = input.files[0].size / 1024 / 1024; // Convert to MB
+                    const fileSize = input.files[0].size / 1024 / 1024;
                     if (fileSize > 3) {
-                        alert(`Maaf, ukuran file lampiran untuk "${input.name}" terlalu besar (${fileSize.toFixed(1)}MB). Maksimal batas unggah adalah 3MB.`);
-                        return; 
+                        alert(`File lampiran pada kolom "${input.name}" melebihi 3MB (${fileSize.toFixed(1)}MB). Silakan perkecil ukuran file.`);
+                        event.preventDefault();
+                        return;
                     }
                 }
             }
 
-            // Validasi Checkbox TOS
-            const tosCheckbox = form.querySelector('input[type="checkbox"]');
-            if(tosCheckbox && !tosCheckbox.checked) {
-                alert("Anda harus membaca dan menyetujui Ketentuan terlebih dahulu dengan mencentang kotak persetujuan.");
+            const tos = form.querySelector('input[type="checkbox"]');
+            if(tos && !tos.checked) {
+                alert("Silakan centang persetujuan ketentuan terlebih dahulu.");
+                event.preventDefault();
                 return;
             }
 
-            const tombol = form.querySelector('button[type="submit"]');
-            const teksAsli = tombol.innerText;
-            tombol.innerText = "Mengunggah Data & File...";
-            tombol.disabled = true;
+            const btn = form.querySelector('button[type="submit"]');
+            btn.innerText = "Mengunggah Berkas & Mengirim...";
+            btn.disabled = true;
 
-            const formData = new FormData(form);
-            formData.append("_subject", `Pengajuan Baru: ${tipeLayanan}`);
-            formData.append("_template", "table"); 
+            form.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com";
+            form.method = "POST";
+            form.enctype = "multipart/form-data";
+            form.target = "hidden-iframe-upload";
 
-            fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", {
-                method: "POST",
-                body: formData 
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(`Pengajuan ${tipeLayanan} berhasil terkirim! Tim kami akan segera meninjau dan menghubungi Anda.`);
-                form.reset();
-                tombol.innerText = teksAsli;
-                tombol.disabled = false;
-                bukaHalaman('beranda'); 
-            })
-            .catch(error => {
-                console.log(error);
-                alert("Terjadi kesalahan saat mengunggah file. Pastikan ukuran tidak melebihi batas atau hubungi admin via WhatsApp.");
-                tombol.innerText = teksAsli;
-                tombol.disabled = false;
-            });
+            if(!document.getElementById('hidden-iframe-upload')) {
+                const iframe = document.createElement('iframe');
+                iframe.name = "hidden-iframe-upload";
+                iframe.id = "hidden-iframe-upload";
+                iframe.style.display = "none";
+                document.body.appendChild(iframe);
+
+                iframe.onload = function() {
+                    alert(`Pengajuan ${tipeLayanan} dan seluruh berkas lampiran berhasil terkirim! Tim kami akan segera menindaklanjuti.`);
+                    form.reset();
+                    btn.innerText = "KIRIM PENGAJUAN";
+                    btn.disabled = false;
+                    bukaHalaman('beranda');
+                };
+            }
         }
 
-        // Script Animasi Auto-Scroll & Scroll To Top
         document.addEventListener("DOMContentLoaded", function() {
             function autoScroll(id) {
                 const el = document.getElementById(id);
@@ -344,6 +360,7 @@
                 }
                 requestAnimationFrame(step);
             }
+
             autoScroll('scroll-katalog');
             autoScroll('scroll-hki');
             autoScroll('scroll-mitra');
@@ -351,6 +368,7 @@
             
             const scrollToTopBtn = document.getElementById("scrollToTopBtn");
             let scrollTimeout;
+
             window.addEventListener("scroll", () => {
                 if (window.scrollY > 100) {
                     scrollToTopBtn.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
@@ -365,9 +383,11 @@
                     scrollToTopBtn.classList.remove("translate-y-0", "opacity-100");
                 }, 1500);
             });
-            scrollToTopBtn.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
 
-            // LOGIKA CHATBOT
+            scrollToTopBtn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+
             const chatTrigger = document.getElementById("chat-trigger");
             const chatWindow = document.getElementById("chat-window");
             const closeChat = document.getElementById("close-chat");
@@ -375,8 +395,8 @@
             const sendChat = document.getElementById("send-chat");
             const chatMessages = document.getElementById("chat-messages");
             const greetingBubble = document.getElementById("greeting-bubble");
-            const jumpToBottomBtn = document.getElementById("jump-to-bottom");
             const typingIndicator = document.getElementById("typing-indicator");
+            const jumpToBottomBtn = document.getElementById("jump-to-bottom");
 
             chatInput.addEventListener('input', function() {
                 this.style.height = '42px'; 
@@ -421,6 +441,7 @@
             function addMessageToUI(text, sender) {
                 const msgDiv = document.createElement("div");
                 msgDiv.className = sender === "user" ? "flex items-end justify-end gap-2 mt-3 animate-fade-up shrink-0" : "flex items-start gap-2 mt-3 animate-fade-up shrink-0";
+                
                 let innerHTML = "";
                 if (sender === "user") {
                     innerHTML = `<div class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed font-medium text-[11px] sm:text-xs border border-warnautama/50 whitespace-pre-wrap break-words">${text}</div>`;
@@ -442,8 +463,10 @@
                 
                 pertanyaanTerakhir = text;
                 addMessageToUI(text, "user");
+                
                 chatInput.value = "";
                 chatInput.style.height = "42px";
+                
                 typingIndicator.classList.remove("hidden");
                 typingIndicator.classList.add("flex");
                 chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
@@ -464,30 +487,39 @@
 
                     const waNumber = "6288294448222";
 
-                    if (isSapaan && !sudahDisapa) { botReply = "Terima kasih telah menyapa! 😊 Ada yang bisa Cipta bantu terkait penerbitan buku atau Hak Cipta (HKI)?"; sudahDisapa = true; } 
-                    else if (isSapaan && sudahDisapa) { botReply = "Silakan. Ada pertanyaan apa yang bisa saya bantu?"; }
-                    else if (isTerimaKasih) { botReply = "Sama-sama! Terima kasih telah menghubungi Media Tulisan Manusia. Semoga karya Anda sukses selalu! 🙏✨"; }
+                    if (isSapaan && !sudahDisapa) {
+                        botReply = "Terima kasih telah menyapa! 😊 Ada yang bisa Cipta bantu terkait penerbitan buku atau Hak Cipta (HKI)?";
+                        sudahDisapa = true;
+                    } 
+                    else if (isSapaan && sudahDisapa) {
+                        botReply = "Silakan. Ada pertanyaan apa yang bisa saya bantu?";
+                    }
+                    else if (isTerimaKasih) {
+                        botReply = "Sama-sama! Terima kasih telah menghubungi Media Tulisan Manusia. Semoga karya Anda sukses selalu! 🙏✨";
+                    }
                     else if (isPenerbitan) {
                         if (topikTerakhir === "penerbitan") {
                             const waMessage = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin bertanya lebih lanjut seputar penerbitan: " + pertanyaanTerakhir);
                             botReply = `Untuk pertanyaan lanjutan seputar penerbitan tersebut, mari diskusikan langsung dengan tim spesialis kami via WhatsApp:<br><br><a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
                         } else {
                             topikTerakhir = "penerbitan";
-                            botReply = "Dengan senang hati! Untuk informasi lengkap mengenai paket, fasilitas, dan ketentuan penerbitan buku, silakan baca di sini:<br><br>👉 <a href='https://mediatulisanmanusia.online/ketentuan.pdf' target='_blank' style='color: #0366d6; font-weight: bold; text-decoration: underline;'>Ketentuan Penerbitan (PDF)</a>";
+                            botReply = "Dengan senang hati! Untuk informasi lengkap mengenai paket, fasilitas, dan ketentuan penerbitan buku di Media Tulisan Manusia, silakan baca di sini:<br><br>👉 <a href='https://mediatulisanmanusia.online/ketentuan.pdf' target='_blank' style='color: #0366d6; font-weight: bold; text-decoration: underline;'>Ketentuan Penerbitan (PDF)</a>";
                         }
                         sudahDisapa = true;
                     } 
                     else if (isHKI) {
                         if (topikTerakhir === "hki") {
                             const waMessage = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin bertanya lebih lanjut seputar Hak Cipta (HKI): " + pertanyaanTerakhir);
-                            botReply = `Untuk pertanyaan lanjutan seputar Hak Cipta tersebut, mari diskusikan langsung via WhatsApp:<br><br><a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
+                            botReply = `Untuk pertanyaan lanjutan seputar Hak Cipta tersebut, mari diskusikan langsung dengan tim spesialis kami via WhatsApp:<br><br><a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
                         } else {
                             topikTerakhir = "hki";
                             botReply = "Dengan senang hati! Untuk informasi detail Kategori Hak Cipta (HKI), silakan kunjungi tautan berikut:<br><br>👉 <a href='https://mediatulisanmanusia.online/kategori.pdf' target='_blank' style='color: #0366d6; font-weight: bold; text-decoration: underline;'>Kategori Hak Cipta (PDF)</a>";
                         }
                         sudahDisapa = true;
                     } 
-                    else if (isTanya) { botReply = "Iya, silakan. Ada pertanyaan apa yang bisa saya bantu?"; }
+                    else if (isTanya) {
+                        botReply = "Iya, silakan. Ada pertanyaan apa yang bisa saya bantu?";
+                    }
                     else {
                         const waMessage = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin berdiskusi mengenai: " + pertanyaanTerakhir);
                         botReply = `Terima kasih, agar mendapat penjelasan yang lebih komprehensif, mari diskusikan langsung dengan tim spesialis kami.<br><br><a href="https://wa.me/${waNumber}?text=${waMessage}" target="_blank" style="display: block; background-color: #25D366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; margin-top: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💬 Chat Admin di WhatsApp</a>`;
@@ -495,28 +527,32 @@
                     }
                     
                     addMessageToUI(botReply, "model");
+                    chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
                 }, 800);
             }
+
             sendChat.addEventListener("click", handleSend);
             chatInput.addEventListener("keydown", (e) => {
-                if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault(); 
+                    handleSend();
+                }
             });
         });
     </script>
 </head>
 <body class="bg-gray-100 text-warnautama dark:text-white font-sans pb-4 md:pb-0 transition-colors duration-500 relative">
 
-    <!-- LAYAR LOADING SCREEN -->
     <div id="loading-screen" class="fixed inset-0 z-[9999] bg-gray-100 flex items-center justify-center transition-opacity duration-500 ease-in-out">
         <img src="load.webp" fetchpriority="high" alt="Loading Media Tulisan Manusia" class="h-64 md:h-96 w-auto object-contain animate-pulse-logo">
     </div>
 
-    <!-- TOMBOL SCROLL TO TOP -->
-    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 md:right-8 z-[90] p-3 md:p-4 rounded-full glass shadow-xl border border-warnautama/20 dark:border-white/20 text-warnautama dark:text-white transition-all duration-500 transform translate-y-20 opacity-0 pointer-events-none hover:scale-110 hover:bg-white/80 dark:hover:bg-black/80">
-        <svg class="w-5 h-5 md:w-6 md:h-6 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path></svg>
+    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 md:right-8 z-[90] p-3 md:p-4 rounded-full glass shadow-xl border border-warnautama/20 dark:border-white/20 text-warnautama dark:text-white transition-all duration-500 transform translate-y-20 opacity-0 pointer-events-none hover:scale-110 hover:bg-white/80 dark:hover:bg-black/80" aria-label="Scroll to top">
+        <svg class="w-5 h-5 md:w-6 md:h-6 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path>
+        </svg>
     </button>
 
-    <!-- WIDGET CHAT CIPTA -->
     <div class="fixed bottom-6 left-6 z-[100] flex flex-col items-start">
         <div id="chat-window" class="hidden w-[85vw] sm:w-[340px] h-[450px] max-h-[75vh] glass rounded-[2rem] overflow-hidden shadow-2xl mb-4 transition-all duration-300 transform scale-0 translate-y-10 opacity-0 origin-bottom-left flex flex-col border border-gray-200/50 dark:border-gray-700/50 relative">
             <div class="bg-warnautama dark:bg-black text-white px-5 py-4 flex justify-between items-center border-b border-white/10 shadow-sm relative overflow-hidden flex-shrink-0">
@@ -541,6 +577,7 @@
                         Halo! Selamat datang di Media Tulisan Manusia. <br><br>Perkenalkan saya Cipta asisten virtual Media Tulisanmanusia.
                     </div>
                 </div>
+                
                 <div id="typing-indicator" class="hidden items-start gap-2 mt-3 animate-fade-up shrink-0">
                     <img src="mascipta.webp" alt="Cipta" class="w-7 h-7 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-[#2a2a2a] bg-white">
                     <div class="bg-white/90 dark:bg-warnakeempat px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-[#2a2a2a] flex items-center h-9 typing-indicator">
@@ -574,34 +611,52 @@
     <!-- Container Utama -->
     <div class="max-w-7xl mx-auto min-h-screen relative shadow-2xl bg-custom-gradient overflow-hidden transition-all duration-700">
 
-        <!-- Latar Belakang Pola Bintik & Logo -->
         <div class="pattern-overlay"></div>
         <div class="logo-pattern-overlay"></div>
 
-        <!-- Elemen Bayangan Blur Statis -->
         <div class="absolute top-10 -left-10 w-96 h-96 bg-black/5 dark:bg-white/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] z-0"></div>
         <div class="absolute top-[35%] -right-10 w-96 h-96 bg-gray-500/10 dark:bg-gray-400/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] z-0"></div>
         <div class="absolute bottom-[20%] left-10 w-80 h-80 bg-black/5 dark:bg-white/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] z-0"></div>
 
-        <!-- HEADER / NAVBAR MELAYANG -->
-        <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
+        <!-- HEADER DENGAN TOMBOL TEMA DIGESER KE KIRI & TOMBOL MENU GARIS 3 -->
+<header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
             <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="bukaHalaman('beranda')">
                 <img src="rev1.png" alt="Logo PT Media Tulisan Manusia" fetchpriority="high" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[220px] md:max-w-[280px] object-contain drop-shadow-sm dark:hidden">
                 <img src="rev2.png" alt="Logo PT Media Tulisan Manusia" fetchpriority="high" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[220px] md:max-w-[280px] object-contain drop-shadow-sm hidden dark:block">
             </div>
 
-            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm text-gray-600 dark:text-gray-400">
-                <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnautama dark:hover:text-white transition pb-1 text-warnautama dark:text-white border-b-2 border-warnautama dark:border-white font-bold">Beranda</a>
-                <a href="#" onclick="bukaHalaman('syarat'); return false;" class="hover:text-warnautama dark:hover:text-white transition pb-1 font-bold">Syarat</a>
-                <a href="#" onclick="bukaHalaman('privasi'); return false;" class="hover:text-warnautama dark:hover:text-white transition pb-1 font-bold">Privasi</a>
-                <a href="#" onclick="bukaHalaman('hubungi'); return false;" class="hover:text-warnautama dark:hover:text-white transition pb-1 font-bold">Hubungi Kami</a>
-            </nav>
-
-            <div class="flex gap-3">
+            <div class="flex items-center gap-2">
                 <button onclick="toggleTema()" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200" title="Ganti Mode Terang/Gelap">
                     <svg class="w-6 h-6 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     <svg class="w-6 h-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </button>
+
+                <button onclick="toggleNavMenu()" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnautama dark:text-white" title="Menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+
+            <!-- Panel Menu Dropdown Melayang -->
+            <div id="nav-dropdown" class="hidden absolute top-16 right-0 w-64 glass rounded-3xl p-5 shadow-2xl border border-gray-200/50 dark:border-gray-700/50 flex flex-col gap-3 text-left animate-fade-up z-50">
+                <button onclick="navKe('beranda')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Home</button>
+                
+                <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2">
+                    <div onclick="toggleSubMenu()" class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition">
+                        <span>Penelusuran</span>
+                        <svg id="panah-sub" class="w-3.5 h-3.5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div id="sub-penelusuran" class="hidden pl-3 pt-2 flex flex-col gap-2">
+                        <button onclick="gulirKe('seksi-qrcbn')" class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white text-left">• Buku</button>
+                        <button onclick="gulirKe('seksi-djki')" class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white text-left">• Hak Cipta</button>
+                    </div>
+                </div>
+
+                <button onclick="navKe('kirim-naskah')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Kirim Naskah</button>
+                <button onclick="navKe('daftar-hki')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
+                
+                <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="mt-2 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                    <span>Hubungi Kami</span>
+                </a>
             </div>
         </header>
 
@@ -622,20 +677,20 @@
             
             <section class="px-4 md:px-10 pt-12 md:pt-20 relative z-10 max-w-4xl mx-auto text-center">
                  <div class="glass p-8 md:p-12 rounded-[2.5rem] transition duration-500">
-                 <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white mb-4 tracking-tight leading-snug text-center">DEDIKASI UNTUK KARYA</h4> 
-                 <p class="text-[11px] sm:text-xs md:text-base text-gray-800 dark:text-gray-300 leading-relaxed font-medium mb-8 md:mb-10 text-justify"><span class="font-semibold">Membangun karya besar butuh lebih dari sekadar transaksi bisnis.</span> <strong class="font-extrabold text-warnautama dark:text-white">Media Tulisan Manusia</strong> hadir sebagai startup profesional di bidang <strong class="font-extrabold text-warnautama dark:text-white">Penerbitan Buku</strong> dan <strong class="font-extrabold text-warnautama dark:text-white">Konsultan Hak Cipta</strong> yang mendampingi perjalanan kreatif Anda, baik untuk kebutuhan <strong class="font-extrabold text-warnautama dark:text-white">personal</strong> maupun <strong class="font-extrabold text-warnautama dark:text-white">korporat</strong>. Kami memastikan ide Anda dikurasi secara mendalam, dicetak eksklusif, dan memiliki perisai hukum yang kuat terhadap plagiarisme.</p>
+                     <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white mb-4 tracking-tight leading-snug text-center">DEDIKASI UNTUK KARYA</h4> 
+                     <p class="text-[11px] sm:text-xs md:text-base text-gray-800 dark:text-gray-300 leading-relaxed font-medium mb-8 md:mb-10 text-justify"><span class="font-semibold">Membangun karya besar butuh lebih dari sekadar transaksi bisnis.</span> <strong class="font-extrabold text-warnautama dark:text-white">Media Tulisan Manusia</strong> hadir sebagai startup profesional di bidang <strong class="font-extrabold text-warnautama dark:text-white">Penerbitan Buku</strong> dan <strong class="font-extrabold text-warnautama dark:text-white">Konsultan Hak Cipta</strong> yang mendampingi perjalanan kreatif Anda, baik untuk kebutuhan <strong class="font-extrabold text-warnautama dark:text-white">personal</strong> maupun <strong class="font-extrabold text-warnautama dark:text-white">korporat</strong>. Kami memastikan ide Anda dikurasi secara mendalam, dicetak eksklusif, dan memiliki perisai hukum yang kuat terhadap plagiarisme.</p>
 
-                 <!-- GELEMBUNG DIPERCAYA 1000+ KLIEN (Menuju halaman Langkah) -->
-                 <div onclick="bukaHalaman('langkah')" class="bg-warnautama dark:bg-white rounded-3xl py-4 md:py-5 px-4 mx-auto w-full max-w-sm cursor-pointer hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-xl">
-                      <p class="text-xs sm:text-sm md:text-xl font-extrabold text-white dark:text-warnakeempat mb-2 md:mb-3 text-center tracking-wide uppercase">Dipercaya 1000+ Klien</p>
-                      <div class="flex flex-row flex-nowrap items-center justify-center gap-1 sm:gap-3 text-[6.5px] min-[375px]:text-[7.5px] sm:text-[10px] md:text-sm text-gray-300 dark:text-gray-600 font-bold uppercase tracking-wider md:tracking-widest text-center w-full overflow-hidden">
-                      <span class="whitespace-nowrap">Penulis</span> <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
-                      <span class="whitespace-nowrap">UMKM</span> <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
-                      <span class="whitespace-nowrap">Akademisi</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
-                      <span class="whitespace-nowrap">Creator</span>
-                      </div>
+                     <!-- GELEMBUNG DIPERCAYA 1000+ KLIEN (Bisa diklik -> Buka Halaman Langkah) -->
+                     <div onclick="bukaHalaman('langkah')" class="bg-warnautama dark:bg-white rounded-3xl py-4 md:py-5 px-4 mx-auto w-full max-w-sm cursor-pointer hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 shadow-md hover:shadow-xl">
+                          <p class="text-xs sm:text-sm md:text-xl font-extrabold text-white dark:text-warnakeempat mb-2 md:mb-3 text-center tracking-wide uppercase">Dipercaya 1000+ Klien</p>
+                          <div class="flex flex-row flex-nowrap items-center justify-center gap-1 sm:gap-3 text-[6.5px] min-[375px]:text-[7.5px] sm:text-[10px] md:text-sm text-gray-300 dark:text-gray-600 font-bold uppercase tracking-wider md:tracking-widest text-center w-full overflow-hidden">
+                              <span class="whitespace-nowrap">Penulis</span> <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
+                              <span class="whitespace-nowrap">UMKM</span> <span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
+                              <span class="whitespace-nowrap">Akademisi</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 dark:bg-gray-400 rounded-full inline-block flex-shrink-0"></span> 
+                              <span class="whitespace-nowrap">Creator</span>
+                          </div>
+                     </div>
                  </div>
-               </div>
             </section>
 
             <!-- BUKU TERBARU (100% LENGKAP 13 BUKU) -->
@@ -644,7 +699,6 @@
                     <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">BUKU TERBARU</h4>
                 </div>
                 <div id="scroll-katalog" class="flex flex-row overflow-x-auto gap-4 md:gap-6 px-5 md:px-10 pb-8 no-scrollbar hover:cursor-grab active:cursor-grabbing items-stretch">
-
                     <div class="min-w-[200px] md:min-w-[260px] flex-shrink-0 group glass rounded-[2rem] p-5 md:p-6 transition-all duration-300 flex flex-col justify-between items-center text-center h-auto hover:shadow-xl hover:-translate-y-2">
                         <div class="w-full flex flex-col justify-center items-center">
                             <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-6 md:h-8 w-auto object-contain mb-1 opacity-80 drop-shadow-sm">
@@ -652,7 +706,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Merawat Warisan Menjaga Identitas</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Merawat%20Warisan,%20Menjaga%20Identitas" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Merawat%20Warisan,%20Menjaga%20Identitas" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="1.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -670,7 +724,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Modul UMKM Kopi</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Modul%20UMKM%20Kopi" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Modul%20UMKM%20Kopi" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="2.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -688,7 +742,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Menuju Surga Beracun</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Menuju%20Surga%20Beracun" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Menuju%20Surga%20Beracun" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="3.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -706,7 +760,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Untukmu yang Sedang Mengabdi</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Untukmu%20yang%20Sedang%20Mengabdi" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Untukmu%20yang%20Sedang%20Mengabdi" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="4.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -724,7 +778,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Pelangi Kisah Kehidupan</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Pelangi%20Kisah%20Kehidupan" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Pelangi%20Kisah%20Kehidupan" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="5.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -742,7 +796,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Pulang Dalam Perjalanan</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Pulang%20Dalam%20Perjalanan" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Pulang%20Dalam%20Perjalanan" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="6.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -760,7 +814,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Tanpamu</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Tanpamu" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Tanpamu" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="7.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -778,7 +832,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Bukan Lagi Tentangmu</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Bukan%20Lagi%20Tentangmu" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Bukan%20Lagi%20Tentangmu" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="8.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -796,7 +850,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">PILU</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20PILU" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20PILU" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="9.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -814,7 +868,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">The Word Bears Witness to us Together</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20The%20Word%20Bears%20Witness%20to%20us%20Together" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20The%20Word%20Bears%20Witness%20to%20us%20Together" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="10.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -832,7 +886,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Ragam Hias Jawa Daerah Malang</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Ragam%20Hias%20Jawa%20Daerah%20Malang" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Ragam%20Hias%20Jawa%20Daerah%20Malang" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="11.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -850,7 +904,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Ensiklopedia Arjuna</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Ensiklopedia%20Arjuna" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Ensiklopedia%20Arjuna" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="12.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -868,7 +922,7 @@
                             <h4 class="font-bold text-[12px] md:text-[14px] leading-tight text-warnautama dark:text-white transition line-clamp-2 text-center">Formula Kepenulisan</h4>
                         </div>
                         <div class="w-full flex-1 flex justify-center items-center py-1.5">
-                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Formula%20Kepenulisan" target="_blank" class="block hover:scale-110 transition-transform duration-300" title="Beli Buku via WhatsApp">
+                            <a href="https://wa.me/6288294448222?text=Halo%20Media%20Tulisan%20Manusia,%20saya%20tertarik%20membeli%20buku%20Formula%20Kepenulisan" target="_blank" class="block hover:scale-110 transition-transform duration-300">
                                 <img src="13.webp" loading="lazy" decoding="async" alt="Cover Buku" class="h-28 md:h-32 w-auto object-contain drop-shadow-md rounded-sm">
                             </a>
                         </div>
@@ -878,7 +932,6 @@
                             <p class="text-sm md:text-base text-warnautama dark:text-gray-100 font-extrabold tracking-wide text-center">Rp 55.000</p>
                         </div>
                     </div>
-
                 </div>
             </section>
 
@@ -1148,12 +1201,11 @@
                             <p class="text-[8.5px] md:text-[10px] text-warnautama dark:text-gray-100 font-extrabold tracking-wider text-center uppercase">ACH. SUFYAN WAHYUDI</p>
                         </div>
                     </div>
-
                 </div>
             </section>
 
-            <!-- PENCARIAN QRCBN & DJKI -->
-            <section class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto">
+            <!-- SEKSI PENCARIAN QRCBN (ID: seksi-qrcbn) -->
+            <section id="seksi-qrcbn" class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
                     <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
                     <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN BUKU</h4>
@@ -1165,7 +1217,8 @@
                 </div>
             </section>
 
-            <section class="px-5 md:px-10 pt-4 pb-12 relative z-10 max-w-4xl mx-auto">
+            <!-- SEKSI PENCARIAN DJKI (ID: seksi-djki) -->
+            <section id="seksi-djki" class="px-5 md:px-10 pt-4 pb-12 relative z-10 max-w-4xl mx-auto">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
                     <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
                     <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN HAK CIPTA</h4>
@@ -1177,10 +1230,9 @@
                 </div>
             </section>
 
-            <!-- SEKSI PERSUASI / LAYANAN (DENGAN FUNGSI KLIK SESUAI PERMINTAAN) -->
+            <!-- SEKSI PERSUASI / LAYANAN (DENGAN FUNGSI KLIK) -->
             <section id="layanan" class="px-5 md:px-10 pt-10 pb-4 md:py-10 relative z-10 max-w-5xl mx-auto">
                 <div class="md:flex md:gap-8">
-                    <!-- Promo Naskah -> Menuju ke Kirim Naskah -->
                     <div onclick="bukaHalaman('kirim-naskah')" class="cursor-pointer glass p-6 md:p-10 rounded-[2rem] shadow-lg mb-6 md:mb-0 transition-all duration-500 flex-1 flex flex-col justify-between animate-fade-up hover:shadow-2xl hover:-translate-y-2">
                         <div>
                             <div class="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-3 md:gap-4 mb-4 text-center sm:text-left">
@@ -1193,7 +1245,6 @@
                         </div>
                     </div>
 
-                    <!-- Promo HKI -> Menuju ke Daftar Hak Cipta -->
                     <div onclick="bukaHalaman('daftar-hki')" class="cursor-pointer glass p-6 md:p-10 rounded-[2rem] transition-all duration-500 flex-1 flex flex-col justify-between animate-fade-up hover:shadow-2xl hover:-translate-y-2" style="animation-delay: 0.1s;">
                         <div>
                             <div class="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-3 md:gap-4 mb-4 text-center sm:text-left">
@@ -1644,7 +1695,7 @@
             </div>
         </div>
 
-        <!-- HALAMAN LAINNYA (Syarat, Privasi, Hubungi) -->
+        <!-- ================= HALAMAN SYARAT & KETENTUAN ================= -->
         <div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
             <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">&larr; Kembali ke Beranda</button>
             <div class="glass p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
@@ -1659,6 +1710,7 @@
             </div>
         </div>
 
+        <!-- ================= HALAMAN KEBIJAKAN PRIVASI ================= -->
         <div id="hal-privasi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
             <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">&larr; Kembali ke Beranda</button>
             <div class="glass p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
@@ -1672,6 +1724,7 @@
             </div>
         </div>
 
+        <!-- ================= HALAMAN HUBUNGI KAMI ================= -->
         <div id="hal-hubungi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
             <button onclick="bukaHalaman('beranda')" class="mb-8 flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-warnautama dark:hover:text-white transition glass px-5 py-2.5 rounded-full inline-flex border border-gray-300 dark:border-gray-700">&larr; Kembali ke Beranda</button>
             <div class="glass p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] shadow-2xl">
