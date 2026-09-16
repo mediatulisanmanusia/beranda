@@ -162,15 +162,21 @@
         }
 
         /* ========================================================== */
-        /* Auto Invert Gambar QRCBN, DJKI, Mitra, & Media ke Putih di Mode Gelap */
+        /* Auto Grayscale & Brightness Penyesuaian Logo di Mode Gelap */
         /* ========================================================== */
-        .dark img[alt*="QRCBN"],
-        .dark img[alt*="DJKI"],
+        
+        /* Untuk Mitra & Sorot Media: Hitam Putih (elegan dan aman untuk gambar bernon-transparan) */
         .dark img[alt^="Mitra"],
         .dark img[alt^="Sorot Media"] {
-            filter: brightness(0) invert(1);
+            filter: grayscale(100%);
         }
 
+        /* Untuk QRCBN & DJKI: Hitam Putih + Diterangkan (agar tidak tenggelam di bg hitam) */
+        .dark img[alt*="QRCBN"],
+        .dark img[alt*="DJKI"] {
+            filter: grayscale(100%) brightness(200%);
+        }
+        
     </style>
     <script>
         let isLoggedIn = false;
@@ -1721,3 +1727,4 @@
     </div>
 </body>
 </html>
+
