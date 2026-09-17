@@ -1979,6 +1979,11 @@ window.muatRiwayatProfil = async function() {
     document.body.appendChild(modal);
 
         }
+// Paksa hapus loading jika macet
+setTimeout(() => {
+    const globalLoad = document.getElementById('custom-loading-overlay');
+    if(globalLoad) globalLoad.classList.add('hidden');
+}, 3000);
 
     </script>
 
