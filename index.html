@@ -1653,12 +1653,6 @@
      
     </div>
 
-    <!-- MODAL & IFRAME -->
-     <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
-        <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
-            <div class="flex justify-between px-5 py-4 bg-gray-100 border-b"><h3 id="judul-modal-pencarian" class="font-bold text-warnautama">Hasil Pencarian</h3><button onclick="tutupModalPencarian()" class="text-gray-500 hover:text-red-500 font-bold text-2xl">&times;</button></div>
-            <div class="flex-grow"><iframe id="iframe-pencarian" src="" class="w-full h-full border-none"></iframe></div>
-        </div>
     <!-- ============================================== -->
     <!-- SCRIPT UTAMA KESELURUHAN (HANYA DITULIS SEKALI) -->
     <!-- ============================================== -->
@@ -1842,7 +1836,12 @@
         
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
         </script>
-    
+       <!-- MODAL & IFRAME -->
+     <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
+        <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
+            <div class="flex justify-between px-5 py-4 bg-gray-100 border-b"><h3 id="judul-modal-pencarian" class="font-bold text-warnautama">Hasil Pencarian</h3><button onclick="tutupModalPencarian()" class="text-gray-500 hover:text-red-500 font-bold text-2xl">&times;</button></div>
+            <div class="flex-grow"><iframe id="iframe-pencarian" src="" class="w-full h-full border-none"></iframe></div>
+        </div>
     </div>
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 </body>
