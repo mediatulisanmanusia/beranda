@@ -1837,6 +1837,17 @@
                     fileHasil: "",
                     waktuLokal: new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'})
                 });
+    // Sembunyikan loading dan selesaikan proses
+        setTimeout(() => {
+        if(loadScreen) loadScreen.classList.add('hidden');
+        const waText = 'Halo Admin Media Tulisan Manusia,%0A%0Asaya telah mengajukan layanan baru.';
+        alert(`Pengajuan Berhasil!\nStatus pesanan Anda kini bisa dicek di profil.`);
+        window.open(`https://wa.me/6288294448222?text=${waText}`, '_blank');
+
+        f.reset(); btn.disabled = false;
+        if(window.muatRiwayatProfil) window.muatRiwayatProfil();
+        bukaHalaman('profil');
+    }, 1500);
 
                 // B. MODIFIKASI FORM UNTUK KIRIM KE EMAIL (FormSubmit)
                 btn.innerText = "Mengirim Berkas ke Email Admin...";
