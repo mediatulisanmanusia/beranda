@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Media Tulisan Manusia - Karya Nyata Hak Cipta Terjaga</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4607989555035129"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4607989555035129" crossorigin="anonymous"></script>
     <link rel="icon" type="image/png" href="rev.png?v=4">
     <link rel="preload" as="image" href="load.webp" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,144 +53,15 @@
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         .dark img[src*="qrcbn"], .dark img[src*="djki"], .dark #scroll-mitra img, .dark #scroll-media img { filter: saturate(200%) brightness(130%); }
+
+        #toast-container { z-index: 999999; }
     </style>
-    <script>
-        setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
-        function toggleTema() { document.documentElement.classList.toggle('dark'); }
-        function toggleNavMenu() { document.getElementById('nav-dropdown').classList.toggle('hidden'); }
-        function toggleSubMenu() { document.getElementById('sub-penelusuran').classList.toggle('hidden'); document.getElementById('panah-sub').classList.toggle('rotate-180'); }
-        function navKe(idHal) { bukaHalaman(idHal); document.getElementById('nav-dropdown').classList.add('hidden'); }
-        function gulirKe(targetId) { bukaHalaman('beranda'); document.getElementById('nav-dropdown').classList.add('hidden'); setTimeout(() => { const el = document.getElementById(targetId); if(el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }
-        function cariQRCBN(e) { e.preventDefault(); const kw = document.getElementById('input-keyword-qrcbn').value.trim(); if(kw) { document.getElementById('judul-modal-pencarian').innerText='Hasil QRCBN'; document.getElementById('iframe-pencarian').src=`https://qrcbn.com/check/${encodeURIComponent(kw)}`; document.getElementById('modal-pencarian').classList.remove('hidden'); } else alert('Masukkan Nomor QRCBN.'); }
-        function cariDJKI(e) { e.preventDefault(); const kw = document.getElementById('input-keyword-djki').value.trim(); if(kw) window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(kw)}`, '_blank'); else alert('Masukkan judul ciptaan.'); }
-        function tutupModalPencarian() { document.getElementById('modal-pencarian').classList.add('hidden'); document.getElementById('iframe-pencarian').src=''; }
-        function bukaHalaman(id) { 
-            // GEMBOK HALAMAN: Lempar langsung ke Login (Tanpa Alert) jika belum masuk
-            if ((id === 'kirim-naskah' || id === 'daftar-hki' || id === 'profil') && !window.currentUserEmail) {
-                id = 'login';
-            }
-            
-            document.querySelectorAll('.halaman-konten').forEach(h => h.classList.add('hidden')); 
-            const d = document.getElementById('hal-' + id); 
-            if(d) { d.classList.remove('hidden'); d.classList.remove('animate-fade-up'); void d.offsetWidth; d.classList.add('animate-fade-up'); } 
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-        }
 
-        function kirimPesanKontak(e) {
-            e.preventDefault(); const f=e.target, btn=f.querySelector('button[type="submit"]'), txt=btn.innerText; btn.innerText="Mengirim..."; btn.disabled=true;
-            fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", { method:"POST", headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify({ Nama:f.querySelector('.input-nama').value, Email:f.querySelector('.input-email').value, Pesan:f.querySelector('.input-pesan').value, _subject:"Pesan Web MTM" }) })
-            .then(r=>r.json()).then(d=>{ alert("Pesan berhasil terkirim!"); f.reset(); btn.innerText=txt; btn.disabled=false; }).catch(er=>{ alert("Terjadi kesalahan."); btn.innerText=txt; btn.disabled=false; });
-        }
-
-        // Trik formsubmit hidden iframe ke Email + Redirect WA 
-        function kirimFormLayanan(e, tipeLayanan) {
-            const f = e.target;
-            const fileInputs = f.querySelectorAll('input[type="file"]');
-            for (let i of fileInputs) {
-                if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
-                    alert(`Berkas "${i.name}" melebihi batas 3MB. Harap diperkecil.`);
-                    e.preventDefault(); return;
-                }
-            }
-            const cb = f.querySelector('input[type="checkbox"]');
-            if(cb && !cb.checked) { alert("Harap centang persetujuan ketentuan."); e.preventDefault(); return; }
-
-            const btn = f.querySelector('button[type="submit"]');
-            btn.innerText = "Mengunggah Data & File..."; btn.disabled = true;
-
-            f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com";
-            f.method = "POST";
-            f.enctype = "multipart/form-data";
-            f.target = "hidden-iframe-upload";
-
-                        if(!document.getElementById('hidden-iframe-upload')) {
-                const ifm = document.createElement('iframe');
-                ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
-                document.body.appendChild(ifm);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            function autoScroll(id) {
-                const el = document.getElementById(id); if (!el) return;
-                el.innerHTML += el.innerHTML; let isPaused = false;
-                el.addEventListener('mouseenter', () => isPaused = true);
-                el.addEventListener('mouseleave', () => isPaused = false);
-                el.addEventListener('touchstart', () => isPaused = true, {passive:true});
-                el.addEventListener('touchend', () => { setTimeout(() => isPaused = false, 1500); });
-                function step() { if (!isPaused) { el.scrollLeft += 0.25; if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft -= el.scrollWidth / 2; } requestAnimationFrame(step); }
-                requestAnimationFrame(step);
-            }
-            autoScroll('scroll-katalog'); autoScroll('scroll-hki'); autoScroll('scroll-mitra'); autoScroll('scroll-media');
-            
-            const toTopBtn = document.getElementById("scrollToTopBtn"); let scrollTimeout;
-            window.addEventListener("scroll", () => {
-                if (window.scrollY > 100) { toTopBtn.classList.remove("translate-y-20", "opacity-0", "pointer-events-none"); toTopBtn.classList.add("translate-y-0", "opacity-100"); }
-                else { toTopBtn.classList.add("translate-y-20", "opacity-0", "pointer-events-none"); toTopBtn.classList.remove("translate-y-0", "opacity-100"); }
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => { toTopBtn.classList.add("translate-y-20", "opacity-0", "pointer-events-none"); toTopBtn.classList.remove("translate-y-0", "opacity-100"); }, 1500);
-            });
-            toTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-
-            // Chatbot
-            const t=document.getElementById("chat-trigger"), w=document.getElementById("chat-window"), cx=document.getElementById("close-chat"), ci=document.getElementById("chat-input"), sc=document.getElementById("send-chat"), cm=document.getElementById("chat-messages"), gb=document.getElementById("greeting-bubble"), ti=document.getElementById("typing-indicator"), jb=document.getElementById("jump-to-bottom");
-            ci.addEventListener('input', function() { this.style.height='42px'; this.style.height=(this.scrollHeight)+'px'; });
-            cm.addEventListener("scroll", () => { jb.classList.toggle("hidden", cm.scrollHeight-cm.scrollTop-cm.clientHeight <= 50); });
-            jb.addEventListener("click", () => cm.scrollTo({ top:cm.scrollHeight, behavior:'smooth' }));
-            setTimeout(() => { if (gb) { gb.classList.replace("opacity-100", "opacity-0"); setTimeout(()=>gb.remove(),500); } }, 6000);
-            t.addEventListener("click", () => { w.classList.remove("hidden"); setTimeout(()=>{ w.classList.remove("scale-0","translate-y-10","opacity-0"); w.classList.add("scale-100","translate-y-0","opacity-100"); },10); if(gb) gb.remove(); cm.scrollTo({ top:cm.scrollHeight, behavior:'smooth' }); });
-            cx.addEventListener("click", () => { w.classList.remove("scale-100","translate-y-0","opacity-100"); w.classList.add("scale-0","translate-y-10","opacity-0"); setTimeout(()=>w.classList.add("hidden"),300); });
-
-            let countPenerbitan = 0; let countHKI = 0; let sudahDisapa = false;
-
-            function addMessageToUI(text, sender) {
-                const md = document.createElement("div"); md.className = sender==="user" ? "flex items-end justify-end gap-2 mt-3 animate-fade-up shrink-0" : "flex items-start gap-2 mt-3 animate-fade-up shrink-0 w-full";
-                md.innerHTML = sender==="user" ? `<div class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed font-medium text-[11px] sm:text-xs border border-warnautama/50 whitespace-pre-wrap break-words">${text}</div>` : `<img src="mascipta.webp" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-[#2a2a2a] bg-white"><div class="bg-white/90 dark:bg-[#1b1b1b] text-gray-800 dark:text-gray-200 px-4 py-2.5 rounded-2xl rounded-tl-sm w-full max-w-[85%] shadow-sm border border-gray-200 dark:border-[#2a2a2a] leading-relaxed font-medium text-[11px] sm:text-xs break-words">${text}</div>`;
-                cm.insertBefore(md, ti); cm.scrollTo({ top:cm.scrollHeight, behavior:'smooth' });
-            }
-
-                        function handleSend() {
-                const text = ci.value.trim(); if (!text) return;
-                addMessageToUI(text, "user"); ci.value = ""; ci.style.height = "42px";
-                ti.classList.remove("hidden"); ti.classList.add("flex"); cm.scrollTo({ top:cm.scrollHeight, behavior:'smooth' });
-                
-                setTimeout(() => {
-                    ti.classList.add("hidden"); ti.classList.remove("flex");
-                    const lt = text.toLowerCase(); let botReply = ""; const kl = lt.split(/\s+/);
-                    const isSapa = ["halo","hai","hi","p","assalamualaikum","pagi","siang","sore","malam"].some(s=>kl.includes(s));
-                    const isBuku = ["penerbitan","terbit","penerbit","menerbitkan","buku","cetak","naskah"].some(k=>lt.includes(k));
-                    const isHKI = ["hki","hak cipta","djki","karya","sertifikat","legalitas"].some(k=>lt.includes(k));
-                    const wa = "6288294448222"; const tWA = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin bertanya: " + text);
-
-                    if (isBuku) {
-                        if(countPenerbitan === 0) {
-                            botReply = `Untuk informasi paket dan ketentuan penerbitan, silakan unduh dan baca tautan ini terlebih dahulu:<br>👉 <a href='ketentuan.pdf' target='_blank' class='text-blue-600 dark:text-blue-400 font-bold underline'>Unduh Ketentuan Penerbitan (PDF)</a><br><br>Setelah memahaminya, silakan lengkapi formulir pengajuan dengan menekan tombol di bawah ini:<br><button onclick="document.getElementById('close-chat').click(); cekLoginDanBuka('kirim-naskah');" class="mt-2 w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider hover:scale-[1.02] transition">📝 Isi Form Naskah</button>`;
-                            countPenerbitan++; sudahDisapa = true;
-                        } else {
-                            botReply = `Mari hubungi tim spesialis kami via WhatsApp:<br><a href="https://wa.me/${wa}?text=${tWA}" target="_blank" class="block mt-2 bg-green-500 text-white font-bold py-2 rounded-xl text-center shadow-md">💬 Chat Admin WhatsApp</a>`;
-                        }
-                    } else if (isHKI) {
-                        if(countHKI === 0) {
-                            botReply = `Untuk rincian kategori dan ketentuan Hak Cipta, silakan unduh dan baca tautan ini terlebih dahulu:<br>👉 <a href='kategori.pdf' target='_blank' class='text-blue-600 dark:text-blue-400 font-bold underline'>Unduh Ketentuan Hak Cipta (PDF)</a><br><br>Setelah memahaminya, silakan lengkapi formulir pendaftaran dengan menekan tombol di bawah ini:<br><button onclick="document.getElementById('close-chat').click(); cekLoginDanBuka('daftar-hki');" class="mt-2 w-full border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition">© Isi Form Hak Cipta</button>`;
-                            countHKI++; sudahDisapa = true;
-                        } else {
-                            botReply = `Mari berdiskusi langsung dengan tim legalitas kami:<br><a href="https://wa.me/${wa}?text=${tWA}" target="_blank" class="block mt-2 bg-green-500 text-white font-bold py-2 rounded-xl text-center shadow-md">💬 Chat Admin WhatsApp</a>`;
-                        }
-                    } else if (isSapa && !sudahDisapa) { botReply = "Terima kasih telah menyapa! 😊 Ada yang bisa Cipta bantu terkait penerbitan buku atau Hak Cipta (HKI)?"; sudahDisapa=true; } 
-                    else { botReply = `Agar mendapatkan pelayanan terbaik, mari hubungi admin langsung:<br><a href="https://wa.me/${wa}?text=${tWA}" target="_blank" class="block mt-2 bg-green-500 text-white font-bold py-2 rounded-xl text-center shadow-md">💬 Chat Admin di WhatsApp</a>`; sudahDisapa=true; }
-                    addMessageToUI(botReply, "model");
-                }, 800);
-            }
-            sc.addEventListener("click", handleSend); ci.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } });
-        });
-    </script>
-        <!-- ========================================== -->
-    <!-- SCRIPT FIREBASE & AUTENTIKASI (TAHAP 1)    -->
-    <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, orderBy, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdve7T36Ha3N5m4r7PhCRBkyqtP9c-Mwo",
@@ -206,22 +76,36 @@
         const app = initializeApp(firebaseConfig);
         window.auth = getAuth(app);
         window.db = getFirestore(app);
+        window.storage = getStorage(app);
         window.provider = new GoogleAuthProvider();
 
-        // Export fungsi agar bisa dibaca HTML
         window.onAuthStateChanged = onAuthStateChanged;
         window.signInWithPopup = signInWithPopup;
         window.signInWithEmailAndPassword = signInWithEmailAndPassword;
         window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
         window.sendPasswordResetEmail = sendPasswordResetEmail;
         window.signOut = signOut;
+        window.addDoc = addDoc;
+        window.collection = collection;
+        window.query = query;
+        window.where = where;
+        window.getDocs = getDocs;
+        window.orderBy = orderBy;
+        window.doc = doc;
+        window.updateDoc = updateDoc;
+        window.storageRef = storageRef;
+        window.uploadBytesResumable = uploadBytesResumable;
+        window.getDownloadURL = getDownloadURL;
         
-        // Status user saat ini
         window.currentUserEmail = null;
         window.currentUserName = null;
+        window.isAdmin = false;
+        window.ADMIN_EMAIL = "ptmediatulisanmanusia@gmail.com";
     </script>
 </head>
 <body class="bg-gray-100 text-warnautama dark:text-white font-sans pb-4 md:pb-0 transition-colors duration-500 relative">
+
+    <div id="toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-3 pointer-events-none w-11/12 max-w-sm"></div>
 
     <div id="loading-screen" class="fixed inset-0 z-[9999] bg-gray-100 flex items-center justify-center transition-opacity duration-500 ease-in-out">
         <img src="load.webp" fetchpriority="high" alt="Loading" class="h-64 md:h-96 w-auto object-contain animate-pulse-logo">
@@ -264,7 +148,7 @@
         <div class="absolute top-[35%] -right-10 w-96 h-96 bg-gray-500/10 dark:bg-gray-400/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] z-0"></div>
         <div class="absolute bottom-[20%] left-10 w-80 h-80 bg-black/5 dark:bg-white/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] z-0"></div>
 
-        <!-- FIXED CENTERED HEADER (ANTI-GESER) & HAMBURGER MENU -->
+        <!-- HEADER & NAV BURGER -->
         <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
             <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="bukaHalaman('beranda')">
                 <img src="rev1.png" alt="Logo MTM" fetchpriority="high" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain dark:hidden">
@@ -279,10 +163,31 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
             </div>
-                <div id="nav-dropdown" class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col gap-3 text-left animate-fade-up z-50">
-                <button onclick="navKe('beranda')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Home</button>
-                <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2">
-                    <div onclick="toggleSubMenu()" class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition">
+            
+            <div id="nav-dropdown" class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col gap-3 text-left animate-fade-up z-50">
+                <!-- MENU PROFIL & ADMIN -->
+                <button id="menu-profil-btn" onclick="navKe('profil')" class="hidden font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Profil Klien
+                </button>
+                <button id="menu-admin-btn" onclick="navKe('admin')" class="hidden font-bold text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 transition py-1 text-left flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Dashboard Admin
+                </button>
+
+                <!-- Tombol WA -->
+                <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="mt-2 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center">Whatsapp Kami</a>
+
+                <!-- MENU LOGIN / SIGNUP / LOGOUT -->
+                <button id="menu-login-btn" onclick="navKe('login')" class="bg-warnakedua text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mt-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> Login / Signup
+                </button>
+                <button id="menu-logout-btn" onclick="prosesLogout()" class="hidden bg-red-500 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mt-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Logout
+                </button>
+
+                <!-- Menu Link Navigasi -->
+                <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2 mt-2">
+                    <button onclick="navKe('beranda')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left w-full">Home</button>
+                    <div onclick="toggleSubMenu()" class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition mt-2">
                         <span>Penelusuran</span>
                         <svg id="panah-sub" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -292,36 +197,14 @@
                     </div>
                 </div>
                 
-                <!-- Menu yang dikembalikan -->
                 <button onclick="navKe('kirim-naskah')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Kirim Naskah</button>
                 <button onclick="navKe('daftar-hki')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
-                
-                <!-- MENU PROFIL KLIEN (Muncul di atas WA kalau sudah login) -->
-                <button id="menu-profil-btn" onclick="navKe('profil')" class="hidden font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Profil Klien
-                </button>
-
-                <!-- Tombol WA Kami (Abadi) -->
-                <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="mt-2 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center">Whatsapp Kami</a>
-
-                <!-- MENU LOGIN / SIGNUP (Bentuk Tombol Solid Emas) -->
-                <button id="menu-login-btn" onclick="navKe('login')" class="bg-warnakedua text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                    Login / Signup
-                </button>
-
-                <!-- MENU LOGOUT (Bentuk Tombol Solid Merah, muncul di Bawah WA saat Login) -->
-                <button id="menu-logout-btn" onclick="prosesLogout()" class="hidden bg-red-500 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    Logout
-                </button>
             </div>
         </header>
 
         <div class="h-20 md:h-28"></div>
 
-        <!-- HALAMAN BERANDA -->
+<!-- HALAMAN BERANDA -->
 <div id="hal-beranda" class="halaman-konten animate-fade-up relative z-10">
 
     <!-- SEKSI HERO (Desain awal, gambar memudar, tombol diperbaiki) -->
@@ -1123,7 +1006,8 @@
                 </div>
             </footer>
         </div>
-        <!-- HALAMAN MULAI LANGKAH -->
+
+<!-- HALAMAN MULAI LANGKAH -->
 <div id="hal-langkah" class="halaman-konten hidden p-4 sm:p-6 md:p-10 pb-6 animate-fade-up relative z-10 max-w-5xl mx-auto w-full">
     
     <!-- Tombol Kembali -->
@@ -1224,8 +1108,7 @@
     <div class="mt-12 mb-2 text-center border-t border-gray-300 dark:border-gray-700/50 pt-6">
          <p class="text-[8px] sm:text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold w-full whitespace-nowrap"> &copy; PT MEDIA TULISAN MANUSIA - ALL RIGHTS RESERVED</p>
     </div>
-
-    <!-- SCRIPT KHUSUS ANIMASI SCROLL MINI (Diinjeksikan langsung agar otomatis jalan) -->
+      <!-- SCRIPT KHUSUS ANIMASI SCROLL MINI (Diinjeksikan langsung agar otomatis jalan) -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function autoScrollMini(id) {
@@ -1250,6 +1133,178 @@
         });
     </script>
 </div>
+
+<!-- HALAMAN INFO -->
+        <div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Syarat & Ketentuan</h2><div class="space-y-6 text-sm font-medium"><p>1. <strong>Orisinalitas:</strong> Klien menjamin karya orisinal dan bebas plagiarisme.</p><p>2. <strong>Etika:</strong> Karya tidak mengandung SARA/Pornografi.</p><p>3. <strong>Hak Cipta:</strong> Kami fasilitator legalitas, hak komersial tetap milik klien.</p><p>4. <strong>Pembayaran:</strong> <em>Non-refundable</em> jika dibatalkan sepihak.</p></div></div></div>
+        <div id="hal-privasi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Kebijakan Privasi</h2><div class="space-y-6 text-sm font-medium"><p>1. <strong>Kerahasiaan (NDA):</strong> Naskah dilindungi, tidak akan digandakan tanpa izin.</p><p>2. <strong>Data KTP:</strong> Hanya untuk pendaftaran legalitas QRCBN/ISBN/HKI.</p><p>3. <strong>Keamanan:</strong> Data tidak akan dijual/disewakan ke pihak ketiga.</p></div></div></div>
+        <div id="hal-hubungi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-8">Hubungi Kami</h2><div class="md:flex gap-10"><div class="flex-1 space-y-6"><div><p class="text-xs text-gray-500 font-bold mb-1">WA Bisnis</p><p class="font-bold text-lg">0882 9444 8222</p></div><div><p class="text-xs text-gray-500 font-bold mb-1">Email</p><p class="font-bold">ptmediatulisanmanusia@gmail.com</p></div><div><p class="text-xs text-gray-500 font-bold mb-1">Jam & Kantor</p><p class="text-sm">Senin-Sabtu 09.00-17.00 WIB<br>Jl. Supriyadi No.48 Malang<br>Jl. Raya Malang-Sby No.101 Pasuruan</p></div></div><div class="flex-1 mt-10 md:mt-0"><form onsubmit="kirimPesanKontak(event)" class="space-y-4"><input type="text" required placeholder="Nama Lengkap" class="input-nama w-full bg-white/70 border rounded-2xl p-4 text-sm"><input type="email" required placeholder="Email" class="input-email w-full bg-white/70 border rounded-2xl p-4 text-sm"><textarea required placeholder="Pesan..." class="input-pesan w-full bg-white/70 border rounded-2xl p-4 text-sm auto-resize" rows="4"></textarea><button type="submit" class="w-full bg-warnautama text-white font-bold py-4 rounded-full text-sm">Kirim Pesan</button></form></div></div></div></div>
+        <!-- ========================================== -->
+        <!-- HALAMAN LOGIN / SIGNUP (TAHAP 2)           -->
+        <!-- ========================================== -->
+        <div id="hal-login" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-xl mx-auto w-full">
+            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
+            <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+                <div class="text-center mb-8">
+                    <img src="rev1.png" alt="Logo MTM" class="h-10 sm:h-12 w-auto mx-auto mb-4 dark:hidden object-contain drop-shadow-sm">
+                    <img src="rev2.png" alt="Logo MTM" class="h-10 sm:h-12 w-auto mx-auto mb-4 hidden dark:block object-contain drop-shadow-sm">
+                    <h2 id="judul-login" class="text-xl md:text-2xl font-extrabold text-warnautama dark:text-white">Masuk ke Akun Anda</h2>
+                    <p id="sub-login" class="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 mt-2 font-medium">Silakan masuk untuk memantau status pesanan</p>
+                </div>
+
+                <!-- Form Login -->
+                <div id="form-login-section">
+                    <form id="loginForm" class="space-y-4 text-left">
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Alamat Email</label>
+                            <input type="email" id="login-email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs sm:text-sm font-medium text-warnautama dark:text-white focus:outline-none focus:border-warnautama">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Kata Sandi</label>
+                            <input type="password" id="login-password" required placeholder="********" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs sm:text-sm font-medium text-warnautama dark:text-white focus:outline-none focus:border-warnautama">
+                        </div>
+                        <div class="flex justify-end pt-1">
+                            <button type="button" onclick="toggleFormAuth('reset')" class="text-[10px] sm:text-xs font-bold text-warnaketiga dark:text-gray-300 hover:underline">Lupa Kata Sandi?</button>
+                        </div>
+                        <button type="submit" id="btn-login" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-xs sm:text-sm hover:scale-[1.02] transition-transform mt-2">Masuk</button>
+                    </form>
+
+                    <div class="flex items-center my-6">
+                        <div class="flex-grow border-t border-gray-300 dark:border-gray-700/60"></div>
+                        <span class="px-4 text-[10px] text-gray-500 font-extrabold uppercase tracking-widest">ATAU</span>
+                        <div class="flex-grow border-t border-gray-300 dark:border-gray-700/60"></div>
+                    </div>
+
+                    <button onclick="prosesLoginGoogle()" class="w-full bg-white dark:bg-black/40 border border-gray-300 dark:border-gray-600 text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase tracking-widest text-[11px] sm:text-xs hover:bg-gray-50 dark:hover:bg-gray-800 transition flex justify-center items-center gap-3">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                        Masuk dengan Google
+                    </button>
+
+                    <p class="text-center text-[11px] sm:text-xs mt-8 text-gray-600 dark:text-gray-400 font-medium">Belum punya akun? <button onclick="toggleFormAuth('register')" class="text-warnautama dark:text-white font-extrabold hover:underline">Buat Akun</button></p>
+                </div>
+
+                <!-- Form Buat Akun (Register) -->
+                <div id="form-register-section" class="hidden">
+                    <form id="registerForm" class="space-y-4 text-left">
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Nama Lengkap</label>
+                            <input type="text" id="reg-nama" required placeholder="Sesuai KTP" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3 text-xs sm:text-sm font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">No. HP / WA</label>
+                            <input type="number" id="reg-hp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3 text-xs sm:text-sm font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Alamat Email</label>
+                            <input type="email" id="reg-email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3 text-xs sm:text-sm font-medium text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Kata Sandi Baru</label>
+                            <input type="password" id="reg-password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3 text-xs sm:text-sm font-medium text-warnautama dark:text-white">
+                        </div>
+                        <button type="submit" id="btn-register" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-xs sm:text-sm hover:scale-[1.02] transition-transform mt-6">Daftar Akun</button>
+                    </form>
+                    <p class="text-center text-[11px] sm:text-xs mt-6 text-gray-600 dark:text-gray-400 font-medium">Sudah punya akun? <button onclick="toggleFormAuth('login')" class="text-warnautama dark:text-white font-extrabold hover:underline">Masuk</button></p>
+                </div>
+
+                <!-- Form Lupa Sandi -->
+                <div id="form-reset-section" class="hidden">
+                    <form id="resetForm" class="space-y-4 text-left">
+                        <div>
+                            <label class="block text-[10px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wide">Email Terdaftar</label>
+                            <input type="email" id="reset-email" required placeholder="Masukkan email akun Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs sm:text-sm font-medium text-warnautama dark:text-white">
+                        </div>
+                        <button type="submit" id="btn-reset" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase tracking-widest text-xs sm:text-sm hover:scale-[1.02] transition-transform mt-4">Kirim Link Reset</button>
+                    </form>
+                    <p class="text-center text-[11px] sm:text-xs mt-6 text-gray-600 dark:text-gray-400 font-medium">Ingat kata sandi? <button onclick="toggleFormAuth('login')" class="text-warnautama dark:text-white font-extrabold hover:underline">Kembali Login</button></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- HALAMAN PROFIL KLIEN (TAHAP 2)             -->
+        <!-- ========================================== -->
+        <div id="hal-profil" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-5xl mx-auto w-full">
+            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
+            <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden border-t-4 border-warnautama dark:border-white">
+                
+                <!-- Identitas User -->
+                <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 mb-8 border-b border-gray-300 dark:border-gray-700/60 pb-6">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                        <div class="w-16 h-16 bg-warnautama dark:bg-white text-white dark:text-warnakeempat rounded-full flex justify-center items-center font-black text-3xl uppercase shadow-md border-2 border-warnakedua/50" id="profil-inisial">U</div>
+                        <div>
+                            <h2 class="text-lg md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight" id="profil-nama">Memuat...</h2>
+                            <p class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
+                        </div>
+                    </div>
+                    <button onclick="prosesLogout()" class="bg-red-500/10 hover:bg-red-500 hover:text-white text-red-500 font-bold py-2 px-6 rounded-full text-[11px] sm:text-xs transition border border-red-500/30 uppercase tracking-widest shadow-sm">Keluar Akun</button>
+                </div>
+
+                <div class="space-y-10">
+                    <!-- Tabel Riwayat Penerbitan -->
+                    <div>
+                        <h3 class="font-extrabold text-xs sm:text-sm md:text-base text-warnautama dark:text-white mb-4 uppercase tracking-widest flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnakedua" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            Riwayat Naskah Saya
+                        </h3>
+                        <div class="overflow-x-auto rounded-[1.5rem] border border-gray-300 dark:border-gray-700/60 bg-white/60 dark:bg-black/40 shadow-inner">
+                            <table class="w-full text-left border-collapse min-w-[600px]">
+                                <thead>
+                                    <tr class="bg-warnautama dark:bg-gray-800 text-[10px] sm:text-[11px] text-white uppercase tracking-wider">
+                                        <th class="p-4 font-bold rounded-tl-[1.5rem]">Tanggal</th>
+                                        <th class="p-4 font-bold">Judul Naskah</th>
+                                        <th class="p-4 font-bold">Status</th>
+                                        <th class="p-4 font-bold text-center rounded-tr-[1.5rem]">Unduhan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel-penerbitan" class="text-[11px] sm:text-xs text-warnautama dark:text-gray-200 font-medium divide-y divide-gray-200 dark:divide-gray-700/50">
+                                    <tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Memuat riwayat...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tabel Riwayat Hak Cipta -->
+                    <div>
+                        <h3 class="font-extrabold text-xs sm:text-sm md:text-base text-warnautama dark:text-white mb-4 uppercase tracking-widest flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnakedua" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            Riwayat Hak Cipta Saya
+                        </h3>
+                        <div class="overflow-x-auto rounded-[1.5rem] border border-gray-300 dark:border-gray-700/60 bg-white/60 dark:bg-black/40 shadow-inner">
+                            <table class="w-full text-left border-collapse min-w-[600px]">
+                                <thead>
+                                    <tr class="bg-warnautama dark:bg-gray-800 text-[10px] sm:text-[11px] text-white uppercase tracking-wider">
+                                        <th class="p-4 font-bold rounded-tl-[1.5rem]">Tanggal</th>
+                                        <th class="p-4 font-bold">Judul Ciptaan</th>
+                                        <th class="p-4 font-bold">Status</th>
+                                        <th class="p-4 font-bold text-center rounded-tr-[1.5rem]">Unduhan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel-hki" class="text-[11px] sm:text-xs text-warnautama dark:text-gray-200 font-medium divide-y divide-gray-200 dark:divide-gray-700/50">
+                                    <tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Memuat riwayat...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        <!-- ============================================== -->
+        <!-- 5. HALAMAN DASHBOARD ADMIN PUSAT -->
+        <!-- ============================================== -->
+        <div id="hal-admin" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-6xl mx-auto w-full">
+            <button onclick="bukaHalaman('beranda')" class="mb-6 text-xs font-bold glass px-5 py-2.5 rounded-full">&larr; Beranda Admin</button>
+            <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-2xl relative border-t-4 border-blue-600">
+                <div class="flex gap-4 items-center border-b pb-6 mb-6">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex justify-center items-center font-black text-3xl">A</div>
+                    <div><h2 class="text-xl font-extrabold text-blue-600">Dashboard Admin Pusat</h2><p class="text-sm text-gray-600">Semua Data Pesanan Klien</p></div>
+                </div>
+                <div class="overflow-x-auto border rounded-[1.5rem]"><table class="w-full text-left min-w-[800px]"><thead class="bg-blue-600 text-white text-[10px] uppercase"><tr><th class="p-4">Tgl/Layanan</th><th class="p-4">Klien</th><th class="p-4">Judul</th><th class="p-4">Status</th><th class="p-4 text-center">Aksi Admin</th></tr></thead><tbody id="tabel-admin" class="text-xs font-medium"><tr><td colspan="5" class="p-6 text-center italic">Memuat...</td></tr></tbody></table></div>
+            </div>
+        </div>
+
         <!-- HALAMAN KIRIM NASKAH -->
         <div id="hal-kirim-naskah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
             <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
@@ -1464,319 +1519,156 @@
             </div>
         </div>
 
-        
-    <!-- MODAL PENCARIAN -->
-    <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
-        <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
-            <div class="flex justify-between px-5 py-4 bg-gray-100 border-b"><h3 id="judul-modal-pencarian" class="font-bold text-warnautama">Hasil Pencarian</h3><button onclick="tutupModalPencarian()" class="text-gray-500 hover:text-red-500 font-bold text-2xl">&times;</button></div>
-            <div class="flex-grow"><iframe id="iframe-pencarian" src="" class="w-full h-full border-none"></iframe></div>
-        </div>
+        <!-- HALAMAN INFO -->
+        <div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Syarat & Ketentuan</h2><p class="text-sm">Orisinalitas, Etika, Pembayaran, dll.</p></div></div>
+        <div id="hal-privasi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Kebijakan Privasi</h2><p class="text-sm">Keamanan data KTP dan Naskah.</p></div></div>
+        <div id="hal-hubungi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-8">Hubungi Kami</h2><p class="text-sm">ptmediatulisanmanusia@gmail.com | 088294448222</p></div></div>
+
     </div>
-      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="iframeLoaded()"></iframe>
-       <!-- ========================================== -->
-    <!-- LOGIKA AUTENTIKASI & PROFIL (TAHAP 3)      -->
-    <!-- ========================================== -->
+
+    <!-- MODAL & IFRAME -->
+    <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70"><div class="w-[90%] md:w-3/4 h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col"><div class="flex justify-between px-5 py-4 border-b"><h3>Hasil</h3><button onclick="document.getElementById('modal-pencarian').classList.add('hidden')">&times;</button></div><iframe id="iframe-pencarian" class="w-full h-full border-none"></iframe></div></div>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <!-- ============================================== -->
+    <!-- SCRIPT UTAMA KESELURUHAN (HANYA DITULIS SEKALI) -->
+    <!-- ============================================== -->
     <script>
-        // 1. Fungsi Toggle Form (Pindah antara Login, Daftar, Lupa Sandi)
+        // SISTEM TOAST
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const icon = type === 'success' ? '✅' : '❌';
+            toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0`;
+            toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.remove('translate-y-[-30px]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100'); }, 10);
+            setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-30px]', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 4000);
+        }
+
+        // FUNGSI NAVIGASI
+        function toggleTema() { document.documentElement.classList.toggle('dark'); }
+        function toggleNavMenu() { document.getElementById('nav-dropdown').classList.toggle('hidden'); }
+        function toggleSubMenu() { document.getElementById('sub-penelusuran').classList.toggle('hidden'); document.getElementById('panah-sub').classList.toggle('rotate-180'); }
+        function gulirKe(targetId) { bukaHalaman('beranda'); document.getElementById('nav-dropdown').classList.add('hidden'); setTimeout(() => { const el = document.getElementById(targetId); if(el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }
+        
+        function cariQRCBN(e) { e.preventDefault(); const kw = document.getElementById('input-keyword-qrcbn').value.trim(); if(kw) { document.getElementById('iframe-pencarian').src=`https://qrcbn.com/check/${encodeURIComponent(kw)}`; document.getElementById('modal-pencarian').classList.remove('hidden'); } }
+        function cariDJKI(e) { e.preventDefault(); const kw = document.getElementById('input-keyword-djki').value.trim(); if(kw) window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(kw)}`, '_blank'); }
+
+        function bukaHalaman(id) { 
+            if ((id === 'kirim-naskah' || id === 'daftar-hki' || id === 'profil') && !window.currentUserEmail) { showToast("Login / Daftar Akun terlebih dahulu", "error"); id = 'login'; }
+            if (id === 'admin' && !window.isAdmin) { showToast("Akses Khusus Admin", "error"); id = 'beranda'; }
+            document.querySelectorAll('.halaman-konten').forEach(h => h.classList.add('hidden')); 
+            const d = document.getElementById('hal-' + id); 
+            if(d) { d.classList.remove('hidden'); d.classList.remove('animate-fade-up'); void d.offsetWidth; d.classList.add('animate-fade-up'); } 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        }
+        function navKe(idHal) { bukaHalaman(idHal); document.getElementById('nav-dropdown').classList.add('hidden'); }
+
         function toggleFormAuth(type) {
-            document.getElementById('form-login-section').classList.add('hidden');
-            document.getElementById('form-register-section').classList.add('hidden');
-            document.getElementById('form-reset-section').classList.add('hidden');
-            if(type === 'login') {
-                document.getElementById('form-login-section').classList.remove('hidden');
-                document.getElementById('judul-login').innerText = "Masuk ke Akun Anda";
-            } else if(type === 'register') {
-                document.getElementById('form-register-section').classList.remove('hidden');
-                document.getElementById('judul-login').innerText = "Buat Akun Baru";
-            } else if(type === 'reset') {
-                document.getElementById('form-reset-section').classList.remove('hidden');
-                document.getElementById('judul-login').innerText = "Reset Kata Sandi";
-            }
+            document.getElementById('form-login-section').classList.add('hidden'); document.getElementById('form-register-section').classList.add('hidden'); document.getElementById('form-reset-section').classList.add('hidden');
+            if(type === 'login') { document.getElementById('form-login-section').classList.remove('hidden'); document.getElementById('judul-login').innerText = "Masuk Akun"; }
+            else if(type === 'register') { document.getElementById('form-register-section').classList.remove('hidden'); document.getElementById('judul-login').innerText = "Buat Akun Baru"; }
+            else if(type === 'reset') { document.getElementById('form-reset-section').classList.remove('hidden'); document.getElementById('judul-login').innerText = "Reset Sandi"; }
         }
 
-        // 2. Fungsi Cek Login sebelum buka Form (Proteksi)
-        function cekLoginDanBuka(idHal) {
-            if(window.currentUserEmail) { 
-                bukaHalaman(idHal); 
-            } else { 
-                alert("Akses Ditolak: Silakan Login atau Buat Akun terlebih dahulu untuk mengakses form ini."); 
-                bukaHalaman('login'); 
-            }
-        }
-
-        // 3. Membaca Status User (Apakah sedang login atau tidak?)
+        // AUTH LISTENER
         setTimeout(() => {
             if(window.auth && window.onAuthStateChanged) {
                 window.onAuthStateChanged(window.auth, (user) => {
                     const menuLogin = document.getElementById('menu-login-btn');
                     const menuProfil = document.getElementById('menu-profil-btn');
+                    const menuAdmin = document.getElementById('menu-admin-btn');
                     const menuLogout = document.getElementById('menu-logout-btn');
 
                     if (user) {
-                        // Jika User Sedang Login
                         window.currentUserEmail = user.email;
                         window.currentUserName = user.displayName || user.email.split('@')[0];
+                        window.isAdmin = (user.email.toLowerCase() === window.ADMIN_EMAIL);
                         
-                        // Ubah Menu Burger
                         if(menuLogin) menuLogin.classList.add('hidden');
-                        if(menuProfil) menuProfil.classList.remove('hidden');
                         if(menuLogout) menuLogout.classList.remove('hidden');
 
-                        // Isi Halaman Profil
-                        document.getElementById('profil-nama').innerText = window.currentUserName;
-                        document.getElementById('profil-email').innerText = window.currentUserEmail;
-                        document.getElementById('profil-inisial').innerText = window.currentUserName.charAt(0).toUpperCase();
+                        if(window.isAdmin) {
+                            if(menuAdmin) menuAdmin.classList.remove('hidden');
+                            if(menuProfil) menuProfil.classList.add('hidden');
+                            muatRiwayatAdmin();
+                        } else {
+                            if(menuProfil) menuProfil.classList.remove('hidden');
+                            if(menuAdmin) menuAdmin.classList.add('hidden');
+                            
+                            document.getElementById('profil-nama').innerText = window.currentUserName;
+                            document.getElementById('profil-email').innerText = window.currentUserEmail;
+                            document.getElementById('profil-inisial').innerText = window.currentUserName.charAt(0).toUpperCase();
+                            muatRiwayatProfil();
+                        }
 
-                        // Kosongkan tabel sementara (Diisi di Tahap 4)
-                        document.getElementById('tabel-penerbitan').innerHTML = '<tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Belum ada riwayat pesanan naskah...</td></tr>';
-                        document.getElementById('tabel-hki').innerHTML = '<tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Belum ada pendaftaran Hak Cipta...</td></tr>';
-
+                        const urlParams = new URLSearchParams(window.location.search);
+                        if (urlParams.has('admin') && window.isAdmin) { bukaHalaman('admin'); }
                     } else {
-                        // Jika User Belum Login / Logout
-                        window.currentUserEmail = null;
-                        window.currentUserName = null;
-                        
-                        // Kembalikan Menu Burger
+                        window.currentUserEmail = null; window.currentUserName = null; window.isAdmin = false;
                         if(menuLogin) menuLogin.classList.remove('hidden');
                         if(menuProfil) menuProfil.classList.add('hidden');
+                        if(menuAdmin) menuAdmin.classList.add('hidden');
                         if(menuLogout) menuLogout.classList.add('hidden');
                     }
                 });
             }
         }, 1000);
 
-        // 4. Aksi Login dengan Email & Sandi
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-password').value;
-            const btn = document.getElementById('btn-login'); btn.innerText = "Memproses...";
-            
-            window.signInWithEmailAndPassword(window.auth, email, pass)
-            .then(() => { 
-                alert("Login Berhasil! Selamat datang."); 
-                bukaHalaman('beranda'); 
-                btn.innerText = "Masuk"; 
-                document.getElementById('loginForm').reset();
-            })
-            .catch((error) => { 
-                alert("Login Gagal: Periksa kembali email dan kata sandi Anda."); 
-                btn.innerText = "Masuk"; 
+        // DATABASE: PROFIL & ADMIN
+        window.muatRiwayatProfil = async function() {
+            if(!window.currentUserEmail) return;
+            const q = window.query(window.collection(window.db, "pesanan"), window.where("userEmail", "==", window.currentUserEmail));
+            const snapshot = await window.getDocs(q);
+            let htmlNaskah = ''; let htmlHKI = '';
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const btnFile = data.fileHasil ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-3 py-1 rounded-full text-[9px] font-bold">Unduh PDF</a>` : `<span class="text-gray-400 text-[9px]">Belum ada file</span>`;
+                const statusColor = data.status === 'Berhasil' ? 'text-green-600' : 'text-yellow-600';
+                const baris = `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center">${btnFile}</td></tr>`;
+                if(data.tipeLayanan.includes("Naskah")) htmlNaskah += baris; else htmlHKI += baris;
             });
-        });
+            document.getElementById('tabel-penerbitan').innerHTML = htmlNaskah || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
+            document.getElementById('tabel-hki').innerHTML = htmlHKI || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
+        }
 
-        // 5. Aksi Mendaftar Akun Baru
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('reg-email').value;
-            const pass = document.getElementById('reg-password').value;
-            const btn = document.getElementById('btn-register'); btn.innerText = "Memproses...";
-
-            window.createUserWithEmailAndPassword(window.auth, email, pass)
-            .then(() => { 
-                alert("Pendaftaran Berhasil! Akun Anda sudah aktif dan langsung login."); 
-                bukaHalaman('beranda'); 
-                btn.innerText = "Daftar Akun"; 
-                document.getElementById('registerForm').reset();
-            })
-            .catch((error) => { 
-                alert("Pendaftaran Gagal: Email mungkin sudah pernah terdaftar, atau sandi kurang dari 6 karakter."); 
-                btn.innerText = "Daftar Akun"; 
+        window.muatRiwayatAdmin = async function() {
+            if(!window.isAdmin) return;
+            const q = window.query(window.collection(window.db, "pesanan"), window.orderBy("waktuLokal", "desc"));
+            const snapshot = await window.getDocs(q);
+            let html = '';
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id;
+                html += `<tr><td class="p-3 border-b"><span class="block font-bold">${data.waktuLokal}</span><span class="text-[9px] text-gray-500">${data.tipeLayanan}</span></td><td class="p-3 border-b"><span class="block font-bold">${data.namaLengkap}</span><span class="text-[9px] text-gray-500">${data.userEmail} | ${data.wa}</span></td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b">${data.status}<br>${data.fileHasil ? `<a href="${data.fileHasil}" target="_blank" class="text-[9px] text-blue-500 hover:underline">✅ PDF</a>` : '-'}</td><td class="p-3 border-b text-center"><select onchange="window.ubahStatusAdmin('${id}', this.value)" class="bg-gray-100 border rounded p-1 text-[10px]"><option value="Pending" ${data.status==='Pending'?'selected':''}>Pending</option><option value="Proses" ${data.status==='Proses'?'selected':''}>Proses</option><option value="Berhasil" ${data.status==='Berhasil'?'selected':''}>Berhasil</option></select><label class="bg-blue-600 text-white px-2 py-1 ml-1 rounded text-[10px] cursor-pointer">Upload<input type="file" class="hidden" accept=".pdf" onchange="window.uploadPDFAdmin('${id}', this)"></label></td></tr>`;
             });
-        });
+            document.getElementById('tabel-admin').innerHTML = html || `<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>`;
+        }
 
-        // 6. Aksi Login Instan Pakai Akun Google
-        function prosesLoginGoogle() {
-            window.signInWithPopup(window.auth, window.provider)
-            .then(() => { 
-                alert("Login dengan Google Berhasil!"); 
-                bukaHalaman('beranda'); 
-            })
-            .catch((error) => { 
-                alert("Login Google dibatalkan atau terjadi kesalahan."); 
+        window.ubahStatusAdmin = async function(id, statusBaru) {
+            try { await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); showToast("Status diperbarui!", "success"); window.muatRiwayatAdmin(); } 
+            catch(e) { showToast("Gagal memperbarui status", "error"); }
+        }
+
+        window.uploadPDFAdmin = async function(id, inputElement) {
+            const file = inputElement.files[0]; if(!file) return;
+            showToast("Mengunggah PDF...", "success");
+            const stRef = window.storageRef(window.storage, `hasil_admin/${id}_${file.name}`);
+            const uploadTask = window.uploadBytesResumable(stRef, file);
+            uploadTask.on('state_changed', null, (error) => { showToast("Gagal unggah", "error"); }, async () => {
+                const downloadURL = await window.getDownloadURL(uploadTask.snapshot.ref);
+                await window.updateDoc(window.doc(window.db, "pesanan", id), { fileHasil: downloadURL, status: 'Berhasil' });
+                showToast("PDF Berhasil diunggah!", "success"); window.muatRiwayatAdmin();
             });
         }
 
-        // 7. Aksi Reset Kata Sandi
-        document.getElementById('resetForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('reset-email').value;
-            const btn = document.getElementById('btn-reset'); btn.innerText = "Mengirim...";
-            
-            window.sendPasswordResetEmail(window.auth, email)
-            .then(() => { 
-                alert("Link reset password telah berhasil dikirim ke Email Anda. Silakan cek kotak masuk/spam."); 
-                toggleFormAuth('login'); 
-                btn.innerText = "Kirim Link Reset"; 
-                document.getElementById('resetForm').reset();
-            })
-            .catch((error) => { 
-                alert("Gagal mengirim link. Pastikan alamat email diketik dengan benar."); 
-                btn.innerText = "Kirim Link Reset"; 
-            });
-        });
-
-        // 8. Aksi Logout / Keluar Akun
-        function prosesLogout() {
-            if(confirm("Apakah Anda yakin ingin keluar dari akun?")) {
-                window.signOut(window.auth).then(() => {
-                    alert("Berhasil keluar.");
-                    bukaHalaman('beranda');
-                    document.getElementById('nav-dropdown').classList.add('hidden');
-                });
-            }
-        }
-    </script>
-        <!-- ========================================== -->
-    <!-- TAHAP 4: DATABASE FIRESTORE & ADMIN EMAIL  -->
-    <!-- ========================================== -->
-    <script type="module">
-        import { collection, addDoc, query, where, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        
-        // 1. OVERRIDE Fungsi Kirim Form (Menyambungkan HTML Lama ke Firebase)
+        // KIRIM PENGAJUAN FORM
         window.kirimFormLayanan = async function(e, tipeLayanan) {
-            e.preventDefault();
-            const f = e.target;
-            
-            // Validasi: Tolak kalau belum login!
-            if(!window.currentUserEmail) {
-                alert("Akses Ditolak: Silakan Login terlebih dahulu untuk mengirim pengajuan.");
-                bukaHalaman('login');
-                return;
-            }
-
-            // Validasi Ukuran File (Maksimal 3MB)
-            const fileInputs = f.querySelectorAll('input[type="file"]');
-            for (let i of fileInputs) {
-                if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
-                    alert(`Berkas "${i.name}" melebihi batas 3MB. Harap diperkecil terlebih dahulu.`);
-                    return;
-                }
-            }
-            
-            // Cek Centang S&K
-            const cb = f.querySelector('input[type="checkbox"]');
-            if(cb && !cb.checked) { alert("Harap centang persetujuan ketentuan."); return; }
-
-            const btn = f.querySelector('button[type="submit"]');
-            btn.innerText = "Menyimpan Data ke Sistem..."; 
-            btn.disabled = true;
-
-            // Ambil Data Dasar
-            const nama = f.querySelector('[name^="Nama"]').value || '-';
-            const email = f.querySelector('[name="Email"]').value || '-';
-            const wa = f.querySelector('[name="WhatsApp"]').value || '-';
-            const judul = f.querySelector('[name^="Judul"]').value || '-';
-
-            try {
-                // A. SIMPAN KE DATABASE FIREBASE (Untuk Tampil di Profil)
-                const docRef = await addDoc(collection(window.db, "pesanan"), {
-                    userEmail: window.currentUserEmail,
-                    userName: window.currentUserName,
-                    tipeLayanan: tipeLayanan,
-                    judul: judul,
-                    namaLengkap: nama,
-                    wa: wa,
-                    status: "Pending", // Status Awal
-                    fileHasil: "",
-                    waktuLokal: new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'})
-                });
-
-                // B. MODIFIKASI FORM UNTUK KIRIM KE EMAIL (FormSubmit)
-                btn.innerText = "Mengirim Berkas ke Email Admin...";
-                
-                // 1) Tambah Subjek Email Khusus Otomatis
-                let subjekEl = f.querySelector('input[name="_subject"]');
-                if(!subjekEl) {
-                    subjekEl = document.createElement('input');
-                    subjekEl.type = 'hidden'; subjekEl.name = '_subject';
-                    f.appendChild(subjekEl);
-                }
-                subjekEl.value = `Pesanan ${tipeLayanan} - ${nama}`;
-
-                // 2) SUNTIK LINK KONTROL ADMIN KE DALAM EMAIL
-                const urlWeb = window.location.origin + window.location.pathname;
-                const addInputAdmin = (name, val) => {
-                    let inp = document.createElement('input');
-                    inp.type = 'hidden'; inp.name = name; inp.value = val;
-                    f.appendChild(inp);
-                };
-                addInputAdmin("1_Klik_Ubah_Status_PROSES", `${urlWeb}?admin=true&id=${docRef.id}&status=Proses`);
-                addInputAdmin("2_Klik_Ubah_Status_BERHASIL", `${urlWeb}?admin=true&id=${docRef.id}&status=Berhasil`);
-                addInputAdmin("3_Klik_UPLOAD_PDF_HASIL", `${urlWeb}?admin=upload&id=${docRef.id}`);
-
-                // C. EKSEKUSI KIRIM FORMSUBMIT TANPA PINDAH HALAMAN
-                f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com";
-                f.method = "POST";
-                f.enctype = "multipart/form-data";
-                f.target = "hidden-iframe-upload";
-
-                if(!document.getElementById('hidden-iframe-upload')) {
-                    const ifm = document.createElement('iframe');
-                    ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
-                    document.body.appendChild(ifm);
-                }
-                
-                document.getElementById('hidden-iframe-upload').onload = function() {
-                    const waText = `Halo Admin Media Tulisan Manusia,%0A%0ASaya telah mengajukan formulir *${tipeLayanan}* via Website.%0A%0A*Nama:* ${nama}%0A*Judul:* ${judul}%0A%0AFile lampiran telah terkirim ke Email. Mohon dicek.`;
-                    
-                    alert(`Pengajuan ${tipeLayanan} Berhasil!\nStatus pesanan Anda kini bisa dipantau langsung di halaman Profil Klien.\nKlik OK untuk meneruskan rincian ke WhatsApp Admin.`);
-                    window.open(`https://wa.me/6288294448222?text=${waText}`, '_blank');
-                    
-                    f.reset(); btn.innerText = "KIRIM PENGAJUAN"; btn.disabled = false; 
-                    
-                    if(window.muatRiwayatProfil) window.muatRiwayatProfil(); // Update Tabel Profil
-                    bukaHalaman('profil'); // Otomatis Giring Klien ke Halaman Profil
-                };
-                
-                f.submit(); 
-                
-            } catch (error) {
-                console.error(error);
-                alert("Terjadi kesalahan sistem. Pastikan koneksi internet stabil.");
-                btn.innerText = "KIRIM PENGAJUAN"; btn.disabled = false; 
-            }
-        };
-
-        // 2. FUNGSI MUAT TABEL RIWAYAT DI PROFIL KLIEN
-                window.kirimFormLayanan = async function(e, tipeLayanan) {
-            e.preventDefault();
-            const f = e.target;
-            
-            if(!window.currentUserEmail) {
-                alert("Akses Ditolak: Silakan Login terlebih dahulu.");
-                bukaHalaman('login');
-                return;
-            }
-
-            const fileInputs = f.querySelectorAll('input[type="file"]');
-            for (let i of fileInputs) {
-                if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
-                    alert(`Berkas "${i.name}" melebihi batas 3MB.`);
-                    return;
-                }
-            }
-            
-            const cb = f.querySelector('input[type="checkbox"]');
-            if(cb && !cb.checked) { alert("Harap centang persetujuan ketentuan."); return; }
-
-            const btn = f.querySelector('button[type="submit"]');
-            btn.disabled = true;
-
-            // Buka Layar Loading Keren (Favicon Berdenyut)
-            let loadScreen = document.getElementById('custom-loading-overlay');
-            if(!loadScreen) {
-                loadScreen = document.createElement('div');
-                loadScreen.id = 'custom-loading-overlay';
-                loadScreen.className = 'fixed inset-0 z-[99999] bg-white/9ga dark:bg-black/90 backdrop-blur-md flex flex-col items-center justify-center gap-4 transition-all';
-                loadScreen.innerHTML = `
-                    <img src="rev1.png" alt="Loading" class="h-14 w-auto animate-pulse">
-                    <p class="text-xs font-bold tracking-widest text-warnautama dark:text-white uppercase animate-pulse">Mengirim & Menyimpan Data...</p>
-                `;
-                document.body.appendChild(loadScreen);
-            } else {
-                loadScreen.classList.remove('hidden');
-            }
+            e.preventDefault(); const f = e.target;
+            if(!window.currentUserEmail) { showToast("Gagal: Anda belum login.", "error"); bukaHalaman('login'); return; }
+            const btn = f.querySelector('button[type="submit"]'); btn.disabled = true; btn.innerText = "Mengirim...";
 
             const nama = f.querySelector('[name^="Nama"]').value || '-';
             const email = f.querySelector('[name="Email"]').value || '-';
@@ -1784,94 +1676,43 @@
             const judul = f.querySelector('[name^="Judul"]').value || '-';
 
             try {
-                // A. SIMPAN KE DATABASE FIREBASE
-                const docRef = await addDoc(collection(window.db, "pesanan"), {
-                    userEmail: window.currentUserEmail,
-                    userName: window.currentUserName,
-                    tipeLayanan: tipeLayanan,
-                    judul: judul,
-                    namaLengkap: nama,
-                    wa: wa,
-                    status: "Pending",
-                    fileHasil: "",
-                    waktuLokal: new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'})
-                });
-
-                // B. SETTING FORMSUBMIT
+                const docRef = await window.addDoc(window.collection(window.db, "pesanan"), { userEmail: window.currentUserEmail, userName: window.currentUserName, tipeLayanan: tipeLayanan, judul: judul, namaLengkap: nama, wa: wa, status: "Pending", fileHasil: "", waktuLokal: new Date().toLocaleDateString('id-ID') });
+                
                 let subjekEl = f.querySelector('input[name="_subject"]');
-                if(!subjekEl) {
-                    subjekEl = document.createElement('input');
-                    subjekEl.type = 'hidden'; subjekEl.name = '_subject';
-                    f.appendChild(subjekEl);
-                }
-                subjekEl.value = `Pesanan ${tipeLayanan} - ${nama}`;
+                if(!subjekEl) { subjekEl = document.createElement('input'); subjekEl.type = 'hidden'; subjekEl.name = '_subject'; f.appendChild(subjekEl); }
+                subjekEl.value = `Pesanan: ${tipeLayanan} - ${nama}`;
 
                 const urlWeb = window.location.origin + window.location.pathname;
-                const addInputAdmin = (name, val) => {
-                    let inp = document.createElement('input');
-                    inp.type = 'hidden'; inp.name = name; inp.value = val;
-                    f.appendChild(inp);
-                };
-                addInputAdmin("1_Klik_Ubah_Status_PROSES", `${urlWeb}?admin=true&id=${docRef.id}&status=Proses`);
-                addInputAdmin("2_Klik_Ubah_Status_BERHASIL", `${urlWeb}?admin=true&id=${docRef.id}&status=Berhasil`);
-                addInputAdmin("3_Klik_UPLOAD_PDF_HASIL", `${urlWeb}?admin=upload&id=${docRef.id}`);
+                let linkEl = document.createElement('input'); linkEl.type = 'hidden'; linkEl.name = "Klik_Untuk_Buka_Dashboard_Admin"; linkEl.value = `${urlWeb}?admin=true`; f.appendChild(linkEl);
 
-                f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com";
-                f.method = "POST";
-                f.enctype = "multipart/form-data";
-                f.target = "hidden-iframe-upload";
+                f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; f.method = "POST"; f.enctype = "multipart/form-data"; f.target = "hidden_iframe"; f.submit();
 
-                if(!document.getElementById('hidden-iframe-upload')) {
-                    const ifm = document.createElement('iframe');
-                    ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
-                    document.body.appendChild(ifm);
-                }
-                
-                f.submit();
-
-                // AMAN: Paksa selesai dalam 3.5 detik agar tidak pernah stuck
                 setTimeout(() => {
-                    if(loadScreen) loadScreen.classList.add('hidden');
-                    const waText = `Halo Admin Media Tulisan Manusia,%0A%0ASaya telah mengajukan formulir *${tipeLayanan}* via Website.%0A%0A*Nama:* ${nama}%0A*Judul:* ${judul}%0A%0AFile lampiran telah terkirim ke Email. Mohon dicek.`;
-                    
-                    alert(`Pengajuan ${tipeLayanan} Berhasil!\nStatus pesanan Anda kini bisa dipantau langsung di halaman Profil Klien.`);
-                    window.open(`https://wa.me/6288294448222?text=${waText}`, '_blank');
-                    
-                    f.reset(); btn.disabled = false; 
-                    if(window.muatRiwayatProfil) window.muatRiwayatProfil();
-                    bukaHalaman('profil');
-                }, 3500);
-                
-            } catch (error) {
-                if(loadScreen) loadScreen.classList.add('hidden');
-                console.error(error);
-                alert("Terjadi kesalahan sistem. Pastikan koneksi internet stabil.");
-                btn.disabled = false; 
-            }
+                    showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
+                    window.open(`https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20telah%20submit%20${tipeLayanan}%20via%20Website.%0ANama:%20${nama}%0AJudul:%20${judul}`, '_blank');
+                    f.reset(); btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN";
+                    if(window.muatRiwayatProfil) window.muatRiwayatProfil(); bukaHalaman('profil');
+                }, 2500);
+            } catch (error) { showToast("Gagal menyimpan ke database.", "error"); btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN"; }
         };
-        // Fungsi Gelembung Notifikasi Elegan ala MTM
-        function tampilkanGelembung(pesan, judulPesan = "Pemberitahuan MTM") {
-            let modal = document.getElementById('mtm-custom-modal');
-            if(!modal) {
-                modal = document.createElement('div');
-                modal.id = 'mtm-custom-modal';
-                modal.className = 'fixed inset-0 z-[99999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-up';
-                document.body.appendChild(modal);
-            }
-            modal.innerHTML = `
-                <div class="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center flex flex-col gap-4 transform transition-all">
-                    <div class="w-12 h-12 rounded-full bg-warnautama/10 dark:bg-white/10 flex items-center justify-center mx-auto text-warnautama dark:text-white font-bold text-xl">✨</div>
-                    <div>
-                        <h3 class="font-extrabold text-base text-warnautama dark:text-white mb-1">${judulPesan}</h3>
-                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">${pesan}</p>
-                    </div>
-                    <button onclick="document.getElementById('mtm-custom-modal').remove()" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:scale-[1.02] transition">Mengerti</button>
-                </div>
-            `;
-            modal.classList.remove('hidden');
-        }
 
+        // AKSI AKUN DENGAN TOAST
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value;
+            window.signInWithEmailAndPassword(window.auth, email, pass).then(() => { showToast("Login Berhasil!", "success"); document.getElementById('loginForm').reset(); if(email.toLowerCase() === window.ADMIN_EMAIL) bukaHalaman('admin'); else bukaHalaman('beranda'); }).catch(() => { showToast("Email atau Sandi salah.", "error"); });
+        });
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-password').value;
+            window.createUserWithEmailAndPassword(window.auth, email, pass).then(() => { showToast("Daftar Berhasil!", "success"); document.getElementById('registerForm').reset(); bukaHalaman('beranda'); }).catch(() => { showToast("Gagal mendaftar. Sandi min 6 atau email sudah terdaftar.", "error"); });
+        });
+        function prosesLoginGoogle() { window.signInWithPopup(window.auth, window.provider).then(() => { showToast("Login Google Berhasil!", "success"); bukaHalaman('beranda'); }).catch(() => { showToast("Dibatalkan.", "error"); }); }
+        document.getElementById('resetForm').addEventListener('submit', function(e) {
+            e.preventDefault(); window.sendPasswordResetEmail(window.auth, document.getElementById('reset-email').value).then(() => { showToast("Link reset dikirim!", "success"); toggleFormAuth('login'); document.getElementById('resetForm').reset(); }).catch(() => { showToast("Email tidak ditemukan.", "error"); });
+        });
+        function prosesLogout() { window.signOut(window.auth).then(() => { showToast("Berhasil keluar.", "success"); bukaHalaman('beranda'); document.getElementById('nav-dropdown').classList.add('hidden'); }); }
+        
+        setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
     </script>
+</body>
+</html>
 
-    </body>
-</html>                                                                                                       </html>
