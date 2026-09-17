@@ -1793,9 +1793,7 @@
         window.kirimFormLayanan = async function(e, tipeLayanan) {
             e.preventDefault();
             const f = e.target;
-                const loadScreen = document.getElementById('custom-loading-overlay');
-    if(loadScreen) loadScreen.classList.remove('hidden');
-
+            
             // Validasi: Tolak kalau belum login!
             if(!window.currentUserEmail) {
                 alert("Akses Ditolak: Silakan Login terlebih dahulu untuk mengirim pengajuan.");
@@ -1839,17 +1837,6 @@
                     fileHasil: "",
                     waktuLokal: new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'})
                 });
-    // Sembunyikan loading dan selesaikan proses
-        setTimeout(() => {
-        if(loadScreen) loadScreen.classList.add('hidden');
-        const waText = 'Halo Admin Media Tulisan Manusia,%0A%0Asaya telah mengajukan layanan baru.';
-        alert(`Pengajuan Berhasil!\nStatus pesanan Anda kini bisa dicek di profil.`);
-        window.open(`https://wa.me/6288294448222?text=${waText}`, '_blank');
-
-        f.reset(); btn.disabled = false;
-        if(window.muatRiwayatProfil) window.muatRiwayatProfil();
-        bukaHalaman('profil');
-    }, 1500);
 
                 // B. MODIFIKASI FORM UNTUK KIRIM KE EMAIL (FormSubmit)
                 btn.innerText = "Mengirim Berkas ke Email Admin...";
@@ -1907,6 +1894,31 @@
             }
         };
 
+        // 2. FUNGSI MUAT TABEL RIWAYAT DI PROFIL KLIEN
+                window.kirimFormLayanan = async function(e, tipeLayanan) {
+            e.preventDefault();
+            const f = e.target;
+            
+            if(!window.currentUserEmail) {
+                alert("Akses Ditolak: Silakan Login terlebih dahulu.");
+                bukaHalaman('login');
+                return;
+            }
+
+            const fileInputs = f.querySelectorAll('input[type="file"]');
+            for (let i of fileInputs) {
+                if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
+                    alert(`Berkas "${i.name}" melebihi batas 3MB.`);
+                    return;
+                }
+            }
+            
+            const cb = f.querySelector('input[type="checkbox"]');
+            if(cb && !cb.checked) { alert("Harap centang persetujuan ketentuan."); return; }
+
+            const btn = f.querySelector('button[type="submit"]');
+            btn.disabled = true;
+
             // Buka Layar Loading Keren (Favicon Berdenyut)
             let loadScreen = document.getElementById('custom-loading-overlay');
             if(!loadScreen) {
@@ -1921,40 +1933,78 @@
             } else {
                 loadScreen.classList.remove('hidden');
             }
-// Fungsionalitas Riwayat Profil Klien
-window.muatRiwayatProfil = async function() {
-    const userEmail = window.currentUserEmail;
-    if(!userEmail) return;
 
-    try {
-        const querySnapshot = await window.db.collection("pesanan").where("userEmail", "==", userEmail).get();
-        let containerRiwayat = document.getElementById('tabel-riwayat-profil');
-        if(!containerRiwayat) return;
-        
-        containerRiwayat.innerHTML = "";
-        
-        if(querySnapshot.empty) {
-            containerRiwayat.innerHTML = `<p class="text-sm text-gray-500 text-center py-4">Belum ada riwayat pengajuan layanan.</p>`;
-            return;
-        }
+            const nama = f.querySelector('[name^="Nama"]').value || '-';
+            const email = f.querySelector('[name="Email"]').value || '-';
+            const wa = f.querySelector('[name="WhatsApp"]').value || '-';
+            const judul = f.querySelector('[name^="Judul"]').value || '-';
 
-        querySnapshot.forEach((doc) => {
-            let data = doc.data();
-            containerRiwayat.innerHTML += `
-                <div class="p-4 mb-3 border rounded-xl flex justify-between items-center bg-gray-50 dark:bg-zinc-800">
-                    <div>
-                        <h4 class="font-bold text-sm text-gray-800 dark:text-gray-200">${data.judul || 'Tanpa Judul'}</h4>
-                        <p class="text-xs text-gray-500">Layanan: ${data.tipeLayanan || '-'} | Waktu: ${data.waktuLokal}</p>
-                    </div>
-                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800">${data.status}</span>
-                </div>
-            `;
-        });
-    } catch (error) {
-        console.error("Gagal memuat riwayat:", error);
-    }
-};
-        
+            try {
+                // A. SIMPAN KE DATABASE FIREBASE
+                const docRef = await addDoc(collection(window.db, "pesanan"), {
+                    userEmail: window.currentUserEmail,
+                    userName: window.currentUserName,
+                    tipeLayanan: tipeLayanan,
+                    judul: judul,
+                    namaLengkap: nama,
+                    wa: wa,
+                    status: "Pending",
+                    fileHasil: "",
+                    waktuLokal: new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'})
+                });
+
+                // B. SETTING FORMSUBMIT
+                let subjekEl = f.querySelector('input[name="_subject"]');
+                if(!subjekEl) {
+                    subjekEl = document.createElement('input');
+                    subjekEl.type = 'hidden'; subjekEl.name = '_subject';
+                    f.appendChild(subjekEl);
+                }
+                subjekEl.value = `Pesanan ${tipeLayanan} - ${nama}`;
+
+                const urlWeb = window.location.origin + window.location.pathname;
+                const addInputAdmin = (name, val) => {
+                    let inp = document.createElement('input');
+                    inp.type = 'hidden'; inp.name = name; inp.value = val;
+                    f.appendChild(inp);
+                };
+                addInputAdmin("1_Klik_Ubah_Status_PROSES", `${urlWeb}?admin=true&id=${docRef.id}&status=Proses`);
+                addInputAdmin("2_Klik_Ubah_Status_BERHASIL", `${urlWeb}?admin=true&id=${docRef.id}&status=Berhasil`);
+                addInputAdmin("3_Klik_UPLOAD_PDF_HASIL", `${urlWeb}?admin=upload&id=${docRef.id}`);
+
+                f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com";
+                f.method = "POST";
+                f.enctype = "multipart/form-data";
+                f.target = "hidden-iframe-upload";
+
+                if(!document.getElementById('hidden-iframe-upload')) {
+                    const ifm = document.createElement('iframe');
+                    ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
+                    document.body.appendChild(ifm);
+                }
+                
+                f.submit();
+
+                // AMAN: Paksa selesai dalam 3.5 detik agar tidak pernah stuck
+                setTimeout(() => {
+                    if(loadScreen) loadScreen.classList.add('hidden');
+                    const waText = `Halo Admin Media Tulisan Manusia,%0A%0ASaya telah mengajukan formulir *${tipeLayanan}* via Website.%0A%0A*Nama:* ${nama}%0A*Judul:* ${judul}%0A%0AFile lampiran telah terkirim ke Email. Mohon dicek.`;
+                    
+                    alert(`Pengajuan ${tipeLayanan} Berhasil!\nStatus pesanan Anda kini bisa dipantau langsung di halaman Profil Klien.`);
+                    window.open(`https://wa.me/6288294448222?text=${waText}`, '_blank');
+                    
+                    f.reset(); btn.disabled = false; 
+                    if(window.muatRiwayatProfil) window.muatRiwayatProfil();
+                    bukaHalaman('profil');
+                }, 3500);
+                
+            } catch (error) {
+                if(loadScreen) loadScreen.classList.add('hidden');
+                console.error(error);
+                alert("Terjadi kesalahan sistem. Pastikan koneksi internet stabil.");
+                btn.disabled = false; 
+            }
+        };
         // Fungsi Gelembung Notifikasi Elegan ala MTM
         function tampilkanGelembung(pesan, judulPesan = "Pemberitahuan MTM") {
             let modal = document.getElementById('mtm-custom-modal');
@@ -1964,28 +2014,20 @@ window.muatRiwayatProfil = async function() {
                 modal.className = 'fixed inset-0 z-[99999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-up';
                 document.body.appendChild(modal);
             }
-                modal.innerHTML = `
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl text-center transform transition-all">
-                <div class="w-12 h-12 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center flex flex-col gap-4 transform transition-all">
+                    <div class="w-12 h-12 rounded-full bg-warnautama/10 dark:bg-white/10 flex items-center justify-center mx-auto text-warnautama dark:text-white font-bold text-xl">✨</div>
+                    <div>
+                        <h3 class="font-extrabold text-base text-warnautama dark:text-white mb-1">${judulPesan}</h3>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">${pesan}</p>
+                    </div>
+                    <button onclick="document.getElementById('mtm-custom-modal').remove()" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:scale-[1.02] transition">Mengerti</button>
                 </div>
-                <h3 class="font-bold text-base text-gray-800 dark:text-gray-100 mb-2">${judulPesan}</h3>
-                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-5">${pesan}</p>
-                <button onclick="document.getElementById('mtm-custom-modal').remove()" class="w-full py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-yellow-500/20">OK, Paham</button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-
+            `;
+            modal.classList.remove('hidden');
         }
-// Paksa hapus loading jika macet
-setTimeout(() => {
-    const globalLoad = document.getElementById('custom-loading-overlay');
-    if(globalLoad) globalLoad.classList.add('hidden');
-}, 3000);
 
     </script>
 
     </body>
-</html>
+                                    </html>
