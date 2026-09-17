@@ -1951,17 +1951,20 @@ window.muatRiwayatProfil = async function() {
                 modal.className = 'fixed inset-0 z-[99999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-up';
                 document.body.appendChild(modal);
             }
-            modal.innerHTML = `
-                <div class="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center flex flex-col gap-4 transform transition-all">
-                    <div class="w-12 h-12 rounded-full bg-warnautama/10 dark:bg-white/10 flex items-center justify-center mx-auto text-warnautama dark:text-white font-bold text-xl">✨</div>
-                    <div>
-                        <h3 class="font-extrabold text-base text-warnautama dark:text-white mb-1">${judulPesan}</h3>
-                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">${pesan}</p>
-                    </div>
-                    <button onclick="document.getElementById('mtm-custom-modal').remove()" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:scale-[1.02] transition">Mengerti</button>
+                modal.innerHTML = `
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl text-center transform transition-all">
+                <div class="w-12 h-12 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
-            `;
-            modal.classList.remove('hidden');
+                <h3 class="font-bold text-base text-gray-800 dark:text-gray-100 mb-2">${judulPesan}</h3>
+                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-5">${pesan}</p>
+                <button onclick="document.getElementById('mtm-custom-modal').remove()" class="w-full py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-yellow-500/20">OK, Paham</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
         }
 
     </script>
