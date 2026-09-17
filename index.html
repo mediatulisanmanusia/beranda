@@ -1068,18 +1068,132 @@
             </footer>
         </div>
         <!-- HALAMAN MULAI LANGKAH -->
-        <div id="hal-langkah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full hover:text-warnautama transition">&larr; Kembali</button>
-            <div class="glass p-8 md:p-12 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white shadow-2xl">
-                <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-4">MULAI LANGKAHMU</h4>
-                <p class="text-xs md:text-base mb-8">Lengkapi form online untuk mengirim naskah atau mendaftar Hak Cipta.</p>
-                <div class="flex flex-col md:flex-row justify-center gap-4">
-                    <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-10 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase text-xs hover:scale-105 transition">Kirim Naskah</button>
-                    <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-10 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-xs hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
-                </div>
+<div id="hal-langkah" class="halaman-konten hidden p-4 sm:p-6 md:p-10 pb-6 animate-fade-up relative z-10 max-w-5xl mx-auto w-full">
+    
+    <!-- Tombol Kembali -->
+    <button onclick="bukaHalaman('beranda')" class="mb-4 flex items-center gap-2 text-[11px] sm:text-xs font-bold glass px-4 py-2 rounded-full hover:text-warnautama transition shadow-sm">&larr; Kembali</button>
+    
+    <!-- KOTAK UTAMA MULAI LANGKAHMU -->
+    <div class="glass p-6 md:p-10 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white shadow-xl max-w-3xl mx-auto">
+        <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 tracking-tight">MULAI LANGKAHMU</h4>
+        <p class="text-[11px] sm:text-xs md:text-sm mb-6 text-gray-700 dark:text-gray-300 font-medium">Lengkapi form online untuk mengirim naskah atau mendaftar Hak Cipta.</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-3">
+            <button onclick="bukaHalaman('kirim-naskah')" class="w-full sm:w-auto px-8 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-full shadow-lg uppercase text-[11px] sm:text-xs hover:scale-105 transition">Kirim Naskah</button>
+            <button onclick="bukaHalaman('daftar-hki')" class="w-full sm:w-auto px-8 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-2.5 rounded-full shadow-sm uppercase text-[11px] sm:text-xs hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
+        </div>
+    </div>
+
+    <!-- TOMBOL UNDUH KETENTUAN -->
+    <div class="grid grid-cols-2 gap-3 mt-4 max-w-2xl mx-auto">
+        <a href="ketentuan.pdf" download class="glass py-3 px-2 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-1.5 transition text-center hover:shadow-xl hover:-translate-y-1">
+            <svg class="w-4 h-4 text-warnaketiga dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span class="font-bold text-[8.5px] sm:text-[10px] md:text-xs text-warnaketiga dark:text-white">KETENTUAN PENERBITAN</span>
+        </a>
+        <a href="kategori.pdf" download class="glass py-3 px-2 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-1.5 transition text-center hover:shadow-xl hover:-translate-y-1">
+            <svg class="w-4 h-4 text-warnaketiga dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span class="font-bold text-[8.5px] sm:text-[10px] md:text-xs text-warnaketiga dark:text-white">KETENTUAN HAK CIPTA</span>
+        </a>
+    </div>
+
+    <!-- KARYA TERBARU (Versi Mini + Auto Scroll) -->
+    <div class="mt-8">
+        <h4 class="text-[13px] md:text-sm font-extrabold text-warnautama dark:text-white text-center mb-3 tracking-wide">BUKU TERBARU</h4>
+        <div id="scroll-katalog-mini" class="flex flex-row overflow-x-auto gap-3 pb-3 no-scrollbar items-stretch px-1 hover:cursor-grab active:cursor-grabbing w-full">
+            <div class="min-w-[120px] md:min-w-[140px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-between items-center text-center shadow-sm">
+                <img src="1.webp" loading="lazy" class="h-20 w-auto object-contain drop-shadow-md rounded-sm mb-2">
+                <h4 class="font-bold text-[9px] md:text-[10px] leading-tight text-warnautama dark:text-white line-clamp-2">Merawat Warisan Menjaga Identitas</h4>
+                <p class="text-[8px] md:text-[9px] font-extrabold text-gray-600 dark:text-gray-300 mt-1">Rp 75.000</p>
+            </div>
+            <div class="min-w-[120px] md:min-w-[140px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-between items-center text-center shadow-sm">
+                <img src="2.webp" loading="lazy" class="h-20 w-auto object-contain drop-shadow-md rounded-sm mb-2">
+                <h4 class="font-bold text-[9px] md:text-[10px] leading-tight text-warnautama dark:text-white line-clamp-2">Modul UMKM Kopi</h4>
+                <p class="text-[8px] md:text-[9px] font-extrabold text-gray-600 dark:text-gray-300 mt-1">Rp 55.000</p>
+            </div>
+            <div class="min-w-[120px] md:min-w-[140px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-between items-center text-center shadow-sm">
+                <img src="3.webp" loading="lazy" class="h-20 w-auto object-contain drop-shadow-md rounded-sm mb-2">
+                <h4 class="font-bold text-[9px] md:text-[10px] leading-tight text-warnautama dark:text-white line-clamp-2">Menuju Surga Beracun</h4>
+                <p class="text-[8px] md:text-[9px] font-extrabold text-gray-600 dark:text-gray-300 mt-1">Rp 85.000</p>
+            </div>
+            <div class="min-w-[120px] md:min-w-[140px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-between items-center text-center shadow-sm">
+                <img src="4.webp" loading="lazy" class="h-20 w-auto object-contain drop-shadow-md rounded-sm mb-2">
+                <h4 class="font-bold text-[9px] md:text-[10px] leading-tight text-warnautama dark:text-white line-clamp-2">Untukmu yang Sedang Mengabdi</h4>
+                <p class="text-[8px] md:text-[9px] font-extrabold text-gray-600 dark:text-gray-300 mt-1">Rp 100.000</p>
+            </div>
+            <div class="min-w-[120px] md:min-w-[140px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-between items-center text-center shadow-sm">
+                <img src="5.webp" loading="lazy" class="h-20 w-auto object-contain drop-shadow-md rounded-sm mb-2">
+                <h4 class="font-bold text-[9px] md:text-[10px] leading-tight text-warnautama dark:text-white line-clamp-2">Pelangi Kisah Kehidupan</h4>
+                <p class="text-[8px] md:text-[9px] font-extrabold text-gray-600 dark:text-gray-300 mt-1">Rp 85.000</p>
+            </div>
+            <div class="min-w-[120px] md:min-w-[140px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-between items-center text-center shadow-sm">
+                <img src="13.webp" loading="lazy" class="h-20 w-auto object-contain drop-shadow-md rounded-sm mb-2">
+                <h4 class="font-bold text-[9px] md:text-[10px] leading-tight text-warnautama dark:text-white line-clamp-2">Formula Kepenulisan</h4>
+                <p class="text-[8px] md:text-[9px] font-extrabold text-gray-600 dark:text-gray-300 mt-1">Rp 55.000</p>
             </div>
         </div>
+    </div>
+    
+    <!-- HKI TERBARU (Versi Mini + Auto Scroll) -->
+    <div class="mt-6">
+        <h4 class="text-[13px] md:text-sm font-extrabold text-warnautama dark:text-white text-center mb-3 tracking-wide">SERTIFIKAT HKI</h4>
+        <div id="scroll-hki-mini" class="flex flex-row overflow-x-auto gap-3 pb-4 no-scrollbar items-stretch px-1 hover:cursor-grab active:cursor-grabbing w-full">
+            <div class="min-w-[160px] md:min-w-[180px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-center items-center text-center shadow-sm">
+                <img src="djki.png" loading="lazy" class="h-5 w-auto object-contain mb-1.5 opacity-80">
+                <h4 class="font-bold text-[10px] md:text-[11px] leading-snug text-warnautama dark:text-white line-clamp-2">Potensi Kopi sebagai penggerak UMKM</h4>
+                <p class="text-[7.5px] mt-1.5 font-bold uppercase text-gray-500">RARA AYUNDA DKK</p>
+            </div>
+            <div class="min-w-[160px] md:min-w-[180px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-center items-center text-center shadow-sm">
+                <img src="djki.png" loading="lazy" class="h-5 w-auto object-contain mb-1.5 opacity-80">
+                <h4 class="font-bold text-[10px] md:text-[11px] leading-snug text-warnautama dark:text-white line-clamp-2">ARPAS</h4>
+                <p class="text-[7.5px] mt-1.5 font-bold uppercase text-gray-500">AGUS SANTOSO</p>
+            </div>
+            <div class="min-w-[160px] md:min-w-[180px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-center items-center text-center shadow-sm">
+                <img src="djki.png" loading="lazy" class="h-5 w-auto object-contain mb-1.5 opacity-80">
+                <h4 class="font-bold text-[10px] md:text-[11px] leading-snug text-warnautama dark:text-white line-clamp-2">Purelam</h4>
+                <p class="text-[7.5px] mt-1.5 font-bold uppercase text-gray-500">NILA KRISNA DKK</p>
+            </div>
+            <div class="min-w-[160px] md:min-w-[180px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-center items-center text-center shadow-sm">
+                <img src="djki.png" loading="lazy" class="h-5 w-auto object-contain mb-1.5 opacity-80">
+                <h4 class="font-bold text-[10px] md:text-[11px] leading-snug text-warnautama dark:text-white line-clamp-2">Infografis Anti Bullying</h4>
+                <p class="text-[7.5px] mt-1.5 font-bold uppercase text-gray-500">ENDAH FATIKA ARUM</p>
+            </div>
+            <div class="min-w-[160px] md:min-w-[180px] flex-shrink-0 glass rounded-2xl p-3 flex flex-col justify-center items-center text-center shadow-sm">
+                <img src="djki.png" loading="lazy" class="h-5 w-auto object-contain mb-1.5 opacity-80">
+                <h4 class="font-bold text-[10px] md:text-[11px] leading-snug text-warnautama dark:text-white line-clamp-2">Media Kartu Alat Musik</h4>
+                <p class="text-[7.5px] mt-1.5 font-bold uppercase text-gray-500">SASKYA PUTRI AYU</p>
+            </div>
+        </div>
+    </div>
 
+    <!-- COPYRIGHT FOOTER DI HALAMAN DALAM -->
+    <div class="mt-12 mb-2 text-center border-t border-gray-300 dark:border-gray-700/50 pt-6">
+         <p class="text-[8px] sm:text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold w-full whitespace-nowrap"> &copy; PT MEDIA TULISAN MANUSIA - ALL RIGHTS RESERVED</p>
+    </div>
+
+    <!-- SCRIPT KHUSUS ANIMASI SCROLL MINI (Diinjeksikan langsung agar otomatis jalan) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function autoScrollMini(id) {
+                const el = document.getElementById(id); if (!el) return;
+                el.innerHTML += el.innerHTML; let isPaused = false;
+                el.addEventListener('mouseenter', () => isPaused = true);
+                el.addEventListener('mouseleave', () => isPaused = false);
+                el.addEventListener('touchstart', () => isPaused = true, {passive:true});
+                el.addEventListener('touchend', () => { setTimeout(() => isPaused = false, 1500); });
+                function step() { 
+                    if (!isPaused) { 
+                        el.scrollLeft += 0.25; 
+                        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft -= el.scrollWidth / 2; 
+                    } 
+                    requestAnimationFrame(step); 
+                }
+                requestAnimationFrame(step);
+            }
+            // Mengaktifkan scroll untuk bagian mini
+            autoScrollMini('scroll-katalog-mini'); 
+            autoScrollMini('scroll-hki-mini');
+        });
+    </script>
+</div>
         <!-- HALAMAN KIRIM NASKAH -->
         <div id="hal-kirim-naskah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
             <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
