@@ -808,9 +808,37 @@
                 </div>
             </section>
 
-            <!-- PENCARIAN QRCBN & DJKI -->
-            <section id="seksi-qrcbn" class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto"><div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up"><img src="qrcbn.png" alt="QRCBN" class="h-14 md:h-20 mx-auto mb-5 drop-shadow-sm"><h4 class="text-lg md:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full">PENELUSURAN BUKU</h4><p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium">Masukkan nomor QRCBN untuk menelusuri buku di database QRCBN.</p><form onsubmit="cariQRCBN(event)" class="flex flex-col sm:flex-row gap-3 justify-center"><input type="text" id="input-keyword-qrcbn" required placeholder="Contoh: 62-39XX-XXXX-XXX" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-xs md:text-sm focus:outline-none font-medium text-warnautama dark:text-white"><button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase hover:scale-105 transition">Telusuri</button></form></div></section>
-            <section id="seksi-djki" class="px-5 md:px-10 pt-4 pb-12 relative z-10 max-w-4xl mx-auto"><div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up"><img src="djki.png" alt="DJKI" class="h-14 md:h-20 mx-auto mb-5 drop-shadow-sm"><h4 class="text-lg md:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full">PENELUSURAN HAK CIPTA</h4><p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium">Masukkan judul ciptaan untuk menelusuri status di DJKI.</p><form onsubmit="cariDJKI(event)" class="flex flex-col sm:flex-row gap-3 justify-center"><input type="text" id="input-keyword-djki" required placeholder="Contoh: MC Nusantara" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-xs md:text-sm focus:outline-none font-medium text-warnautama dark:text-white"><button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase hover:scale-105 transition">Telusuri</button></form></div></section>
+            <!-- SEKSI PENCARIAN QRCBN -->
+            <section class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto">
+                <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
+                    <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+                    <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN BUKU</h4>
+                    <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan nomor QRCBN untuk menelusuri buku di database QRCBN.</p>
+
+                    <form onsubmit="cariQRCBN(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+                        <input type="text" id="input-keyword-qrcbn" required placeholder="Contoh: 62-39XX-XXXX-XXX" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+                        <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+                            Telusuri
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SEKSI PENCARIAN DJKI -->
+            <section class="px-5 md:px-10 pt-4 pb-12 relative z-10 max-w-4xl mx-auto">
+                <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
+                    <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+                    <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN HAK CIPTA</h4>
+                    <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan judul ciptaan untuk menelusuri status legalitasnya di database resmi Direktorat Jenderal Kekayaan Intelektual (DJKI).</p>
+
+                    <form onsubmit="cariDJKI(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+                        <input type="text" id="input-keyword-djki" required placeholder="Contoh: MC Nusantara" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+                        <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+                            Telusuri
+                        </button>
+                    </form>
+                </div>
+            </section>
 
             <!-- PERSUASI / LAYANAN -->
             <section id="layanan" class="px-5 md:px-10 pt-10 pb-4 md:py-10 relative z-10 max-w-5xl mx-auto">
