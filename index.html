@@ -1895,73 +1895,139 @@
         };
 
         // 2. FUNGSI MUAT TABEL RIWAYAT DI PROFIL KLIEN
-        window.muatRiwayatProfil = async function() {
-            if(!window.currentUserEmail || !window.db) return;
-            try {
-                const q = query(collection(window.db, "pesanan"), where("userEmail", "==", window.currentUserEmail));
-                const querySnapshot = await getDocs(q);
-                
-                let htmlPenerbitan = ''; let htmlHKI = '';
-                
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    let warna = data.status === 'Berhasil' ? 'text-green-500' : (data.status === 'Proses' ? 'text-blue-500' : 'text-yellow-500');
-                    let btnUnduh = data.fileHasil ? `<a href="${data.fileHasil}" target="_blank" class="bg-warnautama dark:bg-white text-white dark:text-black px-3 py-1.5 rounded-full text-[10px] font-bold hover:scale-105 transition block text-center shadow-md">Unduh File</a>` : `<span class="text-[10px] text-gray-400 italic">Belum tersedia</span>`;
-                    
-                    const baris = `<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition border-b border-gray-200 dark:border-gray-700/50 last:border-0"><td class="p-4 whitespace-nowrap">${data.waktuLokal}</td><td class="p-4 font-bold max-w-[150px] truncate" title="${data.judul}">${data.judul}</td><td class="p-4 font-bold ${warna}">${data.status}</td><td class="p-4 flex justify-center">${btnUnduh}</td></tr>`;
-                    
-                    if(data.tipeLayanan.includes("Penerbitan")) htmlPenerbitan += baris;
-                    else htmlHKI += baris;
-                });
-                
-                const tabPen = document.getElementById('tabel-penerbitan'); const tabHki = document.getElementById('tabel-hki');
-                if(tabPen) tabPen.innerHTML = htmlPenerbitan || '<tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Belum ada riwayat pesanan naskah...</td></tr>';
-                if(tabHki) tabHki.innerHTML = htmlHKI || '<tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Belum ada pendaftaran Hak Cipta...</td></tr>';
-            } catch(e) { console.error("Gagal memuat tabel profil", e); }
-        };
-
-        // 3. FUNGSI ADMIN: DETEKSI KLIK LINK DARI EMAIL
-        window.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
+                window.kirimFormLayanan = async function(e, tipeLayanan) {
+            e.preventDefault();
+            const f = e.target;
             
-            // Jika Admin klik "Ubah Status (Proses/Berhasil)"
-            if(urlParams.get('admin') === 'true' && urlParams.get('id') && urlParams.get('status')) {
-                const docId = urlParams.get('id');
-                const statusBaru = urlParams.get('status');
-                try {
-                    await updateDoc(doc(window.db, "pesanan", docId), { status: statusBaru });
-                    alert(`✅ AKSI ADMIN BERHASIL:\nStatus pesanan klien telah diubah menjadi "${statusBaru}". Klien bisa langsung melihat perubahan ini di profil mereka.`);
-                    window.location.href = window.location.pathname; // Bersihkan URL agar rapi
-                } catch(e) { alert("❌ AKSI GAGAL: Terjadi kesalahan saat mengubah status."); }
-            } 
-            // Jika Admin klik "Upload PDF Hasil"
-            else if (urlParams.get('admin') === 'upload' && urlParams.get('id')) {
-                const docId = urlParams.get('id');
-                const linkPDF = prompt("LINK FILE / PDF KLIEN:\n\nSilakan masukkan link Google Drive atau Link File Sertifikat/Naskah milik klien ini:");
-                
-                if(linkPDF && linkPDF.trim() !== "") {
-                    try {
-                        await updateDoc(doc(window.db, "pesanan", docId), { 
-                            fileHasil: linkPDF, 
-                            status: "Berhasil" // Otomatis jadi berhasil jika file diupload
-                        });
-                        alert("✅ BERHASIL MENGUNGGAH:\nFile/Link telah dilampirkan ke profil klien dan status berubah menjadi 'Berhasil'. Klien kini bisa mengunduhnya.");
-                        window.location.href = window.location.pathname; // Bersihkan URL
-                    } catch(e) { alert("❌ GAGAL: Terjadi kesalahan saat melampirkan file."); }
-                } else {
-                    alert("Aksi Dibatalkan: Link tidak dimasukkan.");
-                    window.location.href = window.location.pathname;
+            if(!window.currentUserEmail) {
+                alert("Akses Ditolak: Silakan Login terlebih dahulu.");
+                bukaHalaman('login');
+                return;
+            }
+
+            const fileInputs = f.querySelectorAll('input[type="file"]');
+            for (let i of fileInputs) {
+                if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
+                    alert(`Berkas "${i.name}" melebihi batas 3MB.`);
+                    return;
                 }
             }
-        });
-        
-        // Panggil tabel otomatis jika sudah login
-        setInterval(() => {
-            if(window.currentUserEmail && (document.getElementById('tabel-penerbitan').innerHTML.includes('Memuat') || document.getElementById('tabel-hki').innerHTML.includes('Memuat'))) {
-                window.muatRiwayatProfil();
+            
+            const cb = f.querySelector('input[type="checkbox"]');
+            if(cb && !cb.checked) { alert("Harap centang persetujuan ketentuan."); return; }
+
+            const btn = f.querySelector('button[type="submit"]');
+            btn.disabled = true;
+
+            // Buka Layar Loading Keren (Favicon Berdenyut)
+            let loadScreen = document.getElementById('custom-loading-overlay');
+            if(!loadScreen) {
+                loadScreen = document.createElement('div');
+                loadScreen.id = 'custom-loading-overlay';
+                loadScreen.className = 'fixed inset-0 z-[99999] bg-white/9ga dark:bg-black/90 backdrop-blur-md flex flex-col items-center justify-center gap-4 transition-all';
+                loadScreen.innerHTML = `
+                    <img src="rev1.png" alt="Loading" class="h-14 w-auto animate-pulse">
+                    <p class="text-xs font-bold tracking-widest text-warnautama dark:text-white uppercase animate-pulse">Mengirim & Menyimpan Data...</p>
+                `;
+                document.body.appendChild(loadScreen);
+            } else {
+                loadScreen.classList.remove('hidden');
             }
-        }, 2000);
+
+            const nama = f.querySelector('[name^="Nama"]').value || '-';
+            const email = f.querySelector('[name="Email"]').value || '-';
+            const wa = f.querySelector('[name="WhatsApp"]').value || '-';
+            const judul = f.querySelector('[name^="Judul"]').value || '-';
+
+            try {
+                // A. SIMPAN KE DATABASE FIREBASE
+                const docRef = await addDoc(collection(window.db, "pesanan"), {
+                    userEmail: window.currentUserEmail,
+                    userName: window.currentUserName,
+                    tipeLayanan: tipeLayanan,
+                    judul: judul,
+                    namaLengkap: nama,
+                    wa: wa,
+                    status: "Pending",
+                    fileHasil: "",
+                    waktuLokal: new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'})
+                });
+
+                // B. SETTING FORMSUBMIT
+                let subjekEl = f.querySelector('input[name="_subject"]');
+                if(!subjekEl) {
+                    subjekEl = document.createElement('input');
+                    subjekEl.type = 'hidden'; subjekEl.name = '_subject';
+                    f.appendChild(subjekEl);
+                }
+                subjekEl.value = `Pesanan ${tipeLayanan} - ${nama}`;
+
+                const urlWeb = window.location.origin + window.location.pathname;
+                const addInputAdmin = (name, val) => {
+                    let inp = document.createElement('input');
+                    inp.type = 'hidden'; inp.name = name; inp.value = val;
+                    f.appendChild(inp);
+                };
+                addInputAdmin("1_Klik_Ubah_Status_PROSES", `${urlWeb}?admin=true&id=${docRef.id}&status=Proses`);
+                addInputAdmin("2_Klik_Ubah_Status_BERHASIL", `${urlWeb}?admin=true&id=${docRef.id}&status=Berhasil`);
+                addInputAdmin("3_Klik_UPLOAD_PDF_HASIL", `${urlWeb}?admin=upload&id=${docRef.id}`);
+
+                f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com";
+                f.method = "POST";
+                f.enctype = "multipart/form-data";
+                f.target = "hidden-iframe-upload";
+
+                if(!document.getElementById('hidden-iframe-upload')) {
+                    const ifm = document.createElement('iframe');
+                    ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
+                    document.body.appendChild(ifm);
+                }
+                
+                f.submit();
+
+                // AMAN: Paksa selesai dalam 3.5 detik agar tidak pernah stuck
+                setTimeout(() => {
+                    if(loadScreen) loadScreen.classList.add('hidden');
+                    const waText = `Halo Admin Media Tulisan Manusia,%0A%0ASaya telah mengajukan formulir *${tipeLayanan}* via Website.%0A%0A*Nama:* ${nama}%0A*Judul:* ${judul}%0A%0AFile lampiran telah terkirim ke Email. Mohon dicek.`;
+                    
+                    alert(`Pengajuan ${tipeLayanan} Berhasil!\nStatus pesanan Anda kini bisa dipantau langsung di halaman Profil Klien.`);
+                    window.open(`https://wa.me/6288294448222?text=${waText}`, '_blank');
+                    
+                    f.reset(); btn.disabled = false; 
+                    if(window.muatRiwayatProfil) window.muatRiwayatProfil();
+                    bukaHalaman('profil');
+                }, 3500);
+                
+            } catch (error) {
+                if(loadScreen) loadScreen.classList.add('hidden');
+                console.error(error);
+                alert("Terjadi kesalahan sistem. Pastikan koneksi internet stabil.");
+                btn.disabled = false; 
+            }
+        };
+        // Fungsi Gelembung Notifikasi Elegan ala MTM
+        function tampilkanGelembung(pesan, judulPesan = "Pemberitahuan MTM") {
+            let modal = document.getElementById('mtm-custom-modal');
+            if(!modal) {
+                modal = document.createElement('div');
+                modal.id = 'mtm-custom-modal';
+                modal.className = 'fixed inset-0 z-[99999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-up';
+                document.body.appendChild(modal);
+            }
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center flex flex-col gap-4 transform transition-all">
+                    <div class="w-12 h-12 rounded-full bg-warnautama/10 dark:bg-white/10 flex items-center justify-center mx-auto text-warnautama dark:text-white font-bold text-xl">✨</div>
+                    <div>
+                        <h3 class="font-extrabold text-base text-warnautama dark:text-white mb-1">${judulPesan}</h3>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">${pesan}</p>
+                    </div>
+                    <button onclick="document.getElementById('mtm-custom-modal').remove()" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:scale-[1.02] transition">Mengerti</button>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
     </script>
 
     </body>
-                                    </html>
+</html>
