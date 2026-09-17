@@ -266,32 +266,45 @@
         <div class="h-20 md:h-28"></div>
 
         <!-- HALAMAN BERANDA -->
-        <div id="hal-beranda" class="halaman-konten animate-fade-up relative z-10">
-            <section class="relative mx-3 md:mx-6 rounded-[2.5rem] md:rounded-[4rem] overflow-hidden flex flex-col justify-center items-center text-center py-12 px-6 sm:px-8 md:p-14 backdrop-blur-md transition-all duration-700 border border-[#071C30]/50 dark:border-white/50 shadow-xl bg-[rgba(7,28,48,0.88)] dark:bg-[rgba(255,255,255,0.88)]">
-                <div class="absolute inset-0 bg-[url('utama.webp')] bg-cover bg-center opacity-30 mix-blend-overlay pointer-events-none"></div>
-                <div class="relative z-10 w-full">
-                    <h2 class="text-[22px] sm:text-2xl md:text-5xl font-black tracking-tight text-white dark:text-warnakeempat mb-2 uppercase w-full">GAGASANMU BERHARGA</h2>
-                    <p class="text-white/90 dark:text-warnakeempat font-extrabold tracking-widest text-[10px] sm:text-xs md:text-xl mb-4 uppercase w-full text-center max-w-2xl mx-auto">KAMI TERBITKAN DAN LINDUNGI SEPENUHNYA</p>
-                    <div class="w-16 h-[3px] bg-warnakedua dark:bg-warnakeempat mx-auto rounded-full mb-4"></div>
-                    <p class="text-[11px] md:text-base text-white/90 dark:text-gray-700 font-medium max-w-xl mx-auto">Eksplorasikan karyamu tanpa batas bersama <br><strong class="text-white dark:text-warnakeempat">Media Tulisan Manusia</strong></p>
-                </div>
-            </section>
-            
-            <section class="px-4 md:px-10 pt-12 md:pt-20 relative z-10 max-w-4xl mx-auto text-center">
-                 <div class="glass p-8 md:p-12 rounded-[2.5rem] transition duration-500">
-                     <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white mb-4 tracking-tight leading-snug">DEDIKASI UNTUK KARYA</h4> 
-                     <p class="text-[11px] sm:text-xs md:text-base text-gray-800 dark:text-gray-300 leading-relaxed font-medium mb-8 text-justify"><span class="font-semibold">Membangun karya besar butuh lebih dari sekadar transaksi bisnis.</span> <strong class="font-extrabold text-warnautama dark:text-white">Media Tulisan Manusia</strong> hadir di bidang <strong class="font-extrabold">Penerbitan Buku</strong> dan <strong class="font-extrabold">Konsultan Hak Cipta</strong> untuk mendampingi perjalanan kreatif Anda. Kami memastikan ide Anda dikurasi, dicetak eksklusif, dan memiliki perisai hukum yang kuat.</p>
-                     <div onclick="bukaHalaman('langkah')" class="bg-warnautama dark:bg-white rounded-3xl py-4 md:py-5 px-4 mx-auto w-full max-w-sm cursor-pointer hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 shadow-md">
-                          <p class="text-xs sm:text-sm md:text-xl font-extrabold text-white dark:text-warnakeempat mb-2 uppercase">Dipercaya 1000+ Klien</p>
-                          <div class="flex flex-row flex-nowrap items-center justify-center gap-1 sm:gap-3 text-[6.5px] sm:text-[10px] md:text-sm text-gray-300 dark:text-gray-600 font-bold uppercase tracking-wider overflow-hidden">
-                              <span>Penulis</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 rounded-full inline-block"></span> 
-                              <span>UMKM</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 rounded-full inline-block"></span> 
-                              <span>Akademisi</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 rounded-full inline-block"></span> <span>Creator</span>
-                          </div>
-                     </div>
-                 </div>
-            </section>
+<div id="hal-beranda" class="halaman-konten animate-fade-up relative z-10">
 
+    <!-- SEKSI HERO (Desain awal, gambar memudar, tombol diperbaiki) -->
+    <section class="relative mx-3 md:mx-6 mt-4 rounded-[2.5rem] md:rounded-[4rem] overflow-hidden flex flex-col justify-center items-center text-center py-10 px-5 sm:px-8 md:py-14 backdrop-blur-md transition-all duration-700 border border-[#071C30]/50 dark:border-white/50 shadow-xl bg-[rgba(7,28,48,0.92)] dark:bg-[rgba(255,255,255,0.92)]">
+        
+        <!-- LAYER GAMBAR -->
+        <div class="absolute inset-0 bg-[url('utama.webp')] bg-cover bg-center opacity-40 mix-blend-overlay pointer-events-none" style="-webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 90%); mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 90%);"></div>
+        
+        <div class="relative z-10 w-full flex flex-col items-center">
+            <h2 class="text-[24px] sm:text-3xl md:text-5xl font-black tracking-tight text-white dark:text-warnakeempat mb-2 uppercase w-full">GAGASANMU BERHARGA</h2>
+            <p class="text-white/90 dark:text-warnakeempat font-extrabold tracking-widest text-[10px] sm:text-xs md:text-xl mb-4 uppercase w-full text-center max-w-2xl mx-auto">KAMI TERBITKAN DAN LINDUNGI SEPENUHNYA</p>
+            
+            <div class="w-16 h-[3px] bg-warnakedua dark:bg-warnakeempat mx-auto rounded-full mb-4"></div>
+            
+            <p class="text-[11px] md:text-base text-white/90 dark:text-gray-700 font-medium max-w-xl mx-auto mb-6">Eksplorasikan karyamu tanpa batas bersama <br><strong class="text-white dark:text-warnakeempat">Media Tulisan Manusia</strong></p>
+            <!-- PERUBAHAN: Target scroll diubah ke 'layanan' agar berfungsi -->
+            <button onclick="gulirKe('layanan')" class="w-auto bg-transparent hover:bg-white/10 dark:hover:bg-black/10 text-white dark:text-warnakeempat font-extrabold py-2.5 px-6 rounded-full shadow-sm border border-white/40 dark:border-black/40 hover:border-white dark:hover:border-black transition-all duration-300 flex items-center justify-center gap-2 text-[10px] sm:text-xs uppercase tracking-widest group">
+                Mulai Sekarang
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </button>
+        </div>
+    </section>        
+    <!-- SEKSI DEDIKASI UNTUK KARYA (PERUBAHAN: pt-12 md:pt-20 diubah menjadi pt-6 md:pt-10 agar lebih naik ke atas) -->
+    <section class="px-4 md:px-10 pt-6 md:pt-10 relative z-10 max-w-4xl mx-auto text-center">
+         <div class="glass p-8 md:p-12 rounded-[2.5rem] transition duration-500">
+             <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white mb-4 tracking-tight leading-snug">DEDIKASI UNTUK KARYA</h4> 
+             <p class="text-[11px] sm:text-xs md:text-base text-gray-800 dark:text-gray-300 leading-relaxed font-medium mb-8 text-justify"><span class="font-semibold">Membangun karya besar butuh lebih dari sekadar transaksi bisnis.</span> <strong class="font-extrabold text-warnautama dark:text-white">Media Tulisan Manusia</strong> hadir di bidang <strong class="font-extrabold">Penerbitan Buku</strong> dan <strong class="font-extrabold">Konsultan Hak Cipta</strong> untuk mendampingi perjalanan kreatif Anda. Kami memastikan ide Anda dikurasi, dicetak eksklusif, dan memiliki perisai hukum yang kuat.</p>
+             <div onclick="bukaHalaman('langkah')" class="bg-warnautama dark:bg-white rounded-3xl py-4 md:py-5 px-4 mx-auto w-full max-w-sm cursor-pointer hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 shadow-md">
+                  <p class="text-xs sm:text-sm md:text-xl font-extrabold text-white dark:text-warnakeempat mb-2 uppercase">Dipercaya 1000+ Klien</p>
+                  <div class="flex flex-row flex-nowrap items-center justify-center gap-1 sm:gap-3 text-[6.5px] sm:text-[10px] md:text-sm text-gray-300 dark:text-gray-600 font-bold uppercase tracking-wider overflow-hidden">
+                      <span>Penulis</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 rounded-full inline-block"></span> 
+                      <span>UMKM</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 rounded-full inline-block"></span> 
+                      <span>Akademisi</span><span class="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-gray-400 rounded-full inline-block"></span> <span>Creator</span>
+                  </div>
+             </div>
+         </div>
+    </section>
                         <!-- Terbitan Terbaru dengan GAMBAR BUKU -->
             <section id="katalog" class="pt-16 md:pt-24 relative z-10">
                 <div class="px-5 md:px-10 mb-8 flex items-center justify-center text-center">
