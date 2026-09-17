@@ -104,6 +104,7 @@
     </script>
 </head>
 <body class="bg-gray-100 text-warnautama dark:text-white font-sans pb-4 md:pb-0 transition-colors duration-500 relative">
+<div id="toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-3 pointer-events-none z-[999999] w-11/12 max-w-sm"></div>
 
     <div id="toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-3 pointer-events-none w-11/12 max-w-sm"></div>
 
@@ -1291,28 +1292,33 @@
 
     </div>
 
-        <!-- ============================================== -->
-        <!-- 5. HALAMAN DASHBOARD ADMIN PUSAT -->
-        <!-- ============================================== -->
+    
+                <!-- HALAMAN DASHBOARD ADMIN PUSAT -->
         <div id="hal-admin" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-6xl mx-auto w-full">
-            <button onclick="bukaHalaman('beranda')" class="mb-6 text-xs font-bold glass px-5 py-2.5 rounded-full">&larr; Beranda Admin</button>
-            <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-2xl relative border-t-4 border-blue-600">
-                <div class="flex gap-4 items-center border-b pb-6 mb-6">
-                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex justify-center items-center font-black text-3xl">A</div>
-                    <div><h2 class="text-xl font-extrabold text-blue-600">Dashboard Admin Pusat</h2><p class="text-sm text-gray-600">Semua Data Pesanan Klien</p></div>
+            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs font-bold glass px-5 py-2.5 rounded-full transition">&larr; Beranda</button>
+            <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden border-t-4 border-blue-600 dark:border-blue-400">
+                <div class="flex items-center gap-4 border-b pb-6 mb-8 border-gray-300 dark:border-gray-700/60">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex justify-center items-center font-black text-3xl shadow-md border border-blue-400">A</div>
+                    <div>
+                        <h2 class="text-lg md:text-2xl font-extrabold text-blue-600 dark:text-blue-400">Dashboard Admin Pusat</h2>
+                        <p class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium">Seluruh Pesanan & Berkas Klien</p>
+                    </div>
                 </div>
-                <div class="overflow-x-auto border rounded-[1.5rem]"><table class="w-full text-left min-w-[800px]"><thead class="bg-blue-600 text-white text-[10px] uppercase"><tr><th class="p-4">Tgl/Layanan</th><th class="p-4">Klien</th><th class="p-4">Judul</th><th class="p-4">Status</th><th class="p-4 text-center">Aksi Admin</th></tr></thead><tbody id="tabel-admin" class="text-xs font-medium"><tr><td colspan="5" class="p-6 text-center italic">Memuat...</td></tr></tbody></table></div>
+                <div class="overflow-x-auto rounded-[1.5rem] border border-gray-300 dark:border-gray-700/60 bg-white/60 dark:bg-black/40 shadow-inner">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
+                        <thead>
+                            <tr class="bg-blue-600 text-white text-[10px] uppercase">
+                                <th class="p-4 rounded-tl-[1.5rem]">Tgl/Layanan</th><th class="p-4">Klien</th><th class="p-4">Judul Pesanan</th><th class="p-4">Status & File</th><th class="p-4 text-center rounded-tr-[1.5rem]">Aksi Admin</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabel-admin" class="text-[11px] sm:text-xs text-warnautama dark:text-gray-200 font-medium divide-y divide-gray-200 dark:divide-gray-700/50">
+                            <tr><td colspan="5" class="p-6 text-center text-gray-500 italic">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-        <!-- HALAMAN KIRIM NASKAH -->
-        <div id="hal-kirim-naskah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
-            <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
-                <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">Pengajuan Penerbitan Naskah</h2>
-                <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama p-5 rounded-2xl mb-8"><h4 class="font-extrabold mb-3 uppercase">Informasi Biaya Paket</h4><div class="grid sm:grid-cols-2 gap-4"><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Standar</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 500.000</span></div><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Eksklusif</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 1.300.000</span></div></div></div>
-                <form onsubmit="kirimFormLayanan(event, 'Penerbitan Naskah')" class="space-y-5 text-left">
-    <!-- Keperluan FormSubmit agar lebih rapi -->
+   <!-- Keperluan FormSubmit agar lebih rapi -->
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
     
