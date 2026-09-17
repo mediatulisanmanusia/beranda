@@ -1793,7 +1793,9 @@
         window.kirimFormLayanan = async function(e, tipeLayanan) {
             e.preventDefault();
             const f = e.target;
-            
+                const loadScreen = document.getElementById('custom-loading-overlay');
+    if(loadScreen) loadScreen.classList.remove('hidden');
+
             // Validasi: Tolak kalau belum login!
             if(!window.currentUserEmail) {
                 alert("Akses Ditolak: Silakan Login terlebih dahulu untuk mengirim pengajuan.");
