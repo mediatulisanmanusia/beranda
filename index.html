@@ -293,42 +293,49 @@
                 </button>
             </div>
             
-            <div id="nav-dropdown" class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col gap-3 text-left animate-fade-up z-50">
-                <!-- MENU PROFIL & ADMIN -->
-                <button id="menu-profil-btn" onclick="navKe('profil')" class="hidden font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left flex items-center gap-2">
+                <div id="nav-dropdown" class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col text-left animate-fade-up z-50">
+                <!-- MENU PROFIL & ADMIN (SEKARANG BERBENTUK TOMBOL) -->
+                <button id="menu-profil-btn" onclick="navKe('profil')" class="hidden bg-warnaketiga text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Profil Klien
                 </button>
-                <button id="menu-admin-btn" onclick="navKe('admin')" class="hidden font-bold text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 transition py-1 text-left flex items-center gap-2">
+                
+                <button id="menu-admin-btn" onclick="navKe('admin')" class="hidden bg-blue-600 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Dashboard Admin
                 </button>
 
-                <!-- Tombol WA -->
-                <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="mt-2 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center">Whatsapp Kami</a>
-
-                <!-- MENU LOGIN / SIGNUP / LOGOUT -->
-                <button id="menu-login-btn" onclick="navKe('login')" class="bg-warnakedua text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mt-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> Login / Signup
-                </button>
-                <button id="menu-logout-btn" onclick="prosesLogout()" class="hidden bg-red-500 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mt-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Logout
-                </button>
-
-                <!-- Menu Link Navigasi -->
-                <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2 mt-2">
-                      <button onclick="navKe('beranda')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Home</button>
-                <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2">
-                    <div onclick="toggleSubMenu()" class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition">
-                        <span>Penelusuran</span>
-                        <svg id="panah-sub" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <!-- Menu Link Navigasi (DIPINDAH KE ATAS) -->
+                <div class="flex flex-col gap-3 border-b border-gray-300/40 dark:border-gray-700/40 pb-4 mb-4">
+                    <button onclick="navKe('beranda')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Home</button>
+                    
+                    <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2">
+                        <div onclick="toggleSubMenu()" class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition">
+                            <span>Penelusuran</span>
+                            <svg id="panah-sub" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div id="sub-penelusuran" class="hidden pl-3 pt-2 flex flex-col gap-2">
+                            <button onclick="gulirKe('seksi-qrcbn')" class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• Buku</button>
+                            <button onclick="gulirKe('seksi-djki')" class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• Hak Cipta</button>
+                        </div>
                     </div>
-                    <div id="sub-penelusuran" class="hidden pl-3 pt-2 flex flex-col gap-2">
-                        <button onclick="gulirKe('seksi-qrcbn')" class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• Buku</button>
-                        <button onclick="gulirKe('seksi-djki')" class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• Hak Cipta</button>
-                    </div>
+                    
+                    <button onclick="navKe('kirim-naskah')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Kirim Naskah</button>
+                    <button onclick="navKe('daftar-hki')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
                 </div>
-                
-                <button onclick="navKe('kirim-naskah')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Kirim Naskah</button>
-                <button onclick="navKe('daftar-hki')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
+
+                <!-- Tombol WA & Login/Logout (DIPINDAH KE BAWAH) -->
+                <div class="flex flex-col gap-2">
+                    <!-- Tombol WA -->
+                    <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md">Whatsapp Kami</a>
+
+                    <!-- MENU LOGIN / SIGNUP / LOGOUT -->
+                    <button id="menu-login-btn" onclick="navKe('login')" class="bg-warnakedua text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> Login / Signup
+                    </button>
+                    
+                    <button id="menu-logout-btn" onclick="prosesLogout()" class="hidden bg-red-500 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Logout
+                    </button>
+                </div>
             </div>
         </header>
 
