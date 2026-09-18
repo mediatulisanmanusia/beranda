@@ -1895,7 +1895,11 @@
                 const urlWeb = window.location.origin + window.location.pathname;
                 let linkEl = document.createElement('input'); linkEl.type = 'hidden'; linkEl.name = "Klik_Untuk_Buka_Dashboard_Admin"; linkEl.value = `${urlWeb}?admin=true`; f.appendChild(linkEl);
 
-                f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; f.method = "POST"; f.enctype = "multipart/form-data"; f.target = "hidden_iframe"; f.submit();
+                f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
+                f.method = "POST"; 
+                f.enctype = "multipart/form-data"; 
+                f.target = "hidden-iframe-upload"; 
+                f.submit();
 
                 setTimeout(() => {
                     // 2. HILANGKAN LOADING SCREEN KETIKA SELESAI
