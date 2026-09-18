@@ -1762,7 +1762,7 @@
             }
         }, 1000);
 
-        // DATABASE: PROFIL & ADMIN
+        // DATABASE: PROFIL KLIEN
         window.muatRiwayatProfil = async function() {
             if(!window.currentUserEmail) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.where("userEmail", "==", window.currentUserEmail));
@@ -1770,15 +1770,22 @@
             let htmlNaskah = ''; let htmlHKI = '';
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                const btnFile = data.fileHasil ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-3 py-1 rounded-full text-[9px] font-bold">Unduh PDF</a>` : `<span class="text-gray-400 text-[9px]">Belum ada file</span>`;
+                
+                // PERBAIKAN: Tombol Unduh PDF Klien Dibuat Besar & Jelas
+                const btnFile = (data.fileHasil && data.fileHasil !== "") 
+                    ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1">📥 UNDUH FILE</a>` 
+                    : `<span class="text-gray-400 text-[10px] italic bg-gray-100 px-3 py-1 rounded-md border border-gray-200">Belum ada file</span>`;
+                
                 const statusColor = data.status === 'Berhasil' ? 'text-green-600' : 'text-yellow-600';
-                const baris = `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center">${btnFile}</td></tr>`;
+                const baris = `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
+                
                 if(data.tipeLayanan.includes("Naskah")) htmlNaskah += baris; else htmlHKI += baris;
             });
             document.getElementById('tabel-penerbitan').innerHTML = htmlNaskah || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
             document.getElementById('tabel-hki').innerHTML = htmlHKI || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
         }
 
+                // DATABASE: ADMIN PUSAT
         window.muatRiwayatAdmin = async function() {
             if(!window.isAdmin) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.orderBy("waktuLokal", "desc"));
@@ -1787,26 +1794,66 @@
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
                 const id = docSnap.id;
-                html += `<tr><td class="p-3 border-b"><span class="block font-bold">${data.waktuLokal}</span><span class="text-[9px] text-gray-500">${data.tipeLayanan}</span></td><td class="p-3 border-b"><span class="block font-bold">${data.namaLengkap}</span><span class="text-[9px] text-gray-500">${data.userEmail} | ${data.wa}</span></td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b">${data.status}<br>${data.fileHasil ? `<a href="${data.fileHasil}" target="_blank" class="text-[9px] text-blue-500 hover:underline">✅ PDF</a>` : '-'}</td><td class="p-3 border-b text-center"><select onchange="window.ubahStatusAdmin('${id}', this.value)" class="bg-gray-100 border rounded p-1 text-[10px]"><option value="Pending" ${data.status==='Pending'?'selected':''}>Pending</option><option value="Proses" ${data.status==='Proses'?'selected':''}>Proses</option><option value="Berhasil" ${data.status==='Berhasil'?'selected':''}>Berhasil</option></select><label class="bg-blue-600 text-white px-2 py-1 ml-1 rounded text-[10px] cursor-pointer">Upload<input type="file" class="hidden" accept=".pdf" onchange="window.uploadPDFAdmin('${id}', this)"></label></td></tr>`;
+                
+                const statusWarna = data.status === 'Berhasil' ? 'text-green-600' : 'text-yellow-600';
+                
+                // PERBAIKAN: Riwayat File Admin diletakkan di kolom Aksi
+                const riwayatFileAdmin = (data.fileHasil && data.fileHasil !== "") 
+                    ? `<div class="mt-2 p-1.5 bg-green-50 border border-green-200 rounded-md text-center"><span class="block text-[8px] text-gray-500 mb-0.5">File Terupload:</span><a href="${data.fileHasil}" target="_blank" class="inline-block bg-green-500 text-white px-2 py-1 rounded text-[9px] font-bold hover:bg-green-600 shadow-sm">📄 Lihat File</a></div>` 
+                    : `<div class="mt-2 p-1 border border-dashed border-gray-300 rounded-md text-center"><span class="text-gray-400 text-[8px] italic">Belum ada file</span></div>`;
+                
+                html += `<tr>
+                    <td class="p-3 border-b"><span class="block font-bold">${data.waktuLokal}</span><span class="text-[9px] text-gray-500">${data.tipeLayanan}</span></td>
+                    <td class="p-3 border-b"><span class="block font-bold">${data.namaLengkap}</span><span class="text-[9px] text-gray-500">${data.userEmail} | ${data.wa}</span></td>
+                    <td class="p-3 border-b font-bold">${data.judul}</td>
+                    <td class="p-3 border-b"><span class="font-bold ${statusWarna}">${data.status}</span></td>
+                    <td class="p-3 border-b">
+                        <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border rounded p-1.5 text-[10px] mb-2 font-bold">
+                            <option value="Pending" ${data.status==='Pending'?'selected':''}>⏳ Pending</option>
+                            <option value="Proses" ${data.status==='Proses'?'selected':''}>⚙️ Proses</option>
+                            <option value="Berhasil" ${data.status==='Berhasil'?'selected':''}>✅ Berhasil</option>
+                        </select>
+                        <label id="btn-up-${id}" class="w-full text-center bg-blue-600 text-white px-2 py-1.5 rounded-md text-[10px] font-bold cursor-pointer block hover:bg-blue-700 transition shadow-sm">
+                            + Upload PDF Baru
+                            <input type="file" class="hidden" accept=".pdf" onchange="window.uploadPDFAdmin('${id}', this)">
+                        </label>
+                        ${riwayatFileAdmin}
+                    </td>
+                </tr>`;
             });
             document.getElementById('tabel-admin').innerHTML = html || `<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>`;
         }
-
-        window.ubahStatusAdmin = async function(id, statusBaru) {
-            try { await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); showToast("Status diperbarui!", "success"); window.muatRiwayatAdmin(); } 
-            catch(e) { showToast("Gagal memperbarui status", "error"); }
-        }
-
+                // PROSES UPLOAD PDF ADMIN
         window.uploadPDFAdmin = async function(id, inputElement) {
             const file = inputElement.files[0]; if(!file) return;
-            showToast("Mengunggah PDF...", "success");
-            const stRef = window.storageRef(window.storage, `hasil_admin/${id}_${file.name}`);
-            const uploadTask = window.uploadBytesResumable(stRef, file);
-            uploadTask.on('state_changed', null, (error) => { showToast("Gagal unggah", "error"); }, async () => {
-                const downloadURL = await window.getDownloadURL(uploadTask.snapshot.ref);
-                await window.updateDoc(window.doc(window.db, "pesanan", id), { fileHasil: downloadURL, status: 'Berhasil' });
-                showToast("PDF Berhasil diunggah!", "success"); window.muatRiwayatAdmin();
-            });
+            
+            // Ubah teks tombol jadi Loading
+            const labelBtn = document.getElementById(`btn-up-${id}`);
+            const originalText = labelBtn.innerHTML;
+            labelBtn.innerHTML = "⏳ Mengunggah...";
+            labelBtn.classList.add("pointer-events-none", "opacity-70");
+            
+            showToast("Memulai unggah PDF...", "success");
+            
+            try {
+                const stRef = window.storageRef(window.storage, `hasil_admin/${id}_${file.name}`);
+                const uploadTask = await window.uploadBytesResumable(stRef, file);
+                const downloadURL = await window.getDownloadURL(uploadTask.ref);
+                
+                // Simpan ke database
+                await window.updateDoc(window.doc(window.db, "pesanan", id), { 
+                    fileHasil: downloadURL, 
+                    status: 'Berhasil' 
+                });
+                
+                showToast("PDF Berhasil disimpan!", "success"); 
+                window.muatRiwayatAdmin(); // Refresh tabel admin agar file baru muncul
+            } catch (error) {
+                console.error("Gagal Upload:", error);
+                showToast("Gagal! Cek aturan Storage Firebase Anda.", "error");
+                labelBtn.innerHTML = originalText;
+                labelBtn.classList.remove("pointer-events-none", "opacity-70");
+            }
         }
 
         // KIRIM PENGAJUAN FORM
