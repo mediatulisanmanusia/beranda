@@ -239,6 +239,9 @@
     <div id="loading-screen" class="fixed inset-0 z-[9999] bg-gray-100 flex items-center justify-center transition-opacity duration-500 ease-in-out">
         <img src="load.webp" fetchpriority="high" alt="Loading" class="h-64 md:h-96 w-auto object-contain animate-pulse-logo">
     </div>
+        <div id="loading-form" class="fixed inset-0 z-[99999] bg-transparent flex items-center justify-center transition-opacity duration-500 ease-in-out hidden opacity-0 pointer-events-none">
+        <img src="load.webp" alt="Loading Form" class="h-10 w-auto object-contain animate-pulse-logo drop-shadow-md">
+    </div>
 
     <button id="scrollToTopBtn" class="fixed bottom-6 right-6 md:right-8 z-[90] p-3 md:p-4 rounded-full glass shadow-xl border border-warnautama/20 dark:border-white/20 text-warnautama dark:text-white transition-all duration-500 transform translate-y-20 opacity-0 pointer-events-none hover:scale-110 hover:bg-white/80 dark:hover:bg-black/80">
         <svg class="w-5 h-5 md:w-6 md:h-6 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path></svg>
@@ -295,7 +298,7 @@
             
                 <div id="nav-dropdown" class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col text-left animate-fade-up z-50">
                 <!-- MENU PROFIL & ADMIN (SEKARANG BERBENTUK TOMBOL) -->
-                <button id="menu-profil-btn" onclick="navKe('profil')" class="hidden bg-warnaketiga text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
+                <button id="menu-profil-btn" onclick="navKe('profil')" class="hidden bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Profil Klien
                 </button>
                 
@@ -325,10 +328,10 @@
                 <!-- Tombol WA & Login/Logout (DIPINDAH KE BAWAH) -->
                 <div class="flex flex-col gap-2">
                     <!-- Tombol WA -->
-                    <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md">Whatsapp Kami</a>
+                    <a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md">Whatsapp Kami</a>
 
                     <!-- MENU LOGIN / SIGNUP / LOGOUT -->
-                    <button id="menu-login-btn" onclick="navKe('login')" class="bg-warnakedua text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
+                    <button id="menu-login-btn" onclick="navKe('login')" class="bg-warnakedua dark:bg-warnakeempat text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> Login / Signup
                     </button>
                     
@@ -1467,6 +1470,10 @@
         <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Judul Naskah <span class="text-red-500">*</span></label>
         <input type="text" name="Judul_Naskah" required placeholder="Masukkan judul lengkap naskah Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
     </div>
+     <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Sinopsis (Opsional)</label>
+        <textarea name="Sinopsis" placeholder="Tuliskan cerita singkat atau isi naskah Anda..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
@@ -1509,6 +1516,15 @@
             <input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
             <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG / PNG. Maksimal 3MB.</p>
         </div>
+    </div>
+        <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Lengkap Penulis <span class="text-red-500">*</span></label>
+        <textarea name="Alamat_Penulis" required placeholder="Jalan, RT/RW, Desa, Kec, Kab/Kota, Kodepos (Tujuan pengiriman cetakan buku)" rows="2" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+    </div>
+
+    <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Referensi (Opsional)</label>
+        <input type="text" name="Referensi" placeholder="Nama atau ID pemberi informasi" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
     </div>
 
     <div>
@@ -1623,6 +1639,15 @@
             <input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
             <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG / PNG. Max 3MB.</p>
         </div>
+    </div>
+    <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Lengkap Pemohon <span class="text-red-500">*</span></label>
+        <textarea name="Alamat_Pemohon" required placeholder="Jalan, RT/RW, Desa, Kec, Kab/Kota, Kodepos (Tujuan pengiriman sertifikat fisik)" rows="2" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+    </div>
+
+    <div>
+        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Referensi (Opsional)</label>
+        <input type="text" name="Referensi" placeholder="Nama atau ID pemberi informasi" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
     </div>
 
     <div>
@@ -1791,7 +1816,7 @@
             const btn = f.querySelector('button[type="submit"]'); btn.disabled = true; btn.innerText = "Mengirim...";
 
             // 1. TAMPILKAN LOADING SCREEN
-            const loader = document.getElementById('loading-screen');
+            const loader = document.getElementById('loading-form');
             if(loader) { loader.style.display = 'flex'; setTimeout(() => loader.style.opacity = '1', 10); }
 
             const nama = f.querySelector('[name^="Nama"]').value || '-';
