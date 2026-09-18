@@ -1246,7 +1246,7 @@
          <p class="text-[8px] sm:text-[10px] md:text-xs text-gray-500 uppercase tracking-widest font-bold w-full whitespace-nowrap"> &copy; PT MEDIA TULISAN MANUSIA - ALL RIGHTS RESERVED</p>
     </div>
     
-      <!-- SCRIPT KHUSUS ANIMASI SCROLL MINI (Diinjeksikan langsung agar otomatis jalan) -->
+    <!-- SCRIPT KHUSUS ANIMASI SCROLL MINI (Diinjeksikan langsung agar otomatis jalan) -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function autoScrollMini(id) {
@@ -1272,9 +1272,7 @@
     </script>
 </div>
 
-   <!-- ========================================== -->
-        <!-- HALAMAN LOGIN / SIGNUP (TAHAP 2)           -->
-        <!-- ========================================== -->
+        <!-- HALAMAN LOGIN / SIGNUP -->
         <div id="hal-login" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-xl mx-auto w-full">
             <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
             <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
@@ -1354,9 +1352,7 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- HALAMAN PROFIL KLIEN (TAHAP 2)             -->
-        <!-- ========================================== -->
+        <!-- HALAMAN PROFIL KLIEN -->
         <div id="hal-profil" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-5xl mx-auto w-full">
             <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
             <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden border-t-4 border-warnautama dark:border-white">
@@ -1423,9 +1419,7 @@
             </div>
         </div>
         
-        <!-- ============================================== -->
-        <!-- 5. HALAMAN DASHBOARD ADMIN PUSAT -->
-        <!-- ============================================== -->
+        <!-- HALAMAN DASHBOARD ADMIN PUSAT -->
         <div id="hal-admin" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-6xl mx-auto w-full">
             <button onclick="bukaHalaman('beranda')" class="mb-6 text-xs font-bold glass px-5 py-2.5 rounded-full">&larr; Beranda Admin</button>
             <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-2xl relative border-t-4 border-blue-600">
@@ -1657,10 +1651,8 @@
         <div id="hal-hubungi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-8">Hubungi Kami</h2><div class="md:flex gap-10"><div class="flex-1 space-y-6"><div><p class="text-xs text-gray-500 font-bold mb-1">WA Bisnis</p><p class="font-bold text-lg">0882 9444 8222</p></div><div><p class="text-xs text-gray-500 font-bold mb-1">Email</p><p class="font-bold">ptmediatulisanmanusia@gmail.com</p></div><div><p class="text-xs text-gray-500 font-bold mb-1">Jam & Kantor</p><p class="text-sm">Senin-Sabtu 09.00-17.00 WIB<br>Jl. Supriyadi No.48 Malang<br>Jl. Raya Malang-Sby No.101 Pasuruan</p></div></div><div class="flex-1 mt-10 md:mt-0"><form onsubmit="kirimPesanKontak(event)" class="space-y-4"><input type="text" required placeholder="Nama Lengkap" class="input-nama w-full bg-white/70 border rounded-2xl p-4 text-sm"><input type="email" required placeholder="Email" class="input-email w-full bg-white/70 border rounded-2xl p-4 text-sm"><textarea required placeholder="Pesan..." class="input-pesan w-full bg-white/70 border rounded-2xl p-4 text-sm auto-resize" rows="4"></textarea><button type="submit" class="w-full bg-warnautama text-white font-bold py-4 rounded-full text-sm">Kirim Pesan</button></form></div></div></div></div>
      
     </div>
-
-    <!-- ============================================== -->
+    
     <!-- SCRIPT UTAMA KESELURUHAN (HANYA DITULIS SEKALI) -->
-    <!-- ============================================== -->
     <script>
         // SISTEM TOAST
         function showToast(message, type = 'success') {
@@ -1668,7 +1660,7 @@
             const toast = document.createElement('div');
             const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
             const icon = type === 'success' ? '✅' : '❌';
-            toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0`;
+            toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
             toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => { toast.classList.remove('translate-y-[-30px]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100'); }, 10);
@@ -1792,11 +1784,15 @@
             });
         }
 
-            // KIRIM PENGAJUAN FORM
-            window.kirimFormLayanan = async function(e, tipeLayanan) {
+        // KIRIM PENGAJUAN FORM
+        window.kirimFormLayanan = async function(e, tipeLayanan) {
             e.preventDefault(); const f = e.target;
             if(!window.currentUserEmail) { showToast("Gagal: Anda belum login.", "error"); bukaHalaman('login'); return; }
             const btn = f.querySelector('button[type="submit"]'); btn.disabled = true; btn.innerText = "Mengirim...";
+
+            // 1. TAMPILKAN LOADING SCREEN
+            const loader = document.getElementById('loading-screen');
+            if(loader) { loader.style.display = 'flex'; setTimeout(() => loader.style.opacity = '1', 10); }
 
             const nama = f.querySelector('[name^="Nama"]').value || '-';
             const email = f.querySelector('[name="Email"]').value || '-';
@@ -1816,12 +1812,20 @@
                 f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; f.method = "POST"; f.enctype = "multipart/form-data"; f.target = "hidden_iframe"; f.submit();
 
                 setTimeout(() => {
+                    // 2. HILANGKAN LOADING SCREEN KETIKA SELESAI
+                    if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
+
                     showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
                     window.open(`https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20telah%20submit%20${tipeLayanan}%20via%20Website.%0ANama:%20${nama}%0AJudul:%20${judul}`, '_blank');
                     f.reset(); btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN";
                     if(window.muatRiwayatProfil) window.muatRiwayatProfil(); bukaHalaman('profil');
-                }, 2500);
-            } catch (error) { showToast("Gagal menyimpan ke database.", "error"); btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN"; }
+                }, 2500); // Durasi loading
+            } catch (error) { 
+                // JAGA-JAGA BILA ERROR, LOADING TETAP HILANG
+                if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
+                showToast("Gagal menyimpan ke database.", "error"); 
+                btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN"; 
+            }
         };
 
         // AKSI AKUN DENGAN TOAST
@@ -1842,10 +1846,10 @@
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
         </script>
        <!-- MODAL & IFRAME -->
-     <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
+        <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
         <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
-            <div class="flex justify-between px-5 py-4 bg-gray-100 border-b"><h3 id="judul-modal-pencarian" class="font-bold text-warnautama">Hasil Pencarian</h3><button onclick="tutupModalPencarian()" class="text-gray-500 hover:text-red-500 font-bold text-2xl">&times;</button></div>
-            <div class="flex-grow"><iframe id="iframe-pencarian" src="" class="w-full h-full border-none"></iframe></div>
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-</body>
-</html>
+        <div class="flex justify-between px-5 py-4 bg-gray-100 border-b"><h3 id="judul-modal-pencarian" class="font-bold text-warnautama">Hasil Pencarian</h3><button onclick="tutupModalPencarian()" class="text-gray-500 hover:text-red-500 font-bold text-2xl">&times;</button></div>
+        <div class="flex-grow"><iframe id="iframe-pencarian" src="" class="w-full h-full border-none"></iframe></div>
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+     </body>
+ </html>
