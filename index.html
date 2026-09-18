@@ -1823,6 +1823,10 @@
             });
             document.getElementById('tabel-admin').innerHTML = html || `<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>`;
         }
+                window.ubahStatusAdmin = async function(id, statusBaru) {
+            try { await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); showToast("Status diperbarui!", "success"); window.muatRiwayatAdmin(); } 
+            catch(e) { showToast("Gagal memperbarui status", "error"); }
+        }
                 // PROSES UPLOAD PDF ADMIN
         window.uploadPDFAdmin = async function(id, inputElement) {
             const file = inputElement.files[0]; if(!file) return;
