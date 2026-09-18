@@ -67,10 +67,10 @@
         function cariDJKI(e) { e.preventDefault(); const kw = document.getElementById('input-keyword-djki').value.trim(); if(kw) window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(kw)}`, '_blank'); else alert('Masukkan judul ciptaan.'); }
         function tutupModalPencarian() { document.getElementById('modal-pencarian').classList.add('hidden'); document.getElementById('iframe-pencarian').src=''; }
         function bukaHalaman(id) { 
-            // GEMBOK HALAMAN: Lempar langsung ke Login (Tanpa Alert) jika belum masuk
-            if ((id === 'kirim-naskah' || id === 'daftar-hki' || id === 'profil') && !window.currentUserEmail) {
+        // GEMBOK HALAMAN: Lempar langsung ke Login (Tanpa Alert) jika belum masuk
+        if ((id === 'kirim-naskah' || id === 'daftar-hki' || id === 'profil') && !window.currentUserEmail) {
                 id = 'login';
-            }
+         }
             
             document.querySelectorAll('.halaman-konten').forEach(h => h.classList.add('hidden')); 
             const d = document.getElementById('hal-' + id); 
@@ -891,7 +891,7 @@
             </section>
 
             <!-- SEKSI PENCARIAN QRCBN -->
-            <section class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto">
+            <section id="seksi-qrcbn" class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
                     <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
                     <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN BUKU</h4>
@@ -907,8 +907,8 @@
             </section>
 
             <!-- SEKSI PENCARIAN DJKI -->
-            <section class="px-5 md:px-10 pt-4 pb-12 relative z-10 max-w-4xl mx-auto">
-                <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
+            <section id="seksi-djki" class="px-5 md:px-10 pt-4 pb-12 relative z-10 max-w-4xl mx-auto">
+               <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500 animate-fade-up">
                     <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
                     <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN HAK CIPTA</h4>
                     <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan judul ciptaan untuk menelusuri status legalitas di database resmi DJKI.</p>
@@ -1415,8 +1415,7 @@
                 </div>
             </div>
         </div>
-
-    </div>
+        
         <!-- ============================================== -->
         <!-- 5. HALAMAN DASHBOARD ADMIN PUSAT -->
         <!-- ============================================== -->
