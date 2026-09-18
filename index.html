@@ -143,7 +143,8 @@
             t.addEventListener("click", () => { w.classList.remove("hidden"); setTimeout(()=>{ w.classList.remove("scale-0","translate-y-10","opacity-0"); w.classList.add("scale-100","translate-y-0","opacity-100"); },10); if(gb) gb.remove(); cm.scrollTo({ top:cm.scrollHeight, behavior:'smooth' }); });
             cx.addEventListener("click", () => { w.classList.remove("scale-100","translate-y-0","opacity-100"); w.classList.add("scale-0","translate-y-10","opacity-0"); setTimeout(()=>w.classList.add("hidden"),300); });
 
-            let countPenerbitan = 0; let countHKI = 0; let sudahDisapa = false;
+                        let countPenerbitan = 0; let countHKI = 0; let sudahDisapa = false;
+            let timerTanyaMasiAda; let timerAkhiriChat; // Variabel baru untuk timer
 
             function addMessageToUI(text, sender) {
                 const md = document.createElement("div"); md.className = sender==="user" ? "flex items-end justify-end gap-2 mt-3 animate-fade-up shrink-0" : "flex items-start gap-2 mt-3 animate-fade-up shrink-0 w-full";
@@ -151,20 +152,52 @@
                 cm.insertBefore(md, ti); cm.scrollTo({ top:cm.scrollHeight, behavior:'smooth' });
             }
 
-                        function handleSend() {
+            // Fungsi baru untuk mereset dan menjalankan timer
+            function resetTimerChat() {
+                clearTimeout(timerTanyaMasiAda); clearTimeout(timerAkhiriChat);
+                
+                timerTanyaMasiAda = setTimeout(() => {
+                    addMessageToUI("Apakah masih bersama Cipta?", "model");
+                    
+                    // Timer kedua: 2.5 detik (saya lebihkan 0.5 detik agar klien sempat membaca)
+                    timerAkhiriChat = setTimeout(() => {
+                        addMessageToUI("Kalau tidak ada, Cipta akhiri ya. Terima kasih sudah menghubungi Cipta.", "model");
+                    }, 2500); 
+                    
+                }, 30000); // Timer pertama: 30 detik
+            }
+
+            function handleSend() {
                 const text = ci.value.trim(); if (!text) return;
+                
+                // Matikan semua timer begitu klien mengetik sesuatu
+                clearTimeout(timerTanyaMasiAda); clearTimeout(timerAkhiriChat);
+                
                 addMessageToUI(text, "user"); ci.value = ""; ci.style.height = "42px";
                 ti.classList.remove("hidden"); ti.classList.add("flex"); cm.scrollTo({ top:cm.scrollHeight, behavior:'smooth' });
                 
                 setTimeout(() => {
                     ti.classList.add("hidden"); ti.classList.remove("flex");
                     const lt = text.toLowerCase(); let botReply = ""; const kl = lt.split(/\s+/);
+                    
+                    // Kumpulan kata kunci
                     const isSapa = ["halo","hai","hi","p","assalamualaikum","pagi","siang","sore","malam"].some(s=>kl.includes(s));
                     const isBuku = ["penerbitan","terbit","penerbit","menerbitkan","buku","cetak","naskah"].some(k=>lt.includes(k));
                     const isHKI = ["hki","hak cipta","djki","karya","sertifikat","legalitas"].some(k=>lt.includes(k));
+                    
+                    // KATA KUNCI BARU SESUAI PERMINTAAN
+                    const isMakasih = ["makasih","terima kasih","suwun","thanks","oke","ok","baik","sip"].some(k=>lt.includes(k));
+                    const isTidakAda = ["tidak ada","gak ada","udah","sudah","nggak","tidak","cukup"].some(k=>lt.includes(k));
+                    
                     const wa = "6288294448222"; const tWA = encodeURIComponent("Halo admin Media Tulisan Manusia, saya ingin bertanya: " + text);
 
-                    if (isBuku) {
+                    // LOGIKA PERCABANGAN BARU
+                    if (isMakasih && !isTidakAda) {
+                        botReply = "Dengan senang hati, ada lagi yang bisa saya bantu?";
+                    } else if (isTidakAda) {
+                        botReply = "Terima kasih sudah menghubungi Cipta, semoga harimu menyenangkan.";
+                        clearTimeout(timerTanyaMasiAda); // Hentikan timer karena chat sudah dianggap selesai
+                    } else if (isBuku) {
                         if(countPenerbitan === 0) {
                             botReply = `Untuk informasi paket dan ketentuan penerbitan, silakan unduh dan baca tautan ini terlebih dahulu:<br>👉 <a href='ketentuan.pdf' target='_blank' class='text-blue-600 dark:text-blue-400 font-bold underline'>Unduh Ketentuan Penerbitan (PDF)</a><br><br>Setelah memahaminya, silakan lengkapi formulir pengajuan dengan menekan tombol di bawah ini:<br><button onclick="document.getElementById('close-chat').click(); cekLoginDanBuka('kirim-naskah');" class="mt-2 w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider hover:scale-[1.02] transition">📝 Isi Form Naskah</button>`;
                             countPenerbitan++; sudahDisapa = true;
@@ -178,9 +211,20 @@
                         } else {
                             botReply = `Mari berdiskusi langsung dengan tim legalitas kami:<br><a href="https://wa.me/${wa}?text=${tWA}" target="_blank" class="block mt-2 bg-green-500 text-white font-bold py-2 rounded-xl text-center shadow-md">💬 Chat Admin WhatsApp</a>`;
                         }
-                    } else if (isSapa && !sudahDisapa) { botReply = "Terima kasih telah menyapa! 😊 Ada yang bisa Cipta bantu terkait penerbitan buku atau Hak Cipta (HKI)?"; sudahDisapa=true; } 
-                    else { botReply = `Agar mendapatkan pelayanan terbaik, mari hubungi admin langsung:<br><a href="https://wa.me/${wa}?text=${tWA}" target="_blank" class="block mt-2 bg-green-500 text-white font-bold py-2 rounded-xl text-center shadow-md">💬 Chat Admin di WhatsApp</a>`; sudahDisapa=true; }
+                    } else if (isSapa && !sudahDisapa) { 
+                        botReply = "Terima kasih telah menyapa! 😊 Ada yang bisa Cipta bantu terkait penerbitan buku atau Hak Cipta (HKI)?"; sudahDisapa=true; 
+                    } else { 
+                        // JIKA BUKAN TENTANG BUKU/HKI/SAPAAN/TERIMA KASIH, ARAHKAN KE WA
+                        botReply = `Agar mendapatkan pelayanan terbaik, mari hubungi admin langsung:<br><a href="https://wa.me/${wa}?text=${tWA}" target="_blank" class="block mt-2 bg-green-500 text-white font-bold py-2 rounded-xl text-center shadow-md">💬 Chat Admin di WhatsApp</a>`; sudahDisapa=true; 
+                    }
+                    
                     addMessageToUI(botReply, "model");
+                    
+                    // Nyalakan timer kembali setelah bot menjawab (kecuali klien sudah bilang tidak ada/sudah)
+                    if (!isTidakAda) {
+                        resetTimerChat();
+                    }
+                    
                 }, 800);
             }
             sc.addEventListener("click", handleSend); ci.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } });
