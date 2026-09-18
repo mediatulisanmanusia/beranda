@@ -1870,7 +1870,7 @@
             );
         }
 
-        // KIRIM PENGAJUAN FORM
+        //         // KIRIM PENGAJUAN FORM
         window.kirimFormLayanan = async function(e, tipeLayanan) {
             e.preventDefault(); const f = e.target;
             if(!window.currentUserEmail) { showToast("Gagal: Anda belum login.", "error"); bukaHalaman('login'); return; }
@@ -1886,7 +1886,7 @@
             const judul = f.querySelector('[name^="Judul"]').value || '-';
 
             try {
-                const docRef = await window.addDoc(window.collection(window.db, "pesanan"), { userEmail: window.currentUserEmail, userName: window.currentUserName, tipeLayanan: tipeLayanan, judul: judul, namaLengkap: nama, wa: wa, status: "Pending", fileHasil: "", waktuLokal: new Date().toLocaleDateString('id-ID') });
+                await window.addDoc(window.collection(window.db, "pesanan"), { userEmail: window.currentUserEmail, userName: window.currentUserName, tipeLayanan: tipeLayanan, judul: judul, namaLengkap: nama, wa: wa, status: "Pending", fileHasil: "", waktuLokal: new Date().toLocaleDateString('id-ID') });
                 
                 let subjekEl = f.querySelector('input[name="_subject"]');
                 if(!subjekEl) { subjekEl = document.createElement('input'); subjekEl.type = 'hidden'; subjekEl.name = '_subject'; f.appendChild(subjekEl); }
@@ -1895,23 +1895,30 @@
                 const urlWeb = window.location.origin + window.location.pathname;
                 let linkEl = document.createElement('input'); linkEl.type = 'hidden'; linkEl.name = "Klik_Untuk_Buka_Dashboard_Admin"; linkEl.value = `${urlWeb}?admin=true`; f.appendChild(linkEl);
 
+                // Mencegah error dengan membuat iframe otomatis jika belum ada di HTML
+                if(!document.getElementById('hidden-iframe-upload')) {
+                    const ifm = document.createElement('iframe');
+                    ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
+                    document.body.appendChild(ifm);
+                }
+
                 f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
                 f.method = "POST"; 
                 f.enctype = "multipart/form-data"; 
-                f.target = "hidden-iframe-upload"; //
+                f.target = "hidden-iframe-upload"; 
                 f.submit();
 
+                // 2. WAKTU TUNGGU DITAMBAH JADI 6000 (6 DETIK) AGAR FILE SELESAI TERUPLOAD
                 setTimeout(() => {
-                    // 2. HILANGKAN LOADING SCREEN KETIKA SELESAI
                     if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
 
                     showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
                     window.open(`https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20telah%20submit%20${tipeLayanan}%20via%20Website.%0ANama:%20${nama}%0AJudul:%20${judul}`, '_blank');
                     f.reset(); btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN";
                     if(window.muatRiwayatProfil) window.muatRiwayatProfil(); bukaHalaman('profil');
-                }, 2500); // Durasi loading
+                }, 6000); 
+                
             } catch (error) { 
-                // JAGA-JAGA BILA ERROR, LOADING TETAP HILANG
                 if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
                 showToast("Gagal menyimpan ke database.", "error"); 
                 btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN"; 
