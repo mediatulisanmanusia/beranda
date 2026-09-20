@@ -1461,8 +1461,8 @@
                     <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                         <div class="w-16 h-16 bg-warnautama dark:bg-white text-white dark:text-warnakeempat rounded-full flex justify-center items-center font-black text-3xl uppercase shadow-md border-2 border-warnakedua/50" id="profil-inisial">U</div>
                         <div>
-                            <h2 id="tampil-nama-profil" class="text-lg md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight" id="profil-nama">Memuat...</h2>
-                            <p id="tampil-email-profil" class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
+                            <h2 id="profil-nama" class="text-lg md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight" id="profil-nama">Memuat...</h2>
+                            <p id="prodil-email" class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
                         </div>
                     </div> 
                     <button onclick="toggleEditProfil()" class="w-full mb-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-[12px] md:text-sm font-bold transition block">Edit Profil</button>
@@ -2002,8 +2002,8 @@
             try { await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); showToast("Status diperbarui!", "success"); window.muatRiwayatAdmin(); } 
             catch(e) { showToast("Gagal memperbarui status", "error"); }
         }
-                        // PROSES UPLOAD PDF ADMIN
-        window.uploadPDFAdmin = function(id, inputElement) {
+            // PROSES UPLOAD PDF ADMIN
+            window.uploadPDFAdmin = function(id, inputElement) {
             const file = inputElement.files[0]; if(!file) return;
             
             const labelBtn = document.getElementById(`btn-up-${id}`);
@@ -2128,8 +2128,8 @@
         // 2. Fungsi ini bertugas menyinkronkan SEMUA data ke tampilan
         function muatDataProfil() {
        // --- A. Mengubah tulisan di Dasbor Utama ---
-        const tampilNama = document.getElementById('tampil-nama-profil');
-        const tampilEmail = document.getElementById('tampil-email-profil');
+        const tampilNama = document.getElementById('profil-nama');
+        const tampilEmail = document.getElementById('profil-email');
   
         if (tampilNama) tampilNama.innerText = dataPenggunaAktif.nama;
         if (tampilEmail) tampilEmail.innerText = dataPenggunaAktif.email;
