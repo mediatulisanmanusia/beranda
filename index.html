@@ -83,25 +83,20 @@
         function cariDJKI(e) { e.preventDefault(); const kw = document.getElementById('input-keyword-djki').value.trim(); if(kw) window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(kw)}`, '_blank'); else alert('Masukkan judul ciptaan.'); }
         function tutupModalPencarian() { document.getElementById('modal-pencarian').classList.add('hidden'); document.getElementById('iframe-pencarian').src=''; }
         function bukaHalaman(id) { 
-        // GEMBOK HALAMAN: Lempar langsung ke Login (Tanpa Alert) jika belum masuk
         if ((id === 'kirim-naskah' || id === 'daftar-hki' || id === 'profil') && !window.currentUserEmail) {
                 id = 'login';
-         }
-            
+         }         
             document.querySelectorAll('.halaman-konten').forEach(h => h.classList.add('hidden')); 
             const d = document.getElementById('hal-' + id); 
             if(d) { d.classList.remove('hidden'); d.classList.remove('animate-fade-up'); void d.offsetWidth; d.classList.add('animate-fade-up'); } 
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
-
-        function kirimPesanKontak(e) {
+            function kirimPesanKontak(e) {
             e.preventDefault(); const f=e.target, btn=f.querySelector('button[type="submit"]'), txt=btn.innerText; btn.innerText="Mengirim..."; btn.disabled=true;
             fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", { method:"POST", headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify({ Nama:f.querySelector('.input-nama').value, Email:f.querySelector('.input-email').value, Pesan:f.querySelector('.input-pesan').value, _subject:"Pesan Web MTM" }) })
             .then(r=>r.json()).then(d=>{ alert("Pesan berhasil terkirim!"); f.reset(); btn.innerText=txt; btn.disabled=false; }).catch(er=>{ alert("Terjadi kesalahan."); btn.innerText=txt; btn.disabled=false; });
         }
-
-        // Trik formsubmit hidden iframe ke Email + Redirect WA 
-        function kirimFormLayanan(e, tipeLayanan) {
+            function kirimFormLayanan(e, tipeLayanan) {
             const f = e.target;
             const fileInputs = f.querySelectorAll('input[type="file"]');
             for (let i of fileInputs) {
@@ -121,15 +116,15 @@
             f.enctype = "multipart/form-data";
             f.target = "hidden-iframe-upload";
 
-                        if(!document.getElementById('hidden-iframe-upload')) {
+                if(!document.getElementById('hidden-iframe-upload')) {
                 const ifm = document.createElement('iframe');
                 ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
                 document.body.appendChild(ifm);
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            function autoScroll(id) {
+                document.addEventListener("DOMContentLoaded", function() {
+                function autoScroll(id) {
                 const el = document.getElementById(id); if (!el) return;
                 el.innerHTML += el.innerHTML; let isPaused = false;
                 el.addEventListener('mouseenter', () => isPaused = true);
@@ -273,7 +268,7 @@
     </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, where, getDocs, orderBy, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
@@ -292,7 +287,7 @@
         window.db = getFirestore(app);
         window.storage = getStorage(app);
         window.provider = new GoogleAuthProvider();
-
+        window.updateProfile = updateProfile;
         window.onAuthStateChanged = onAuthStateChanged;
         window.signInWithPopup = signInWithPopup;
         window.signInWithEmailAndPassword = signInWithEmailAndPassword;
@@ -310,7 +305,6 @@
         window.storageRef = storageRef;
         window.uploadBytesResumable = uploadBytesResumable;
         window.getDownloadURL = getDownloadURL;
-        
         window.currentUserEmail = null;
         window.currentUserName = null;
         window.isAdmin = false;
