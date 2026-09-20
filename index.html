@@ -1461,10 +1461,10 @@
                     <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                         <div class="w-16 h-16 bg-warnautama dark:bg-white text-white dark:text-warnakeempat rounded-full flex justify-center items-center font-black text-3xl uppercase shadow-md border-2 border-warnakedua/50" id="profil-inisial">U</div>
                         <div>
-                            <h2 class="text-lg md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight" id="profil-nama">Memuat...</h2>
-                            <p class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
+                            <h2 id="tampil-nama-profil" class="text-lg md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight" id="profil-nama">Memuat...</h2>
+                            <p id="tampil-email-profil" class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
                         </div>
-                    </div>
+                    </div> 
                     <button onclick="toggleEditProfil()" class="w-full mb-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-[12px] md:text-sm font-bold transition block">Edit Profil</button>
                     <button onclick="prosesLogout()" class="bg-red-500/10 hover:bg-red-500 hover:text-white text-red-500 font-bold py-2 px-6 rounded-full text-[11px] sm:text-xs transition border border-red-500/30 uppercase tracking-widest shadow-sm">Keluar Akun</button>
                 </div>
@@ -2115,37 +2115,60 @@
         
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
 
-        // Simulasi data klien dari database
-        const dataKlienAktif = {
-        nama: "Nararya Wahyuda", // Ini akan diganti otomatis dari database nanti
+        // SISTEM DATA PROFIL OTOMATIS
+
+        // 1. Ini adalah simulasi data dari Database
+        const dataPenggunaAktif = {
+        nama: "Nararya Wahyuda",
         email: "ptmediatulisanmanusia@gmail.com",
-        wa: "081234567890"
+        wa: "081234567890",
+        role: "admin" // Ganti jadi "klien" kalau mau lihat tampilan versi klien biasa
         };
-        // Fungsi membuka form dan mengisi data otomatis
-        function toggleEditProfil() {
-        const kotak = document.getElementById('kotak-edit-profil');
-        // Mengisi form dengan data klien aktif
-        document.getElementById('edit-nama').value = dataKlienAktif.nama;
-        document.getElementById('edit-email').value = dataKlienAktif.email;
-        document.getElementById('edit-wa').value = dataKlienAktif.wa;
-        // Menampilkan atau menyembunyikan kotak
-       kotak.classList.toggle('hidden');
+
+        // 2. Fungsi ini bertugas menyinkronkan SEMUA data ke tampilan
+        function muatDataProfil() {
+       // --- A. Mengubah tulisan di Dasbor Utama ---
+        const tampilNama = document.getElementById('tampil-nama-profil');
+        const tampilEmail = document.getElementById('tampil-email-profil');
+  
+        if (tampilNama) tampilNama.innerText = dataPenggunaAktif.nama;
+        if (tampilEmail) tampilEmail.innerText = dataPenggunaAktif.email;
+
+        // --- B. Mengisi data ke dalam kotak Form Edit ---
+        const editNama = document.getElementById('edit-nama');
+        const editEmail = document.getElementById('edit-email');
+        const editWa = document.getElementById('edit-wa');
+
+        if (editNama) editNama.value = dataPenggunaAktif.nama;
+        if (editEmail) editEmail.value = dataPenggunaAktif.email;
+        if (editWa) editWa.value = dataPenggunaAktif.wa;
+
+        // --- C. Mengubah Foto Profil Otomatis ---
+        const imgProfil = document.getElementById('foto-klien'); 
+        if (imgProfil) {
+        if (dataPenggunaAktif.role === 'admin') {
+        imgProfil.src = 'footer1.png'; // Foto admin
+        } else {
+        imgProfil.src = 'foto-default.png'; // Foto klien standar
         }
-       // Fungsi tombol simpan
+      }
+   }
+
+        // 3. JALANKAN OTOMATIS SAAT HALAMAN DIBUKA
+        muatDataProfil();
+
+       // 4. Fungsi tombol buka/tutup form (sekarang jadi lebih ringkas)
+       function toggleEditProfil() {
+       const kotak = document.getElementById('kotak-edit-profil');
+       kotak.classList.toggle('hidden');
+   }
+
+       // 5. Fungsi simpan form
        function simpanProfil() {
        alert("Profil berhasil diperbarui!");
-       toggleEditProfil(); // Menutup form otomatis setelah disimpan
-       }
-       // Fungsi otomatis mengubah foto jika yang login adalah admin
-       function aturFotoProfil(role) {
-       // Pastikan tag <img> untuk foto profil di HTML memiliki id="foto-klien"
-       const imgProfil = document.getElementById('foto-klien'); 
-       if (imgProfil) {
-       if (role === 'admin') {
-       imgProfil.src = 'footer1.png'; 
-      }
-    }
-  }
+       toggleEditProfil(); 
+   }
+
     </script>
        <!-- MODAL & IFRAME -->
         <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
