@@ -1465,9 +1465,30 @@
                             <p class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
                         </div>
                     </div>
+                    <button onclick="toggleEditProfil()" class="w-full mb-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-[12px] md:text-sm font-bold transition block">Edit Profil</button>
                     <button onclick="prosesLogout()" class="bg-red-500/10 hover:bg-red-500 hover:text-white text-red-500 font-bold py-2 px-6 rounded-full text-[11px] sm:text-xs transition border border-red-500/30 uppercase tracking-widest shadow-sm">Keluar Akun</button>
                 </div>
+                     <!-- KOTAK FORM EDIT PROFIL -->
+                     <div id="kotak-edit-profil" class="hidden mb-6 p-5 border border-gray-200 dark:border-gray-700 rounded-2xl bg-gray-50 dark:bg-gray-800 shadow-sm text-left max-w-xl mx-auto">
+                     <h4 class="font-extrabold text-sm md:text-base mb-4">Pengaturan Profil</h4>
+  
+                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Unggah Foto Baru</label>
+                     <input type="file" id="edit-foto" accept="image/*" class="w-full mb-3 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700">
 
+                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Nama Tampilan</label>
+                     <input type="text" id="edit-nama" value="" placeholder="Nama Klien" class="w-full mb-3 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
+
+                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Email (Tetap)</label>
+                     <input type="email" id="edit-email" value="" placeholder="Email terdaftar" readonly class="w-full mb-3 border p-2 rounded-lg text-sm bg-gray-200 dark:bg-gray-900 text-gray-500 cursor-not-allowed">
+
+                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">No. WhatsApp</label>
+                     <input type="number" id="edit-wa" value="" placeholder="08..." class="w-full mb-3 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
+
+                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Password Baru</label>
+                     <input type="password" id="edit-password" placeholder="Kosongkan jika tidak ingin ganti sandi" class="w-full mb-4 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
+
+                     <button onclick="simpanProfil()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-bold text-sm transition">Simpan Perubahan</button>
+                </div>
                 <div class="space-y-10">
                     <!-- Tabel Riwayat Penerbitan -->
                     <div>
@@ -2070,12 +2091,12 @@
                     if(window.muatRiwayatProfil) window.muatRiwayatProfil(); bukaHalaman('profil');
                 }, 6000); 
                 
-            } catch (error) { 
-                if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
-                showToast("Gagal menyimpan ke database.", "error"); 
-                btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN"; 
-            }
-        };
+                } catch (error) { 
+                   if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
+                   showToast("Gagal menyimpan ke database.", "error"); 
+                   btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN"; 
+               }
+            };
 
         // AKSI AKUN DENGAN TOAST
         document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -2093,7 +2114,39 @@
         function prosesLogout() { window.signOut(window.auth).then(() => { showToast("Berhasil keluar.", "success"); bukaHalaman('beranda'); document.getElementById('nav-dropdown').classList.add('hidden'); }); }
         
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
-        </script>
+
+        // Simulasi data klien dari database
+        const dataKlienAktif = {
+        nama: "Nararya Wahyuda", // Ini akan diganti otomatis dari database nanti
+        email: "ptmediatulisanmanusia@gmail.com",
+        wa: "081234567890"
+        };
+        // Fungsi membuka form dan mengisi data otomatis
+        function toggleEditProfil() {
+        const kotak = document.getElementById('kotak-edit-profil');
+        // Mengisi form dengan data klien aktif
+        document.getElementById('edit-nama').value = dataKlienAktif.nama;
+        document.getElementById('edit-email').value = dataKlienAktif.email;
+        document.getElementById('edit-wa').value = dataKlienAktif.wa;
+        // Menampilkan atau menyembunyikan kotak
+       kotak.classList.toggle('hidden');
+        }
+       // Fungsi tombol simpan
+       function simpanProfil() {
+       alert("Profil berhasil diperbarui!");
+       toggleEditProfil(); // Menutup form otomatis setelah disimpan
+       }
+       // Fungsi otomatis mengubah foto jika yang login adalah admin
+       function aturFotoProfil(role) {
+       // Pastikan tag <img> untuk foto profil di HTML memiliki id="foto-klien"
+       const imgProfil = document.getElementById('foto-klien'); 
+       if (imgProfil) {
+       if (role === 'admin') {
+       imgProfil.src = 'footer1.png'; 
+      }
+    }
+  }
+    </script>
        <!-- MODAL & IFRAME -->
         <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
         <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
