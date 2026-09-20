@@ -1343,8 +1343,6 @@
     </div>
 </footer>
 
-
-    
     <!-- SCRIPT KHUSUS ANIMASI SCROLL MINI (Diinjeksikan langsung agar otomatis jalan) -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -1960,8 +1958,8 @@
             document.getElementById('tabel-hki').innerHTML = htmlHKI || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
         }
 
-                // DATABASE: ADMIN PUSAT
-        window.muatRiwayatAdmin = async function() {
+            // DATABASE: ADMIN PUSAT
+            window.muatRiwayatAdmin = async function() {
             if(!window.isAdmin) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.orderBy("waktuLokal", "desc"));
             const snapshot = await window.getDocs(q);
@@ -2043,8 +2041,8 @@
             );
         }
 
-        //         // KIRIM PENGAJUAN FORM
-        window.kirimFormLayanan = async function(e, tipeLayanan) {
+            // KIRIM PENGAJUAN FORM
+            window.kirimFormLayanan = async function(e, tipeLayanan) {
             e.preventDefault(); const f = e.target;
             if(!window.currentUserEmail) { showToast("Gagal: Anda belum login.", "error"); bukaHalaman('login'); return; }
             const btn = f.querySelector('button[type="submit"]'); btn.disabled = true; btn.innerText = "Mengirim...";
@@ -2119,11 +2117,10 @@
 
         // 1. Ini adalah simulasi data dari Database
         const dataPenggunaAktif = {
-        nama: "Nararya Wahyuda",
-        email: "ptmediatulisanmanusia@gmail.com",
-        wa: "081234567890",
-        role: "admin" // Ganti jadi "klien" kalau mau lihat tampilan versi klien biasa
-        };
+        nama: id="profil-nama",
+        email: id="profil-nama",
+        wa: ".",
+        role: "klien"};
 
         // 2. Fungsi ini bertugas menyinkronkan SEMUA data ke tampilan
         function muatDataProfil() {
