@@ -2113,59 +2113,46 @@
         
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
 
-        // SISTEM DATA PROFIL OTOMATIS
 
-        // 1. Ini adalah simulasi data dari Database
-        const dataPenggunaAktif = {
-        nama: id="profil-nama",
-        email: id="profil-nama",
-        wa: ".",
-        role: "klien"};
-
-        // 2. Fungsi ini bertugas menyinkronkan SEMUA data ke tampilan
-        function muatDataProfil() {
-       // --- A. Mengubah tulisan di Dasbor Utama ---
-        const tampilNama = document.getElementById('profil-nama');
-        const tampilEmail = document.getElementById('profil-email');
-  
-        if (tampilNama) tampilNama.innerText = dataPenggunaAktif.nama;
-        if (tampilEmail) tampilEmail.innerText = dataPenggunaAktif.email;
-
-        // --- B. Mengisi data ke dalam kotak Form Edit ---
-        const editNama = document.getElementById('edit-nama');
-        const editEmail = document.getElementById('edit-email');
-        const editWa = document.getElementById('edit-wa');
-
-        if (editNama) editNama.value = dataPenggunaAktif.nama;
-        if (editEmail) editEmail.value = dataPenggunaAktif.email;
-        if (editWa) editWa.value = dataPenggunaAktif.wa;
-
-        // --- C. Mengubah Foto Profil Otomatis ---
-        const imgProfil = document.getElementById('foto-klien'); 
-        if (imgProfil) {
-        if (dataPenggunaAktif.role === 'admin') {
-        imgProfil.src = 'footer1.png'; // Foto admin
-        } else {
-        imgProfil.src = 'foto-default.png'; // Foto klien standar
+        // EDIT PROFIL KLIEN (MENGIKUTI SISTEM ASLI)
+        function toggleEditProfil() {
+            const kotak = document.getElementById('kotak-edit-profil');
+            
+            // Saat kotak dibuka, masukkan nama dan email dari variabel sistem yang sedang login
+            if (kotak.classList.contains('hidden')) {
+                if (window.currentUserName) {
+                    document.getElementById('edit-nama').value = window.currentUserName;
+                }
+                if (window.currentUserEmail) {
+                    document.getElementById('edit-email').value = window.currentUserEmail;
+                }
+            }
+            
+            kotak.classList.toggle('hidden');
         }
-      }
-   }
 
-        // 3. JALANKAN OTOMATIS SAAT HALAMAN DIBUKA
-        muatDataProfil();
+        function simpanProfil() {
+            const namaBaru = document.getElementById('edit-nama').value;
+            
+            if (!namaBaru.trim()) {
+                showToast("Nama tidak boleh kosong!", "error");
+                return;
+            }
 
-       // 4. Fungsi tombol buka/tutup form (sekarang jadi lebih ringkas)
-       function toggleEditProfil() {
-       const kotak = document.getElementById('kotak-edit-profil');
-       kotak.classList.toggle('hidden');
-   }
-
-       // 5. Fungsi simpan form
-       function simpanProfil() {
-       alert("Profil berhasil diperbarui!");
-       toggleEditProfil(); 
-   }
-
+            // 1. Perbarui tampilan teks di layar secara langsung
+            document.getElementById('profil-nama').innerText = namaBaru;
+            document.getElementById('profil-inisial').innerText = namaBaru.charAt(0).toUpperCase();
+            
+            // 2. Perbarui variabel sistem agar tetap sinkron
+            window.currentUserName = namaBaru;
+            
+            // 3. Gunakan fungsi notifikasi bawaan sistem Anda
+            showToast("Profil berhasil diperbarui!", "success");
+            
+            // 4. Tutup kotak form edit
+            toggleEditProfil();
+        }
+        
     </script>
        <!-- MODAL & IFRAME -->
         <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
