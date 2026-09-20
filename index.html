@@ -1132,7 +1132,7 @@
                 </div>
             </section>
 
-                      <!-- Footer / About Us -->
+            <!-- Footer -->
             <footer class="mt-12 px-4 sm:px-6 pt-12 md:pt-16 pb-16 bg-white/90 dark:bg-[#1b1b1b]/90 backdrop-blur-xl text-center relative z-10 rounded-t-[3rem] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.4)] border-t border-gray-200 dark:border-[#2a2a2a] overflow-hidden">
                 <div class="relative z-10 flex flex-col items-center w-full">
                     <img src="footer1.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl dark:hidden">
@@ -1374,32 +1374,31 @@
              <div class="w-16 h-16 bg-warnautama dark:bg-white text-white dark:text-warnakeempat rounded-full flex justify-center items-center font-black text-3xl uppercase shadow-md border-2 border-warnakedua/50" id="profil-inisial">U</div>
              <div>
              <h2 class="text-lg md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight" id="profil-nama">Memuat...</h2>
-                            <p class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
-                        </div>
-                    </div> 
-                    <button onclick="toggleEditProfil()" class="bg-warnautama dark:-white hover:bg-warnautama/30 dark:bg-white hover:text-white dark:text-warnakeempat text-white dark:-warnakeempat font-bold py-2 px-6 rounded-full text-[11px] sm:text-xs transition border border-warnautama/10 dark:border-white/30 uppercase tracking-widest shadow-sm">Edit Profil</button>
-                    <button onclick="prosesLogout()" class="bg-red-500/10 hover:bg-red-500 hover:text-white text-red-500 font-bold py-2 px-6 rounded-full text-[11px] sm:text-xs transition border border-red-500/30 uppercase tracking-widest shadow-sm">Keluar Akun</button>
-                    </div>
-                     <!-- KOTAK FORM EDIT PROFIL -->
-                     <div id="kotak-edit-profil" class="hidden mb-6 p-5 border border-gray-200 dark:border-gray-700 rounded-2xl bg-gray-50 dark:bg-gray-800 shadow-sm text-left max-w-xl mx-auto">
-                     <h4 class="font-extrabold text-sm md:text-base mb-4">Pengaturan Profil</h4>
-                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Nama Tampilan</label>
-                     <input type="text" id="edit-nama" value="" placeholder="Nama Klien" class="w-full mb-3 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
-                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Email (Tetap)</label>
-                     <input type="email" id="edit-email" value="" placeholder="Email terdaftar" readonly class="w-full mb-3 border p-2 rounded-lg text-sm bg-gray-200 dark:bg-gray-900 text-gray-500 cursor-not-allowed">
-                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">No. WhatsApp</label>
-                     <input type="number" id="edit-wa" value="" placeholder="08..." class="w-full mb-3 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
-                     <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Password Baru</label>
-                     <input type="password" id="edit-password" placeholder="Kosongkan jika tidak ingin ganti sandi" class="w-full mb-4 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
-                     <button onclick="simpanProfil()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-bold text-sm transition">Simpan Perubahan</button>
-                </div>
+             <p class="text-[11px] sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-0.5" id="profil-email">memuat email...</p>
+            </div>
+            </div> 
+              <button onclick="toggleEditProfil()" class="bg-warnautama dark:-white hover:bg-warnautama/30 dark:bg-white hover:text-white dark:text-warnakeempat text-white dark:-warnakeempat font-bold py-2 px-6 rounded-full text-[11px] sm:text-xs transition border border-warnautama/10 dark:border-white/30 uppercase tracking-widest shadow-sm">Edit Profil</button>
+              <button onclick="prosesLogout()" class="bg-red-500/10 hover:bg-red-500 hover:text-white text-red-500 font-bold py-2 px-6 rounded-full text-[11px] sm:text-xs transition border border-red-500/30 uppercase tracking-widest shadow-sm">Keluar Akun</button>
+            </div>
+              <div id="kotak-edit-profil" class="hidden mb-6 p-5 border border-gray-200 dark:border-gray-700 rounded-2xl bg-gray-50 dark:bg-gray-800 shadow-sm text-left max-w-xl mx-auto">
+              <h4 class="font-extrabold text-sm md:text-base mb-4">Pengaturan Profil</h4>
+              <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Nama Tampilan</label>
+              <input type="text" id="edit-nama" value="" placeholder="Nama Klien" class="w-full mb-3 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
+              <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Email (Tetap)</label>
+              <input type="email" id="edit-email" value="" placeholder="Email terdaftar" readonly class="w-full mb-3 border p-2 rounded-lg text-sm bg-gray-200 dark:bg-gray-900 text-gray-500 cursor-not-allowed">
+              <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">No. WhatsApp</label>
+              <input type="number" id="edit-wa" value="" placeholder="08..." class="w-full mb-3 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
+              <label class="block text-[11px] md:text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Password Baru</label>
+              <input type="password" id="edit-password" placeholder="Kosongkan jika tidak ingin ganti sandi" class="w-full mb-4 border p-2 rounded-lg text-sm bg-white dark:bg-gray-700 focus:outline-blue-500">
+              <button onclick="simpanProfil()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-bold text-sm transition">Simpan Perubahan</button>
+             </div>
                 <div class="space-y-10">
-                    <!-- Tabel Riwayat Penerbitan -->
-                    <div>
-                        <h3 class="font-extrabold text-xs sm:text-sm md:text-base text-warnautama dark:text-white mb-4 uppercase tracking-widest flex items-center gap-2">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnakedua" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                            Riwayat Naskah Saya
-                        </h3>
+                    
+              <div>
+                <h3 class="font-extrabold text-xs sm:text-sm md:text-base text-warnautama dark:text-white mb-4 uppercase tracking-widest flex items-center gap-2">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnakedua" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    Riwayat Naskah Saya
+                     </h3>
                         <div class="overflow-x-auto rounded-[1.5rem] border border-warnautama dark:border-warnakeempat/60 bg-white/60 dark:bg-warnakeempat/40 shadow-inner">
                             <table class="w-full text-left border-collapse min-w-[600px]">
                                 <thead>
@@ -1416,8 +1415,7 @@
                             </table>
                         </div>
                     </div>
-
-                    <!-- Tabel Riwayat Hak Cipta -->
+                    
                     <div>
                         <h3 class="font-extrabold text-xs sm:text-sm md:text-base text-warnautama dark:text-white mb-4 uppercase tracking-widest flex items-center gap-2">
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnakedua" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
@@ -1450,7 +1448,7 @@
              </footer>
         </div>
         
-        <!-- HALAMAN DASHBOARD ADMIN PUSAT -->
+        <!-- ADMIN -->
         <div id="hal-admin" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-6xl mx-auto w-full">
             <button onclick="bukaHalaman('beranda')" class="mb-6 text-xs font-bold text-warnakedua glass px-5 py-2.5 rounded-full">&larr; Beranda</button>
             <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-2xl relative border-t-4 border-warnakedua dark:border-warnakeempat">
@@ -1489,17 +1487,15 @@
 
         <!-- HALAMAN KIRIM NASKAH -->
         <div id="hal-kirim-naskah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-            <button onclick="bukaHalaman('langkah')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
-            <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
-                <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">Pengajuan Penerbitan Naskah</h2>
-                <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama p-5 rounded-2xl mb-8"><h4 class="font-extrabold mb-3 uppercase">Informasi Biaya Paket</h4><div class="grid sm:grid-cols-2 gap-4"><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Standar</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 500.000</span></div><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Eksklusif</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 1.300.000</span></div></div></div>
-                <form onsubmit="kirimFormLayanan(event, 'Penerbitan Naskah')" class="space-y-5 text-left">
-    <!-- Keperluan FormSubmit agar lebih rapi -->
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_next" value="https://formsubmit.co/success.html">
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <button onclick="bukaHalaman('langkah')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
+        <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
+        <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">Pengajuan Penerbitan Naskah</h2>
+        <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama p-5 rounded-2xl mb-8"><h4 class="font-extrabold mb-3 uppercase">Informasi Biaya Paket</h4><div class="grid sm:grid-cols-2 gap-4"><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Standar</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 500.000</span></div><div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Paket Eksklusif</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 1.300.000</span></div></div></div>
+        <form onsubmit="kirimFormLayanan(event, 'Penerbitan Naskah')" class="space-y-5 text-left">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://formsubmit.co/success.html">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
             <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Lengkap <span class="text-red-500">*</span></label>
             <input type="text" name="Nama_Lengkap" required placeholder="Tuliskan sesuai KTP Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
@@ -1616,7 +1612,7 @@
      </footer>
  </div>
 
-     <!-- HALAMAN DAFTAR HAK CIPTA -->
+     <!-- DAFTAR HAK CIPTA -->
         <div id="hal-daftar-hki" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
             <button onclick="bukaHalaman('langkah')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
             <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
@@ -1758,9 +1754,8 @@
         <div id="hal-hubungi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-8">Hubungi Kami</h2><div class="md:flex gap-10"><div class="flex-1 space-y-6"><div><p class="text-xs text-gray-500 font-bold mb-1">WA Bisnis</p><p class="font-bold text-lg">0882 9444 8222</p></div><div><p class="text-xs text-gray-500 font-bold mb-1">Email</p><p class="font-bold">ptmediatulisanmanusia@gmail.com</p></div><div><p class="text-xs text-gray-500 font-bold mb-1">Jam & Kantor</p><p class="text-sm">Senin-Sabtu 09.00-17.00 WIB<br>Jl. Supriyadi No.48 Malang<br>Jl. Raya Malang-Sby No.101 Pasuruan</p></div></div><div class="flex-1 mt-10 md:mt-0"><form onsubmit="kirimPesanKontak(event)" class="space-y-4"><input type="text" required placeholder="Nama Lengkap" class="input-nama w-full bg-white/70 border rounded-2xl p-4 text-sm"><input type="email" required placeholder="Email" class="input-email w-full bg-white/70 border rounded-2xl p-4 text-sm"><textarea required placeholder="Pesan..." class="input-pesan w-full bg-white/70 border rounded-2xl p-4 text-sm auto-resize" rows="4"></textarea><button type="submit" class="w-full bg-warnautama text-white font-bold py-4 rounded-full text-sm">Kirim Pesan</button></form></div></div></div></div>   
         </div>
     
-    <!-- SCRIPT UTAMA -->
-    <script>
-        function showToast(message, type = 'success') {
+        <script>
+            function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
@@ -1849,12 +1844,9 @@
             let htmlNaskah = ''; let htmlHKI = '';
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                
-                // PERBAIKAN: Tombol Unduh PDF Klien Dibuat Besar & Jelas
                 const btnFile = (data.fileHasil && data.fileHasil !== "") 
                     ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1">📥 UNDUH FILE</a>` 
                     : `<span class="text-gray-400 text-[10px] italic bg-gray-100 px-3 py-1 rounded-md border border-gray-200">Belum ada file</span>`;
-                
                 const statusColor = data.status === 'Berhasil' ? 'text-green-600' : 'text-yellow-600';
                 const baris = `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
                 
@@ -1873,10 +1865,7 @@
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
                 const id = docSnap.id;
-                
                 const statusWarna = data.status === 'Berhasil' ? 'text-green-600' : 'text-yellow-600';
-                
-                // PERBAIKAN: Riwayat File Admin diletakkan di kolom Aksi
                 const riwayatFileAdmin = (data.fileHasil && data.fileHasil !== "") 
                     ? `<div class="mt-2 p-1.5 bg-green-50 border border-green-200 rounded-md text-center"><span class="block text-[8px] text-gray-500 mb-0.5">File Terupload:</span><a href="${data.fileHasil}" target="_blank" class="inline-block bg-green-500 text-white px-2 py-1 rounded text-[9px] font-bold hover:bg-green-600 shadow-sm">📄 Lihat File</a></div>` 
                     : `<div class="mt-2 p-1 border border-dashed border-gray-300 rounded-md text-center"><span class="text-gray-400 text-[8px] italic">Belum ada file</span></div>`;
@@ -1906,7 +1895,7 @@
             try { await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); showToast("Status diperbarui!", "success"); window.muatRiwayatAdmin(); } 
             catch(e) { showToast("Gagal memperbarui status", "error"); }
         }
-            // PROSES UPLOAD PDF ADMIN
+            // PUPLOAD PDF ADMIN
             window.uploadPDFAdmin = function(id, inputElement) {
             const file = inputElement.files[0]; if(!file) return;
             
@@ -1947,7 +1936,7 @@
             );
         }
 
-            // KIRIM PENGAJUAN FORM
+            // KIRIM FORM
             window.kirimFormLayanan = async function(e, tipeLayanan) {
             e.preventDefault(); const f = e.target;
             if(!window.currentUserEmail) { showToast("Gagal: Anda belum login.", "error"); bukaHalaman('login'); return; }
@@ -1971,12 +1960,10 @@
 
                 const urlWeb = window.location.origin + window.location.pathname;
                 let linkEl = document.createElement('input'); linkEl.type = 'hidden'; linkEl.name = "Klik_Untuk_Buka_Dashboard_Admin"; linkEl.value = `${urlWeb}?admin=true`; f.appendChild(linkEl);
-
-                // Mencegah error dengan membuat iframe otomatis jika belum ada di HTML
                 if(!document.getElementById('hidden-iframe-upload')) {
-                    const ifm = document.createElement('iframe');
-                    ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
-                    document.body.appendChild(ifm);
+                const ifm = document.createElement('iframe');
+                ifm.name = "hidden-iframe-upload"; ifm.id = "hidden-iframe-upload"; ifm.style.display = "none";
+                document.body.appendChild(ifm);
                 }
 
                 f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
@@ -1984,8 +1971,6 @@
                 f.enctype = "multipart/form-data"; 
                 f.target = "hidden-iframe-upload"; 
                 f.submit();
-
-                // 2. WAKTU TUNGGU DITAMBAH JADI 6000 (6 DETIK) AGAR FILE SELESAI TERUPLOAD
                 setTimeout(() => {
                     if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
 
@@ -1999,10 +1984,9 @@
                    if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
                    showToast("Gagal menyimpan ke database.", "error"); 
                    btn.disabled = false; btn.innerText = "KIRIM PENGAJUAN"; 
-               }
-            };
+              }
+         };
 
-        // AKSI AKUN DENGAN TOAST
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value;
             window.signInWithEmailAndPassword(window.auth, email, pass).then(() => { showToast("Login Berhasil!", "success"); document.getElementById('loginForm').reset(); if(email.toLowerCase() === window.ADMIN_EMAIL) bukaHalaman('admin'); else bukaHalaman('beranda'); }).catch(() => { showToast("Email atau Sandi salah.", "error"); });
@@ -2016,32 +2000,22 @@
             e.preventDefault(); window.sendPasswordResetEmail(window.auth, document.getElementById('reset-email').value).then(() => { showToast("Link reset dikirim!", "success"); toggleFormAuth('login'); document.getElementById('resetForm').reset(); }).catch(() => { showToast("Email tidak ditemukan.", "error"); });
         });
         function prosesLogout() { window.signOut(window.auth).then(() => { showToast("Berhasil keluar.", "success"); bukaHalaman('beranda'); document.getElementById('nav-dropdown').classList.add('hidden'); }); }
-        
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
-
-    
-        // EDIT PROFIL KLIEN (TERHUBUNG KE FIREBASE)
         function toggleEditProfil() {
-            const kotak = document.getElementById('kotak-edit-profil');
-            
+            const kotak = document.getElementById('kotak-edit-profil'); 
             if (kotak.classList.contains('hidden')) {
-                // 1. Ambil Nama & Email dari sistem yang login
-                if (window.currentUserName) {
-                    document.getElementById('edit-nama').value = window.currentUserName;
-                }
-                if (window.currentUserEmail) {
-                    document.getElementById('edit-email').value = window.currentUserEmail;
-                }
-                
-                // 2. Tarik No. WA dari Firestore (jika pernah disimpan sebelumnya)
-                if (window.auth && window.auth.currentUser) {
-                    const userUid = window.auth.currentUser.uid;
-                    window.getDocs(window.query(window.collection(window.db, "users"), window.where("email", "==", window.currentUserEmail)))
-                    .then((snapshot) => {
-                        snapshot.forEach((docSnap) => {
-                            const data = docSnap.data();
-                            if (data.wa) {
-                                document.getElementById('edit-wa').value = data.wa;
+            if (window.currentUserName) {
+            document.getElementById('edit-nama').value = window.currentUserName;}
+            if (window.currentUserEmail) {
+            document.getElementById('edit-email').value = window.currentUserEmail;}
+            if (window.auth && window.auth.currentUser) {
+            const userUid = window.auth.currentUser.uid;
+            window.getDocs(window.query(window.collection(window.db, "users"), window.where("email", "==", window.currentUserEmail)))
+                  .then((snapshot) => {
+            snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data.wa) {
+            document.getElementById('edit-wa').value = data.wa;
                             }
                         });
                     }).catch(err => console.log("WA belum diset"));
@@ -2051,7 +2025,7 @@
             kotak.classList.toggle('hidden');
         }
 
-        async function simpanProfil() {
+            async function simpanProfil() {
             const namaBaru = document.getElementById('edit-nama').value;
             const waBaru = document.getElementById('edit-wa').value;
             
@@ -2063,28 +2037,19 @@
             const user = window.auth.currentUser;
             if (user) {
                 try {
-                    // 1. Simpan Nama ke Firebase Auth (Biar gak ilang pas di-refresh)
-                    await window.updateProfile(user, { displayName: namaBaru });
-
-                    // 2. Simpan No. WA ke Firestore database (koleksi "users")
-                    // Kita cari apakah datanya sudah ada, kalau belum buat baru, kalau sudah di-update
-                    const q = window.query(window.collection(window.db, "users"), window.where("email", "==", user.email));
-                    const snapshot = await window.getDocs(q);
-                    
-                    if (!snapshot.empty) {
-                        // Update data yang sudah ada
-                        const docId = snapshot.docs[0].id;
-                        await window.updateDoc(window.doc(window.db, "users", docId), { wa: waBaru, nama: namaBaru });
-                    } else {
-                        // Buat data baru jika belum ada
-                        await window.addDoc(window.collection(window.db, "users"), {
-                            email: user.email,
-                            nama: namaBaru,
-                            wa: waBaru
+            await window.updateProfile(user, { displayName: namaBaru });
+            const q = window.query(window.collection(window.db, "users"), window.where("email", "==", user.email));
+            const snapshot = await window.getDocs(q); 
+            if (!snapshot.empty) {
+            const docId = snapshot.docs[0].id;
+            await window.updateDoc(window.doc(window.db, "users", docId), { wa: waBaru, nama: namaBaru });
+            } else {
+            await window.addDoc(window.collection(window.db, "users"), {
+                          email: user.email,
+                          nama: namaBaru,
+                          wa: waBaru
                         });
                     }
-
-                    // 3. Perbarui tampilan layar secara langsung
                     document.getElementById('profil-nama').innerText = namaBaru;
                     document.getElementById('profil-inisial').innerText = namaBaru.charAt(0).toUpperCase();
                     window.currentUserName = namaBaru;
@@ -2099,19 +2064,14 @@
                 showToast("Sesi habis, silakan login ulang.", "error");
             }
         }
-
-        
+            
     </script>
-       <!-- MODAL & IFRAME -->
         <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
         <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
         <div class="flex justify-between px-5 py-4 bg-gray-100 border-b"><h3 id="judul-modal-pencarian" class="font-bold text-warnautama">Hasil Pencarian</h3><button onclick="tutupModalPencarian()" class="text-gray-500 hover:text-red-500 font-bold text-2xl">&times;</button></div>
            <div class="flex-grow"><iframe id="iframe-pencarian" src="" class="w-full h-full border-none"></iframe></div>
         </div>
-    </div>
-
-    <!-- Iframe rahasia yang namanya sudah disamakan dengan target JavaScript -->
-    <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>
-    
-</body>
+      </div>
+    <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>    
+  </body>
 </html>
