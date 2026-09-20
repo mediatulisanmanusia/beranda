@@ -2105,45 +2105,87 @@
         
         setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 3000);
 
-
-        // EDIT PROFIL KLIEN (MENGIKUTI SISTEM ASLI)
+    
+        // EDIT PROFIL KLIEN (TERHUBUNG KE FIREBASE)
         function toggleEditProfil() {
             const kotak = document.getElementById('kotak-edit-profil');
             
-            // Saat kotak dibuka, masukkan nama dan email dari variabel sistem yang sedang login
             if (kotak.classList.contains('hidden')) {
+                // 1. Ambil Nama & Email dari sistem yang login
                 if (window.currentUserName) {
                     document.getElementById('edit-nama').value = window.currentUserName;
                 }
                 if (window.currentUserEmail) {
                     document.getElementById('edit-email').value = window.currentUserEmail;
                 }
+                
+                // 2. Tarik No. WA dari Firestore (jika pernah disimpan sebelumnya)
+                if (window.auth && window.auth.currentUser) {
+                    const userUid = window.auth.currentUser.uid;
+                    window.getDocs(window.query(window.collection(window.db, "users"), window.where("email", "==", window.currentUserEmail)))
+                    .then((snapshot) => {
+                        snapshot.forEach((docSnap) => {
+                            const data = docSnap.data();
+                            if (data.wa) {
+                                document.getElementById('edit-wa').value = data.wa;
+                            }
+                        });
+                    }).catch(err => console.log("WA belum diset"));
+                }
             }
             
             kotak.classList.toggle('hidden');
         }
 
-        function simpanProfil() {
+        async function simpanProfil() {
             const namaBaru = document.getElementById('edit-nama').value;
+            const waBaru = document.getElementById('edit-wa').value;
             
             if (!namaBaru.trim()) {
                 showToast("Nama tidak boleh kosong!", "error");
                 return;
             }
 
-            // 1. Perbarui tampilan teks di layar secara langsung
-            document.getElementById('profil-nama').innerText = namaBaru;
-            document.getElementById('profil-inisial').innerText = namaBaru.charAt(0).toUpperCase();
-            
-            // 2. Perbarui variabel sistem agar tetap sinkron
-            window.currentUserName = namaBaru;
-            
-            // 3. Gunakan fungsi notifikasi bawaan sistem Anda
-            showToast("Profil berhasil diperbarui!", "success");
-            
-            // 4. Tutup kotak form edit
-            toggleEditProfil();
+            const user = window.auth.currentUser;
+            if (user) {
+                try {
+                    // 1. Simpan Nama ke Firebase Auth (Biar gak ilang pas di-refresh)
+                    await window.updateProfile(user, { displayName: namaBaru });
+
+                    // 2. Simpan No. WA ke Firestore database (koleksi "users")
+                    // Kita cari apakah datanya sudah ada, kalau belum buat baru, kalau sudah di-update
+                    const q = window.query(window.collection(window.db, "users"), window.where("email", "==", user.email));
+                    const snapshot = await window.getDocs(q);
+                    
+                    if (!snapshot.empty) {
+                        // Update data yang sudah ada
+                        const docId = snapshot.docs[0].id;
+                        await window.updateDoc(window.doc(window.db, "users", docId), { wa: waBaru, nama: namaBaru });
+                    } else {
+                        // Buat data baru jika belum ada
+                        await window.addDoc(window.collection(window.db, "users"), {
+                            email: user.email,
+                            nama: namaBaru,
+                            wa: waBaru
+                        });
+                    }
+
+                    // 3. Perbarui tampilan layar secara langsung
+                    document.getElementById('profil-nama').innerText = namaBaru;
+                    document.getElementById('profil-inisial').innerText = namaBaru.charAt(0).toUpperCase();
+                    window.currentUserName = namaBaru;
+
+                    showToast("Profil berhasil diperbarui permanen!", "success");
+                    toggleEditProfil();
+
+                } catch (error) {
+                    showToast("Gagal menyimpan: " + error.message, "error");
+                }
+            } else {
+                showToast("Sesi habis, silakan login ulang.", "error");
+            }
         }
+
         
     </script>
        <!-- MODAL & IFRAME -->
