@@ -2099,5 +2099,15 @@
         </div>
       </div>
     <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('buka')) {
+                setTimeout(() => { 
+                    bukaHalaman(urlParams.get('buka')); 
+                }, 800);
+            }
+        });
+    </script>
   </body>
 </html>
