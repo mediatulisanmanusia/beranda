@@ -126,7 +126,7 @@
                 el.addEventListener('mouseleave', () => isPaused = false);
                 el.addEventListener('touchstart', () => isPaused = true, {passive:true});
                 el.addEventListener('touchend', () => { setTimeout(() => isPaused = false, 1500); });
-                function step() { if (!isPaused) { el.scrollLeft += 0.25; if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft -= el.scrollWidth / 2; } requestAnimationFrame(step); }
+                function step() { if (!isPaused) { el.scrollLeft += 0.5; if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft -= el.scrollWidth / 2; } requestAnimationFrame(step); }
                 requestAnimationFrame(step);
             }
                 autoScroll('scroll-katalog'); autoScroll('scroll-hki'); autoScroll('scroll-mitra'); autoScroll('scroll-media'); autoScroll('scroll-artikel');
@@ -1301,7 +1301,7 @@
                 el.addEventListener('touchend', () => { setTimeout(() => isPaused = false, 1500); });
                 function step() { 
                     if (!isPaused) { 
-                        el.scrollLeft += 0.25; 
+                        el.scrollLeft += 0.5; 
                         if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft -= el.scrollWidth / 2; 
                     } 
                     requestAnimationFrame(step); 
