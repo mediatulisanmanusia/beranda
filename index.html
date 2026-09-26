@@ -1067,59 +1067,62 @@
         </div>
     </div>
 </section>
-    <!-- ALUR PROSES LAYANAN -->
-<section class="px-5 md:px-10 pt-2 pb-6 relative z-10 max-w-5xl mx-auto">
-    <div class="glass p-6 md:p-10 rounded-[2rem] shadow-lg animate-fade-up border-t-4 border-warnakedua transition hover:shadow-2xl">
+    <!-- ALUR PROSES LAYANAN (CLEAN & HORIZONTAL) -->
+<section class="px-2 sm:px-10 pt-6 pb-10 relative z-10 max-w-5xl mx-auto font-sans">
+    
+    <!-- Judul Section -->
+    <div class="text-center mb-6 sm:mb-10">
+        <h4 class="text-sm sm:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">ALUR PROSES KAMI</h4>
+        <p class="text-[9px] sm:text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">Langkah mudah menuju legalitas dan penerbitan karya Anda.</p>
+    </div>
+
+    <!-- Container Alur Horizontal -->
+    <div class="flex justify-between relative mx-auto w-full max-w-4xl px-2">
         
-        <div class="text-center mb-8">
-            <h4 class="text-[18px] md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">ALUR PROSES KAMI</h4>
-            <p class="text-[11px] sm:text-sm text-gray-700 dark:text-gray-300 mt-2 font-medium">Langkah mudah menuju legalitas dan penerbitan karya Anda.</p>
+        <!-- Garis Penghubung (Tampil di HP & Laptop) -->
+        <!-- Posisi top diatur agar pas di tengah lingkaran -->
+        <div class="absolute top-[14px] sm:top-[28px] left-[12%] right-[12%] border-t-[1.5px] sm:border-t-2 border-dashed border-warnautama/40 dark:border-white/30 z-0"></div>
+
+        <!-- Step 1 -->
+        <div class="relative z-10 flex flex-col items-center text-center group cursor-default w-1/4 px-0.5">
+            <div class="w-7 h-7 sm:w-14 sm:h-14 bg-white dark:bg-warnakeempat rounded-full border-2 sm:border-4 border-warnautama dark:border-white flex items-center justify-center text-[10px] sm:text-xl font-black text-warnautama dark:text-white mb-1.5 sm:mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300 shadow-sm">
+                1
+            </div>
+            <h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Kirim<br class="block sm:hidden">Berkas</h5>
+            <p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">Isi form &<br class="block sm:hidden">unggah file</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-            
-            <!-- Garis Penghubung (Hanya tampil di Laptop) -->
-            <div class="hidden md:block absolute top-1/2 left-10 right-10 h-1 bg-gradient-to-r from-warnautama via-warnakedua to-warnautama dark:from-warnakeempat dark:to-warnakeempat -translate-y-1/2 rounded-full opacity-30 z-0"></div>
-
-            <!-- Step 1 -->
-            <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                <div class="w-14 h-14 bg-white dark:bg-warnakeempat rounded-full shadow-md border-4 border-warnautama dark:border-white flex items-center justify-center text-xl font-black text-warnautama dark:text-white mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300">
-                    1
-                </div>
-                <h5 class="text-xs sm:text-sm font-extrabold text-warnautama dark:text-white mb-1">Kirim Berkas</h5>
-                <p class="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 font-medium px-2">Isi form online, unggah naskah/karya & identitas diri (KTP).</p>
+        <!-- Step 2 -->
+        <div class="relative z-10 flex flex-col items-center text-center group cursor-default w-1/4 px-0.5">
+            <div class="w-7 h-7 sm:w-14 sm:h-14 bg-white dark:bg-warnakeempat rounded-full border-2 sm:border-4 border-warnautama dark:border-white flex items-center justify-center text-[10px] sm:text-xl font-black text-warnautama dark:text-white mb-1.5 sm:mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300 shadow-sm">
+                2
             </div>
-
-            <!-- Step 2 -->
-            <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                <div class="w-14 h-14 bg-white dark:bg-warnakeempat rounded-full shadow-md border-4 border-warnautama dark:border-white flex items-center justify-center text-xl font-black text-warnautama dark:text-white mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300">
-                    2
-                </div>
-                <h5 class="text-xs sm:text-sm font-extrabold text-warnautama dark:text-white mb-1">Verifikasi & Kurasi</h5>
-                <p class="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 font-medium px-2">Tim kami meninjau kelayakan dan kelengkapan dokumen Anda.</p>
-            </div>
-
-            <!-- Step 3 -->
-            <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                <div class="w-14 h-14 bg-white dark:bg-warnakeempat rounded-full shadow-md border-4 border-warnautama dark:border-white flex items-center justify-center text-xl font-black text-warnautama dark:text-white mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300">
-                    3
-                </div>
-                <h5 class="text-xs sm:text-sm font-extrabold text-warnautama dark:text-white mb-1">Proses Legalitas</h5>
-                <p class="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 font-medium px-2">Pendaftaran QRCBN / submisi resmi ke DJKI Kemenkumham.</p>
-            </div>
-
-            <!-- Step 4 -->
-            <div class="relative z-10 flex flex-col items-center text-center group cursor-default">
-                <div class="w-14 h-14 bg-white dark:bg-warnakeempat rounded-full shadow-md border-4 border-warnautama dark:border-white flex items-center justify-center text-xl font-black text-warnautama dark:text-white mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-                </div>
-                <h5 class="text-xs sm:text-sm font-extrabold text-warnautama dark:text-white mb-1">Sertifikat Terbit</h5>
-                <p class="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 font-medium px-2">Buku diterbitkan atau Sertifikat Hak Cipta resmi dikirimkan.</p>
-            </div>
-
+            <h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Verifikasi<br class="block sm:hidden">& Kurasi</h5>
+            <p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">Cek kelayakan<br class="block sm:hidden">dokumen</p>
         </div>
+
+        <!-- Step 3 -->
+        <div class="relative z-10 flex flex-col items-center text-center group cursor-default w-1/4 px-0.5">
+            <div class="w-7 h-7 sm:w-14 sm:h-14 bg-white dark:bg-warnakeempat rounded-full border-2 sm:border-4 border-warnautama dark:border-white flex items-center justify-center text-[10px] sm:text-xl font-black text-warnautama dark:text-white mb-1.5 sm:mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300 shadow-sm">
+                3
+            </div>
+            <h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Proses<br class="block sm:hidden">Legalitas</h5>
+            <p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">QRCBN &<br class="block sm:hidden">Kemenkumham</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="relative z-10 flex flex-col items-center text-center group cursor-default w-1/4 px-0.5">
+            <div class="w-7 h-7 sm:w-14 sm:h-14 bg-white dark:bg-warnakeempat rounded-full border-2 sm:border-4 border-warnautama dark:border-white flex items-center justify-center text-[10px] sm:text-xl font-black text-warnautama dark:text-white mb-1.5 sm:mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300 shadow-sm">
+                <svg class="w-3.5 h-3.5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Sertifikat<br class="block sm:hidden">Terbit</h5>
+            <p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">Buku & HKI<br class="block sm:hidden">Selesai</p>
+        </div>
+
     </div>
 </section>
+<!-- AKHIR ALUR PROSES -->
+
 
              <!-- INFORMASI BIAYA -->
             <section class="px-5 md:px-10 pt-10 md:pt-12 relative z-10 max-w-4xl mx-auto">
