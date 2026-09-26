@@ -209,7 +209,6 @@
                     } else if (isTidakAda) {
                         botReply = "Terima kasih sudah menghubungi Cipta, semoga harimu menyenangkan.";
                         clearTimeout(timerTanyaMasiAda); 
-                        // Jika klien bilang "tidak ada/sudah", Cipta otomatis menutup chat setelah 2.5 detik
                         setTimeout(() => { if(cx) cx.click(); }, 2500); 
                     } else if (isBuku) {
                         if(countPenerbitan === 0) {
@@ -406,16 +405,15 @@
          </button>
         </div>
     </section>        
-
 <!-- KONTEN RADIAL MENU LAYANAN -->
-<div class="mb-10 sm:mb-16">
+<div class="mt-20 sm:mt-24 mb-12 sm:mb-16">
   <!-- Container Utama Radial Menu -->
   <div class="relative w-48 h-48 sm:w-80 sm:h-80 mx-auto font-sans my-8 sm:my-10">
     
     <!-- Lingkaran Garis Putus-putus (Orbit Luar) -->
     <div class="absolute inset-0 rounded-full border-2 border-dashed border-warnautama/40 dark:border-white/30 animate-[spin_20s_linear_infinite] z-0"></div>
     
-    <!-- Lingkaran Garis Putus-putus (Orbit Dalam - Baru) -->
+    <!-- Lingkaran Garis Putus-putus (Orbit Dalam) -->
     <div class="absolute inset-5 sm:inset-10 rounded-full border border-dashed border-warnautama/30 dark:border-white/20 animate-[spin_25s_linear_infinite] z-0"></div>
 
     <!-- Lingkaran Besar Tengah (Pusat) -->
@@ -431,7 +429,7 @@
       <div class="w-10 h-10 sm:w-16 sm:h-16 bg-white dark:bg-warnakeempat rounded-full flex items-center justify-center shadow-lg border-2 border-warnautama/70 dark:border-gray-500 text-warnautama dark:text-gray-200 transition-all duration-300 group-hover:scale-125 group-hover:bg-warnautama group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-warnakeempat">
         <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
       </div>
-      <span class="absolute bottom-full mb-1 sm:mb-2 whitespace-nowrap text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:-translate-y-1">Penerbitan</span>
+      <span class="absolute bottom-full mb-1.5 sm:mb-2 text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:-translate-y-1">Penerbitan</span>
     </div>
 
     <!-- 2. Jasa Hak Cipta (Posisi Kanan) -->
@@ -439,7 +437,7 @@
       <div class="w-10 h-10 sm:w-16 sm:h-16 bg-white dark:bg-warnakeempat rounded-full flex items-center justify-center shadow-lg border-2 border-warnautama/70 dark:border-gray-500 text-warnautama dark:text-gray-200 transition-all duration-300 group-hover:scale-125 group-hover:bg-warnautama group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-warnakeempat">
         <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
       </div>
-      <span class="absolute left-full ml-1 sm:ml-3 whitespace-nowrap text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:translate-x-1">Jasa Hak Cipta</span>
+      <span class="absolute left-full ml-2 sm:ml-3 w-16 sm:w-24 text-left leading-tight text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:translate-x-1">Jasa<br>Hak Cipta</span>
     </div>
 
     <!-- 3. Jasa NIB (Posisi Bawah) -->
@@ -447,7 +445,7 @@
       <div class="w-10 h-10 sm:w-16 sm:h-16 bg-white dark:bg-warnakeempat rounded-full flex items-center justify-center shadow-lg border-2 border-warnautama/70 dark:border-gray-500 text-warnautama dark:text-gray-200 transition-all duration-300 group-hover:scale-125 group-hover:bg-warnautama group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-warnakeempat">
         <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
       </div>
-      <span class="absolute top-full mt-1 sm:mt-2 whitespace-nowrap text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:translate-y-1">Jasa NIB</span>
+      <span class="absolute top-full mt-1.5 sm:mt-2 text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:translate-y-1">Jasa NIB</span>
     </div>
 
     <!-- 4. Berita dan Artikel (Posisi Kiri) -->
@@ -455,7 +453,7 @@
       <div class="w-10 h-10 sm:w-16 sm:h-16 bg-white dark:bg-warnakeempat rounded-full flex items-center justify-center shadow-lg border-2 border-warnautama/70 dark:border-gray-500 text-warnautama dark:text-gray-200 transition-all duration-300 group-hover:scale-125 group-hover:bg-warnautama group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-warnakeempat">
         <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11l3 3L22 4"></path></svg>
       </div>
-      <span class="absolute right-full mr-1 sm:mr-3 whitespace-nowrap text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:-translate-x-1">Berita & Artikel</span>
+      <span class="absolute right-full mr-2 sm:mr-3 w-16 sm:w-24 text-right leading-tight text-[9px] sm:text-sm font-extrabold text-warnautama dark:text-white transition-all duration-300 group-hover:-translate-x-1">Berita &<br>Artikel</span>
     </div>
   </div>
 </div>
