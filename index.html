@@ -1727,6 +1727,29 @@
                             </table>
                         </div>
                     </div>
+                                        
+                    <div class="mt-10">
+                        <h3 class="font-extrabold text-xs sm:text-sm md:text-base text-warnautama dark:text-white mb-4 uppercase tracking-widest flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-warnakedua" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Riwayat Upload Literasi
+                        </h3>
+                        <div class="overflow-x-auto rounded-[1.5rem] border border-gray-300 dark:border-warnakeempat/60 bg-white/60 dark:bg-warnakeempat/40 shadow-inner">
+                            <table class="w-full text-left border-collapse min-w-[600px]">
+                                <thead>
+                                    <tr class="bg-warnautama dark:bg-warnakeempat text-[10px] sm:text-[11px] text-white uppercase tracking-wider">
+                                        <th class="p-4 font-bold rounded-tl-[1.5rem]">Tanggal</th>
+                                        <th class="p-4 font-bold">Judul Karya</th>
+                                        <th class="p-4 font-bold">Status</th>
+                                        <th class="p-4 font-bold text-center rounded-tr-[1.5rem]">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel-literasi" class="text-[11px] sm:text-xs text-warnautama dark:text-gray-200 font-medium divide-y divide-gray-200 dark:divide-gray-700/50">
+                                    <tr><td colspan="4" class="p-6 text-center text-gray-500 italic">Memuat riwayat...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
               <footer class="w-full mt-12 pb-10 flex justify-center items-center">
@@ -2220,28 +2243,37 @@
             }
         }, 1000);
 
-        // DATABASE: PROFIL KLIEN
+                // DATABASE: PROFIL KLIEN
         window.muatRiwayatProfil = async function() {
             if(!window.currentUserEmail) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.where("userEmail", "==", window.currentUserEmail));
             const snapshot = await window.getDocs(q);
-            let htmlNaskah = ''; let htmlHKI = '';
+            let htmlNaskah = ''; let htmlHKI = ''; let htmlLiterasi = '';
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                const btnFile = (data.fileHasil && data.fileHasil !== "") 
-                    ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1">📥 UNDUH FILE</a>` 
-                    : `<span class="text-gray-400 text-[10px] italic bg-gray-100 px-3 py-1 rounded-md border border-gray-200">Belum ada file</span>`;
-                const statusColor = data.status === 'Berhasil' ? 'text-green-600' : 'text-yellow-600';
-                const baris = `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
+                const statusColor = data.status === 'Berhasil' || data.status === 'Diterbitkan' ? 'text-green-600' : 'text-yellow-600';
                 
-                if(data.tipeLayanan.includes("Naskah")) htmlNaskah += baris; else htmlHKI += baris;
+                if (data.tipeLayanan === "Upload Literasi") {
+                    // Tampilan Non-Fungsi PDF untuk Literasi
+                    const btnFile = `<span class="text-gray-400 text-[10px] italic bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">Tahap Kurasi / Review</span>`;
+                    htmlLiterasi += `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
+                } else {
+                    const btnFile = (data.fileHasil && data.fileHasil !== "") 
+                        ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1">📥 UNDUH FILE</a>` 
+                        : `<span class="text-gray-400 text-[10px] italic bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-md border border-gray-200 dark:border-gray-700">Belum ada file</span>`;
+                    const baris = `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
+                    
+                    if(data.tipeLayanan.includes("Naskah")) htmlNaskah += baris; else htmlHKI += baris;
+                }
             });
             document.getElementById('tabel-penerbitan').innerHTML = htmlNaskah || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
-            document.getElementById('tabel-hki').innerHTML = htmlHKI || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
+            if(document.getElementById('tabel-hki')) document.getElementById('tabel-hki').innerHTML = htmlHKI || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
+            if(document.getElementById('tabel-literasi')) document.getElementById('tabel-literasi').innerHTML = htmlLiterasi || `<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>`;
         }
 
-            // DATABASE: ADMIN PUSAT
-            window.muatRiwayatAdmin = async function() {
+
+                    // DATABASE: ADMIN PUSAT
+        window.muatRiwayatAdmin = async function() {
             if(!window.isAdmin) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.orderBy("waktuLokal", "desc"));
             const snapshot = await window.getDocs(q);
@@ -2249,18 +2281,26 @@
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
                 const id = docSnap.id;
-                const statusWarna = data.status === 'Berhasil' ? 'text-green-600' : 'text-yellow-600';
-                const riwayatFileAdmin = (data.fileHasil && data.fileHasil !== "") 
-                    ? `<div class="mt-2 p-1.5 bg-green-50 border border-green-200 rounded-md text-center"><span class="block text-[8px] text-gray-500 mb-0.5">File Terupload:</span><a href="${data.fileHasil}" target="_blank" class="inline-block bg-green-500 text-white px-2 py-1 rounded text-[9px] font-bold hover:bg-green-600 shadow-sm">📄 Lihat File</a></div>` 
-                    : `<div class="mt-2 p-1 border border-dashed border-gray-300 rounded-md text-center"><span class="text-gray-400 text-[8px] italic">Belum ada file</span></div>`;
+                const statusWarna = data.status === 'Berhasil' || data.status === 'Diterbitkan' ? 'text-green-600' : 'text-yellow-600';
                 
-                html += `<tr>
-                    <td class="p-3 border-b"><span class="block font-bold">${data.waktuLokal}</span><span class="text-[9px] text-gray-500">${data.tipeLayanan}</span></td>
-                    <td class="p-3 border-b"><span class="block font-bold">${data.namaLengkap}</span><span class="text-[9px] text-gray-500">${data.userEmail} | ${data.wa}</span></td>
-                    <td class="p-3 border-b font-bold">${data.judul}</td>
-                    <td class="p-3 border-b"><span class="font-bold ${statusWarna}">${data.status}</span></td>
-                    <td class="p-3 border-b">
-                        <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border rounded p-1.5 text-[10px] mb-2 font-bold">
+                let aksiAdmin = '';
+                if (data.tipeLayanan === "Upload Literasi") {
+                    aksiAdmin = `
+                        <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none">
+                            <option value="Pending" ${data.status==='Pending'?'selected':''}>⏳ Pending</option>
+                            <option value="Review" ${data.status==='Review'?'selected':''}>👀 Direview</option>
+                            <option value="Diterbitkan" ${data.status==='Diterbitkan'?'selected':''}>✅ Diterbitkan</option>
+                            <option value="Ditolak" ${data.status==='Ditolak'?'selected':''}>❌ Ditolak</option>
+                        </select>
+                        <div class="mt-1 p-1.5 border border-dashed border-gray-300 bg-gray-50 rounded-md text-center"><span class="text-gray-400 text-[8.5px] italic font-medium">Non-fungsi PDF (Hanya Status)</span></div>
+                    `;
+                } else {
+                    const riwayatFileAdmin = (data.fileHasil && data.fileHasil !== "") 
+                        ? `<div class="mt-2 p-1.5 bg-green-50 border border-green-200 rounded-md text-center"><span class="block text-[8px] text-gray-500 mb-0.5">File Terupload:</span><a href="${data.fileHasil}" target="_blank" class="inline-block bg-green-500 text-white px-2 py-1 rounded text-[9px] font-bold hover:bg-green-600 shadow-sm">📄 Lihat File</a></div>` 
+                        : `<div class="mt-2 p-1 border border-dashed border-gray-300 rounded-md text-center"><span class="text-gray-400 text-[8px] italic">Belum ada file</span></div>`;
+                    
+                    aksiAdmin = `
+                        <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none">
                             <option value="Pending" ${data.status==='Pending'?'selected':''}>⏳ Pending</option>
                             <option value="Proses" ${data.status==='Proses'?'selected':''}>⚙️ Proses</option>
                             <option value="Berhasil" ${data.status==='Berhasil'?'selected':''}>✅ Berhasil</option>
@@ -2270,15 +2310,20 @@
                             <input type="file" class="hidden" accept=".pdf" onchange="window.uploadPDFAdmin('${id}', this)">
                         </label>
                         ${riwayatFileAdmin}
-                    </td>
+                    `;
+                }
+
+                html += `<tr>
+                    <td class="p-3 border-b"><span class="block font-bold">${data.waktuLokal}</span><span class="text-[9px] text-gray-500 font-bold bg-gray-100 px-1 py-0.5 rounded mt-1 inline-block">${data.tipeLayanan}</span></td>
+                    <td class="p-3 border-b"><span class="block font-bold">${data.namaLengkap}</span><span class="text-[9px] text-gray-500">${data.userEmail} | ${data.wa}</span></td>
+                    <td class="p-3 border-b font-bold">${data.judul}</td>
+                    <td class="p-3 border-b"><span class="font-bold ${statusWarna} bg-white px-2 py-1 rounded-md shadow-sm border border-gray-100">${data.status}</span></td>
+                    <td class="p-3 border-b align-top w-40">${aksiAdmin}</td>
                 </tr>`;
             });
             document.getElementById('tabel-admin').innerHTML = html || `<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>`;
         }
-                window.ubahStatusAdmin = async function(id, statusBaru) {
-            try { await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); showToast("Status diperbarui!", "success"); window.muatRiwayatAdmin(); } 
-            catch(e) { showToast("Gagal memperbarui status", "error"); }
-        }
+
             // PUPLOAD PDF ADMIN
             window.uploadPDFAdmin = function(id, inputElement) {
             const file = inputElement.files[0]; if(!file) return;
