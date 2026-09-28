@@ -370,6 +370,7 @@
             </div>  
             <button onclick="navKe('kirim-naskah')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Kirim Naskah</button>
             <button onclick="navKe('daftar-hki')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
+            <button onclick="navKe('upload-literasi')" class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Upload Literasi</button>
             </div>
             
             <div class="flex flex-col gap-2">     
@@ -1189,10 +1190,11 @@
                 <div class="glass p-8 md:p-12 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white transition hover:shadow-2xl">
                     <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 md:mb-4">MULAI LANGKAHMU</h4>
                     <p class="text-[11px] sm:text-sm md:text-base text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium">Lengkapi form online untuk mengirim naskah atau mendaftar Hak Cipta.</p>
-                    <div class="flex flex-col md:flex-row justify-center gap-4">
-                        <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-10 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase text-[11px] sm:text-sm hover:scale-105 transition">Kirim Naskah</button>
-                        <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-10 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
-                    </div>
+                    <div class="flex flex-col md:flex-row justify-center gap-3">
+                    <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-8 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase text-[11px] sm:text-sm hover:scale-105 transition">Kirim Naskah</button>
+                    <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-8 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
+                    <button onclick="bukaHalaman('upload-literasi')" class="w-full md:w-auto md:px-8 bg-warnakedua text-white font-extrabold py-4 rounded-full shadow-lg uppercase text-[11px] sm:text-sm hover:scale-105 transition">Upload Literasi</button>
+                </div>
                 </div>
             </section>
 
@@ -1380,9 +1382,10 @@
         <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 tracking-tight">MULAI LANGKAHMU</h4>
         <p class="text-[11px] sm:text-xs md:text-sm mb-6 text-gray-700 dark:text-gray-300 font-medium">Pilih form online untuk mengirim naskah atau mendaftar Hak Cipta.</p>
         <div class="flex flex-col sm:flex-row justify-center gap-3">
-            <button onclick="bukaHalaman('kirim-naskah')" class="w-full sm:w-auto px-8 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-full shadow-lg uppercase text-[11px] sm:text-xs hover:scale-105 transition">Kirim Naskah</button>
-            <button onclick="bukaHalaman('daftar-hki')" class="w-full sm:w-auto px-8 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-2.5 rounded-full shadow-sm uppercase text-[11px] sm:text-xs hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
-        </div>
+        <button onclick="bukaHalaman('kirim-naskah')" class="w-full sm:w-auto px-6 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-full shadow-lg uppercase text-[11px] sm:text-xs hover:scale-105 transition">Kirim Naskah</button>
+        <button onclick="bukaHalaman('daftar-hki')" class="w-full sm:w-auto px-6 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-2.5 rounded-full shadow-sm uppercase text-[11px] sm:text-xs hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
+        <button onclick="bukaHalaman('upload-literasi')" class="w-full sm:w-auto px-6 bg-warnakedua text-white font-extrabold py-3 rounded-full shadow-lg uppercase text-[11px] sm:text-xs hover:scale-105 transition">Upload Literasi</button>
+    </div>
     </div>
 
     <div class="grid grid-cols-2 gap-3 mt-4 max-w-2xl mx-auto">
@@ -2034,6 +2037,100 @@
                  </div>
              </footer>
         </div>
+       <!-- HALAMAN UPLOAD LITERASI -->
+       <div id="hal-upload-literasi" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto w-full">
+       <button onclick="bukaHalaman('langkah')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
+       <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
+        <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">Formulir Upload Literasi</h2>
+        
+        <form onsubmit="kirimFormLayanan(event, 'Upload Literasi')" class="space-y-5 text-left">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://formsubmit.co/success.html">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text" name="Nama_Lengkap" required placeholder="Sesuai nama Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Pena <span class="text-red-500">*</span></label>
+                    <input type="text" name="Nama_Pena" required placeholder="Nama pena untuk karya" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Email <span class="text-red-500">*</span></label>
+                    <input type="email" name="Email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                    <input type="number" name="WhatsApp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                </div>
+            </div>
+
+            <div class="my-6 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Judul Karya / Literasi <span class="text-red-500">*</span></label>
+                <input type="text" name="Judul" required placeholder="Masukkan judul karya Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Kategori <span class="text-red-500">*</span></label>
+                <select name="Kategori" required onchange="document.getElementById('wrapper-kategori-lainnya').classList.toggle('hidden', this.value !== 'Lainnya'); if(this.value !== 'Lainnya') document.getElementById('input-kategori-lainnya').value = '';" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white cursor-pointer appearance-none">
+                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                    <option value="Puisi">Puisi</option>
+                    <option value="Cerpen">Cerpen</option>
+                    <option value="Pentigraf">Pentigraf</option>
+                    <option value="Artikel">Artikel</option>
+                    <option value="Opini">Opini</option>
+                    <option value="Berita">Berita</option>
+                    <option value="Lainnya">Lainnya (Sebutkan)</option>
+                </select>
+            </div>
+
+            <div id="wrapper-kategori-lainnya" class="hidden mt-3">
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Sebutkan Kategori Lainnya <span class="text-red-500">*</span></label>
+                <input type="text" id="input-kategori-lainnya" name="Kategori_Lainnya" placeholder="Ketik kategori karya Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+                <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+                    <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Cover (Landscape) <span class="text-red-500">*</span></label>
+                    <input type="file" name="File_Cover" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+                    <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG / PNG. Landscape. Max 3MB.</p>
+                </div>
+                <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
+                    <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Literasi <span class="text-red-500">*</span></label>
+                    <input type="file" name="File_Literasi" accept=".pdf,.doc,.docx" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
+                    <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PDF / WORD. Max 3MB.</p>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Keterangan (Opsional)</label>
+                <textarea name="Keterangan" placeholder="Tambahkan keterangan jika perlu..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+            </div>
+
+            <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
+                    <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya bersedia melakukan konfirmasi ke WhatsApp Admin setelah formulir ini terkirim.</span>
+                </label>
+            </div>
+
+            <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                KIRIM LITERASI
+            </button>
+            </form>
+            </div>
+            <footer class="w-full mt-12 pb-10 flex justify-center items-center">
+            <div class="text-center text-[8px] sm:text-[10px] md:text-xs w-full">
+            <p class="text-warnautama dark:text-gray-300">Copyright &copy; Since 2022 - All Rights Reserved</p>
+            <p class="mt-1 text-gray-600 dark:text-gray-400">Created with passion by</p>
+            <p class="font-bold text-warnautama dark:text-white mt-0.5">PT MEDIA TULISAN MANUSIA</p>
+            </div>
+          </footer>
+        </div>
 
         <!-- HALAMAN INFO -->
         <div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Syarat & Ketentuan</h2><div class="space-y-6 text-sm font-medium"><p>1. <strong>Orisinalitas:</strong> Klien menjamin karya orisinal dan bebas plagiarisme.</p><p>2. <strong>Etika:</strong> Karya tidak mengandung SARA/Pornografi.</p><p>3. <strong>Hak Cipta:</strong> Kami fasilitator legalitas, hak komersial tetap milik klien.</p><p>4. <strong>Pembayaran:</strong> <em>Non-refundable</em> jika dibatalkan sepihak.</p></div></div></div>
@@ -2063,7 +2160,7 @@
         function cariDJKI(e) { e.preventDefault(); const kw = document.getElementById('input-keyword-djki').value.trim(); if(kw) window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(kw)}`, '_blank'); }
 
         function bukaHalaman(id) { 
-            if ((id === 'kirim-naskah' || id === 'daftar-hki' || id === 'profil') && !window.currentUserEmail) { showToast("Login / Daftar Akun terlebih dahulu", "error"); id = 'login'; }
+            if ((id === 'kirim-naskah' || id === 'daftar-hki' || id === 'upload-literasi' || id === 'profil') && !window.currentUserEmail) { showToast("Login / Daftar Akun terlebih dahulu", "error"); id = 'login'; }
             if (id === 'admin' && !window.isAdmin) { showToast("Akses Khusus Admin", "error"); id = 'beranda'; }
             document.querySelectorAll('.halaman-konten').forEach(h => h.classList.add('hidden')); 
             const d = document.getElementById('hal-' + id); 
