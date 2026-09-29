@@ -2355,8 +2355,8 @@
             }
         }, 1000);
 
-            // DATABASE: PROFIL KLIEN
-            window.muatRiwayatProfil = async function() {
+                    // DATABASE: PROFIL KLIEN
+        window.muatRiwayatProfil = async function() {
             if(!window.currentUserEmail) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.where("userEmail", "==", window.currentUserEmail));
             const snapshot = await window.getDocs(q);
@@ -2366,14 +2366,18 @@
                 const statusColor = data.status === 'Berhasil' || data.status === 'Diterbitkan' ? 'text-green-600' : 'text-yellow-600';
                 
                 if (data.tipeLayanan === "Upload Literasi") {
-                    // Logika Dinamis Keterangan Literasi
                     let teksKet = "Tahap Kurasi / Review";
                     if (data.status === "Pending") teksKet = "Menunggu Antrean";
                     else if (data.status === "Review") teksKet = "Sedang Direview";
                     else if (data.status === "Diterbitkan") teksKet = "Sudah Tayang di Web";
                     else if (data.status === "Ditolak") teksKet = "Belum Memenuhi Syarat";
 
-                    const btnFile = `<span class="text-gray-500 text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">${teksKet}</span>`;
+                    let btnFile = `<span class="text-gray-500 text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">${teksKet}</span>`;
+                    
+                    // JIKA ADMIN SUDAH MEMASUKKAN LINK
+                    if (data.linkKarya && data.linkKarya !== "") {
+                        btnFile = `<a href="${data.linkKarya}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">🔗 BACA KARYA</a>`;
+                    }
                     
                     htmlLiterasi += `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
                 } else {
@@ -2391,8 +2395,9 @@
         }
 
 
-                    // DATABASE: ADMIN PUSAT
-        window.muatRiwayatAdmin = async function() {
+                
+            // DATABASE: ADMIN PUSAT
+            window.muatRiwayatAdmin = async function() {
             if(!window.isAdmin) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.orderBy("waktuLokal", "desc"));
             const snapshot = await window.getDocs(q);
@@ -2404,6 +2409,11 @@
                 
                 let aksiAdmin = '';
                 if (data.tipeLayanan === "Upload Literasi") {
+                    // Cek jika sudah ada link yang tersimpan
+                    const infoLink = (data.linkKarya && data.linkKarya !== "") 
+                        ? `<a href="${data.linkKarya}" target="_blank" class="block text-[8px] text-blue-600 hover:underline mt-1 truncate max-w-[130px]">Cek Link: ${data.linkKarya}</a>` 
+                        : '';
+
                     aksiAdmin = `
                         <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none">
                             <option value="Pending" ${data.status==='Pending'?'selected':''}>⏳ Pending</option>
@@ -2411,7 +2421,11 @@
                             <option value="Diterbitkan" ${data.status==='Diterbitkan'?'selected':''}>✅ Diterbitkan</option>
                             <option value="Ditolak" ${data.status==='Ditolak'?'selected':''}>❌ Ditolak</option>
                         </select>
-                        <div class="mt-1 p-1.5 border border-dashed border-gray-300 bg-gray-50 rounded-md text-center"><span class="text-gray-400 text-[8.5px] italic font-medium">Non-fungsi PDF (Hanya Status)</span></div>
+                        <div class="flex gap-1 mt-1">
+                            <input type="url" id="link-${id}" value="${data.linkKarya || ''}" placeholder="Tempel URL Karya..." class="w-full text-[9px] border border-gray-300 p-1.5 rounded bg-white focus:outline-none focus:border-blue-500">
+                            <button onclick="window.simpanLinkAdmin('${id}')" class="bg-blue-600 text-white text-[9px] px-2 py-1.5 rounded font-bold hover:bg-blue-700 shadow-sm">Set</button>
+                        </div>
+                        ${infoLink}
                     `;
                 } else {
                     const riwayatFileAdmin = (data.fileHasil && data.fileHasil !== "") 
@@ -2442,6 +2456,7 @@
             });
             document.getElementById('tabel-admin').innerHTML = html || `<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>`;
         }
+
                 window.ubahStatusAdmin = async function(id, statusBaru) {
             try { 
                 await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); 
@@ -2451,7 +2466,21 @@
                 showToast("Gagal memperbarui status", "error"); 
             }
         }
-
+           // FUNGSI SIMPAN LINK LITERASI ADMIN
+            window.simpanLinkAdmin = async function(id) {
+            const inputLink = document.getElementById(`link-${id}`).value;
+            if (!inputLink) {
+                showToast("Masukkan URL/Link terlebih dahulu!", "error");
+                return;
+            }
+            try { 
+                await window.updateDoc(window.doc(window.db, "pesanan", id), { linkKarya: inputLink }); 
+                showToast("Link berhasil disimpan!", "success"); 
+                window.muatRiwayatAdmin(); 
+            } catch(e) { 
+                showToast("Gagal menyimpan link", "error"); 
+            }
+        }
 
             // PUPLOAD PDF ADMIN
             window.uploadPDFAdmin = function(id, inputElement) {
