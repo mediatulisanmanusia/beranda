@@ -2355,8 +2355,8 @@
             }
         }, 1000);
 
-                // DATABASE: PROFIL KLIEN
-        window.muatRiwayatProfil = async function() {
+            // DATABASE: PROFIL KLIEN
+            window.muatRiwayatProfil = async function() {
             if(!window.currentUserEmail) return;
             const q = window.query(window.collection(window.db, "pesanan"), window.where("userEmail", "==", window.currentUserEmail));
             const snapshot = await window.getDocs(q);
@@ -2366,8 +2366,15 @@
                 const statusColor = data.status === 'Berhasil' || data.status === 'Diterbitkan' ? 'text-green-600' : 'text-yellow-600';
                 
                 if (data.tipeLayanan === "Upload Literasi") {
-                    // Tampilan Non-Fungsi PDF untuk Literasi
-                    const btnFile = `<span class="text-gray-400 text-[10px] italic bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">Tahap Kurasi / Review</span>`;
+                    // Logika Dinamis Keterangan Literasi
+                    let teksKet = "Tahap Kurasi / Review";
+                    if (data.status === "Pending") teksKet = "Menunggu Antrean";
+                    else if (data.status === "Review") teksKet = "Sedang Direview";
+                    else if (data.status === "Diterbitkan") teksKet = "Sudah Tayang di Web";
+                    else if (data.status === "Ditolak") teksKet = "Belum Memenuhi Syarat";
+
+                    const btnFile = `<span class="text-gray-500 text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">${teksKet}</span>`;
+                    
                     htmlLiterasi += `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
                 } else {
                     const btnFile = (data.fileHasil && data.fileHasil !== "") 
@@ -2435,7 +2442,7 @@
             });
             document.getElementById('tabel-admin').innerHTML = html || `<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>`;
         }
-                    window.ubahStatusAdmin = async function(id, statusBaru) {
+                window.ubahStatusAdmin = async function(id, statusBaru) {
             try { 
                 await window.updateDoc(window.doc(window.db, "pesanan", id), { status: statusBaru }); 
                 showToast("Status diperbarui!", "success"); 
