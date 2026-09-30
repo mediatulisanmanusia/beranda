@@ -2644,17 +2644,15 @@
         return; 
     }
 
-    // 1. Validasi & Pengaman Error 500 FormSubmit (PENTING)
+    // 1. Validasi & Pengaman Error FormSubmit (Hapus atribut name jika file kosong)
     const fileInputs = f.querySelectorAll('input[type="file"]');
     for (let i of fileInputs) {
         if (i.files.length > 0) {
-            // Cek ukuran jika ada isinya
             if ((i.files[0].size / 1024 / 1024) > 3) {
                 alert(`Berkas "${i.name}" melebihi batas 3MB. Harap diperkecil.`);
                 return;
             }
         } else {
-            // "Cabut" input dari form jika file kosong agar FormSubmit tidak Error 500
             i.removeAttribute('name'); 
         }
     }
@@ -2672,7 +2670,7 @@
     const judul = judulInput ? judulInput.value : '-';
 
     try {
-        // 2. Simpan Riwayat ke Firebase (Berjalan Normal)
+        // 2. Simpan Riwayat ke Firebase
         await window.addDoc(window.collection(window.db, "pesanan"), { 
             userEmail: window.currentUserEmail, 
             userName: window.currentUserName, 
@@ -2715,26 +2713,32 @@
             document.body.appendChild(iframe);
         }
 
-        // 4. Eksekusi Kirim ke FormSubmit via Iframe (Bukan AJAX)
+        // 4. Eksekusi Kirim ke FormSubmit via Iframe
         f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
         f.method = "POST"; 
         f.enctype = "multipart/form-data"; 
         f.target = "hidden-iframe-upload"; 
         
-        // Kirim senyap
+        // Kirim
         f.submit(); 
 
-        // 5. Penyelesaian Mulus di Latar Belakang
+        // 5. Tunggu sebentar agar Iframe selesai memproses, lalu tampilkan hasil
         setTimeout(() => {
             if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
 
             showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
             
+            // Buka WhatsApp (Pasti tereksekusi karena tidak ada reload halaman)
             window.open(`https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20telah%20submit%20${tipeLayanan}%20via%20Website.%0ANama:%20${nama}%0AJudul:%20${judul}`, '_blank');
             
-            // Reload halaman untuk memastikan form bersih dan rapi kembali
-            window.location.href = window.location.pathname + "?buka=profil";
-        }, 4000); 
+            // Kembalikan form dan pindah ke Profil tanpa mereload browser
+            f.reset();
+            btn.disabled = false; 
+            btn.innerText = "KIRIM PENGAJUAN";
+            
+            if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
+            bukaHalaman('profil'); 
+        }, 5000); // 5 detik adalah waktu yang sangat aman untuk file kecil
         
     } catch (error) { 
         console.error("Gagal mengirim:", error);
@@ -2744,6 +2748,8 @@
         btn.innerText = "KIRIM PENGAJUAN"; 
     }
 };
+
+
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value;
