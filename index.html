@@ -2634,120 +2634,91 @@
         }
 
             // KIRIM FORM
-window.kirimFormLayanan = async function(e, tipeLayanan) {
-    e.preventDefault(); 
-    const f = e.target;
-    
-    if(!window.currentUserEmail) { 
-        showToast("Gagal: Anda belum login.", "error"); 
-        bukaHalaman('login'); 
-        return; 
-    }
-
-    // Validasi ukuran file
-    const fileInputs = f.querySelectorAll('input[type="file"]');
-    for (let i of fileInputs) {
-        // Cek ukuran hanya jika file memang diunggah
-        if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
-            alert(`Berkas "${i.name}" melebihi batas 3MB. Harap diperkecil.`);
-            return;
-        }
-    }
-
-    const btn = f.querySelector('button[type="submit"]'); 
-    btn.disabled = true; 
-    btn.innerText = "Mengirim...";
-
-    // Tampilkan loading screen
-    const loader = document.getElementById('loading-form');
-    if(loader) { loader.style.display = 'flex'; setTimeout(() => loader.style.opacity = '1', 10); }
-
-    // Ambil data untuk Firebase
-    const nama = f.querySelector('[name^="Nama"]').value || '-';
-    const wa = f.querySelector('[name="WhatsApp"]').value || '-';
-    // Cari judul dari berbagai kemungkinan nama input
-    const judulInput = f.querySelector('[name^="Judul"], [name="Judul_Karya"], [name="Judul_Naskah"], [name="Judul_Ciptaan"]');
-    const judul = judulInput ? judulInput.value : '-';
-
-    try {
-        // 1. Simpan ke Firebase Database (Tetap Berjalan Normal)
-        await window.addDoc(window.collection(window.db, "pesanan"), { 
-            userEmail: window.currentUserEmail, 
-            userName: window.currentUserName, 
-            tipeLayanan: tipeLayanan, 
-            judul: judul, 
-            namaLengkap: nama, 
-            wa: wa, 
-            status: "Pending", 
-            fileHasil: "", 
-            waktuLokal: new Date().toLocaleDateString('id-ID') 
-        });
-        
-        // 2. Persiapkan Data untuk FormSubmit
-        let subjekEl = f.querySelector('input[name="_subject"]');
-        if(!subjekEl) { 
-            subjekEl = document.createElement('input'); 
-            subjekEl.type = 'hidden'; 
-            subjekEl.name = '_subject'; 
-            f.appendChild(subjekEl); 
-        }
-        subjekEl.value = `Pesanan Baru: ${tipeLayanan} - ${nama}`;
-
-        const urlWeb = window.location.origin + window.location.pathname;
-        let linkEl = f.querySelector('input[name="Link_Dashboard_Admin"]');
-        if(!linkEl) {
-            linkEl = document.createElement('input'); 
-            linkEl.type = 'hidden'; 
-            linkEl.name = "Link_Dashboard_Admin"; 
-            f.appendChild(linkEl);
-        }
-        linkEl.value = `${urlWeb}?admin=true`;
-
-        // Pastikan iframe tersembunyi tersedia
-        let iframe = document.getElementById('hidden-iframe-upload');
-        if(!iframe) {
-            iframe = document.createElement('iframe');
-            iframe.name = "hidden-iframe-upload"; 
-            iframe.id = "hidden-iframe-upload"; 
-            iframe.style.display = "none";
-            document.body.appendChild(iframe);
-        }
-
-        // 3. Eksekusi Pengiriman ke FormSubmit
-        f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
-        f.method = "POST"; 
-        f.enctype = "multipart/form-data"; 
-        f.target = "_blank"; 
-        
-        // Submit form
-        f.submit();
-
-        // 4. Selesaikan Alur UI (Beri jeda lebih lama agar FormSubmit selesai memproses)
-        setTimeout(() => {
-            if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
-
-            showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
+        window.kirimFormLayanan = async function(e, tipeLayanan) {
+            e.preventDefault(); 
+            const f = e.target;
             
-            // Opsional: Buka WA di tab baru
-            window.open(`https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20telah%20submit%20${tipeLayanan}%20via%20Website.%0ANama:%20${nama}%0AJudul:%20${judul}`, '_blank');
-            
-            // HAPUS f.reset() di sini. Biarkan form berisi data untuk sementara.
-            btn.disabled = false; 
-            btn.innerText = "KIRIM PENGAJUAN";
-            
-            if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
-            bukaHalaman('profil'); // Pindah ke halaman profil
-        }, 5000); // Waktu tunda 5 detik sudah cukup
-        
-    } catch (error) { 
-        console.error("Gagal mengirim:", error);
-        if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
-        showToast("Terjadi kesalahan. Silakan coba lagi.", "error"); 
-        btn.disabled = false; 
-        btn.innerText = "KIRIM PENGAJUAN"; 
-    }
-};
+            if(!window.currentUserEmail) { 
+                showToast("Gagal: Anda belum login.", "error"); 
+                bukaHalaman('login'); 
+                return; 
+            }
 
+            // 1. Validasi & Cegah Error 500 karena file kosong
+            const fileInputs = f.querySelectorAll('input[type="file"]');
+            for (let i of fileInputs) {
+                if (i.files.length > 0) {
+                    if ((i.files[0].size / 1024 / 1024) > 3) {
+                        alert(`Berkas "${i.name}" melebihi batas 3MB. Harap diperkecil.`);
+                        return;
+                    }
+                } else {
+                    i.removeAttribute('name'); // Hapus atribut name jika file kosong agar FormSubmit tidak error
+                }
+            }
+
+            const btn = f.querySelector('button[type="submit"]'); 
+            btn.disabled = true; 
+            btn.innerText = "Mengirim...";
+
+            const loader = document.getElementById('loading-form');
+            if(loader) { loader.style.display = 'flex'; setTimeout(() => loader.style.opacity = '1', 10); }
+
+            const nama = f.querySelector('[name^="Nama"]').value || '-';
+            const wa = f.querySelector('[name="WhatsApp"]').value || '-';
+            const judulInput = f.querySelector('[name^="Judul"], [name="Judul_Karya"], [name="Judul_Naskah"], [name="Judul_Ciptaan"]');
+            const judul = judulInput ? judulInput.value : '-';
+
+            try {
+                // 2. Simpan ke Firebase (Berjalan Normal)
+                await window.addDoc(window.collection(window.db, "pesanan"), { 
+                    userEmail: window.currentUserEmail, 
+                    userName: window.currentUserName, 
+                    tipeLayanan: tipeLayanan, 
+                    judul: judul, 
+                    namaLengkap: nama, 
+                    wa: wa, 
+                    status: "Pending", 
+                    fileHasil: "", 
+                    waktuLokal: new Date().toLocaleDateString('id-ID') 
+                });
+                
+                // 3. Susun data FormSubmit pakai FormData (Sistem AJAX)
+                let formData = new FormData(f);
+                formData.append("_subject", `Pesanan Baru: ${tipeLayanan} - ${nama}`);
+                formData.append("_captcha", "false");
+                formData.append("Link_Dashboard_Admin", `${window.location.origin}${window.location.pathname}?admin=true`);
+
+                // 4. Kirim dengan metode AJAX (Fetch API) - Tanpa Iframe & Tab Baru
+                const response = await fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
+                    showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
+                    window.open(`https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20telah%20submit%20${tipeLayanan}%20via%20Website.%0ANama:%20${nama}%0AJudul:%20${judul}`, '_blank');
+                    f.reset(); 
+                    btn.disabled = false; 
+                    btn.innerText = "KIRIM PENGAJUAN";
+                    if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
+                    bukaHalaman('profil');
+                } else {
+                    throw new Error("Ditolak server FormSubmit");
+                }
+                
+            } catch (error) { 
+                console.error("Gagal mengirim:", error);
+                if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
+                showToast("Koneksi gagal. Silakan coba lagi.", "error"); 
+                btn.disabled = false; 
+                btn.innerText = "KIRIM PENGAJUAN"; 
+            }
+        };
+ 
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value;
