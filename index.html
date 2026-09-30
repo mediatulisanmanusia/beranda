@@ -2274,132 +2274,170 @@
             </div>
           </footer>
         </div>
-            <!-- HALAMAN RUANG LITERASI -->
-        <div id="hal-literasi" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-6xl mx-auto w-full">
-            <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; beranda</button>
-            
-            <div class="text-center mb-10 mt-4">
-                <h2 class="text-2xl md:text-4xl font-black text-warnautama dark:text-white tracking-tight mb-3 uppercase">Ruang Literasi</h2>
-                <p class="text-[11px] sm:text-sm text-gray-700 dark:text-gray-300 font-medium max-w-2xl mx-auto">Eksplorasi kumpulan artikel, opini, cerpen, puisi, dan ragam karya sastra terbaik dari Media Tulisan Manusia.</p>
-            </div>
+    
+    <!-- HALAMAN RUANG LITERASI -->
+    <div id="hal-literasi" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-6xl mx-auto w-full">
+    <button onclick="bukaHalaman('beranda')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; beranda</button>
+    
+    <!-- HEADER GELEMBUNG BARU -->
+    <div class="glass p-6 md:p-10 rounded-[2.5rem] shadow-xl border-t-4 border-warnautama dark:border-warnakeempat text-center mb-8 relative overflow-hidden mt-4 mx-2">
+        <div class="absolute inset-0 bg-[url('utama.webp')] bg-cover bg-center opacity-10 mix-blend-overlay pointer-events-none"></div>
+        <h2 class="relative z-10 text-2xl md:text-4xl font-black text-warnautama dark:text-white tracking-tight mb-3 uppercase">Ruang Literasi</h2>
+        <p class="relative z-10 text-[11px] sm:text-sm text-gray-700 dark:text-gray-300 font-medium max-w-2xl mx-auto">Eksplorasi kumpulan artikel, opini, cerpen, puisi, dan ragam karya sastra terbaik dari Media Tulisan Manusia.</p>
+    </div>
 
-            <!-- GELEMBUNG PENCARIAN PINTAR -->
-            <div class="glass p-3 sm:p-4 rounded-full max-w-2xl mx-auto mb-10 shadow-lg border border-warnautama/20 flex items-center gap-3">
-                <svg class="w-5 h-5 text-gray-500 ml-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" id="cari-literasi" onkeyup="filterLiterasi()" placeholder="Cari judul karya atau nama penulis..." class="w-full bg-transparent border-none text-[11px] sm:text-sm font-medium text-warnautama dark:text-white focus:outline-none placeholder-gray-500">
-            </div>
+    <!-- GELEMBUNG KATEGORI (FILTER) BARU -->
+    <div class="flex flex-row overflow-x-auto gap-2 md:gap-3 justify-start md:justify-center mb-6 px-2 py-2 no-scrollbar items-center w-full">
+        <button onclick="filterKategori('Semua', this)" class="btn-kategori active bg-warnautama text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-md transition-all border border-warnautama flex-shrink-0">Semua</button>
+        <button onclick="filterKategori('Berita', this)" class="btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">Berita</button>
+        <button onclick="filterKategori('Artikel', this)" class="btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">Artikel</button>
+        <button onclick="filterKategori('Opini', this)" class="btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">Opini</button>
+        <button onclick="filterKategori('Cerpen', this)" class="btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">Cerpen</button>
+        <button onclick="filterKategori('Puisi', this)" class="btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">Puisi</button>
+        <button onclick="filterKategori('Edukasi', this)" class="btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">Edukasi</button>
+        <button onclick="filterKategori('Legalitas', this)" class="btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">Legalitas</button>
+    </div>
 
-              <!-- GRID DAFTAR KARYA -->
-            <div id="grid-literasi" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-2">
-            
-             <!-- Kartu Grid 7 (Cerpen - Segenggam Luka Menuju Jaya) -->
-            <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Segenggam Luka Menuju Jaya" data-penulis="Amanda">
-               <img src="literasi/artikel7.png" loading="lazy" alt="Thumbnail Cerpen" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
-               <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Cerpen Sastra</p>
-               <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Segenggam Luka Menuju Jaya</h4>
-               <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Ini adalah kisahku. Aku adalah perempuan yang terlahir dari keluarga yang sederhana. Namun sedari kecil aku mengagumi seseorang...</p>
-               <a href="cerpen-segenggam-luka.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Cerpen</a>
-            </div>
-   
-            <!-- Kartu Grid 6 (Cerpen - Patah Yang Tumbuh) -->
-            <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Patah Yang Tumbuh" data-penulis="Abil.naj">
-                <img src="literasi/artikel6.png" loading="lazy" alt="Thumbnail Cerpen" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
-                <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Cerpen Sastra</p>
-                <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Patah Yang Tumbuh</h4>
-                <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">“Tuhan, bisakah aku merasakan bahagia barang sedikit saja?” Di bulan November tahun kemarin, aku menemukanmu...</p>
-                <a href="cerpen-patah-tumbuh.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Cerpen</a>
-              </div>
-               
-                <!-- Kartu Artikel 5 (Puisi - Titik Koma) -->
-                <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Titik Koma" data-penulis="Ach. Sufyan Wahyudi">
-                    <img src="literasi/artikel5.png" loading="lazy" alt="Thumbnail Puisi" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
-                    <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Puisi</p>
-                    <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Titik Koma</h4>
-                    <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Senikmat kopi di pagi hari, kuseduh sendiri. Apakah rindu harus berdua? Bagaimana dengan rindu tak bertuan?...</p>
-                    <a href="puisi-titik-koma.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Puisi</a>
-                 </div>
+    <!-- GELEMBUNG PENCARIAN PINTAR -->
+    <div class="glass p-3 sm:p-4 rounded-full max-w-2xl mx-auto mb-10 shadow-lg border border-warnautama/20 flex items-center gap-3">
+        <svg class="w-5 h-5 text-gray-500 ml-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="cari-literasi" onkeyup="filterLiterasi()" placeholder="Cari judul karya atau nama penulis..." class="w-full bg-transparent border-none text-[11px] sm:text-sm font-medium text-warnautama dark:text-white focus:outline-none placeholder-gray-500">
+    </div>
 
-                <!-- Kartu Artikel 4 (Puisi - Sang Penguasa) -->
-           <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Sang Penguasa" data-penulis="Ach. Sufyan Wahyudi">
-                <img src="literasi/artikel4.png" loading="lazy" alt="Thumbnail Puisi" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
-                <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Puisi</p>
-                <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Sang Penguasa</h4>
-                <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Jika kau tak tahu, pula dia yang tak mengerti, dan jika mereka juga tak paham, katakanlah akulah sang penguasa...</p>
-                <a href="puisi-sang-penguasa.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Puisi</a>
-             </div>
-          
-              <!-- Kartu Artikel 3 (Cerpen) -->
-             <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Lagu Untuk Tuhan: Nyanyian Rindu Sang Kakek di Sudut Jalan" data-penulis="Ach. Sufyan Wahyudi">
-                <img src="literasi/artikel3.png" loading="lazy" alt="Thumbnail Cerpen" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
-                <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Cerpen Sastra</p>
-                <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Lagu Untuk Tuhan: Nyanyian Rindu Sang Kakek di Sudut Jalan</h4>
-                <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Banyak berubah di kota ini sejak 3 tahun lalu. Di ujung jalan aku melihat seorang paruh baya memainkan gitar dengan jemarinya...</p>
-                <a href="cerpen-lagu-tuhan.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Cerpen</a>
-             </div>
-
-                <!-- Kartu 1 -->
-                <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="5 Langkah Jitu Menerbitkan Buku dan Melindungi Hak Cipta" data-penulis="Tim MTM">
-                    <img src="literasi/artikel1.png" loading="lazy" alt="Thumbnail" class="w-full h-32 object-cover rounded-xl mb-4 shadow-sm">
-                    <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Edukasi Literasi</p>
-                    <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">5 Langkah Jitu Menerbitkan Buku dan Melindungi Hak Cipta</h4>
-                    <p class="text-[10px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Ingin menerbitkan buku tapi takut karya dibajak? Simak 5 langkah jitu menerbitkan buku...</p>
-                    <a href="cara-menerbitkan-buku.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md w-max">Baca Karya</a>
-                </div>
-
-                <!-- Kartu 2 -->
-                <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Awas Plagiat! 4 Alasan Karya Tulis Wajib Didaftarkan HKI" data-penulis="Tim MTM">
-                    <img src="literasi/artikel2.png" loading="lazy" alt="Thumbnail" class="w-full h-32 object-cover rounded-xl mb-4 shadow-sm">
-                    <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Legalitas & Hukum</p>
-                    <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Awas Plagiat! 4 Alasan Karya Tulis Wajib Didaftarkan HKI</h4>
-                    <p class="text-[10px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Jangan biarkan ide kreatif Anda dibajak! Simak pentingnya mendaftarkan Hak Cipta...</p>
-                    <a href="pentingnya-hki.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md w-max">Baca Karya</a>
-                </div>
-                
-            </div>
-
-
-            <!-- Pesan Jika Pencarian Kosong -->
-            <div id="pesan-kosong-literasi" class="hidden text-center mt-12 mb-8">
-                <p class="text-gray-500 dark:text-gray-400 font-bold text-sm">Karya yang Anda cari tidak ditemukan.</p>
-            </div>
-
-            <footer class="w-full mt-16 pb-6 flex justify-center items-center">
-                <div class="text-center text-[8px] sm:text-[10px] md:text-xs w-full border-t border-gray-300/40 dark:border-gray-700/40 pt-8">
-                    <p class="text-warnautama dark:text-gray-300">Copyright &copy; Since 2022 - All Rights Reserved</p>
-                    <p class="mt-1 text-gray-600 dark:text-gray-400">Created with passion by</p>
-                    <p class="font-bold text-warnautama dark:text-white mt-0.5">PT MEDIA TULISAN MANUSIA</p>
-                </div>
-            </footer>
+    <!-- GRID DAFTAR KARYA (TETAP SAMA) -->
+    <div id="grid-literasi" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-2">
+    
+        <!-- Kartu Grid 7 (Cerpen - Segenggam Luka Menuju Jaya) -->
+        <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Segenggam Luka Menuju Jaya" data-penulis="Amanda">
+            <img src="literasi/artikel7.png" loading="lazy" alt="Thumbnail Cerpen" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
+            <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Cerpen Sastra</p>
+            <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Segenggam Luka Menuju Jaya</h4>
+            <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Ini adalah kisahku. Aku adalah perempuan yang terlahir dari keluarga yang sederhana. Namun sedari kecil aku mengagumi seseorang...</p>
+            <a href="cerpen-segenggam-luka.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Cerpen</a>
         </div>
 
-        <!-- SCRIPT PENCARIAN PINTAR (LIVE SEARCH) -->
-        <script>
-            function filterLiterasi() {
-                let input = document.getElementById('cari-literasi').value.toLowerCase();
-                let cards = document.querySelectorAll('.kartu-literasi');
-                let kosong = document.getElementById('pesan-kosong-literasi');
-                let adaHasil = false;
+        <!-- Kartu Grid 6 (Cerpen - Patah Yang Tumbuh) -->
+        <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Patah Yang Tumbuh" data-penulis="Abil.naj">
+            <img src="literasi/artikel6.png" loading="lazy" alt="Thumbnail Cerpen" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
+            <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Cerpen Sastra</p>
+            <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Patah Yang Tumbuh</h4>
+            <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">“Tuhan, bisakah aku merasakan bahagia barang sedikit saja?” Di bulan November tahun kemarin, aku menemukanmu...</p>
+            <a href="cerpen-patah-tumbuh.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Cerpen</a>
+        </div>
+        
+        <!-- Kartu Artikel 5 (Puisi - Titik Koma) -->
+        <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Titik Koma" data-penulis="Ach. Sufyan Wahyudi">
+            <img src="literasi/artikel5.png" loading="lazy" alt="Thumbnail Puisi" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
+            <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Puisi</p>
+            <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Titik Koma</h4>
+            <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Senikmat kopi di pagi hari, kuseduh sendiri. Apakah rindu harus berdua? Bagaimana dengan rindu tak bertuan?...</p>
+            <a href="puisi-titik-koma.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Puisi</a>
+            </div>
 
-                cards.forEach(card => {
-                    let judul = card.getAttribute('data-judul').toLowerCase();
-                    let penulis = card.getAttribute('data-penulis').toLowerCase();
-                    
-                    if(judul.includes(input) || penulis.includes(input)) {
-                        card.style.display = "";
-                        adaHasil = true;
-                    } else {
-                        card.style.display = "none";
-                    }
-                });
+        <!-- Kartu Artikel 4 (Puisi - Sang Penguasa) -->
+        <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Sang Penguasa" data-penulis="Ach. Sufyan Wahyudi">
+            <img src="literasi/artikel4.png" loading="lazy" alt="Thumbnail Puisi" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
+            <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Puisi</p>
+            <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Sang Penguasa</h4>
+            <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Jika kau tak tahu, pula dia yang tak mengerti, dan jika mereka juga tak paham, katakanlah akulah sang penguasa...</p>
+            <a href="puisi-sang-penguasa.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Puisi</a>
+        </div>
+    
+        <!-- Kartu Artikel 3 (Cerpen) -->
+        <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Lagu Untuk Tuhan: Nyanyian Rindu Sang Kakek di Sudut Jalan" data-penulis="Ach. Sufyan Wahyudi">
+            <img src="literasi/artikel3.png" loading="lazy" alt="Thumbnail Cerpen" class="w-full h-32 md:h-40 object-cover rounded-xl mb-4 shadow-sm group-hover:scale-105 transition-transform duration-500">
+            <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Cerpen Sastra</p>
+            <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Lagu Untuk Tuhan: Nyanyian Rindu Sang Kakek di Sudut Jalan</h4>
+            <p class="text-[10px] md:text-[11px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Banyak berubah di kota ini sejak 3 tahun lalu. Di ujung jalan aku melihat seorang paruh baya memainkan gitar dengan jemarinya...</p>
+            <a href="cerpen-lagu-tuhan.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] sm:text-xs font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md self-start">Baca Cerpen</a>
+        </div>
 
-                if(adaHasil) {
-                    kosong.classList.add('hidden');
-                } else {
-                    kosong.classList.remove('hidden');
-                }
+        <!-- Kartu 1 -->
+        <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="5 Langkah Jitu Menerbitkan Buku dan Melindungi Hak Cipta" data-penulis="Tim MTM">
+            <img src="literasi/artikel1.png" loading="lazy" alt="Thumbnail" class="w-full h-32 object-cover rounded-xl mb-4 shadow-sm">
+            <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Edukasi Literasi</p>
+            <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">5 Langkah Jitu Menerbitkan Buku dan Melindungi Hak Cipta</h4>
+            <p class="text-[10px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Ingin menerbitkan buku tapi takut karya dibajak? Simak 5 langkah jitu menerbitkan buku...</p>
+            <a href="cara-menerbitkan-buku.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md w-max">Baca Karya</a>
+        </div>
+
+        <!-- Kartu 2 -->
+        <div class="kartu-literasi glass rounded-[2rem] p-5 transition-all duration-300 flex flex-col items-start text-left h-auto hover:shadow-xl hover:-translate-y-2 border-t-4 border-warnautama dark:border-warnakeempat overflow-hidden" data-judul="Awas Plagiat! 4 Alasan Karya Tulis Wajib Didaftarkan HKI" data-penulis="Tim MTM">
+            <img src="literasi/artikel2.png" loading="lazy" alt="Thumbnail" class="w-full h-32 object-cover rounded-xl mb-4 shadow-sm">
+            <p class="text-[9px] font-bold text-warnakedua uppercase tracking-widest mb-1">Legalitas & Hukum</p>
+            <h4 class="font-extrabold text-[13px] md:text-sm leading-tight text-warnautama dark:text-white mb-2 line-clamp-2">Awas Plagiat! 4 Alasan Karya Tulis Wajib Didaftarkan HKI</h4>
+            <p class="text-[10px] text-gray-600 dark:text-gray-400 font-medium line-clamp-3 mb-4">Jangan biarkan ide kreatif Anda dibajak! Simak pentingnya mendaftarkan Hak Cipta...</p>
+            <a href="pentingnya-hki.html" class="mt-auto bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-[10px] font-bold py-2 px-5 rounded-full uppercase tracking-widest hover:scale-105 transition shadow-md w-max">Baca Karya</a>
+        </div>
+        
+    </div>
+
+    <!-- Pesan Jika Pencarian Kosong -->
+    <div id="pesan-kosong-literasi" class="hidden text-center mt-12 mb-8">
+        <p class="text-gray-500 dark:text-gray-400 font-bold text-sm">Karya yang Anda cari tidak ditemukan.</p>
+    </div>
+
+    <footer class="w-full mt-16 pb-6 flex justify-center items-center">
+        <div class="text-center text-[8px] sm:text-[10px] md:text-xs w-full border-t border-gray-300/40 dark:border-gray-700/40 pt-8">
+            <p class="text-warnautama dark:text-gray-300">Copyright &copy; Since 2022 - All Rights Reserved</p>
+            <p class="mt-1 text-gray-600 dark:text-gray-400">Created with passion by</p>
+            <p class="font-bold text-warnautama dark:text-white mt-0.5">PT MEDIA TULISAN MANUSIA</p>
+        </div>
+    </footer>
+</div>
+
+<!-- SCRIPT PENCARIAN PINTAR & FILTER KATEGORI (BARU) -->
+<script>
+    window.kategoriAktif = 'Semua';
+
+    function filterKategori(kategori, btnEl) {
+        window.kategoriAktif = kategori;
+        
+        document.querySelectorAll('.btn-kategori').forEach(btn => {
+            btn.className = "btn-kategori glass text-warnautama dark:text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-sm transition-all border hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0";
+        });
+        
+        if(btnEl) {
+            btnEl.className = "btn-kategori active bg-warnautama text-white px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap shadow-md transition-all border border-warnautama flex-shrink-0";
+        }
+
+        filterLiterasi();
+    }
+
+    function filterLiterasi() {
+        let input = document.getElementById('cari-literasi').value.toLowerCase();
+        let cards = document.querySelectorAll('.kartu-literasi');
+        let kosong = document.getElementById('pesan-kosong-literasi');
+        let adaHasil = false;
+
+        cards.forEach(card => {
+            let judul = card.getAttribute('data-judul').toLowerCase();
+            let penulis = card.getAttribute('data-penulis').toLowerCase();
+            
+            let tagKategoriEl = card.querySelector('p.text-warnakedua');
+            let tagKategori = tagKategoriEl ? tagKategoriEl.innerText.toLowerCase() : "";
+            
+            let cocokPencarian = judul.includes(input) || penulis.includes(input);
+            
+            // Logika "includes" agar tombol "Cerpen" tetap bisa memunculkan "Cerpen Sastra"
+            let cocokKategori = (window.kategoriAktif === 'Semua') || tagKategori.includes(window.kategoriAktif.toLowerCase());
+
+            if (cocokPencarian && cocokKategori) {
+                card.style.display = "";
+                adaHasil = true;
+            } else {
+                card.style.display = "none";
             }
-        </script>
+        });
 
+        if (adaHasil) {
+            kosong.classList.add('hidden');
+        } else {
+            kosong.classList.remove('hidden');
+        }
+    }
+</script>
+      
         <!-- HALAMAN INFO -->
         <div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Syarat & Ketentuan</h2><div class="space-y-6 text-sm font-medium"><p>1. <strong>Orisinalitas:</strong> Klien menjamin karya orisinal dan bebas plagiarisme.</p><p>2. <strong>Etika:</strong> Karya tidak mengandung SARA/Pornografi.</p><p>3. <strong>Hak Cipta:</strong> Kami fasilitator legalitas, hak komersial tetap milik klien.</p><p>4. <strong>Pembayaran:</strong> <em>Non-refundable</em> jika dibatalkan sepihak.</p></div></div></div>
         <div id="hal-privasi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto"><button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button><div class="glass p-8 md:p-14 rounded-[3rem]"><h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Kebijakan Privasi</h2><div class="space-y-6 text-sm font-medium"><p>1. <strong>Kerahasiaan (NDA):</strong> Naskah dilindungi, tidak akan digandakan tanpa izin.</p><p>2. <strong>Data KTP:</strong> Hanya untuk pendaftaran legalitas QRCBN/ISBN/HKI.</p><p>3. <strong>Keamanan:</strong> Data tidak akan dijual/disewakan ke pihak ketiga.</p></div></div></div>
