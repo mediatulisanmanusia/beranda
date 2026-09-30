@@ -1,0 +1,16 @@
+name: Delete old workflow runs
+on:
+  workflow_dispatch: # Memungkinkan Anda menekan tombol "Run" secara manual
+  schedule:
+    - cron: '0 0 * * 0' # Otomatis berjalan setiap hari Minggu tengah malam
+jobs:
+  del_runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 7
+          keep_minimum_runs: 5
