@@ -2719,15 +2719,15 @@
         let pesanWA = `Halo Admin MTM, saya telah mensubmit form pengajuan *${tipeLayanan}* via Website.\n\n*RINCIAN DATA:*\n`;
         
         for (let [key, value] of formDataWA.entries()) {
-            // Abaikan file, input kosong, dan input sistem/hidden dari FormSubmit
             if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_') && key !== 'Link_Dashboard_Admin') {
-                let labelKerapian = key.replace(/_/g, ' '); // Ubah garis bawah jadi spasi agar rapi
+                let labelKerapian = key.replace(/_/g, ' '); 
                 pesanWA += `- *${labelKerapian}:* ${value}\n`;
             }
         }
-        pesanWA += `\n_(Catatan: Dokumen lampiran telah saya unggah melalui sistem website. Saya siap mengirim ulang dokumen di chat ini agar proses riview dan kurasi lebih cepat)._`;
+        pesanWA += `\n_(Catatan: Dokumen lampiran telah saya unggah melalui sistem website. Saya siap mengirim ulang dokumen di chat ini jika dibutuhkan demi kelancaran proses kurasi)._`;
         
-        const linkWhatsApp = `https://wa.me/6288294448222?text=${encodeURIComponent(pesanWA)}`;
+        // Gunakan protokol khusus aplikasi WhatsApp agar langsung terbuka aplikasinya
+        const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
         // -----------------------------------------------
 
         // 4. Eksekusi Kirim ke FormSubmit via Iframe
@@ -2738,21 +2738,25 @@
         
         f.submit(); 
 
-        // 5. Eksekusi Akhir (Buka WA & Bersihkan Form)
+        // 5. Eksekusi Akhir
         setTimeout(() => {
             if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
 
             showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
             
-            // Buka link WhatsApp yang sudah direkap lengkap
-            window.open(linkWhatsApp, '_blank');
+            // Trik agar langsung buka APLIKASI WA tanpa membuat tab baru di browser
+            window.location.href = linkWhatsAppLangsung;
             
-            f.reset();
-            btn.disabled = false; 
-            btn.innerText = "KIRIM PENGAJUAN";
+            // Beri jeda sebentar agar aplikasi WA sempat dipanggil HP sebelum memuat Profil
+            setTimeout(() => {
+                f.reset();
+                btn.disabled = false; 
+                btn.innerText = "KIRIM PENGAJUAN";
+                
+                if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
+                bukaHalaman('profil'); 
+            }, 800);
             
-            if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
-            bukaHalaman('profil'); 
         }, 5000); 
         
     } catch (error) { 
@@ -2763,8 +2767,8 @@
         btn.innerText = "KIRIM PENGAJUAN"; 
     }
 };
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value;
             window.signInWithEmailAndPassword(window.auth, email, pass).then(() => { showToast("Login Berhasil!", "success"); document.getElementById('loginForm').reset(); if(email.toLowerCase() === window.ADMIN_EMAIL) bukaHalaman('admin'); else bukaHalaman('beranda'); }).catch(() => { showToast("Email atau Sandi salah.", "error"); });
         });
