@@ -2668,7 +2668,6 @@
               }
          };
 
-
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value;
             window.signInWithEmailAndPassword(window.auth, email, pass).then(() => { showToast("Login Berhasil!", "success"); document.getElementById('loginForm').reset(); if(email.toLowerCase() === window.ADMIN_EMAIL) bukaHalaman('admin'); else bukaHalaman('beranda'); }).catch(() => { showToast("Email atau Sandi salah.", "error"); });
