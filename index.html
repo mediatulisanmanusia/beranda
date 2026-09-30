@@ -2644,7 +2644,7 @@
         return; 
     }
 
-    // 1. Cek ukuran file
+    // 1. Cek batas ukuran file (Maks 3MB)
     const fileInputs = f.querySelectorAll('input[type="file"]');
     for (let i of fileInputs) {
         if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
@@ -2666,7 +2666,7 @@
     const judul = judulInput ? judulInput.value : '-';
 
     try {
-        // 2. Simpan Riwayat ke Firebase
+        // 2. Simpan Riwayat ke Firebase (Tetap Berjalan Normal)
         await window.addDoc(window.collection(window.db, "pesanan"), { 
             userEmail: window.currentUserEmail, 
             userName: window.currentUserName, 
@@ -2679,30 +2679,29 @@
             waktuLokal: new Date().toLocaleDateString('id-ID') 
         });
         
-        // 3. Bungkus Data Form (Sistem AJAX)
+        // 3. Susun Data untuk Formspree
         let formData = new FormData(f);
-        formData.append("_subject", `Pesanan Baru: ${tipeLayanan} - ${nama}`);
-        formData.append("_captcha", "false");
+        formData.append("Jenis_Layanan", tipeLayanan);
 
-        // BERSIHKAN FILE KOSONG AGAR TIDAK ERROR 500
+        // Hapus input file yang kosong agar paket data bersih
         for (let [key, value] of Array.from(formData.entries())) {
             if (value instanceof File && value.size === 0) {
                 formData.delete(key);
             }
         }
 
-        // 4. Kirim Langsung ke FormSubmit pakai Fetch (Sama seperti form Hubungi Kami)
-        const response = await fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", {
+        // 4. Kirim via AJAX ke Formspree (URL SUDAH DIMASUKKAN)
+        const ENDPOINT_URL = "https://formspree.io/f/xaenvzyq"; 
+
+        const response = await fetch(ENDPOINT_URL, {
             method: "POST",
             headers: {
-                'Accept': 'application/json' // INI KUNCI AGAR TIDAK DIBLOKIR / MUNCUL KONEKSI GAGAL
+                'Accept': 'application/json'
             },
             body: formData
         });
 
-        const result = await response.json();
-
-        if (response.ok && result.success) {
+        if (response.ok) {
             if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
             showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
             
@@ -2714,7 +2713,7 @@
             if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
             bukaHalaman('profil');
         } else {
-            throw new Error("Server FormSubmit Menolak");
+            throw new Error("Server menolak pengiriman");
         }
         
     } catch (error) { 
@@ -2725,6 +2724,8 @@
         btn.innerText = "KIRIM PENGAJUAN"; 
     }
 };
+
+
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const email = document.getElementById('login-email').value; const pass = document.getElementById('login-password').value;
