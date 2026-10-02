@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pamflet Lomba Menulis Novela</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            background-color: #111; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            font-family: 'Poppins', sans-serif; 
+        }
+        /* Tema Biru Estetik: Gradasi Deep Navy & Ocean Blue dengan Pola Titik */
+        .poster { 
+            width: 800px; 
+            height: 1000px; 
+            background-color: #061423;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1.5px, transparent 1.5px), linear-gradient(135deg, #05101c 0%, #0a3f61 100%);
+            background-size: 22px 22px, 100% 100%;
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Memusatkan semua elemen agar tidak ada gap besar di bawah */
+            gap: 16px; /* Jarak rapat yang seragam */
+            padding: 40px 45px;
+            box-sizing: border-box;
+            text-align: center;
+            color: white; 
+        }
+        /* Efek Kaca (Glassmorphism) yang lebih menyatu dengan biru */
+        .glass-box { 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 18px; 
+            padding: 16px 20px;
+            width: 100%;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+        }
+        /* Efek cahaya (Glow) di pojok */
+        .glow { position: absolute; border-radius: 50%; filter: blur(100px); z-index: 0; pointer-events: none; }
+        .glow-1 { top: -50px; left: -50px; width: 400px; height: 400px; background: rgba(212, 175, 55, 0.15); }
+        .glow-2 { bottom: -100px; right: -50px; width: 500px; height: 500px; background: rgba(14, 165, 233, 0.2); }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        
+        <!-- Header Logo & Support -->
+        <div class="relative z-10 flex justify-between items-center w-full px-2">
+            <img src="rev2.png" alt="Logo MTM" style="height: 42px; object-fit: contain;">
+            <div class="text-[10px] font-bold text-gray-300 text-right uppercase tracking-wider leading-tight">
+                Disupport oleh:<br><span class="text-[#D4AF37] text-xs font-black drop-shadow-md">DJKI & QRCBN</span>
+            </div>
+        </div>
+
+        <!-- Judul Utama & Kalimat Ajakan -->
+        <div class="relative z-10 flex flex-col items-center mt-2">
+            <p class="text-[10px] font-bold tracking-widest text-[#D4AF37] uppercase mb-0.5">Media Tulisan Manusia Mempersembahkan</p>
+            <h1 class="text-4xl font-black tracking-tight leading-none uppercase drop-shadow-lg mb-1 text-white">
+                Lomba Menulis <span class="text-[#D4AF37]">Novela</span>
+            </h1>
+            <p class="text-[11px] font-extrabold text-gray-300 uppercase tracking-wide mb-3">(Novel Pendek)</p>
+            
+            <!-- Rincian Peserta -->
+            <div class="bg-[#D4AF37] text-[#0A2540] px-5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg mb-2">
+                👤 PESERTA: PELAJAR, MAHASISWA, AKADEMISI & UMUM
+            </div>
+
+            <!-- Badge Tema & Ketentuan -->
+            <div class="flex gap-2 justify-center items-center mb-4">
+                <span class="bg-white/10 border border-white/20 text-white px-4 py-1 rounded-full text-[10.5px] font-bold uppercase tracking-wider shadow-sm">
+                    ✨ TEMA BEBAS
+                </span>
+                <span class="bg-[#0A3F61] border border-blue-400/30 text-white px-4 py-1.5 rounded-full text-[10.5px] font-bold uppercase tracking-wider shadow-sm">
+                    Min. 50 Hal A4
+                </span>
+            </div>
+            
+            <p class="text-[11px] font-medium text-gray-200 max-w-[90%] leading-relaxed italic border-l-2 border-r-2 border-[#D4AF37] px-4">
+                "Jangan biarkan naskahmu hanya tersimpan di laci! Wujudkan imajinasi menjadi buku nyata, raih perlindungan Hak Cipta (HKI), dan menangkan total apresiasi jutaan rupiah. Ini saatnya karyamu dibaca oleh dunia."
+            </p>
+        </div>
+
+        <!-- Apresiasi / Hadiah & Benefit -->
+        <div class="relative z-10 glass-box border-t-4 border-t-[#D4AF37] text-left">
+            <div class="text-center mb-2.5">
+                <span class="text-[8.5px] uppercase font-bold tracking-[0.25em] text-[#D4AF37]">Total Nilai Apresiasi</span>
+                <h2 class="text-3xl font-black text-white drop-shadow-md leading-tight">Rp 3.000.000</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="bg-white/5 p-2.5 rounded-xl border border-white/10 shadow-sm">
+                    <h3 class="text-[10px] font-black text-[#D4AF37] mb-1">🏆 JUARA 1</h3>
+                    <p class="text-[9.5px] font-medium leading-tight text-gray-200">Uang Pembinaan + Terbit + Cetak + HKI</p>
+                </div>
+                <div class="bg-white/5 p-2.5 rounded-xl border border-white/10 shadow-sm">
+                    <h3 class="text-[10px] font-black text-gray-300 mb-1">🥈 JUARA 2</h3>
+                    <p class="text-[9.5px] font-medium leading-tight text-gray-200">Uang Pembinaan + Penerbitan + Cetak Buku</p>
+                </div>
+                <div class="bg-white/5 p-2.5 rounded-xl border border-white/10 shadow-sm">
+                    <h3 class="text-[10px] font-black text-orange-400 mb-1">🥉 JUARA 3</h3>
+                    <p class="text-[9.5px] font-medium leading-tight text-gray-200">Uang Pembinaan + Penerbitan + Cetak Buku</p>
+                </div>
+                <div class="bg-white/5 p-2.5 rounded-xl border border-white/10 shadow-sm">
+                    <h3 class="text-[10px] font-black text-green-400 mb-1">🎖️ HARAPAN 1-3</h3>
+                    <p class="text-[9.5px] font-medium leading-tight text-gray-200">Voucher Potongan Spesial Penerbitan</p>
+                </div>
+            </div>
+
+            <!-- Benefit Per Poin -->
+            <div class="mt-3 pt-2.5 border-t border-white/10">
+                <p class="text-[8.5px] font-bold text-[#D4AF37] uppercase tracking-wider mb-1.5">Benefit Seluruh Peserta:</p>
+                <div class="grid grid-cols-3 gap-2 text-[8.5px] font-medium text-gray-200 text-center">
+                    <div class="bg-white/5 py-1.5 px-1 rounded-lg border border-white/10">📜 E-Sertifikat Nasional</div>
+                    <div class="bg-white/5 py-1.5 px-1 rounded-lg border border-white/10">🌐 Naskah Tayang di Web</div>
+                    <div class="bg-white/5 py-1.5 px-1 rounded-lg border border-white/10">🎟 Voucher Diskon Khusus</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linimasa dengan Garis Putus-putus -->
+        <div class="relative z-10 glass-box py-3 px-4">
+            <p class="text-[9.5px] font-bold text-[#D4AF37] uppercase tracking-widest mb-4">Linimasa Pelaksanaan</p>
+            
+            <div class="flex justify-between items-start relative px-4">
+                <!-- Garis Putus-putus sejajar dengan titik bulat -->
+                <div class="absolute top-[6px] left-10 right-10 h-0 border-t-2 border-dashed border-white/30 z-0"></div>
+                
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="w-3.5 h-3.5 bg-[#D4AF37] rounded-full border-2 border-[#0A2540] mb-2 shadow-md"></div>
+                    <p class="text-[9px] font-bold text-white">Pendaftaran</p>
+                    <p class="text-[8px] font-medium text-gray-300">5-25 Okt</p>
+                </div>
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="w-3.5 h-3.5 bg-[#D4AF37] rounded-full border-2 border-[#0A2540] mb-2 shadow-md"></div>
+                    <p class="text-[9px] font-bold text-white">Technical Meeting</p>
+                    <p class="text-[8px] font-medium text-gray-300">30 Okt</p>
+                </div>
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="w-3.5 h-3.5 bg-[#D4AF37] rounded-full border-2 border-[#0A2540] mb-2 shadow-md"></div>
+                    <p class="text-[9px] font-bold text-white">Pengumpulan</p>
+                    <p class="text-[8px] font-medium text-gray-300">1-5 Nov</p>
+                </div>
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-[#0A2540] mb-2 shadow-md animate-pulse"></div>
+                    <p class="text-[9px] font-bold text-[#D4AF37]">Pengumuman</p>
+                    <p class="text-[8px] font-medium text-gray-300">10 Nov</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biaya Pendaftaran & S&K Terpisah -->
+        <div class="relative z-10 grid grid-cols-2 gap-3 w-full">
+            <div class="bg-[#0A2540] text-white p-3 rounded-2xl border border-white/15 shadow-xl flex flex-col justify-center text-center">
+                <p class="text-[9px] font-bold text-gray-300 uppercase">Biaya Pendaftaran</p>
+                <p class="text-2xl font-black text-[#D4AF37] my-0.5">Rp 50.000</p>
+                <span class="text-[8px] text-gray-300">Per Karya / Naskah</span>
+            </div>
+
+            <div class="bg-[#0A2540] text-white p-3 rounded-2xl border border-white/15 shadow-xl flex flex-col justify-center text-center">
+                <p class="text-[9px] font-bold text-[#D4AF37] uppercase mb-1">Syarat & Ketentuan</p>
+                <span class="text-[8.5px] text-gray-200 leading-relaxed">Silakan kunjungi tautan resmi:<br><strong class="text-white underline">mediatulisanmanusia.com/halaman-lomba.html</strong></span>
+            </div>
+        </div>
+
+        <!-- Narahubung / Contact (Mengisi Kekosongan) -->
+        <div class="relative z-10 flex justify-center items-center gap-8 bg-white/5 border border-white/10 p-2.5 rounded-2xl w-full shadow-sm">
+            <div class="flex items-center gap-2">
+                <div class="bg-[#25D366] text-white p-1 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.65.688 5.166 1.996 7.411L.068 24l4.673-1.921c2.158 1.183 4.593 1.808 7.108 1.808 6.646 0 12.031-5.384 12.031-12.031S18.677 0 12.031 0zm0 21.94c-2.222 0-4.402-.596-6.311-1.727l-.454-.268-3.468 1.425 1.442-3.382-.294-.467c-1.242-1.974-1.899-4.248-1.899-6.591 0-5.578 4.542-10.12 10.12-10.12 5.578 0 10.12 4.542 10.12 10.12s-4.542 10.12-10.12 10.12zm5.556-7.558c-.305-.153-1.804-.891-2.083-.992-.28-.102-.483-.153-.687.153-.203.305-.788.992-.966 1.196-.178.204-.356.23-.661.077-1.488-.737-2.73-1.554-3.774-3.136-.203-.306.216-.279.805-1.455.076-.153.038-.28-.038-.432-.076-.153-.687-1.656-.942-2.267-.247-.591-.497-.512-.687-.521-.178-.009-.382-.01-.585-.01-.204 0-.534.076-.814.382-.28.305-1.068 1.043-1.068 2.544s1.094 2.951 1.246 3.155c.153.204 2.152 3.284 5.212 4.606 1.942.84 2.656.966 3.597.814.941-.153 2.951-1.206 3.37-2.376.42-1.17.42-2.176.293-2.376-.127-.204-.457-.306-.763-.459z"/></svg></div>
+                <div class="text-left">
+                    <p class="text-[8px] font-bold text-gray-300 uppercase leading-none mb-0.5">Narahubung / WA</p>
+                    <p class="text-[10px] font-black text-[#D4AF37] leading-none">0882-9444-8222</p>
+                </div>
+            </div>
+            <div class="w-px h-6 bg-white/20"></div>
+            <div class="flex items-center gap-2">
+                <div class="bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white p-1 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div>
+                <div class="text-left">
+                    <p class="text-[8px] font-bold text-gray-300 uppercase leading-none mb-0.5">Instagram Resmi</p>
+                    <p class="text-[10px] font-black text-[#D4AF37] leading-none">@mediatulisanmanusia</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barcode & Link Pendaftaran Bawah (Hapus mt-auto) -->
+        <div class="relative z-10 flex items-center justify-between bg-white/10 p-3 rounded-2xl border border-white/15 shadow-sm w-full">
+            <div class="flex items-center gap-3">
+                <div class="bg-white p-1 rounded-lg shadow-inner flex items-center justify-center">
+                    <svg class="w-10 h-10 text-black" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2,2H8V8H2V2M4,4V6H6V4H4M16,2H22V8H16V2M18,4V6H20V4H18M2,16H8V22H2V16M4,18V20H6V18H4M18,16H22V20H18V16M16,18H16V22H20V22H22V18H18M12,2H14V8H12V2M12,10H14V16H12V10M12,18H14V22H12V18M10,2H12V6H10V2M10,10H12V14H10V10M10,18H12V22H10V18M16,10H18V14H16V10M20,10H22V14H20V10"></path>
+                    </svg>
+                </div>
+                <div class="text-left">
+                    <p class="text-[9.5px] font-black text-[#D4AF37] uppercase">Scan untuk Daftar</p>
+                    <p class="text-[8px] font-medium text-gray-300">Buka Kamera & Scan Barcode</p>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <div class="bg-[#D4AF37] text-[#0A2540] py-2 px-4 rounded-xl font-black text-[11px] shadow-lg tracking-wide lowercase">
+                    mediatulisanmanusia.com/daftar-lomba.html
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
