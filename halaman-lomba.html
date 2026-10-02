@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#07192C">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07192C">
+    <meta name="description" content="Lomba Menulis Novela oleh PT Media Tulisan Manusia. Tulis kisahmu, terbitkan bukumu!">
+    <title>Lomba Menulis Novela - Media Tulisan Manusia</title>
+    
+    <link rel="icon" type="image/png" href="rev.png?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: { 
+                        dark: '#050505', darker: '#000000', 
+                        warnautama: '#0A2540', warnakedua: '#D4AF37', 
+                        warnaketiga: '#0A3F61', warnakeempat: '#1B1B1B' 
+                    },
+                    animation: { 
+                        'fade-up': 'fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { transition: background-color 0.5s ease, color 0.5s ease; overflow-x: hidden; }
+        .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
+        .dark .bg-custom-gradient { background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%); }
+        
+        .pattern-overlay { position: absolute; inset: 0; background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 1px, transparent 2px); background-size: 32px 32px; z-index: 0; pointer-events: none; }
+        .dark .pattern-overlay { background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 1px, transparent 2px); }
+        
+        .glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .dark .glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75); }
+        
+        header.glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 250, 0.7) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .dark header.glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.65) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+
+        /* Gelembung Animasi (Fixed to Viewport) */
+        .bubble-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bubble { position: absolute; bottom: -100px; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.05) 100%); border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; box-shadow: inset 0 0 10px rgba(255,255,255,0.5), 0 0 15px rgba(255,255,255,0.2); animation: floatUp 15s infinite linear; }
+        .dark .bubble { background: radial-gradient(circle at 30% 30%, rgba(10,37,64,0.6), rgba(10,37,64,0.2) 60%, rgba(10,37,64,0.05) 100%); border: 1px solid rgba(10,37,64,0.4); box-shadow: inset 0 0 10px rgba(10,37,64,0.5), 0 0 15px rgba(10,37,64,0.2); }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        .b1 { left: 10%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 0s; }
+        .b2 { left: 25%; width: 40px; height: 40px; animation-duration: 18s; animation-delay: 2s; }
+        .b3 { left: 45%; width: 80px; height: 80px; animation-duration: 14s; animation-delay: 4s; }
+        .b4 { left: 65%; width: 50px; height: 50px; animation-duration: 16s; animation-delay: 1s; }
+        .b5 { left: 85%; width: 70px; height: 70px; animation-duration: 15s; animation-delay: 3s; }
+        .b6 { left: 35%; width: 45px; height: 45px; animation-duration: 17s; animation-delay: 6s; }
+        .b7 { left: 75%; width: 55px; height: 55px; animation-duration: 13s; animation-delay: 5s; }
+    </style>
+</head>
+<body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-screen">
+    
+    <!-- Background Elements -->
+    <div class="pattern-overlay"></div>
+    <div class="bubble-container">
+        <div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div>
+        <div class="bubble b4"></div><div class="bubble b5"></div><div class="bubble b6"></div><div class="bubble b7"></div>
+    </div>
+    
+    <!-- Blurry glowing orbs -->
+    <div class="fixed top-10 -left-10 w-96 h-96 bg-black/5 dark:bg-white/5 rounded-full filter blur-[100px] pointer-events-none z-0"></div>
+    <div class="fixed top-[40%] -right-10 w-96 h-96 bg-gray-500/10 dark:bg-gray-400/5 rounded-full filter blur-[120px] pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
+        <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.location.href='index.html'">
+            <img src="rev1.png" alt="Logo MTM" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain dark:hidden">
+            <img src="rev2.png" alt="Logo MTM" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain hidden dark:block">
+        </div>
+        
+        <div class="flex items-center gap-2 relative">
+            <a href="https://mediatulisanmanusia.com/daftar-lomba-menulis.html" class="hidden md:flex bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2 px-5 rounded-full text-xs uppercase tracking-wider hover:scale-105 transition shadow-md items-center gap-2">
+                ✍️ Daftar Lomba
+            </a>
+            <a href="https://mediatulisanmanusia.com/pengumpulan-tulisan.html" class="hidden md:flex bg-warnakedua text-white font-extrabold py-2 px-5 rounded-full text-xs uppercase tracking-wider hover:scale-105 transition shadow-md items-center gap-2">
+                📤 Upload Karya
+            </a>
+            
+            <div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-2 hidden md:block"></div>
+
+            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200">
+                <svg class="w-6 h-6 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                <svg class="w-6 h-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </button>
+            
+            <!-- Mobile Menu Toggle -->
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnautama dark:text-gray-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden absolute top-20 right-0 w-64 glass rounded-3xl p-5 shadow-2xl flex flex-col gap-3 animate-fade-up border border-gray-200 dark:border-gray-700">
+            <a href="https://mediatulisanmanusia.com/daftar-lomba-menulis.html" class="w-full bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-3 px-4 rounded-xl text-xs text-center uppercase tracking-wider shadow-md">Daftar Lomba</a>
+            <a href="https://mediatulisanmanusia.com/pengumpulan-tulisan.html" class="w-full bg-warnakedua text-white font-extrabold py-3 px-4 rounded-xl text-xs text-center uppercase tracking-wider shadow-md">Upload Karya</a>
+        </div>
+    </header>
+
+    <div class="h-28 md:h-36"></div>
+
+    <!-- WADAH UTAMA KONTEN (Tengah & Simentris) -->
+    <main class="w-11/12 max-w-4xl mx-auto relative z-10 pb-20">
+        
+        <!-- Hero Section -->
+        <div class="glass p-8 md:p-14 rounded-[3rem] text-center mb-10 animate-fade-up relative overflow-hidden">
+            <div class="absolute inset-0 bg-[url('lg1.webp')] bg-contain bg-center bg-no-repeat opacity-5 pointer-events-none"></div>
+            
+            <div class="inline-block bg-warnakedua text-white font-black px-4 py-1.5 rounded-full text-[10px] md:text-xs uppercase tracking-widest mb-4 shadow-sm">
+                Event Nasional 2026
+            </div>
+            
+            <h1 class="text-3xl md:text-5xl font-black text-warnautama dark:text-white tracking-tight mb-4 uppercase leading-tight">
+                LOMBA MENULIS NOVELA <br><span class="text-warnakedua">(NOVEL PENDEK)</span>
+            </h1>
+            
+            <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium mb-8 max-w-2xl mx-auto leading-relaxed">
+                Punya naskah novel tapi bingung mau diterbitkan di mana? Ini saatnya karyamu dibaca oleh banyak orang! PT Media Tulisan Manusia menantang kamu untuk merangkai cerita dengan <strong class="text-warnautama dark:text-white">TEMA BEBAS</strong>.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://mediatulisanmanusia.com/daftar-lomba-menulis.html" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-xl uppercase tracking-widest text-xs hover:scale-105 transition-transform">Daftar Sekarang</a>
+                <a href="#sk-section" class="glass text-warnautama dark:text-white font-extrabold py-4 px-8 rounded-full shadow-sm border border-warnautama/20 dark:border-white/20 uppercase tracking-widest text-xs hover:bg-white/50 dark:hover:bg-black/50 transition-colors">Baca Syarat & Ketentuan</a>
+            </div>
+        </div>
+
+        <!-- Pamflet Lomba -->
+        <div class="w-full mb-10 animate-fade-up">
+            <img src="pamflet.png" alt="Pamflet Lomba Menulis Novela" class="w-full h-auto object-contain rounded-[2.5rem] shadow-2xl border-4 border-white/40 dark:border-white/10 mx-auto">
+        </div>
+
+        <!-- Total Hadiah Section -->
+        <div class="bg-warnautama dark:bg-warnakeempat border border-warnakedua p-8 md:p-12 rounded-[3rem] text-center shadow-2xl mb-10 animate-fade-up relative overflow-hidden group">
+            <div class="absolute inset-0 bg-warnakedua opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none"></div>
+            <h3 class="relative z-10 text-warnakedua font-black text-sm md:text-base tracking-[0.2em] uppercase mb-2">Apresiasi Karya Terbaik</h3>
+            <h2 class="relative z-10 text-4xl md:text-6xl font-black text-white mb-8 drop-shadow-md">TOTAL Rp 3 JUTA</h2>
+            
+            <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-left">
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                    <h4 class="text-warnakedua font-black text-lg mb-2">🏆 JUARA 1</h4>
+                    <ul class="text-white text-xs font-medium space-y-1">
+                        <li>• Uang Pembinaan</li>
+                        <li>• Penerbitan Buku</li>
+                        <li>• Cetak Buku Fisik</li>
+                        <li>• Pengurusan Hak Cipta</li>
+                    </ul>
+                </div>
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                    <h4 class="text-gray-300 font-black text-lg mb-2">🥈 JUARA 2</h4>
+                    <ul class="text-white text-xs font-medium space-y-1">
+                        <li>• Uang Pembinaan</li>
+                        <li>• Penerbitan Buku</li>
+                        <li>• Cetak Buku Fisik</li>
+                    </ul>
+                </div>
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                    <h4 class="text-orange-300 font-black text-lg mb-2">🥉 JUARA 3</h4>
+                    <ul class="text-white text-xs font-medium space-y-1">
+                        <li>• Penerbitan Buku</li>
+                        <li>• Cetak Buku Fisik</li>
+                    </ul>
+                </div>
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                    <h4 class="text-green-300 font-black text-lg mb-2">🎖️ HARAPAN 1-3</h4>
+                    <ul class="text-white text-xs font-medium space-y-1">
+                        <li>• Penerbitan Naskah Gratis!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="relative z-10 mt-8 pt-6 border-t border-white/20 text-white text-[11px] md:text-xs font-medium">
+                <span class="font-bold text-warnakedua">Keuntungan Semua Peserta:</span> Karya ditayangkan eksklusif di website, mendapat E-Sertifikat Nasional, dan Voucher Diskon Penerbitan Mandiri.
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="glass p-8 md:p-12 rounded-[3rem] mb-10 animate-fade-up">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-black text-warnautama dark:text-white uppercase tracking-tight">Linimasa Pelaksanaan</h3>
+                <div class="w-16 h-1 bg-warnakedua mx-auto mt-3 rounded-full"></div>
+            </div>
+            
+            <div class="space-y-6 max-w-2xl mx-auto">
+                <div class="flex items-center gap-4 bg-white/50 dark:bg-black/30 p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
+                    <div class="w-12 h-12 bg-warnautama dark:bg-white text-white dark:text-black rounded-full flex items-center justify-center font-black flex-shrink-0">1</div>
+                    <div>
+                        <h4 class="font-extrabold text-warnautama dark:text-white text-sm md:text-base">Pendaftaran Peserta</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">5 - 25 Oktober 2026</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 bg-white/50 dark:bg-black/30 p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
+                    <div class="w-12 h-12 bg-warnautama dark:bg-white text-white dark:text-black rounded-full flex items-center justify-center font-black flex-shrink-0">2</div>
+                    <div>
+                        <h4 class="font-extrabold text-warnautama dark:text-white text-sm md:text-base">Technical Meeting (TM)</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">30 Oktober 2026</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 bg-white/50 dark:bg-black/30 p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
+                    <div class="w-12 h-12 bg-warnautama dark:bg-white text-white dark:text-black rounded-full flex items-center justify-center font-black flex-shrink-0">3</div>
+                    <div>
+                        <h4 class="font-extrabold text-warnautama dark:text-white text-sm md:text-base">Pengumpulan Naskah</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">1 - 5 November 2026</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 bg-warnakedua/20 dark:bg-warnakedua/10 p-4 rounded-2xl border border-warnakedua/50">
+                    <div class="w-12 h-12 bg-warnakedua text-white rounded-full flex items-center justify-center font-black flex-shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-warnautama dark:text-white text-sm md:text-base">Pengumuman Pemenang</h4>
+                        <p class="text-xs text-warnakedua font-bold">10 November 2026 (Hari Pahlawan)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Syarat & Ketentuan Section -->
+        <div id="sk-section" class="glass p-8 md:p-12 rounded-[3rem] animate-fade-up">
+            <h3 class="text-2xl font-black text-warnautama dark:text-white uppercase tracking-tight mb-6 border-b border-gray-300 dark:border-gray-700 pb-4">Syarat & Ketentuan Umum</h3>
+            
+            <div class="grid md:grid-cols-2 gap-8 text-[13px] text-gray-800 dark:text-gray-300 font-medium">
+                <div>
+                    <h4 class="font-bold text-warnautama dark:text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 bg-warnakedua rounded-full"></div> Pendaftaran & Peserta</h4>
+                    <ul class="space-y-2">
+                        <li>• Lomba terbuka untuk umum (tidak dibatasi usia).</li>
+                        <li>• Biaya pendaftaran: <strong class="text-warnautama dark:text-white">Rp 50.000 per karya</strong>.</li>
+                        <li>• Peserta mendaftar melalui website resmi MTM.</li>
+                        <li>• Wajib mengikuti Technical Meeting (TM) via Zoom/Google Meet.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-warnautama dark:text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 bg-warnakedua rounded-full"></div> Format Naskah</h4>
+                    <ul class="space-y-2">
+                        <li>• Tema naskah <strong class="text-warnautama dark:text-white">BEBAS</strong>.</li>
+                        <li>• Panjang naskah minimal <strong class="text-warnautama dark:text-white">50 halaman A4</strong>.</li>
+                        <li>• Margin Normal (3-3-3-3), Font Times New Roman 12, Spasi 1.5.</li>
+                        <li>• Format file wajib <strong class="text-warnautama dark:text-white">Microsoft Word (.doc/.docx)</strong>. PDF tidak diterima.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-warnautama dark:text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 bg-warnakedua rounded-full"></div> Orisinalitas & Penilaian</h4>
+                    <ul class="space-y-2">
+                        <li>• Karya asli, bukan plagiasi, dan belum pernah diterbitkan.</li>
+                        <li>• Dilarang keras menggunakan AI secara utuh.</li>
+                        <li>• Penilaian juri: 40% Alur/Karakter, 30% Orisinalitas Ide, 30% Gaya Bahasa/PUEBI.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-warnautama dark:text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 bg-warnakedua rounded-full"></div> Hak Tayang</h4>
+                    <ul class="space-y-2">
+                        <li>• Hak Cipta tetap sepenuhnya milik penulis.</li>
+                        <li>• PT Media Tulisan Manusia memiliki hak tayang digital non-eksklusif untuk menayangkan karya di website.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-warnautama dark:bg-warnakeempat rounded-3xl text-center text-white border border-warnautama/20">
+                <p class="text-sm md:text-base font-bold mb-4">Sudah siap menerbitkan karya emasmu?</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="https://mediatulisanmanusia.com/daftar-lomba-menulis.html" class="bg-warnakedua text-white font-extrabold py-3 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs hover:scale-105 transition-transform inline-block">Daftar Lomba</a>
+                    <a href="https://mediatulisanmanusia.com/pengumpulan-tulisan.html" class="bg-white text-warnautama font-extrabold py-3 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs hover:scale-105 transition-transform inline-block">Upload Karya</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Copyright -->
+    <footer class="w-full pb-8 flex justify-center items-center relative z-10">
+        <div class="text-center text-[10px] md:text-xs w-full">
+            <p class="text-warnautama dark:text-gray-400">Copyright &copy; Since 2022 - All Rights Reserved</p>
+            <p class="mt-1 text-gray-600 dark:text-gray-500">Created with passion by</p>
+            <p class="font-bold text-warnautama dark:text-white mt-0.5">PT MEDIA TULISAN MANUSIA</p>
+        </div>
+    </footer>
+
+</body>
+</html>
