@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#07192C">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07192C">
+    <title>Pendaftaran Lomba Novela - Media Tulisan Manusia</title>
+    <link rel="icon" type="image/png" href="rev.png?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: { warnautama: '#0A2540', warnakedua: '#D4AF37', warnaketiga: '#0A3F61', warnakeempat: '#1B1B1B' },
+                    animation: { 'fade-up': 'fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards', pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' },
+                    keyframes: { fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { transition: background-color 0.5s ease, color 0.5s ease; overflow-x: hidden; }
+        .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
+        .dark .bg-custom-gradient { background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%); }
+        .glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .dark .glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75); }
+        header.glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 250, 0.7) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .dark header.glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.65) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .bubble-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bubble { position: absolute; bottom: -100px; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.05) 100%); border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; animation: floatUp 15s infinite linear; }
+        .dark .bubble { background: radial-gradient(circle at 30% 30%, rgba(10,37,64,0.6), rgba(10,37,64,0.2) 60%, rgba(10,37,64,0.05) 100%); border: 1px solid rgba(10,37,64,0.4); }
+        @keyframes floatUp { 0% { transform: translateY(110vh) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }
+        .b1 { left: 10%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 0s; } .b2 { left: 25%; width: 40px; height: 40px; animation-duration: 18s; animation-delay: 2s; } .b3 { left: 45%; width: 80px; height: 80px; animation-duration: 14s; animation-delay: 4s; }
+        #toast-container { z-index: 999999; }
+    </style>
+</head>
+<body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-screen">
+    
+    <div id="toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-3 pointer-events-none w-11/12 max-w-sm"></div>
+    
+    <div id="loading-form" class="fixed inset-0 z-[99999] bg-white/80 dark:bg-black/80 flex items-center justify-center transition-opacity duration-500 hidden opacity-0">
+        <div class="flex flex-col items-center">
+            <img src="load.webp" alt="Loading" class="h-20 w-auto object-contain animate-pulse mb-4 drop-shadow-md">
+            <p class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse">Mengirim Data...</p>
+        </div>
+    </div>
+
+    <div class="bubble-container"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
+    <div class="fixed top-10 -left-10 w-96 h-96 bg-black/5 dark:bg-white/5 rounded-full filter blur-[100px] pointer-events-none z-0"></div>
+
+    <!-- Header dengan Logo (Selaras Web Utama) -->
+    <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
+        <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.location.href='halaman-lomba.html'">
+            <img src="rev1.png" alt="Logo MTM" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain dark:hidden">
+            <img src="rev2.png" alt="Logo MTM" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain hidden dark:block">
+        </div>
+        <div class="flex items-center gap-2 relative">
+            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200">
+                <svg class="w-6 h-6 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                <svg class="w-6 h-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="h-28 md:h-36"></div>
+
+    <main class="max-w-4xl mx-auto px-4 md:px-6 relative z-10 pb-20">
+        <!-- Tombol Kembali -->
+        <button onclick="window.location.href='halaman-lomba.html'" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition hover:text-warnakedua">&larr; Kembali ke Halaman Lomba</button>
+        
+        <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl animate-fade-up">
+            <div class="text-center mb-10 border-b border-gray-300 dark:border-gray-700 pb-6">
+                <h2 class="text-2xl md:text-3xl font-black text-warnautama dark:text-white uppercase tracking-tight">Form Pendaftaran Lomba</h2>
+                <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-2 font-medium">Lomba Menulis Novela (Novel Pendek) 2026</p>
+            </div>
+
+            <form onsubmit="kirimFormPendaftaran(event)" class="space-y-6 text-left">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nama Lengkap (Sesuai KTP) <span class="text-red-500">*</span></label>
+                        <input type="text" name="Nama_Lengkap" required placeholder="Tuliskan nama lengkap Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nama Pena (Opsional)</label>
+                        <input type="text" name="Nama_Pena" placeholder="Nama untuk dicantumkan di buku" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Alamat Email <span class="text-red-500">*</span></label>
+                        <input type="email" name="Email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                        <input type="number" name="WhatsApp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Asal Kota / Instansi <span class="text-red-500">*</span></label>
+                        <input type="text" name="Asal_Kota" required placeholder="Contoh: Malang / Universitas Negeri Malang" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Rencana Judul Novel <span class="text-red-500">*</span></label>
+                        <input type="text" name="Rencana_Judul" required placeholder="Bisa disesuaikan nanti saat pengumpulan" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-xs font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                    </div>
+                </div>
+
+                <div class="my-8 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
+
+                <div class="bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem] text-center">
+                    <span class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1.5 rounded-full text-[10px] sm:text-xs uppercase tracking-wider mb-5 inline-block">Biaya Pendaftaran: Rp 50.000</span>
+                    <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-extrabold mb-5 px-2">PILIH REKENING PEMBAYARAN:</p>
+                    
+                    <div class="w-full bg-white/80 dark:bg-black/60 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 mb-4 relative overflow-hidden shadow-sm">
+                        <div class="absolute top-0 right-0 bg-warnautama text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">Rekening Utama</div>
+                        <img src="ocbc.png" alt="Logo OCBC" class="h-6 sm:h-8 mx-auto mb-2 object-contain">
+                        <p class="text-xl md:text-2xl font-black tracking-widest text-warnautama dark:text-white my-1 select-all">693800151450</p>
+                        <p class="text-[10px] font-bold text-gray-700 dark:text-gray-300">a/n: <span class="text-warnautama dark:text-white">PT MEDIA TULISAN MANUSIA</span></p>
+                    </div>
+
+                    <div class="w-full bg-white/80 dark:bg-black/60 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 mb-6 relative overflow-hidden shadow-sm">
+                        <div class="absolute top-0 right-0 bg-warnautama text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">Alternatif</div>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-5 sm:h-7 mx-auto mb-2 dark:filter dark:brightness-0 dark:invert">
+                        <p class="text-lg md:text-xl font-black tracking-widest text-warnautama dark:text-white my-1 select-all">123001006601501</p>
+                        <p class="text-[10px] font-bold text-gray-700 dark:text-gray-300">a/n: <span class="text-warnautama dark:text-white">ACH. SUFYAN WAHYUDI</span></p>
+                    </div>
+
+                    <div class="text-left">
+                        <label class="block text-[11px] font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wider">Upload Bukti Transfer <span class="text-red-500">*</span></label>
+                        <input type="file" name="Bukti_Transfer" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition shadow-inner bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer">
+                        <p class="text-[10px] text-gray-500 mt-2 font-medium ml-2">* Format: JPG/PNG. Maksimal 3MB.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
+                    <label class="flex items-start gap-3 cursor-pointer group">
+                        <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
+                        <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya bersedia mengikuti Technical Meeting (30 Oktober 2026) dan mematuhi Syarat & Ketentuan lomba.</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                    KIRIM PENDAFTARAN
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Copyright -->
+    <footer class="w-full pb-8 flex justify-center items-center relative z-10 mt-10">
+        <div class="text-center text-[10px] md:text-xs w-full">
+            <p class="text-warnautama dark:text-gray-400">Copyright &copy; Since 2022 - All Rights Reserved</p>
+            <p class="mt-1 text-gray-600 dark:text-gray-500">Created with passion by</p>
+            <p class="font-bold text-warnautama dark:text-white mt-0.5">PT MEDIA TULISAN MANUSIA</p>
+        </div>
+    </footer>
+
+    <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>    
+
+    <script>
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const icon = type === 'success' ? '✅' : '❌';
+            toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
+            toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.remove('translate-y-[-30px]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100'); }, 10);
+            setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-30px]', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 4000);
+        }
+
+        function kirimFormPendaftaran(e) {
+            e.preventDefault();
+            const f = e.target;
+            const fileInputs = f.querySelectorAll('input[type="file"]');
+            for (let i of fileInputs) {
+                if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
+                    showToast(`Berkas melebihi batas 3MB. Harap diperkecil.`, 'error');
+                    return;
+                }
+            }
+
+            const btn = f.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerText = "MENGIRIM...";
+
+            const loader = document.getElementById('loading-form');
+            if (loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
+
+            let subjekEl = f.querySelector('input[name="_subject"]');
+            if (!subjekEl) {
+                subjekEl = document.createElement('input');
+                subjekEl.type = 'hidden';
+                subjekEl.name = '_subject';
+                f.appendChild(subjekEl);
+            }
+            const nama = f.querySelector('input[name="Nama_Lengkap"]').value || '-';
+            subjekEl.value = `Pendaftaran Lomba: ${nama}`;
+
+            let formDataWA = new FormData(f);
+            let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah mendaftar *Lomba Menulis Novela* via Website.\n\n*RINCIAN PENDAFTAR:*\n`;
+            
+            for (let [key, value] of formDataWA.entries()) {
+                if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_')) {
+                    pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
+                }
+            }
+            pesanWA += `\n_(Catatan: Bukti transfer telah saya unggah melalui sistem website. Saya siap mengirim ulang jika dibutuhkan)._`;
+            const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
+
+            f.action = "https://formsubmit.co/tulisanmanusiaku@gmail.com";
+            f.method = "POST";
+            f.enctype = "multipart/form-data";
+            f.target = "hidden-iframe-upload";
+            f.submit();
+
+            setTimeout(() => {
+                if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+                showToast("Pendaftaran Berhasil Dikirim!", "success");
+                window.location.href = linkWhatsAppLangsung;
+                setTimeout(() => {
+                    f.reset();
+                    btn.disabled = false;
+                    btn.innerText = "KIRIM PENDAFTARAN";
+                    window.location.href = 'halaman-lomba.html';
+                }, 1500);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
