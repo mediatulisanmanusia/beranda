@@ -1,8 +1,12 @@
 name: Delete old workflow runs
 on:
-  workflow_dispatch: # Memungkinkan Anda menekan tombol "Run" secara manual
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0' # Otomatis berjalan setiap hari Minggu tengah malam
+    - cron: '0 0 * * 0'
+
+permissions:
+  actions: write
+
 jobs:
   del_runs:
     runs-on: ubuntu-latest
@@ -13,4 +17,8 @@ jobs:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
           retain_days: 0
-          keep_minimum_runs: 0
+          keep_minimum_runs: 2
+          # Paksa membaca semua file workflow di dalam repositori
+          delete_workflow_pattern: ".*"
+          # Paksa menghapus semua jenis status (success, failed, cancelled, dll)
+          delete_run_by_conclusion_pattern: "All"
