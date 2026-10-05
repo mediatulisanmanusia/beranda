@@ -3092,5 +3092,68 @@
             }
         });
     </script>
+             <!-- ========================================== -->
+    <!-- KODE POP-UP PROMO DING.WEBP -->
+    <!-- ========================================== -->
+    
+    <!-- Area Pop-up -->
+    <div id="popup-promo" class="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60 transition-opacity duration-500 opacity-0 pointer-events-none hidden">
+        
+        <!-- Kontainer Gambar (Responsif) -->
+        <div id="popup-content" class="relative w-full max-w-[90%] md:max-w-2xl lg:max-w-4xl transform scale-95 transition-transform duration-500">
+            
+            <!-- Tombol X -->
+            <button onclick="tutupPopup()" class="absolute -top-4 -right-4 md:-top-5 md:-right-5 bg-red-600 hover:bg-red-700 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-lg md:text-xl z-10 shadow-[0_4px_10px_rgba(0,0,0,0.5)] border-2 border-white transition-transform hover:scale-110" aria-label="Tutup promo">
+                &times;
+            </button>
+            
+            <!-- Gambar ding.webp -->
+            <img src="ding.webp" alt="Promo Spesial Media Tulisan Manusia" class="w-full h-auto object-contain drop-shadow-2xl">
+            
+        </div>
+    </div>
+
+    <!-- Skrip Logika Pop-up -->
+    <script>
+        function tampilkanPopup() {
+            const popup = document.getElementById('popup-promo');
+            const content = document.getElementById('popup-content');
+            
+            // Tampilkan pop-up
+            popup.classList.remove('hidden');
+            // Sedikit jeda agar animasi transisi Tailwind terbaca
+            setTimeout(() => {
+                popup.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 50);
+
+            // Hilang otomatis setelah 10 detik (10000 milidetik)
+            setTimeout(tutupPopup, 10000);
+        }
+
+        function tutupPopup() {
+            const popup = document.getElementById('popup-promo');
+            const content = document.getElementById('popup-content');
+            
+            // Jalankan animasi menghilang
+            popup.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            // Sembunyikan elemen sepenuhnya setelah animasi selesai
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 500);
+        }
+
+        // Pemicu Pop-up: Menunggu 3.2 detik setelah halaman web dimuat
+        // (Waktu ini pas setelah layar loading 3 detik Anda menghilang)
+        window.addEventListener('load', () => {
+            setTimeout(tampilkanPopup, 3200);
+        });
+    </script>
+    <!-- ========================================== -->
+
   </body>
 </html>
