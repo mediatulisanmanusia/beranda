@@ -3093,12 +3093,13 @@
         });
     </script>
              
+    <!-- ========================================== -->
     <div id="popup-promo" class="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60 transition-opacity duration-500 opacity-0 pointer-events-none hidden">
-        <div id="popup-content" class="relative w-full max-w-[90%] md:max-w-2xl lg:max-w-4xl transform scale-95 transition-transform duration-500">
-            <button onclick="tutupPopup()" class="absolute -top-4 -right-4 md:-top-5 md:-right-5 bg-red-600 hover:bg-red-700 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-lg md:text-xl z-10 shadow-[0_4px_10px_rgba(0,0,0,0.5)] border-2 border-white transition-transform hover:scale-110" aria-label="Tutup promo">
+        <div id="popup-content" class="relative w-full max-w-[90%] sm:max-w-md md:max-w-xl lg:max-w-3xl transform scale-95 transition-transform duration-500 rounded-2xl shadow-2xl overflow-hidden bg-transparent">
+            <button onclick="tutupPopup()" class="absolute top-3 right-3 md:top-4 md:right-4 w-8 h-8 md:w-10 md:h-10 bg-white/20 backdrop-blur-md border border-white/40 hover:bg-white/40 text-white flex items-center justify-center rounded-full font-bold text-lg md:text-xl z-20 shadow-lg transition-all hover:scale-110" aria-label="Tutup promo">
                 &times;
             </button>
-            <img src="pamflet.png" alt="Promo Spesial Media Tulisan Manusia" class="w-full h-auto object-contain drop-shadow-2xl">
+            <img src="pamflet.png" alt="Promo Spesial Media Tulisan Manusia" class="w-full h-auto object-contain block relative z-10">
         </div>
     </div>
 
@@ -3116,22 +3117,22 @@
             setTimeout(tutupPopup, 30000);
         }
 
-            function tutupPopup() {
+        function tutupPopup() {
             const popup = document.getElementById('popup-promo');
             const content = document.getElementById('popup-content');
             popup.classList.add('opacity-0', 'pointer-events-none');
             content.classList.remove('scale-100');
             content.classList.add('scale-95');
             
-             setTimeout(() => {
+            setTimeout(() => {
                 popup.classList.add('hidden');
             }, 500);
         }
-
          window.addEventListener('load', () => {
-            setTimeout(tampilkanPopup, 3200);
+            setTimeout(tampilkanPopup, 3000);
         });
     </script>
-    
+    <!-- ========================================== -->
+
   </body>
 </html>
