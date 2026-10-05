@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Backlink IDE - Media Tulisan Manusia</title>
+    <title>Encrypted Server - Tier 1 Nodes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Editor Theme (Sublime Text / VS Code Style) */
-        body { background-color: #1e1e1e; color: #cccccc; }
+        /* Editor Theme */
+        body { background-color: #1e1e1e; color: #cccccc; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
         .bg-sidebar { background-color: #252526; }
         .bg-editor { background-color: #1e1e1e; }
-        .bg-tab-active { background-color: #1e1e1e; }
         .border-panel { border-color: #333333; }
         
         /* Custom Scrollbars */
@@ -20,7 +19,7 @@
         ::-webkit-scrollbar-thumb { background: #424242; }
         ::-webkit-scrollbar-thumb:hover { background: #4f4f4f; }
 
-        /* Syntax Highlighting Colors */
+        /* Syntax Colors */
         .sy-keyword { color: #c586c0; } 
         .sy-string { color: #ce9178; } 
         .sy-var { color: #9cdcfe; } 
@@ -28,122 +27,168 @@
         .sy-num { color: #b5cea8; } 
         .sy-comment { color: #6a9955; font-style: italic; } 
         .sy-tag { color: #569cd6; } 
-        .sy-attr { color: #9cdcfe; } 
     </style>
 </head>
-<body class="font-mono h-screen flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden text-sm md:text-base">
+<body class="h-screen overflow-y-hidden overflow-x-auto bg-[#1e1e1e] text-[13px] md:text-sm">
 
-    <!-- LEFT SIDEBAR: EXPLORER -->
-    <div class="bg-sidebar w-full lg:w-64 flex flex-col border-b lg:border-b-0 lg:border-r border-panel h-[35vh] lg:h-full shrink-0">
-        <div class="px-4 py-2 text-xs font-bold tracking-wider text-gray-400 border-b border-panel flex justify-between items-center select-none">
-            <span>EXPLORER</span>
-            <svg class="w-4 h-4 cursor-pointer hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </div>
-        <div class="px-2 py-2 text-xs font-bold text-gray-300 cursor-pointer hover:bg-[#2a2d2e] select-none flex items-center">
-            <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            TIER_1_BACKLINKS
-        </div>
-        <div id="file-list" class="overflow-y-auto flex-1 pb-4">
-            <!-- Dynamic file list will be injected here -->
-        </div>
-    </div>
-
-    <!-- CENTER AREA: CODE EDITOR -->
-    <div class="bg-editor w-full lg:w-[40%] flex flex-col h-[50vh] lg:h-full border-b lg:border-b-0 lg:border-r border-panel overflow-hidden shrink-0">
-        <div class="flex bg-[#2d2d2d] border-b border-panel overflow-x-auto select-none">
-            <div id="current-tab" class="bg-tab-active px-4 py-2 border-t-2 border-[#007acc] flex items-center min-w-max text-[#9cdcfe] cursor-pointer text-sm">
-                <svg class="w-4 h-4 mr-2 text-[#519aba]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 11.5v-3l4 1.5-4 1.5z"></path></svg>
-                welcome.js <span class="ml-2 text-gray-500 hover:text-white">×</span>
+    <!-- FAKE VERIFICATION OVERLAY -->
+    <div id="verification-screen" class="fixed inset-0 z-50 bg-[#151515] bg-opacity-95 flex items-center justify-center p-4 transition-opacity duration-500">
+        <div class="bg-[#1e1e1e] p-8 rounded-lg border border-[#333] shadow-[0_0_30px_rgba(0,0,0,0.8)] max-w-sm w-full text-center relative overflow-hidden">
+            <!-- Top decorative bar -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-[#007acc]"></div>
+            
+            <!-- Logo Load Webp (Milik Anda) -->
+            <div class="mx-auto mb-4 w-20 h-20 rounded-full border-2 border-gray-600 p-1 bg-white flex items-center justify-center overflow-hidden">
+                <img src="load.webp" alt="System Logo" id="sys-logo" class="w-full h-full object-contain animate-pulse" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3596/3596091.png';">
             </div>
-        </div>
-        
-        <div class="flex-1 flex overflow-y-auto pt-4 pb-12 relative">
-            <div id="line-numbers" class="w-10 md:w-12 text-right pr-3 md:pr-4 text-[#858585] select-none text-xs md:text-sm leading-relaxed">
-                1<br>2<br>3<br>4<br>5<br>6<br>7<br>8
+
+            <h2 class="text-xl font-bold text-white mb-1 tracking-widest">RESTRICTED AREA</h2>
+            <p class="text-xs text-gray-500 mb-6 font-mono">Encrypted Backlink Server Nodes</p>
+            
+            <div class="text-left mb-6 bg-[#111111] p-4 rounded border border-[#333]">
+                <label class="flex items-start cursor-pointer group">
+                    <input type="checkbox" id="verify-checkbox" class="mt-1 mr-3 w-4 h-4 accent-[#007acc] cursor-pointer">
+                    <span class="text-xs text-gray-400 group-hover:text-gray-200 transition-colors leading-relaxed">
+                        I am an authorized administrator. I understand that accessing these Tier-1 nodes requires security clearance.
+                    </span>
+                </label>
             </div>
             
-            <div id="code-content" class="flex-1 pl-2 pr-4 whitespace-pre-wrap outline-none text-xs md:text-sm leading-relaxed">
+            <button id="enter-btn" disabled class="w-full py-3 bg-[#333] text-gray-500 rounded font-bold cursor-not-allowed transition-all duration-300 tracking-wider text-xs">
+                AWAITING VERIFICATION...
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER (Dikunci minimal 1000px agar di HP bisa di-scroll ke samping, tidak menumpuk) -->
+    <div class="flex h-full min-w-[1000px]">
+
+        <!-- LEFT SIDEBAR: EXPLORER -->
+        <div class="bg-sidebar w-[250px] shrink-0 flex flex-col border-r border-panel h-full">
+            <div class="px-4 py-3 text-xs font-bold tracking-wider text-gray-400 border-b border-panel flex justify-between items-center select-none shadow-sm">
+                <span>EXPLORER</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </div>
+            <div class="px-2 py-2 text-xs font-bold text-gray-300 select-none flex items-center bg-[#2a2d2e]">
+                <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                TIER_1_BACKLINKS
+            </div>
+            <div id="file-list" class="overflow-y-auto flex-1 pb-4">
+                <!-- Daftar link masuk sini -->
+            </div>
+        </div>
+
+        <!-- CENTER AREA: CODE EDITOR -->
+        <div class="bg-editor w-[400px] shrink-0 flex flex-col h-full border-r border-panel relative">
+            <div class="flex bg-[#2d2d2d] border-b border-panel overflow-x-auto select-none shadow-sm">
+                <div id="current-tab" class="bg-[#1e1e1e] px-4 py-2.5 border-t-2 border-[#007acc] flex items-center text-[#9cdcfe] text-xs">
+                    <svg class="w-4 h-4 mr-2 text-[#519aba]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 11.5v-3l4 1.5-4 1.5z"></path></svg>
+                    main_server.js
+                </div>
+            </div>
+            
+            <div class="flex-1 flex overflow-y-auto pt-4 pb-12 relative">
+                <div id="line-numbers" class="w-12 text-right pr-4 text-[#858585] select-none text-[13px] leading-[1.6]">
+                    1<br>2<br>3<br>4<br>5<br>6<br>7
+                </div>
+                
+                <div id="code-content" class="flex-1 pr-4 whitespace-pre-wrap outline-none text-[13px] leading-[1.6]">
 <span class="sy-comment">/**</span>
-<span class="sy-comment"> * Welcome to the Interactive Backlink Report</span>
 <span class="sy-comment"> * ---------------------------------------------</span>
-<span class="sy-comment"> * Please select a domain from the Explorer panel</span>
-<span class="sy-comment"> * on the left to view its details and load</span>
-<span class="sy-comment"> * the live preview on the right.</span>
+<span class="sy-comment"> * System Status: SECURE</span>
+<span class="sy-comment"> * ---------------------------------------------</span>
+<span class="sy-comment"> * Select a target domain from the explorer</span>
+<span class="sy-comment"> * panel to decrypt the node data.</span>
 <span class="sy-comment"> */</span>
-
-<span class="sy-keyword">const</span> <span class="sy-var">appStatus</span> = <span class="sy-string">"Awaiting user selection..."</span>;
-<span class="sy-func">console</span>.<span class="sy-func">log</span>(<span class="sy-var">appStatus</span>);
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- RIGHT AREA: LIVE PREVIEW -->
-    <div class="bg-white flex-1 flex flex-col h-[60vh] lg:h-full overflow-hidden relative">
-        <div class="px-4 py-2 text-xs font-bold tracking-wider text-gray-300 bg-[#252526] border-b border-panel flex justify-between items-center select-none shadow-md z-20">
-            <span class="flex items-center text-[#4CAF50]">
-                <svg class="w-4 h-4 mr-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                LIVE PREVIEW
-            </span>
-            <span id="preview-url" class="text-[10px] text-gray-500 truncate ml-4 font-normal">No source selected</span>
-        </div>
-        
-        <div class="flex-1 relative bg-gray-100">
-            <!-- Overlay Placeholder/Loader -->
-            <div id="preview-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-gray-500 z-10 p-6 text-center">
-                <svg class="w-12 h-12 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                <span class="text-sm font-medium">Select a link from the sidebar to preview</span>
+        <!-- RIGHT AREA: LIVE PREVIEW -->
+        <div class="bg-white flex-1 min-w-[350px] shrink-0 flex flex-col h-full relative border-l border-gray-300">
+            <div class="px-4 py-2.5 text-xs font-bold tracking-wider text-gray-300 bg-[#252526] border-b border-panel flex justify-between items-center select-none z-20">
+                <span class="flex items-center text-[#4CAF50]">
+                    <svg class="w-4 h-4 mr-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    LIVE PREVIEW
+                </span>
+                <span id="preview-url" class="text-[10px] text-gray-500 truncate ml-4 font-normal">Awaiting payload...</span>
             </div>
-            <!-- Iframe -->
-            <iframe id="preview-frame" class="w-full h-full border-0 absolute inset-0 z-0 bg-white"></iframe>
+            
+            <div class="flex-1 relative bg-[#f3f3f3]">
+                <div id="preview-overlay" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500 z-10 p-6 text-center">
+                    <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span class="text-sm font-medium">Select a node to establish connection</span>
+                </div>
+                <iframe id="preview-frame" class="w-full h-full border-0 absolute inset-0 z-0 bg-white shadow-inner"></iframe>
+            </div>
         </div>
+
     </div>
 
-    <!-- DATA & LOGIC -->
+    <!-- LOGIKA JAVASCRIPT -->
     <script>
+        // --- 1. VERIFICATION LOGIC ---
+        const checkbox = document.getElementById('verify-checkbox');
+        const enterBtn = document.getElementById('enter-btn');
+        const verificationScreen = document.getElementById('verification-screen');
+
+        checkbox.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                enterBtn.disabled = false;
+                enterBtn.className = "w-full py-3 bg-[#007acc] hover:bg-[#005999] text-white rounded font-bold cursor-pointer transition-all duration-300 tracking-wider text-xs shadow-[0_0_15px_rgba(0,122,204,0.4)]";
+                enterBtn.innerText = "ACCESS GRANTED - ENTER SYSTEM";
+            } else {
+                enterBtn.disabled = true;
+                enterBtn.className = "w-full py-3 bg-[#333] text-gray-500 rounded font-bold cursor-not-allowed transition-all duration-300 tracking-wider text-xs";
+                enterBtn.innerText = "AWAITING VERIFICATION...";
+            }
+        });
+
+        enterBtn.addEventListener('click', () => {
+            verificationScreen.style.opacity = '0';
+            setTimeout(() => {
+                verificationScreen.style.display = 'none';
+            }, 500);
+        });
+
+        // --- 2. DATA & EDITOR LOGIC ---
         const linksData = [{"domain": "capandgown.stanford.edu", "url": "https://www.capandgown.stanford.edu/profile/gloverczywooten98370/profile"}, {"domain": "xtuml.org", "url": "https://xtuml.org/author/bispurnama04/"}, {"domain": "akaguide.com", "url": "https://www.akaguide.com/user/bramantyowijaya77"}, {"domain": "skitterphoto.com", "url": "https://skitterphoto.com/photographers/3410170/ely-fiani"}, {"domain": "pbase.com", "url": "https://pbase.com/arinibudiman44/"}, {"domain": "app.readthedocs.org", "url": "https://app.readthedocs.org/profiles/askiasutrisno48/"}, {"domain": "downarchive.org", "url": "http://downarchive.org/user/aryaprayogo52/"}, {"domain": "rosewood.edu.na", "url": "https://www.rosewood.edu.na/profile/bateszbbwalls55353/profile"}, {"domain": "undrtone.com", "url": "https://undrtone.com/ratihmulyadi71"}, {"domain": "orkhonschool.edu.mn", "url": "https://www.orkhonschool.edu.mn/profile/proctortljdalton91920/profile"}, {"domain": "egamersbox.com", "url": "https://egamersbox.com/cool/index.php?page=user&action=pub_profile&id=792412"}, {"domain": "onlinevetjobs.com", "url": "https://onlinevetjobs.com/author/endrafitriani11/"}, {"domain": "graph.org", "url": "https://graph.org/Jasa-Daftar-Hak-Cipta-Investasi-untuk-Masa-Depan-Kreativitas-Anda-09-29"}, {"domain": "noviahartono53.werite.net", "url": "https://noviahartono53.werite.net/mengapa-anda-perlu-jasa-daftar-hak-cipta-sekarang-juga"}, {"domain": "tinifitriani81.bravejournal.net", "url": "https://tinifitriani81.bravejournal.net/jasa-daftar-hak-cipta-perlindungan-karya-kreatif-anda"}, {"domain": "ali-lady.hubstack.net", "url": "https://ali-lady.hubstack.net/jasa-daftar-hak-cipta-melindungi-kreasi-di-era-digital"}, {"domain": "muhamat-desyandi.federatedjournals.com", "url": "https://muhamat-desyandi.federatedjournals.com/pentingnya-jasa-daftar-hak-cipta-untuk-karya-kreatif-anda"}, {"domain": "irmha-andriana.mdwrite.net", "url": "https://irmha-andriana.mdwrite.net/5-alasan-penting-menggunakan-jasa-daftar-hak-cipta"}, {"domain": "angrit-aqila.thoughtlanes.net", "url": "https://angrit-aqila.thoughtlanes.net/langkah-mudah-memilih-jasa-daftar-hak-cipta-yang-tepat"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/lasmanapamungkas61/perbandingan-jasa-daftar-hak-cipta-mana-yang-terbaik-untuk-anda"}, {"domain": "postheaven.net", "url": "https://postheaven.net/nartonugraha76/pentingnya-jasa-daftar-hak-cipta-dalam-dunia-digital"}, {"domain": "diigo.com", "url": "https://diigo.com/013lclm"}, {"domain": "graph.org", "url": "https://graph.org/Mendaftar-Hak-Cipta-Langkah-Awal-Melindungi-Karya-Anda-09-29"}, {"domain": "dheamaulana01.werite.net", "url": "https://dheamaulana01.werite.net/jasa-daftar-hak-cipta-melindungi-karya-anda-secara-legal"}, {"domain": "sulaiman-saraswati.hubstack.net", "url": "https://sulaiman-saraswati.hubstack.net/mengapa-setiap-seniman-membutuhkan-jasa-daftar-hak-cipta"}, {"domain": "suharno-acbar.mdwrite.net", "url": "https://suharno-acbar.mdwrite.net/jasa-pendaftaran-hak-cipta-investasi-bagi-masa-depan-karya-kreatif"}, {"domain": "sulalah-noor.federatedjournals.com", "url": "https://sulalah-noor.federatedjournals.com/membedah-jasa-daftar-hak-cipta-apa-yang-perlu-anda-ketahui"}, {"domain": "cindy-herawati.thoughtlanes.net", "url": "https://cindy-herawati.thoughtlanes.net/jasa-daftar-hak-cipta-cara-melindungi-karya-anda"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/jagasukarno81/panduan-lengkap-memilih-jasa-daftar-hak-cipta-yang-efektif"}, {"domain": "postheaven.net", "url": "https://postheaven.net/akmalbudiman75/jasa-daftar-hak-cipta-melindungi-harta-intelektual-anda"}, {"domain": "diigo.com", "url": "https://diigo.com/013lcfh"}, {"domain": "dararamadhan54.bravejournal.net", "url": "https://dararamadhan54.bravejournal.net/mendapatkan-perlindungan-hukum-melalui-jasa-daftar-hak-cipta"}, {"domain": "capandgown.stanford.edu", "url": "https://www.capandgown.stanford.edu/profile/phelpsqtwscott86134/profile"}, {"domain": "xtuml.org", "url": "https://xtuml.org/author/narasuhendra30/"}, {"domain": "akaguide.com", "url": "https://www.akaguide.com/user/bilqisbramantyo27"}, {"domain": "skitterphoto.com", "url": "https://skitterphoto.com/photographers/3410180/prieskha-asyrafi"}, {"domain": "app.readthedocs.org", "url": "https://app.readthedocs.org/profiles/egaamirullah00/"}, {"domain": "pbase.com", "url": "https://pbase.com/tutsitompul70/"}, {"domain": "downarchive.org", "url": "http://downarchive.org/user/fahripamungkas13/"}, {"domain": "rosewood.edu.na", "url": "https://www.rosewood.edu.na/profile/youngpzjjohansen39976/profile"}, {"domain": "undrtone.com", "url": "https://undrtone.com/danihakim80"}, {"domain": "onlinevetjobs.com", "url": "https://onlinevetjobs.com/author/suryasitorus18/"}, {"domain": "thecybernerds.com", "url": "https://www.thecybernerds.com/forums/user/susilosuherman58/"}, {"domain": "egamersbox.com", "url": "https://egamersbox.com/cool/index.php?page=user&action=pub_profile&id=792414"}, {"domain": "graph.org", "url": "https://graph.org/5-Alasan-Menggunakan-Jasa-Daftar-Hak-Cipta-untuk-Karya-Anda-09-29"}, {"domain": "indrisuryanto39.werite.net", "url": "https://indrisuryanto39.werite.net/dari-ide-menjadi-terdaftar-perjalanan-dengan-jasa-daftar-hak-cipta"}, {"domain": "lasmananurjaman89.bravejournal.net", "url": "https://lasmananurjaman89.bravejournal.net/jasa-daftar-hak-cipta-solusi-cerdas-untuk-para-seniman-dan-kreator"}, {"domain": "yuniara-man.federatedjournals.com", "url": "https://yuniara-man.federatedjournals.com/jasa-daftar-hak-cipta-solusi-aman-untuk-melindungi-karya-anda"}, {"domain": "widyatama-fiora.mdwrite.net", "url": "https://widyatama-fiora.mdwrite.net/cara-jasa-daftar-hak-cipta-meningkatkan-nilai-karya-kreatif-anda"}, {"domain": "fuad-aminah.hubstack.net", "url": "https://fuad-aminah.hubstack.net/cerita-sukses-bagaimana-jasa-daftar-hak-cipta-mengubah-karir-seniman"}, {"domain": "vino-dumais.thoughtlanes.net", "url": "https://vino-dumais.thoughtlanes.net/daftar-hak-cipta-melindungi-karya-kreatif-dengan-jasa-profesional"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/alikawinata23/cara-mudah-daftar-hak-cipta-dengan-jasa-profesional"}, {"domain": "postheaven.net", "url": "https://postheaven.net/aininasution69/panduan-lengkap-memilih-jasa-daftar-hak-cipta-yang-tepat"}, {"domain": "diigo.com", "url": "https://diigo.com/013lchz"}, {"domain": "graph.org", "url": "https://graph.org/Ciptakan-Keunikan-Layanan-Daftar-Hak-Cipta-bagi-Seniman-09-29"}, {"domain": "nabilaprayoga46.werite.net", "url": "https://nabilaprayoga46.werite.net/5-alasan-memilih-jasa-daftar-hak-cipta-profesional"}, {"domain": "karyofaisal50.bravejournal.net", "url": "https://karyofaisal50.bravejournal.net/tips-memilih-jasa-daftar-hak-cipta-berkualitas-di-indonesia"}, {"domain": "dayu-wildani.federatedjournals.com", "url": "https://dayu-wildani.federatedjournals.com/daftar-hak-cipta-perlindungan-hukum-untuk-karya-inovatif-anda"}, {"domain": "ranea-andrilla.mdwrite.net", "url": "https://ranea-andrilla.mdwrite.net/jasa-daftar-hak-cipta-investasi-cerdas-untuk-kreator"}, {"domain": "estiyani-brian.hubstack.net", "url": "https://estiyani-brian.hubstack.net/panduan-lengkap-untuk-jasa-daftar-hak-cipta-di-indonesia"}, {"domain": "herawati-febrinaldy.thoughtlanes.net", "url": "https://herawati-febrinaldy.thoughtlanes.net/tips-mempercepat-proses-daftar-hak-cipta-melalui-jasa"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/karyomahesa03/keuntungan-menggunakan-jasa-profesional-untuk-daftar-hak-cipta"}, {"domain": "postheaven.net", "url": "https://postheaven.net/rikakusumah32/jasa-daftar-hak-cipta-investasi-untuk-karya-anda"}, {"domain": "diigo.com", "url": "https://diigo.com/013lcp9"}, {"domain": "graph.org", "url": "https://graph.org/Mengapa-Jasa-Daftar-Hak-Cipta-Penting-untuk-Kreator-Konten-09-29"}, {"domain": "retnohakim12.werite.net", "url": "https://retnohakim12.werite.net/jasa-daftar-hak-cipta-investasi-untuk-masa-depan-kreativitas"}, {"domain": "kiarasudarsono86.bravejournal.net", "url": "https://kiarasudarsono86.bravejournal.net/rahasia-sukses-daftar-hak-cipta-untuk-pekerja-kreatif"}, {"domain": "sesar-feradhia.mdwrite.net", "url": "https://sesar-feradhia.mdwrite.net/memahami-pentingnya-jasa-daftar-hak-cipta-bagi-seniman"}, {"domain": "azalia-slamet.federatedjournals.com", "url": "https://azalia-slamet.federatedjournals.com/jasa-daftar-hak-cipta-melindungi-ide-dan-kreativitas-anda"}, {"domain": "julius-anisa.hubstack.net", "url": "https://julius-anisa.hubstack.net/panduan-lengkap-jasa-daftar-hak-cipta-untuk-pemula"}, {"domain": "helen-fildzah.thoughtlanes.net", "url": "https://helen-fildzah.thoughtlanes.net/jasa-daftar-hak-cipta-investasi-cerdas-bagi-seniman-dan-penulis"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/wawananggoro36/5-hal-yang-perlu-diketahui-sebelum-menggunakan-jasa-daftar-hak-cipta"}, {"domain": "postheaven.net", "url": "https://postheaven.net/wahyunilestari58/mendaftar-hak-cipta-langkah-awal-melindungi-karya-kreatif-anda"}, {"domain": "diigo.com", "url": "https://diigo.com/013lcqe"}, {"domain": "graph.org", "url": "https://graph.org/Mendapatkan-Jaminan-Hukum-Melalui-Jasa-Daftar-Hak-Cipta-09-29"}, {"domain": "susantisitorus73.bravejournal.net", "url": "https://susantisitorus73.bravejournal.net/proses-daftar-hak-cipta-panduan-lengkap-untuk-pemula"}, {"domain": "idaprasetya00.werite.net", "url": "https://idaprasetya00.werite.net/jasa-daftar-hak-cipta-melindungi-karya-anda-dari-plagiarisme"}, {"domain": "wibowo-suci.federatedjournals.com", "url": "https://wibowo-suci.federatedjournals.com/perlindungan-karya-manfaat-jasa-daftar-hak-cipta-yang-perlu-anda-ketahui"}, {"domain": "larasati-deni.mdwrite.net", "url": "https://larasati-deni.mdwrite.net/cara-memilih-jasa-daftar-hak-cipta-yang-terpercaya"}, {"domain": "indriani-desti.hubstack.net", "url": "https://indriani-desti.hubstack.net/cara-efektif-memanfaatkan-jasa-daftar-hak-cipta"}, {"domain": "azzahra-thomas.thoughtlanes.net", "url": "https://azzahra-thomas.thoughtlanes.net/jasa-daftar-hak-cipta-melindungi-kreativitas-anda-dari-penjiplakan"}, {"domain": "diigo.com", "url": "https://diigo.com/013lcms"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/okafahreza14/panduan-lengkap-memilih-jasa-daftar-hak-cipta-yang-tepat"}, {"domain": "postheaven.net", "url": "https://postheaven.net/erwinhandoko98/jasa-daftar-hak-cipta-langkah-pertama-melindungi-karya-kreasi"}, {"domain": "graph.org", "url": "https://graph.org/5-Alasan-Menggunakan-Jasa-Daftar-Hak-Cipta-untuk-Melindungi-Karya-Anda-09-29"}, {"domain": "jamalkurnia13.bravejournal.net", "url": "https://jamalkurnia13.bravejournal.net/5-langkah-mudah-untuk-menggunakan-jasa-daftar-hak-cipta"}, {"domain": "niluhpurwanto19.werite.net", "url": "https://niluhpurwanto19.werite.net/jasa-daftar-hak-cipta-investasi-untuk-karya-kreatif-anda"}, {"domain": "sinuka-titiek.mdwrite.net", "url": "https://sinuka-titiek.mdwrite.net/jasa-daftar-hak-cipta-melindungi-karya-anda-dari-pencurian"}, {"domain": "abun-farrah.hubstack.net", "url": "https://abun-farrah.hubstack.net/mengapa-anda-butuh-jasa-daftar-hak-cipta"}, {"domain": "parhorasan-selenia.federatedjournals.com", "url": "https://parhorasan-selenia.federatedjournals.com/inovasi-dan-perlindungan-memahami-jasa-daftar-hak-cipta"}, {"domain": "yanti-dara.thoughtlanes.net", "url": "https://yanti-dara.thoughtlanes.net/panduan-lengkap-jasa-daftar-hak-cipta-untuk-usaha-kreatif"}, {"domain": "postheaven.net", "url": "https://postheaven.net/erikprawira72/keuntungan-menggunakan-jasa-daftar-hak-cipta-profesional"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/bellarahardjo46/berinvestasi-di-karya-anda-mengapa-mendaftar-hak-cipta-itu-cerdas"}, {"domain": "diigo.com", "url": "https://diigo.com/013lchp"}, {"domain": "graph.org", "url": "https://graph.org/Cara-Memilih-Jasa-Daftar-Hak-Cipta-yang-Tepat-untuk-Karya-Anda-09-29"}, {"domain": "haniahsusanto59.werite.net", "url": "https://haniahsusanto59.werite.net/langkah-mudah-menggunakan-jasa-daftar-hak-cipta"}, {"domain": "arumsetiawan58.bravejournal.net", "url": "https://arumsetiawan58.bravejournal.net/5-alasan-memilih-jasa-daftar-hak-cipta-yang-tepat"}, {"domain": "erika-rozi.hubstack.net", "url": "https://erika-rozi.hubstack.net/pentingnya-jasa-daftar-hak-cipta-dalam-dunia-digital"}, {"domain": "rompas-nurhasanah.federatedjournals.com", "url": "https://rompas-nurhasanah.federatedjournals.com/5-alasan-mengapa-jasa-daftar-hak-cipta-penting-untuk-seniman"}, {"domain": "olivia-chaerul.thoughtlanes.net", "url": "https://olivia-chaerul.thoughtlanes.net/jasa-daftar-hak-cipta-melindungi-karya-anda"}, {"domain": "reza-tania.mdwrite.net", "url": "https://reza-tania.mdwrite.net/jasa-daftar-hak-cipta-langkah-awal-mengamankan-kreativitas-anda"}, {"domain": "zenwriting.net", "url": "https://zenwriting.net/lukitosinurat74/jasa-daftar-hak-cipta-di-era-digital"}, {"domain": "postheaven.net", "url": "https://postheaven.net/edotobing04/mengoptimalkan-karya-anda-dengan-jasa-daftar-hak-cipta"}, {"domain": "diigo.com", "url": "https://diigo.com/013lck0"}, {"domain": "capandgown.stanford.edu", "url": "https://www.capandgown.stanford.edu/profile/hoylecpecahill82951/profile"}, {"domain": "xtuml.org", "url": "https://xtuml.org/author/hasanfaturrahman16/"}, {"domain": "akaguide.com", "url": "https://www.akaguide.com/user/yoanalgifari41"}, {"domain": "skitterphoto.com", "url": "https://skitterphoto.com/photographers/3410182/herda-efrinda"}, {"domain": "pbase.com", "url": "https://pbase.com/juandasuhendra77/"}, {"domain": "downarchive.org", "url": "http://downarchive.org/user/baktiadiputra23/"}, {"domain": "rosewood.edu.na", "url": "https://www.rosewood.edu.na/profile/kraghpgkkudsk35852/profile"}, {"domain": "onlinevetjobs.com", "url": "https://onlinevetjobs.com/author/yovitapurnama87/"}, {"domain": "egamersbox.com", "url": "https://egamersbox.com/cool/index.php?page=user&action=pub_profile&id=792418"}, {"domain": "orkhonschool.edu.mn", "url": "https://www.orkhonschool.edu.mn/profile/sanderswtolancaster66426/profile"}, {"domain": "app.readthedocs.org", "url": "https://app.readthedocs.org/profiles/artabramantyo42/"}, {"domain": "myspace.com", "url": "https://myspace.com/oksaprasetyo68"}];
         
         const fileList = document.getElementById('file-list');
         const codeContent = document.getElementById('code-content');
         const lineNumbers = document.getElementById('line-numbers');
         const currentTab = document.getElementById('current-tab');
-        
         const previewFrame = document.getElementById('preview-frame');
         const previewOverlay = document.getElementById('preview-overlay');
         const previewUrl = document.getElementById('preview-url');
 
-        // Render sidebar items
         function renderSidebar() {
             let html = '';
             linksData.forEach((item, index) => {
                 html += `
-                <div class="file-item px-4 py-1.5 text-[13px] flex items-center cursor-pointer hover:bg-[#2a2d2e] text-[#cccccc] transition-colors" data-index="${index}">
-                    <svg class="w-4 h-4 mr-2 text-[#519aba] shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path></svg>
+                <div class="file-item px-4 py-1 text-[12.5px] flex items-center cursor-pointer hover:bg-[#2a2d2e] text-[#cccccc] transition-colors" data-index="${index}">
+                    <svg class="w-3.5 h-3.5 mr-2 text-[#519aba] shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path></svg>
                     <span class="truncate">${item.domain}</span>
                 </div>`;
             });
             fileList.innerHTML = html;
         }
 
-        // Handle file selection
         function selectFile(index) {
-            // Remove active state
             document.querySelectorAll('.file-item').forEach(el => {
                 el.classList.remove('bg-[#37373d]', 'text-white');
             });
-            // Add active state
             const selectedItem = document.querySelector(`.file-item[data-index="${index}"]`);
             selectedItem.classList.add('bg-[#37373d]', 'text-white');
             selectedItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
             const data = linksData[index];
             
-            // Update Tab
             currentTab.innerHTML = `
                 <svg class="w-4 h-4 mr-2 text-[#519aba]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path></svg>
                 ${data.domain} <span class="ml-2 text-gray-500 hover:text-white">×</span>
             `;
 
-            // Update Code Area
             const codeString = `
 <span class="sy-comment">/**</span>
 <span class="sy-comment"> * -------------------------------------------</span>
@@ -170,48 +215,36 @@
 &lt;<span class="sy-tag">div</span> <span class="sy-attr">class</span>=<span class="sy-string">"action-panel"</span>&gt;
     &lt;<span class="sy-tag">a</span> <span class="sy-attr">href</span>=<span class="sy-string">"${data.url}"</span> <span class="sy-attr">target</span>=<span class="sy-string">"_blank"</span>&gt;
         
-        <a href="${data.url}" target="_blank" class="inline-block mt-4 mb-2 px-6 py-2 bg-[#007acc] hover:bg-[#005999] text-white font-sans rounded text-sm transition-colors shadow-md no-underline cursor-pointer border border-[#1c97ea]">▶ EXECUTE / OPEN LINK</a>
+        <a href="${data.url}" target="_blank" class="inline-block mt-4 mb-2 px-6 py-2.5 bg-[#007acc] hover:bg-[#005999] text-white font-sans rounded text-[13px] font-bold transition-all shadow-md no-underline cursor-pointer border border-[#1c97ea]">▶ EXECUTE / OPEN LINK</a>
         
     &lt;/<span class="sy-tag">a</span>&gt;
 &lt;/<span class="sy-tag">div</span>&gt;
 `;
             codeContent.innerHTML = codeString.trim();
             
-            // Calculate Line Numbers
             const linesCount = codeContent.innerHTML.split('\n').length;
             let linesHtml = '';
-            for(let i=1; i<=linesCount; i++) {
-                linesHtml += i + '<br>';
-            }
+            for(let i=1; i<=linesCount; i++) { linesHtml += i + '<br>'; }
             lineNumbers.innerHTML = linesHtml;
 
-            // Trigger Live Preview
             previewUrl.textContent = data.url;
-            
-            // Show loading state for iframe
             previewOverlay.innerHTML = `
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#007acc] mb-3"></div>
-                <span class="text-sm font-medium">Loading live preview...</span>
-                <div class="text-[11px] text-gray-500 mt-4 px-6 text-center max-w-sm">
-                    <strong>Note:</strong> Some external sites block embedded views for security reasons (X-Frame-Options).<br><br>
-                    <a href="${data.url}" target="_blank" class="text-blue-500 hover:underline">Click here to open the link directly</a> if the preview fails to load.
+                <span class="text-sm font-medium">Fetching node payload...</span>
+                <div class="text-[11px] text-gray-400 mt-4 px-6 text-center max-w-sm font-sans">
+                    <strong>Note:</strong> Some high-authority servers restrict embedded views (X-Frame-Options).<br><br>
+                    <a href="${data.url}" target="_blank" class="text-[#007acc] hover:underline hover:text-blue-400">Click here to manually execute the link</a> if preview is blocked.
                 </div>
             `;
             previewOverlay.style.display = 'flex';
             
-            // Hide overlay when iframe fires load event (Note: CORS might still prevent rendering)
             previewFrame.onload = function() {
-                // Keep the overlay hidden after loading, but let iframe decide what to show
                 setTimeout(() => { previewOverlay.style.display = 'none'; }, 500);
             };
-            
             previewFrame.src = data.url;
         }
 
-        // Initialize
         renderSidebar();
-        
-        // Setup click listener
         fileList.addEventListener('click', (e) => {
             const item = e.target.closest('.file-item');
             if(item) {
