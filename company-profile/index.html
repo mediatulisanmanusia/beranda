@@ -74,11 +74,18 @@
         .pdf-list li { position: relative; padding-left: 20px; margin-bottom: 8px; }
         .pdf-list li::before { content: "•"; position: absolute; left: 0; color: #D4AF37; font-weight: bold; font-size: 18px; top: -3px; }
 
-        /* Watermark Tengah Kertas */
+        /* Watermark Tengah Kertas (Diperbaiki untuk PDF) */
         .watermark-img {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80%; max-width: 450px; opacity: 0.03; filter: grayscale(100%);
-            z-index: 0; pointer-events: none;
+            position: fixed; /* Ubah absolute menjadi fixed di sini */
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            width: 80%; 
+            max-width: 450px; 
+            opacity: 0.03; 
+            filter: grayscale(100%);
+            z-index: 0; 
+            pointer-events: none;
         }
 
         /* Tabel Hubungi Kami yang Anti-Potong di HP */
@@ -132,6 +139,7 @@
         <div class="h-28 md:h-32"></div>
 
         <!-- WADAH KERTAS VIRTUAL -->
+        <img src="../footer1.webp" class="watermark-img" alt="Watermark">
         <main class="w-full px-4 sm:px-6 relative z-10">
        <!-- INSTRUKSI DI ATAS KERTAS (Hanya tampil di web) -->
             <div class="text-center mb-6 hidden sm:block">
@@ -139,7 +147,6 @@
             </div>
             
             <div id="kertas-a4">
-                <img src="../footer1.webp" class="watermark-img" alt="Watermark">
 
                 <div class="relative z-10 w-full">
                     
