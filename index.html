@@ -228,9 +228,15 @@ window.pilihTopikChat = function(topik) {
         if (topik === 'Publikasi Literasi') {
             addMessageToUI('Siap! Mari publikasikan cerpen, puisi, atau artikelmu di Ruang Literasi kami. Silakan klik form di bawah ini:', 'model', [{ label: '📝 Buka Form Publikasi', aksi: "document.getElementById('close-chat').click(); bukaHalaman('upload-literasi');" }]);
         } else if (topik === 'Penerbitan Buku') {
-            addMessageToUI('<strong>Ketentuan Penerbitan:</strong><br>1. Naskah wajib orisinal.<br>2. Tidak mengandung SARA.<br>3. Hak komersial tetap milik penulis.<br><br>Setuju dengan ketentuan? Yuk, isi formnya:', 'model', [{ label: '📖 Buka Form Penerbitan', aksi: "document.getElementById('close-chat').click(); bukaHalaman('kirim-naskah');" }]);
+            addMessageToUI('<strong>Ketentuan Penerbitan:</strong><br>1. Naskah wajib orisinal.<br>2. Tidak mengandung SARA.<br>3. Hak komersial tetap milik penulis.<br><br>Silakan unduh detail ketentuan atau langsung isi formnya:', 'model', [
+                { label: '📥 Ketentuan Penerbitan', aksi: "window.open('ketentuan.pdf', '_blank')" },
+                { label: '📖 Buka Form Penerbitan', aksi: "document.getElementById('close-chat').click(); bukaHalaman('kirim-naskah');" }
+            ]);
         } else if (topik === 'Hak Cipta (HKI)') {
-            addMessageToUI('<strong>Ketentuan Hak Cipta:</strong><br>1. Siapkan foto KTP pencipta.<br>2. Karya bersifat orisinal.<br>3. Sertifikat resmi dari DJKI.<br><br>Lanjutkan pengajuan HKI Anda di sini:', 'model', [{ label: '🛡️ Buka Form Hak Cipta', aksi: "document.getElementById('close-chat').click(); bukaHalaman('daftar-hki');" }]);
+            addMessageToUI('<strong>Ketentuan Hak Cipta:</strong><br>1. Siapkan foto KTP pencipta.<br>2. Karya bersifat orisinal.<br>3. Sertifikat resmi dari DJKI.<br><br>Silakan unduh detail ketentuan atau langsung ajukan HKI Anda di sini:', 'model', [
+                { label: '📥 Ketentuan Hak Cipta', aksi: "window.open('kategori.pdf', '_blank')" },
+                { label: '🛡️ Buka Form Hak Cipta', aksi: "document.getElementById('close-chat').click(); bukaHalaman('daftar-hki');" }
+            ]);
         } else if (topik === 'Daftar NIB') {
             addMessageToUI('Untuk pengurusan NIB, Admin kami akan mendampingi Anda secara langsung. Klik tombol di bawah untuk terhubung ke WhatsApp:', 'model', [{ label: '📱 Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20ingin%20info%20pendaftaran%20NIB', '_blank')` }]);
         } else if (topik === 'Hubungi WA') {
