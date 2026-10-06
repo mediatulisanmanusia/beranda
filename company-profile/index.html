@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Profile - PT Media Tulisan Manusia</title>
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#07192C">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07192C">
+    <title>Company Profile - Media Tulisan Manusia</title>
     <link rel="icon" type="image/png" href="rev.png?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -16,19 +18,33 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { dark: '#050505', darker: '#000000', warnautama: '#0A2540', warnakedua: '#D4AF37', warnaketiga: '#0A3F61', warnakeempat: '#1B1B1B' },
+                    colors: { 
+                        dark: '#050505', 
+                        darker: '#000000', 
+                        warnautama: '#0A2540', 
+                        warnakedua: '#D4AF37', 
+                        warnaketiga: '#0A3F61', 
+                        warnakeempat: '#1B1B1B' 
+                    },
                     animation: { 'fade-up': 'fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
-                    keyframes: { fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                    keyframes: {
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    }
                 }
             }
         }
     </script>
     <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         body { transition: background-color 0.5s ease, color 0.5s ease; }
         .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
         .dark .bg-custom-gradient { background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%); }
         .pattern-overlay { position: absolute; inset: 0; background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 1px, transparent 2px); background-size: 32px 32px; z-index: 0; pointer-events: none; }
         .dark .pattern-overlay { background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 1px, transparent 2px); }
+        .logo-pattern-overlay { position: absolute; top: -10%; left: 0%; width: 220%; height: 100%; min-height: 2500px; background-image: url('petent.png'); background-repeat: repeat; background-size: 50px auto; transform: rotate(-5deg); filter: grayscale(80%) brightness(5%); opacity: 0.10; z-index: 0; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%); mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%); }
+        .dark .logo-pattern-overlay { opacity: 0.12; filter: grayscale(100%) brightness(150%); }
+        @media (min-width: 768px) { .logo-pattern-overlay { background-size: 140px auto; height: 1900px; } }
         .glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.1); }
         .dark .glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75); }
         header.glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.45) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
@@ -36,54 +52,52 @@
         
         /* Area khusus untuk di print ke PDF */
         #area-print { background-color: #ffffff !important; color: #000000 !important; }
-        .watermark { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; z-index: 0; opacity: 0.04; pointer-events: none; }
-        .watermark img { width: 50%; max-width: 400px; filter: grayscale(100%); }
+        .watermark { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; z-index: 0; opacity: 0.03; pointer-events: none; }
+        .watermark img { width: 60%; max-width: 450px; filter: grayscale(100%); }
     </style>
 </head>
-<body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 relative">
-    
-    <div class="max-w-7xl mx-auto min-h-screen relative shadow-2xl bg-custom-gradient overflow-hidden transition-all duration-700">
-        <div class="pattern-overlay"></div>
-        <div class="absolute top-10 -left-10 w-96 h-96 bg-black/5 dark:bg-white/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] z-0"></div>
+<body class="bg-gray-100 text-warnautama dark:text-white font-sans pb-4 md:pb-0 transition-colors duration-500 relative">
 
-        <!-- HEADER / NAVBAR -->
+    <div class="max-w-7xl mx-auto min-h-screen relative shadow-2xl bg-custom-gradient overflow-hidden transition-all duration-700">
+        <!-- Efek Background Sama Seperti Index -->
+        <div class="pattern-overlay"></div><div class="logo-pattern-overlay"></div>
+        <div class="absolute top-10 -left-10 w-96 h-96 bg-black/5 dark:bg-white/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] z-0"></div>
+        <div class="absolute top-[35%] -right-10 w-96 h-96 bg-gray-500/10 dark:bg-gray-400/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] z-0"></div>
+        <div class="absolute bottom-[20%] left-10 w-80 h-80 bg-black/5 dark:bg-white/5 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] z-0"></div>
+
+        <!-- HEADER / NAVBAR PERSIS DARI HTML UTAMA -->
         <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
             <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.location.href='index.html'">
                 <img src="rev1.png" alt="Logo MTM" fetchpriority="high" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain dark:hidden">
                 <img src="rev2.png" alt="Logo MTM" fetchpriority="high" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain hidden dark:block">
             </div>
-            <div class="flex items-center gap-3 relative">
-                <!-- Tombol Unduh PDF -->
-                <button onclick="unduhPDF()" class="bg-warnakedua hover:bg-yellow-600 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-extrabold shadow-md transition-transform hover:scale-105 flex items-center gap-2 uppercase tracking-widest hidden sm:flex">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg> Unduh PDF
+            <div class="flex items-center gap-2 relative">
+                <!-- Tombol Download PDF (Custom) -->
+                <button onclick="unduhPDF()" class="bg-warnakedua text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-full mr-1 flex items-center gap-1.5 shadow-md hover:scale-105 transition-transform uppercase tracking-wider">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    <span class="hidden sm:inline">Unduh PDF</span>
                 </button>
-                <button onclick="unduhPDF()" class="bg-warnakedua hover:bg-yellow-600 text-white p-2.5 rounded-full shadow-md transition-transform hover:scale-105 sm:hidden flex items-center justify-center">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                </button>
-                
+
                 <button onclick="toggleTema()" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200">
                     <svg class="w-6 h-6 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     <svg class="w-6 h-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </button>
-                <a href="index.html" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnautama dark:text-gray-200" title="Kembali ke Beranda">
+                <a href="index.html" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnautama dark:text-gray-200" title="Kembali">
+                    <!-- Icon Back / Home (Menggantikan Hamburger Menu) -->
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </a>
             </div>
         </header>
 
-        <div class="h-28 md:h-36"></div>
+        <div class="h-24 md:h-32"></div>
 
         <!-- KONTEN COMPANY PROFILE -->
-        <main class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 animate-fade-up">
+        <main class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 animate-fade-up pb-10">
             
-            <div class="text-center mb-6 hidden sm:block">
-                <h1 class="text-xl md:text-3xl font-black text-warnautama dark:text-white uppercase tracking-widest">Company Profile</h1>
-            </div>
-
             <!-- AREA YANG AKAN DI-PRINT KE PDF -->
-            <div id="area-print" class="bg-white p-8 sm:p-12 md:p-16 rounded-[2.5rem] shadow-2xl border border-gray-200 relative overflow-hidden text-gray-800">
+            <div id="area-print" class="bg-white p-8 sm:p-12 md:p-16 rounded-[2rem] shadow-xl border border-gray-200 relative overflow-hidden text-gray-800">
                 
-                <!-- Watermark Background -->
+                <!-- Watermark Background (Logo Besar Melayang di PDF) -->
                 <div class="watermark">
                     <img src="rev.png" alt="Watermark" onerror="this.style.display='none'">
                 </div>
@@ -92,14 +106,14 @@
                     <!-- KOP SURAT PDF -->
                     <div class="flex flex-col sm:flex-row items-center justify-between border-b-[3px] border-[#0A2540] pb-6 mb-8 gap-4">
                         <div class="flex items-center gap-4">
-                            <!-- Logo Utama MTM -->
+                            <!-- Logo Utama MTM untuk di Kertas -->
                             <img src="rev.png" alt="Logo MTM" class="w-16 h-16 sm:w-20 sm:h-20 object-contain" onerror="this.style.display='none'">
                             <div class="text-center sm:text-left">
-                                <h1 class="text-xl sm:text-2xl font-black text-[#0A2540] tracking-tight uppercase">PT Media Tulisan Manusia</h1>
-                                <p class="text-[10px] sm:text-xs font-bold text-gray-500 tracking-widest uppercase mt-0.5">Karya Nyata Hak Cipta Terjaga</p>
+                                <h1 class="text-xl sm:text-2xl font-black text-[#0A2540] tracking-tight uppercase font-sans">PT Media Tulisan Manusia</h1>
+                                <p class="text-[10px] sm:text-xs font-bold text-gray-500 tracking-widest uppercase mt-0.5 font-sans">Karya Nyata Hak Cipta Terjaga</p>
                             </div>
                         </div>
-                        <div class="text-center sm:text-right text-[9px] sm:text-[11px] text-gray-600 font-medium leading-relaxed">
+                        <div class="text-center sm:text-right text-[9px] sm:text-[11px] text-gray-600 font-medium leading-relaxed font-sans">
                             <p>AHU-046656.AH.01.30. Tahun 2023</p>
                             <p>NIB: 0507230252262 | NPWP: 39.503.199.0-623.000</p>
                             <p class="font-bold text-[#0A2540] mt-1">www.mediatulisanmanusia.com</p>
@@ -108,13 +122,13 @@
 
                     <!-- JUDUL DOKUMEN -->
                     <div class="text-center mb-10">
-                        <h2 class="text-2xl font-black text-[#0A2540] uppercase tracking-wide">Company Profile</h2>
+                        <h2 class="text-2xl font-black text-[#0A2540] uppercase tracking-wide font-sans">Company Profile</h2>
                         <div class="w-16 h-1 bg-[#D4AF37] mx-auto my-3 rounded-full"></div>
-                        <h3 class="text-sm sm:text-base font-bold text-gray-600">Ekosistem Literasi, Penerbitan, dan Legalitas Terintegrasi</h3>
+                        <h3 class="text-sm sm:text-base font-bold text-gray-600 font-sans">Ekosistem Literasi, Penerbitan, dan Legalitas Terintegrasi</h3>
                     </div>
 
                     <!-- ISI DOKUMEN -->
-                    <div class="space-y-8 text-justify text-[12px] sm:text-[13px] md:text-[14px] leading-loose text-gray-700 font-medium">
+                    <div class="space-y-8 text-justify text-[12px] sm:text-[13px] md:text-[14px] leading-loose text-gray-700 font-medium font-sans">
                         
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
@@ -164,19 +178,19 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
                                     <h5 class="font-black text-[#0A2540] mb-1.5">Platform Media Sastra Digital</h5>
-                                    <p class="text-xs leading-relaxed">Ruang publikasi digital terkurasi yang mewadahi karya literasi berformat pendek. Kawah candradimuka bagi para penulis untuk menjangkau pembaca luas.</p>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">Ruang publikasi digital terkurasi yang mewadahi karya literasi berformat pendek (cerpen, pentigraf, puisi, hingga artikel dan berita). Platform ini menjadi kawah candradimuka bagi para penulis untuk menjangkau pembaca yang lebih luas.</p>
                                 </div>
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
                                     <h5 class="font-black text-[#0A2540] mb-1.5">Penerbitan Buku Berstandar QRCBN</h5>
-                                    <p class="text-xs leading-relaxed">Layanan penerbitan naskah cetak dan digital secara komprehensif melalui tahapan penyuntingan, tata letak, desain eksklusif, dan dilengkapi QRCBN resmi.</p>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">Layanan penerbitan naskah cetak dan digital secara komprehensif. Setiap buku diproses secara cermat melalui tahapan penyuntingan, tata letak, desain sampul eksklusif, dan dilengkapi dengan QRCBN agar terindeks secara resmi.</p>
                                 </div>
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
                                     <h5 class="font-black text-[#0A2540] mb-1.5">Konsultasi & Perlindungan HKI</h5>
-                                    <p class="text-xs leading-relaxed">Layanan pendaftaran Hak Kekayaan Intelektual. Memastikan gagasan orisinal mendapatkan payung hukum sah dari negara terhindar dari plagiarisme.</p>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">Layanan pendampingan pendaftaran Hak Kekayaan Intelektual. Kami memastikan setiap gagasan orisinal dan karya cipta Anda mendapatkan payung hukum yang sah dari negara sehingga terhindar dari klaim sepihak.</p>
                                 </div>
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
                                     <h5 class="font-black text-[#0A2540] mb-1.5">Jasa Pembuatan NIB (OSS)</h5>
-                                    <p class="text-xs leading-relaxed">Layanan pendampingan sistem Online Single Submission (OSS) bagi kreator, penulis, maupun pelaku UMKM untuk legalitas operasional usahanya.</p>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">Layanan pendampingan sistem Online Single Submission (OSS) bagi kreator, penulis, maupun pelaku UMKM yang ingin mengamankan legalitas dan izin operasional usahanya secara cepat dan tepat.</p>
                                 </div>
                             </div>
                         </section>
@@ -185,23 +199,24 @@
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
                                 <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">5</span> Profil Pendiri & Manajemen
                             </h4>
-                            <p class="mb-3">Dedikasi PT Media Tulisan Manusia didorong oleh rekam jejak kepemimpinan yang berakar kuat pada dunia pendidikan dan manajerial.</p>
+                            <p class="mb-3">Dedikasi PT Media Tulisan Manusia dalam memajukan literasi didorong oleh rekam jejak kepemimpinan yang berakar kuat pada dunia pendidikan dan manajerial.</p>
                             <div class="bg-gray-50 border border-gray-200 rounded-xl p-5">
                                 <h5 class="font-black text-base text-[#0A2540]">Ach. Sufyan Wahyudi, S.Pd., M.Pd., C.Ed.</h5>
                                 <p class="text-[10px] font-bold text-[#D4AF37] mb-2 tracking-widest uppercase">Founder & Direktur Utama</p>
-                                <p class="text-xs leading-relaxed mb-2">Seorang edukator literasi, spesialis media digital, dan pendiri ekosistem PT Media Tulisan Manusia yang memimpin arah strategis perusahaan sejak Januari 2022. Memiliki latar belakang keilmuan yang kuat sebagai Magister Pendidikan Bahasa dan Sastra Indonesia dari Universitas Negeri Malang, ia berdedikasi penuh memajukan iklim literasi yang berpayung hukum.</p>
-                                <p class="text-xs">Portofolio inisiatif bisnisnya dapat diakses melalui: <strong>sufyan.mediatulisanmanusia.com</strong></p>
+                                <p class="text-[11px] sm:text-xs leading-relaxed mb-2">Merupakan seorang edukator literasi, spesialis media digital, dan pendiri ekosistem PT Media Tulisan Manusia yang memimpin arah strategis perusahaan sejak Januari 2022. Memiliki latar belakang keilmuan yang kuat sebagai Magister Pendidikan Bahasa dan Sastra Indonesia dari Universitas Negeri Malang, ia berdedikasi penuh untuk memajukan iklim literasi yang berpayung hukum di Indonesia.</p>
+                                <p class="text-[11px] sm:text-xs">Portofolio lengkap karya dan inisiatif bisnisnya dapat diakses melalui laman: <strong>sufyan.mediatulisanmanusia.com</strong></p>
                             </div>
                         </section>
 
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">6</span> Jaringan Kemitraan
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">6</span> Jaringan Kemitraan & Pencapaian
                             </h4>
-                            <p class="mb-2">Operasional pemasaran perusahaan didukung penuh oleh <strong>54 mitra freelance marketing aktif</strong> di wilayah Malang, Pasuruan, Surabaya, dan sekitarnya. Saat ini kami dipercaya menjadi mitra strategis oleh berbagai institusi akademik dan komunitas kreatif:</p>
+                            <p class="mb-2">Untuk memperluas dampak literasi secara masif, operasional pemasaran perusahaan didukung penuh oleh <strong>54 mitra freelance marketing aktif</strong> yang tersebar secara strategis di wilayah Malang, Pasuruan, Surabaya, dan sekitarnya.</p>
+                            <p class="mb-2">Kami juga senantiasa membuka pintu kolaborasi dan saat ini telah dipercaya menjadi mitra strategis oleh berbagai institusi akademik dan komunitas kreatif terkemuka, di antaranya:</p>
                             <ul class="list-disc pl-5 space-y-1">
-                                <li><strong>Institusi Pendidikan:</strong> Univ. Negeri Malang, Universitas PGRI Kanjuruhan, BEC Unikama, SMA PGRI 6 Malang, SMA Taman Harapan.</li>
-                                <li><strong>Komunitas & Media:</strong> MC Nusantara, Dosen Blangko, Sambaternak, Game Fest, Linimedia, Doopamine.</li>
+                                <li><strong>Institusi Pendidikan:</strong> Universitas Negeri Malang, Universitas PGRI Kanjuruhan (Unikama), BEC Unikama, SMA PGRI 6 Malang, dan SMA Taman Harapan.</li>
+                                <li><strong>Komunitas & Media:</strong> MC Nusantara, Dosen Blangko, Sambaternak, Game Fest, Linimedia, dan Doopamine.</li>
                             </ul>
                         </section>
 
@@ -210,13 +225,13 @@
                                 <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">7</span> Hubungi Kami
                             </h4>
                             <div class="bg-[#0A2540] text-white rounded-xl p-5 shadow-lg">
-                                <ul class="space-y-2 text-sm text-gray-200">
+                                <ul class="space-y-2 text-xs sm:text-sm text-gray-200">
                                     <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Pusat Operasional</span><span>: Jl. Raya Sukorejo No. 19, Pasuruan, Jawa Timur</span></li>
-                                    <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Manajemen Induk</span><span>: Jl. S. Supriyadi No 48, Sukun, Kota Malang</span></li>
+                                    <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Manajemen Induk</span><span>: Jl. S. Supriyadi No 48, Bandungrejosari, Sukun, Kota Malang, Jawa Timur (65148)</span></li>
                                     <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Situs Web</span><span>: www.mediatulisanmanusia.com</span></li>
                                     <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Email</span><span>: ptmediatulisanmanusia@gmail.com</span></li>
-                                    <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Instagram</span><span>: @mediatulisanmanusia</span></li>
-                                    <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">WhatsApp</span><span>: 088294448222</span></li>
+                                    <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Instagram</span><span>: @mediatulisanmanusia / @sufyanwahyudi</span></li>
+                                    <li class="flex items-start gap-2"><span class="font-bold min-w-[130px] text-[#D4AF37]">Telepon/WhatsApp</span><span>: 088294448222</span></li>
                                 </ul>
                             </div>
                         </section>
@@ -226,20 +241,20 @@
             </div>
         </main>
 
-        <!-- FOOTER (Sama Persis dengan Web Utama) -->
-        <footer class="mt-16 px-4 sm:px-6 pt-12 md:pt-16 pb-16 bg-white/90 dark:bg-[#1b1b1b]/90 backdrop-blur-xl text-center relative z-10 rounded-t-[3rem] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.4)] border-t border-gray-200 dark:border-[#2a2a2a] overflow-hidden">
+        <!-- FOOTER PERSIS HTML UTAMA -->
+        <footer class="mt-12 px-4 sm:px-6 pt-12 md:pt-16 pb-16 bg-white/90 dark:bg-[#1b1b1b]/90 backdrop-blur-xl text-center relative z-10 rounded-t-[3rem] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.4)] border-t border-gray-200 dark:border-[#2a2a2a] overflow-hidden">
             <div class="relative z-10 flex flex-col items-center w-full">
-                <img src="footer1.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl dark:hidden" onerror="this.src='rev1.png'">
-                <img src="footer2.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl hidden dark:block" onerror="this.src='rev2.png'">
+                <img src="footer1.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl dark:hidden">
+                <img src="footer2.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl hidden dark:block">
                 <h3 class="font-bold text-sm sm:text-base md:text-2xl mb-2 md:mb-3 text-warnautama dark:text-white">TENTANG KAMI</h3>
                 <p class="text-[10px] sm:text-xs md:text-sm text-gray-800 dark:text-gray-300 leading-relaxed mb-6 max-w-xl mx-auto font-medium text-center px-2">
                     Media Tulisan Manusia merupakan platform eksklusif yang berdedikasi mengangkat literatur ke tingkat yang lebih tinggi. Kami percaya bahwa setiap karya berhak mendapatkan apresiasi terbaik.
                 </p>
                 <div class="flex flex-row flex-nowrap items-center justify-center w-full gap-2 sm:gap-4 md:gap-6 text-[7px] min-[320px]:text-[8px] min-[375px]:text-[9px] sm:text-xs md:text-sm font-bold text-warnaketiga dark:text-gray-300 mb-4 overflow-hidden px-1">
                     <a href="index.html" class="hover:text-warnaketiga transition whitespace-nowrap">Beranda</a>
-                    <a href="#" class="hover:text-warnaketiga transition whitespace-nowrap">Syarat & Ketentuan</a>
-                    <a href="#" class="hover:text-warnaketiga transition whitespace-nowrap">Kebijakan Privasi</a>
-                    <a href="#" class="hover:text-warnaketiga transition whitespace-nowrap">Hubungi Kami</a>
+                    <a href="index.html?buka=syarat" class="hover:text-warnaketiga transition whitespace-nowrap">Syarat & Ketentuan</a>
+                    <a href="index.html?buka=privasi" class="hover:text-warnaketiga transition whitespace-nowrap">Kebijakan Privasi</a>
+                    <a href="index.html?buka=hubungi" class="hover:text-warnaketiga transition whitespace-nowrap">Hubungi Kami</a>
                 </div>
                 <div class="flex flex-row flex-nowrap items-center justify-center gap-2 sm:gap-4 md:gap-10 mb-8 glass py-3 md:py-4 px-4 sm:px-6 md:px-8 rounded-full inline-flex border border-warnautama dark:border-gray-300 shadow-sm w-[95%] sm:w-auto mx-auto overflow-hidden">
                    <a href="https://instagram.com/mediatulisanmanusia" target="_blank" class="flex items-center gap-1 sm:gap-2 text-warnautama dark:text-gray-300 hover:text-warnautama dark:hover:text-gray-300 transition truncate">
@@ -262,27 +277,26 @@
         </footer>
     </div>
 
-    <!-- SCRIPT TEMA & PDF -->
+    <!-- SCRIPT TEMA & KONVERSI PDF -->
     <script>
         function toggleTema() { 
             document.documentElement.classList.toggle('dark'); 
         }
 
         function unduhPDF() {
-            // Ambil elemen div yang menampung konten company profile
             const elemen = document.getElementById('area-print');
             
-            // Konfigurasi konversi PDF
+            // Konfigurasi konversi PDF dengan HTML2PDF
             const opsi = {
-                margin:       10, // Margin luar dokumen PDF
+                margin:       10, 
                 filename:     'Company_Profile_MTM.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
+                image:        { type: 'jpeg', quality: 1 },
                 html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
                 pagebreak:    { mode: ['css', 'legacy'] }
             };
 
-            // Menjalankan konversi & otomatis mendownload
+            // Menjalankan konversi
             html2pdf().set(opsi).from(elemen).save();
         }
     </script>
