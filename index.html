@@ -350,20 +350,15 @@ sc.addEventListener("click", handleSend); ci.addEventListener("keydown", (e) => 
                 <button id="close-chat" class="relative z-10 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors text-white font-bold text-lg">&times;</button>
             </div>
             <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-2 bg-gray-50/50 dark:bg-black/50 text-sm flex flex-col chat-scrollbar relative">
-                <div class="flex items-start gap-2 mt-auto shrink-0"><img src="mascipta.webp" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-gray-700 bg-white"><div class="bg-white/90 dark:bg-warnakeempat text-gray-800 dark:text-gray-200 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[85%] shadow-sm border border-gray-200 dark:border-[#2a2a2a] leading-relaxed font-medium text-[11px] sm:text-xs">Halo! Selamat datang di Media Tulisan Manusia.<br><br>Perkenalkan saya Cipta asisten virtual Media Tulisanmanusia.</div></div>
-                <div id="typing-indicator" class="hidden items-start gap-2 mt-3 animate-fade-up shrink-0"><img src="mascipta.webp" class="w-7 h-7 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-gray-700 bg-white"><div class="bg-white/90 dark:bg-warnakeempat px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-[#2a2a2a] flex items-center h-9 typing-indicator"><span></span><span></span><span></span></div></div>
-            </div>
-            <button id="jump-to-bottom" class="hidden absolute bottom-[80px] left-1/2 transform -translate-x-1/2 w-8 h-8 bg-white dark:bg-warnakeempat rounded-full shadow-md text-warnautama dark:text-white flex items-center justify-center border border-gray-200 hover:bg-gray-100 z-20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></button>
-            <div class="p-3 bg-white/90 dark:bg-warnakeempat/90 border-t border-gray-200 dark:border-[#2a2a2a] flex gap-2 items-end backdrop-blur-md flex-shrink-0 z-10">
-                <textarea id="chat-input" rows="1" placeholder="Tanya Cipta di sini..." class="auto-resize chat-scrollbar flex-1 bg-gray-100 dark:bg-[#2a2a2a] border border-gray-300 dark:border-[#2a2a2a] rounded-[1.2rem] px-4 py-[10px] text-[11px] sm:text-xs focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white shadow-inner"></textarea>
-                <button id="send-chat" class="w-10 h-10 bg-warnautama dark:bg-white text-white dark:text-warnakeempat rounded-full shadow-md hover:scale-105 transition-transform flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 translate-x-[-1px] translate-y-[1px]" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
-            </div>
+    <!-- Pesan akan di-generate otomatis oleh JavaScript di sini -->
+    
+    <div id="typing-indicator" class="hidden items-start gap-2 mt-3 animate-fade-up shrink-0">
+        <img src="mascipta.webp" class="w-7 h-7 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-gray-700 bg-white">
+        <div class="bg-white/90 dark:bg-warnakeempat px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-[#2a2a2a] flex items-center h-9 typing-indicator">
+            <span></span><span></span><span></span>
         </div>
-        <div class="relative flex items-end">
-            <button id="chat-trigger" class="relative z-10 hover:scale-110 transition-transform drop-shadow-2xl focus:outline-none translate-y-2"><img src="menyapa.webp" alt="Cipta" class="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-md"></button>
-            <div id="greeting-bubble" class="absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 pointer-events-none">Halo saya Cipta 👋</div>
-       </div>
     </div>
+</div>
     
     <div class="max-w-7xl mx-auto min-h-screen relative shadow-2xl bg-custom-gradient overflow-hidden transition-all duration-700">
         <div class="pattern-overlay"></div><div class="logo-pattern-overlay"></div>
