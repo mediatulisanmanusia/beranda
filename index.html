@@ -1050,52 +1050,49 @@ sc.addEventListener("click", handleSend); ci.addEventListener("keydown", (e) => 
                 </div>
             </section>
 
-            <!-- ============================================== -->
-<!-- GELEMBUNG GABUNGAN PENCARIAN QRCBN & HAK CIPTA -->
-<!-- ============================================== -->
-<div class="bg-white/90 dark:bg-black/50 backdrop-blur-md rounded-[2rem] p-6 md:p-8 shadow-xl border border-gray-100 dark:border-gray-800 w-full max-w-2xl mx-auto mb-10 relative z-10">
-    
-    <!-- TOMBOL PILIHAN (TAB) DI ATAS -->
-    <div class="flex justify-center gap-2 mb-8 bg-gray-100 dark:bg-[#1b1b1b] p-1.5 rounded-full w-max mx-auto border border-gray-200 dark:border-gray-700">
-        <button id="tab-qrcbn" onclick="gantiPencarian('qrcbn')" class="px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-xs sm:text-sm font-bold shadow-md transition-all duration-300">
-            QRCBN
-        </button>
-        <button id="tab-djki" onclick="gantiPencarian('djki')" class="px-6 py-2.5 rounded-full text-gray-500 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-bold transition-all duration-300 bg-transparent">
-            HAK CIPTA
-        </button>
-    </div>
-
-    <!-- ================= KONTEN QRCBN ================= -->
-    <div id="konten-qrcbn" class="text-center animate-fade-up">
-        <!-- Pastikan src gambar QRCBN ini sama dengan namamu yang lama -->
-        <img src="qrcbn.webp" alt="Logo QRCBN" class="h-10 mx-auto mb-4 object-contain">
+          
+<!-- GELEMBUNG GABUNGAN PENCARIAN QRCBN & HAK CIPTA (TAB MODE) -->
+<section id="seksi-pencarian-terpadu" class="px-5 md:px-10 pt-4 pb-6 relative z-10 max-w-4xl mx-auto">
+    <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500">
         
-        <h2 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 tracking-wide">PENELUSURAN BUKU</h2>
-        <p class="text-gray-600 dark:text-gray-300 text-xs md:text-sm mb-6">Masukkan nomor QRCBN untuk menelusuri buku di database QRCBN.</p>
-        
-        <!-- PENTING: Jika sebelumnya form QRCBN-mu punya ID atau onclick khusus, sesuaikan di sini -->
-        <div class="flex flex-col gap-4 max-w-xl mx-auto">
-            <input type="text" id="input-qrcbn" placeholder="Contoh: 62-39XX-XXXX-XXX" class="w-full px-5 py-3 rounded-full border border-gray-300 dark:border-gray-600 bg-transparent text-sm focus:outline-none focus:border-warnautama dark:focus:border-white">
-            <button onclick="cariQRCBN()" class="w-full px-5 py-3 rounded-full bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-bold text-sm hover:scale-105 transition-transform shadow-lg">TELUSURI</button>
+        <!-- TOMBOL PILIHAN (TAB) DI ATAS -->
+        <div class="flex justify-center gap-2 mb-8 bg-white/50 dark:bg-black/30 p-1.5 rounded-full w-max mx-auto border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
+            <button id="tab-qrcbn" onclick="gantiPencarian('qrcbn')" class="px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300">
+                QRCBN
+            </button>
+            <button id="tab-djki" onclick="gantiPencarian('djki')" class="px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
+                HAK CIPTA
+            </button>
         </div>
-    </div>
 
-    <!-- ================= KONTEN DJKI ================= -->
-    <div id="konten-djki" class="text-center hidden animate-fade-up">
-        <!-- Pastikan src gambar DJKI ini sama dengan namamu yang lama -->
-        <img src="djki.webp" alt="Logo DJKI" class="h-10 mx-auto mb-4 object-contain">
-        
-        <h2 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 tracking-wide">PENELUSURAN HAK CIPTA</h2>
-        <p class="text-gray-600 dark:text-gray-300 text-xs md:text-sm mb-6">Masukkan judul ciptaan untuk menelusuri status legalitas di database resmi DJKI.</p>
-        
-        <!-- PENTING: Jika sebelumnya form DJKI-mu punya ID atau onclick khusus, sesuaikan di sini -->
-        <div class="flex flex-col gap-4 max-w-xl mx-auto">
-            <input type="text" id="input-djki" placeholder="Contoh: MC Nusantara" class="w-full px-5 py-3 rounded-full border border-gray-300 dark:border-gray-600 bg-transparent text-sm focus:outline-none focus:border-warnautama dark:focus:border-white">
-            <button onclick="cariDJKI()" class="w-full px-5 py-3 rounded-full bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-bold text-sm hover:scale-105 transition-transform shadow-lg">TELUSURI</button>
+        <!-- ================= KONTEN QRCBN ================= -->
+        <div id="konten-qrcbn" class="animate-fade-up">
+            <img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+            <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN BUKU</h4>
+            <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan nomor QRCBN untuk menelusuri buku di database QRCBN.</p>
+            <form onsubmit="cariQRCBN(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+                <input type="text" id="input-keyword-qrcbn" required placeholder="Contoh: 62-39XX-XXXX-XXX" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+                <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+                    Telusuri
+                </button>
+            </form>
         </div>
-    </div>
 
-</div>
+        <!-- ================= KONTEN DJKI ================= -->
+        <div id="konten-djki" class="hidden animate-fade-up">
+            <img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+            <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN HAK CIPTA</h4>
+            <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan judul ciptaan untuk menelusuri status legalitas di database resmi DJKI.</p>
+            <form onsubmit="cariDJKI(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+                <input type="text" id="input-keyword-djki" required placeholder="Contoh: MC Nusantara" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+                <button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+                    Telusuri
+                </button>
+            </form>
+        </div>
+
+    </div>
+</section>
 
 <!-- SCRIPT UNTUK LOGIKA TOMBOL TAB (Biarkan nempel di bawah gelembung ini) -->
 <script>
@@ -1105,8 +1102,8 @@ function gantiPencarian(jenis) {
     const divQrcbn = document.getElementById('konten-qrcbn');
     const divDjki = document.getElementById('konten-djki');
 
-    const styleAktif = "px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-warnakeempat text-xs sm:text-sm font-bold shadow-md transition-all duration-300";
-    const stylePasif = "px-6 py-2.5 rounded-full text-gray-500 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-bold transition-all duration-300 bg-transparent";
+    const styleAktif = "px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300";
+    const stylePasif = "px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent";
 
     if (jenis === 'qrcbn') {
         divQrcbn.classList.remove('hidden');
@@ -1120,10 +1117,7 @@ function gantiPencarian(jenis) {
         btnQrcbn.className = stylePasif;
     }
 }
-</script>
-<!-- ============================================== -->
-
-    
+</script>  
     <!-- ARTIKEL / BLOG SLIDER -->
     <section class="pt-8 md:pt-10 relative z-10 w-full overflow-hidden">
       <div class="px-5 md:px-10 mb-6 flex items-center justify-center text-center">
