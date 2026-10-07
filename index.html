@@ -2265,7 +2265,7 @@ function filterLiterasi() {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-      const icon = type === 'success' ? '×✔' : '✖';
+      const icon = type === 'success' ? '✔' : '✖';
       toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
       toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
       container.appendChild(toast);
