@@ -140,8 +140,8 @@
             <div class="bg-warnautama dark:bg-black text-white px-5 py-4 flex justify-between items-center border-b border-white/10 shadow-sm relative overflow-hidden flex-shrink-0">
                 <div class="absolute inset-0 opacity-10 bg-[url('petent.png')] bg-cover bg-center"></div>
                 <div class="flex items-center gap-3 relative z-10">
-                    <div class="relative"><img src="mascipta.webp" alt="Cipta" class="w-9 h-9 rounded-full object-cover border-2 border-white dark:border-black shadow-md bg-white"><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-warnautama dark:border-black rounded-full"></div></div>
-                    <div><h3 class="font-bold text-sm tracking-wide leading-tight">Mas Cipta</h3><p class="text-[9px] text-gray-300 dark:text-gray-400">Asisten Virtual Media Tulisan Manusia</p></div>
+                    <div class="relative"><img src="mas.webp" alt="" class="w-9 h-9 rounded-full object-cover border-2 border-white dark:border-black shadow-md bg-white"><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-warnautama dark:border-black rounded-full"></div></div>
+                    <div><h3 class="font-bold text-sm tracking-wide leading-tight">Mas </h3><p class="text-[9px] text-gray-300 dark:text-gray-400">Asisten Virtual Media Tulisan Manusia</p></div>
                 </div>
                 <button id="close-chat" class="relative z-10 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors text-white font-bold text-lg">&times;</button>
             </div>
@@ -156,7 +156,7 @@
         </div>
         <div class="relative flex items-end">
             <button id="chat-trigger" class="relative z-10 hover:scale-110 transition-transform drop-shadow-2xl focus:outline-none translate-y-2"><img src="menyapa.webp" alt="Cipta" class="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-md"></button>
-            <div id="greeting-bubble" class="absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0">Halo saya Cipta 👋</div>
+            <div id="greeting-bubble" class="absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0">Halo saya Cipta ☺︎</div>
         </div>
     </div>
     
@@ -2356,7 +2356,7 @@ function filterLiterasi() {
                   const gbBaru = document.createElement("div");
                   gbBaru.id = "bubble-penutup";
                   gbBaru.className = "absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 animate-fade-up transition-opacity duration-500 opacity-100";
-                  gbBaru.innerHTML = "Sampai jumpa! Cipta selalu di sini ☻ ";
+                  gbBaru.innerHTML = "Sampai jumpa! Cipta selalu di sini ☺︎";
                   wadahTrigger.appendChild(gbBaru);
                   setTimeout(() => { if(gbBaru) { gbBaru.classList.replace("opacity-100", "opacity-0"); setTimeout(() => gbBaru.remove(), 500); } }, 5000); 
               }
@@ -2388,7 +2388,7 @@ function filterLiterasi() {
           timerTanyaMasiAda = setTimeout(() => {
               addMessageToUI("Apakah masih bersama Cipta?", "model");
               timerAkhiriChat = setTimeout(() => {
-                  addMessageToUI("Kalau tidak ada, Cipta akhiri ya. Terima kasih sudah menghubungi Cipta.", "model");
+                  addMessageToUI("Kalau tidak ada, Cipta akhiri. Terima kasih sudah menghubungi Cipta.", "model");
                   setTimeout(() => { if(cx) cx.click(); }, 2000);
               }, 2500); 
           }, 30000);
@@ -2427,9 +2427,9 @@ function filterLiterasi() {
           addMessageToUI('Selamat datang di Media Tulisan Manusia, ada yang bisa Cipta bantu?', 'model', [
               { label: 'Publikasi Literasi', aksi: "window.pilihTopikChat('Publikasi Literasi')" },
               { label: 'Penerbitan Buku', aksi: "window.pilihTopikChat('Penerbitan Buku')" },
-              { label: 'Hak Cipta (HKI)', aksi: "window.pilihTopikChat('Hak Cipta (HKI)')" },
+              { label: 'Hak Cipta - HKI', aksi: "window.pilihTopikChat('Hak Cipta (HKI)')" },
               { label: 'Daftar NIB', aksi: "window.pilihTopikChat('Daftar NIB')" },
-              { label: 'Hubungi Admin WA', aksi: "window.pilihTopikChat('Hubungi WA')" }
+              { label: 'WhatsApp Admin', aksi: "window.pilihTopikChat('Hubungi WA')" }
           ]);
           resetTimerChat();
       };
@@ -2453,8 +2453,8 @@ function filterLiterasi() {
                   addMessageToUI("Terima kasih sudah menghubungi Cipta, semoga harimu menyenangkan.", "model");
                   setTimeout(() => { if(cx) cx.click(); }, 2500);
               } else {
-                  addMessageToUI('Untuk pertanyaan yang lebih detail atau diskusi khusus, yuk langsung ngobrol dengan tim Admin kami melalui WhatsApp! ☻', 'model', [
-                      { label: '📱 Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20${encodeURIComponent(text)}', '_blank')` }
+                  addMessageToUI('Untuk pertanyaan yang lebih detail atau diskusi khusus, yuk langsung ngobrol dengan tim Admin kami melalui WhatsApp!', 'model', [
+                      { label: '⎙ Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20${encodeURIComponent(text)}', '_blank')` }
                   ]);
                   resetTimerChat();
               }
@@ -2558,25 +2558,25 @@ function filterLiterasi() {
       let htmlNaskah = ''; let htmlHKI = ''; let htmlLiterasi = '';
       snapshot.forEach((docSnap) => {
           const data = docSnap.data();
-          const statusColor = data.status === 'Berhasil' || data.status === 'Diterbitkan' ? 'text-green-600' : 'text-yellow-600';
+          const statusColor = data.status === 'Terbit' || data.status === 'Terbit' ? 'text-green-600' : 'text-yellow-600';
           
           if (data.tipeLayanan === "Upload Literasi") {
               let teksKet = "Tahap Kurasi / Review";
               if (data.status === "Pending") teksKet = "Menunggu Antrean";
               else if (data.status === "Review") teksKet = "Sedang Direview";
-              else if (data.status === "Diterbitkan") teksKet = "Sudah Tayang di Web";
-              else if (data.status === "Ditolak") teksKet = "Belum Memenuhi Syarat";
+              else if (data.status === "Terbit") teksKet = "Publikasi";
+              else if (data.status === "Revisi") teksKet = "Belum Memenuhi Syarat";
 
               let btnFile = `<span class="text-gray-500 text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">${teksKet}</span>`;
               
               if (data.linkKarya && data.linkKarya !== "") {
-                  btnFile = `<a href="${data.linkKarya}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">🔗 BACA KARYA</a>`;
+                  btnFile = `<a href="${data.linkKarya}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">⎙ AKSES NASKAH</a>`;
               }
               
               htmlLiterasi += `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
           } else {
               const btnFile = (data.fileHasil && data.fileHasil !== "") 
-                  ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1">📥 UNDUH FILE</a>` 
+                  ? `<a href="${data.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1"> ⎙ UNDUH FILE</a>` 
                   : `<span class="text-gray-400 text-[10px] italic bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-md border border-gray-200 dark:border-gray-700">Belum ada file</span>`;
               const baris = `<tr><td class="p-3 border-b">${data.waktuLokal}</td><td class="p-3 border-b font-bold">${data.judul}</td><td class="p-3 border-b font-bold ${statusColor}">${data.status}</td><td class="p-3 border-b text-center align-middle">${btnFile}</td></tr>`;
               
@@ -2596,7 +2596,7 @@ function filterLiterasi() {
       snapshot.forEach((docSnap) => {
           const data = docSnap.data();
           const id = docSnap.id;
-          const statusWarna = data.status === 'Berhasil' || data.status === 'Diterbitkan' ? 'text-green-600' : 'text-yellow-600';
+          const statusWarna = data.status === 'Terbit' || data.status === 'Terbit' ? 'text-green-600' : 'text-yellow-600';
           
           let aksiAdmin = '';
           if (data.tipeLayanan === "Upload Literasi") {
@@ -2608,8 +2608,8 @@ function filterLiterasi() {
                   <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none">
                       <option value="Pending" ${data.status==='Pending'?'selected':''}>⏲ Pending</option>
                       <option value="Review" ${data.status==='Review'?'selected':''}>⏲ Review</option>
-                      <option value="Diterbitkan" ${data.status==='Diterbitkan'?'selected':''}>✔ Diterbitkan</option>
-                      <option value="Ditolak" ${data.status==='Ditolak'?'selected':''}>✖ Ditolak</option>
+                      <option value="Terbit" ${data.status==='Terbit'?'selected':''}>✔ Terbit</option>
+                      <option value="Revisi" ${data.status==='Revisi'?'selected':''}>✖ Revisi</option>
                   </select>
                   <div class="flex gap-1 mt-1">
                       <input type="url" id="link-${id}" value="${data.linkKarya || ''}" placeholder="Tempel URL Karya..." class="w-full text-[9px] border border-gray-300 p-1.5 rounded bg-white focus:outline-none focus:border-blue-500">
@@ -2626,10 +2626,10 @@ function filterLiterasi() {
                   <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none">
                       <option value="Pending" ${data.status==='Pending'?'selected':''}>⏲ Pending</option>
                       <option value="Proses" ${data.status==='Proses'?'selected':''}>⏲ Proses</option>
-                      <option value="Berhasil" ${data.status==='Berhasil'?'selected':''}>✔ Berhasil</option>
+                      <option value="Terbit" ${data.status==='Terbit'?'selected':''}>✔ Terbit</option>
                   </select>
                   <label id="btn-up-${id}" class="w-full text-center bg-blue-600 text-white px-2 py-1.5 rounded-md text-[10px] font-bold cursor-pointer block hover:bg-blue-700 transition shadow-sm">
-                      + Upload PDF Baru
+                      + Upload PDF
                       <input type="file" class="hidden" accept=".pdf" onchange="window.uploadPDFAdmin('${id}', this)">
                   </label>
                   ${riwayatFileAdmin}
