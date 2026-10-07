@@ -36,29 +36,97 @@
         }
     </script>
     <style>
-        body { transition: background-color 0.5s ease, color 0.5s ease; overflow-x: hidden; }
+        /* Perbaikan 1: Mencegah efek bounce elastis yang berat di body iOS */
+        body { 
+            transition: background-color 0.5s ease, color 0.5s ease; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
         .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
         .dark .bg-custom-gradient { background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%); }
         
-        .pattern-overlay { position: absolute; inset: 0; background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 1px, transparent 2px); background-size: 32px 32px; z-index: 0; pointer-events: none; }
+        /* Perbaikan 2: Memaksa layer terpisah untuk background agar tidak ikut ter-render ulang saat scroll */
+        .pattern-overlay { 
+            position: fixed; /* Ubah ke fixed agar tidak perlu dihitung ulang saat scroll */
+            inset: 0; 
+            background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 1px, transparent 2px); 
+            background-size: 32px 32px; 
+            z-index: 0; 
+            pointer-events: none; 
+            transform: translateZ(0);
+        }
         .dark .pattern-overlay { background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 1px, transparent 2px); }
         
-        .glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        .dark .glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75); }
+        /* Perbaikan 3: GPU Acceleration pada efek Glassmorphism */
+        .glass { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.8) 100%); 
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.1); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            
+            /* Trick khusus iOS: Angkat ke layer GPU */
+            transform: translateZ(0); 
+            -webkit-transform: translateZ(0);
+            will-change: transform, backdrop-filter;
+        }
         
-        header.glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 250, 0.7) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-        .dark header.glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.65) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .dark .glass { 
+            background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.8) 100%); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75); 
+        }
+        
+        header.glass { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 250, 0.7) 100%); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            /* GPU layer untuk header agar scroll mulus */
+            transform: translateZ(0);
+            will-change: transform, backdrop-filter;
+        }
+        
+        .dark header.glass { 
+            background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.65) 100%); 
+        }
 
-        /* Gelembung Animasi (Fixed to Viewport) */
-        .bubble-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-        .bubble { position: absolute; bottom: -100px; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.05) 100%); border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; box-shadow: inset 0 0 10px rgba(255,255,255,0.5), 0 0 15px rgba(255,255,255,0.2); animation: floatUp 15s infinite linear; }
-        .dark .bubble { background: radial-gradient(circle at 30% 30%, rgba(10,37,64,0.6), rgba(10,37,64,0.2) 60%, rgba(10,37,64,0.05) 100%); border: 1px solid rgba(10,37,64,0.4); box-shadow: inset 0 0 10px rgba(10,37,64,0.5), 0 0 15px rgba(10,37,64,0.2); }
+        /* Perbaikan 4: Optimasi animasi gelembung */
+        .bubble-container { 
+            position: fixed; 
+            inset: 0; 
+            pointer-events: none; 
+            z-index: 0; 
+            overflow: hidden; 
+            transform: translateZ(0); 
+        }
+        
+        .bubble { 
+            position: absolute; 
+            bottom: -100px; 
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.05) 100%); 
+            border: 1px solid rgba(255,255,255,0.4); 
+            border-radius: 50%; 
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.5), 0 0 15px rgba(255,255,255,0.2); 
+            animation: floatUp 15s infinite linear; 
+            
+            /* Beritahu browser bahwa elemen ini akan dianimasikan */
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+        
+        .dark .bubble { 
+            background: radial-gradient(circle at 30% 30%, rgba(10,37,64,0.6), rgba(10,37,64,0.2) 60%, rgba(10,37,64,0.05) 100%); 
+            border: 1px solid rgba(10,37,64,0.4); 
+            box-shadow: inset 0 0 10px rgba(10,37,64,0.5), 0 0 15px rgba(10,37,64,0.2); 
+        }
         
         @keyframes floatUp {
-            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            0% { transform: translate3d(0, 110vh, 0) scale(0); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+            100% { transform: translate3d(0, -10vh, 0) scale(1.5); opacity: 0; }
         }
 
         .b1 { left: 10%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 0s; }
@@ -70,7 +138,7 @@
         .b7 { left: 75%; width: 55px; height: 55px; animation-duration: 13s; animation-delay: 5s; }
     </style>
 </head>
-<body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-screen">
+<body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-[100dvh]">
     
     <!-- Background Elements -->
     <div class="pattern-overlay"></div>
@@ -79,9 +147,9 @@
         <div class="bubble b4"></div><div class="bubble b5"></div><div class="bubble b6"></div><div class="bubble b7"></div>
     </div>
     
-    <!-- Blurry glowing orbs -->
-    <div class="fixed top-10 -left-10 w-96 h-96 bg-black/5 dark:bg-white/5 rounded-full filter blur-[100px] pointer-events-none z-0"></div>
-    <div class="fixed top-[40%] -right-10 w-96 h-96 bg-gray-500/10 dark:bg-gray-400/5 rounded-full filter blur-[120px] pointer-events-none z-0"></div>
+    <!-- Perbaikan 5: Tambahkan class transform-gpu pada div blur besar agar iOS merendernya di background terpisah -->
+    <div class="fixed top-10 -left-10 w-96 h-96 bg-black/5 dark:bg-white/5 rounded-full filter blur-[100px] pointer-events-none z-0 transform-gpu" style="will-change: transform;"></div>
+    <div class="fixed top-[40%] -right-10 w-96 h-96 bg-gray-500/10 dark:bg-gray-400/5 rounded-full filter blur-[120px] pointer-events-none z-0 transform-gpu" style="will-change: transform;"></div>
 
     <!-- Header -->
     <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
@@ -146,7 +214,7 @@
         </div>
 
         <!-- Pamflet Lomba -->
-        <div class="w-full mb-10 animate-fade-up">
+        <div class="w-full mb-10 animate-fade-up transform-gpu">
             <img src="pamflet.png" alt="Pamflet Lomba Menulis Novela" class="w-full h-auto object-contain rounded-[2.5rem] shadow-2xl border-4 border-white/40 dark:border-white/10 mx-auto">
         </div>
 
@@ -157,7 +225,7 @@
             <h2 class="relative z-10 text-4xl md:text-6xl font-black text-white mb-8 drop-shadow-md">TOTAL Rp 3 JUTA</h2>
             
             <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-left">
-                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm transform-gpu">
                     <h4 class="text-warnakedua font-black text-lg mb-2">🏆 JUARA 1</h4>
                     <ul class="text-white text-xs font-medium space-y-1">
                         <li>• Uang Pembinaan</li>
@@ -166,7 +234,7 @@
                         <li>• Pengurusan Hak Cipta</li>
                     </ul>
                 </div>
-                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm transform-gpu">
                     <h4 class="text-gray-300 font-black text-lg mb-2">🥈 JUARA 2</h4>
                     <ul class="text-white text-xs font-medium space-y-1">
                         <li>• Uang Pembinaan</li>
@@ -174,14 +242,14 @@
                         <li>• Cetak Buku Fisik</li>
                     </ul>
                 </div>
-                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm transform-gpu">
                     <h4 class="text-orange-300 font-black text-lg mb-2">🥉 JUARA 3</h4>
                     <ul class="text-white text-xs font-medium space-y-1">
                         <li>• Penerbitan Buku</li>
                         <li>• Cetak Buku Fisik</li>
                     </ul>
                 </div>
-                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm">
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-sm transform-gpu">
                     <h4 class="text-green-300 font-black text-lg mb-2">🎖️ HARAPAN 1-3</h4>
                     <ul class="text-white text-xs font-medium space-y-1">
                         <li>• Penerbitan Naskah Gratis!</li>
