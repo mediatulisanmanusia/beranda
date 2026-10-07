@@ -26,7 +26,7 @@
     <meta name="publisher" content="Media Tulisan Manusia">
     <meta name="language" content="id">
     <link rel="canonical" href="https://mediatulisanmanusia.com/">
-    <title>​Layanan Penerbitan Buku & Hak Cipta - Jawa Timur | Media Tulisan Manusia</title>
+    <title>​Layanan Penerbitan Buku dan Hak Cipta - Jawa Timur | Media Tulisan Manusia</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4607989555035129" crossorigin="anonymous"></script>
     <link rel="icon" type="image/png" href="rev.png?v=4">
     <link rel="preload" as="image" href="load.webp" fetchpriority="high">
@@ -304,7 +304,7 @@
                     <div class="absolute bottom-0 left-0 w-32 h-32 bg-warnautama/10 rounded-full filter blur-[50px] pointer-events-none"></div>
                     <div class="mb-4 relative z-10">
                         <span class="bg-warnakedua text-white font-black px-4 py-1.5 rounded-full text-[10px] md:text-xs uppercase tracking-widest shadow-sm inline-flex items-center gap-1 animate-pulse">
-                            🔥 Event Terbaru
+                            ✦ Event Terbaru
                         </span>
                     </div>
                     <h4 class="text-lg md:text-2xl font-black text-warnautama dark:text-white uppercase tracking-tight mb-5 relative z-10">
@@ -315,7 +315,7 @@
                     </div>
                     <div class="relative z-10">
                         <a href="halaman-lomba.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-4 px-10 rounded-full shadow-lg uppercase tracking-widest text-[11px] sm:text-xs hover:scale-105 transition-transform duration-300 ring-4 ring-warnautama/20 dark:ring-white/20">
-                            ✍️ Selengkapnya
+                            Selengkapnya𓂃✍︎
                         </a>
                     </div>
                 </div>
@@ -2265,7 +2265,7 @@ function filterLiterasi() {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-      const icon = type === 'success' ? '✅' : '❌';
+      const icon = type === 'success' ? '×✔' : '✖';
       toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
       toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
       container.appendChild(toast);
@@ -2424,7 +2424,7 @@ function filterLiterasi() {
 
       window.mulaiChatBot = function() {
           cm.innerHTML = ''; cm.appendChild(ti); 
-          addMessageToUI('Halo! Selamat datang di Media Tulisan Manusia,ada yang bisa Cipta bantu? Silakan pilih menu di bawah', 'model', [
+          addMessageToUI('Halo! Selamat datang di Media Tulisan Manusia,ada yang bisa Cipta bantu?', 'model', [
               { label: 'Publikasi Literasi', aksi: "window.pilihTopikChat('Publikasi Literasi')" },
               { label: 'Penerbitan Buku', aksi: "window.pilihTopikChat('Penerbitan Buku')" },
               { label: 'Hak Cipta (HKI)', aksi: "window.pilihTopikChat('Hak Cipta (HKI)')" },
