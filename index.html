@@ -2356,7 +2356,7 @@ function filterLiterasi() {
                   const gbBaru = document.createElement("div");
                   gbBaru.id = "bubble-penutup";
                   gbBaru.className = "absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 animate-fade-up transition-opacity duration-500 opacity-100";
-                  gbBaru.innerHTML = "Sampai jumpa! Cipta selalu di sini 👋";
+                  gbBaru.innerHTML = "Sampai jumpa! Cipta selalu di sini ☻ ";
                   wadahTrigger.appendChild(gbBaru);
                   setTimeout(() => { if(gbBaru) { gbBaru.classList.replace("opacity-100", "opacity-0"); setTimeout(() => gbBaru.remove(), 500); } }, 5000); 
               }
@@ -2402,21 +2402,21 @@ function filterLiterasi() {
           setTimeout(() => {
               ti.classList.add("hidden"); ti.classList.remove("flex");
               if (topik === 'Publikasi Literasi') {
-                  addMessageToUI('Siap! Mari publikasikan cerpen, puisi, Berita, Opini, atau artikelmu di Ruang Literasi kami. Silakan klik form di bawah ini:', 'model', [{ label: '📝 Buka Form Publikasi', aksi: "document.getElementById('close-chat').click(); bukaHalaman('upload-literasi');" }]);
+                  addMessageToUI('Siap! Mari publikasikan cerpen, puisi, Berita, Opini, atau artikelmu di Ruang Literasi kami. Silakan klik form di bawah ini:', 'model', [{ label: '⎙ Publikasi Sekarang', aksi: "document.getElementById('close-chat').click(); bukaHalaman('upload-literasi');" }]);
               } else if (topik === 'Penerbitan Buku') {
                   addMessageToUI('<strong>Ketentuan Penerbitan:</strong><br>1. Naskah wajib orisinal.<br>2. Tidak mengandung SARA.<br>3. Hak komersial tetap milik penulis.<br><br>Silakan unduh detail ketentuan atau langsung isi formnya:', 'model', [
-                      { label: '○ Ketentuan Penerbitan', aksi: "window.open('ketentuan.pdf', '_blank')" },
-                      { label: '○ Kirim Naskah', aksi: "document.getElementById('close-chat').click(); bukaHalaman('kirim-naskah');" }
+                      { label: '⎙ Ketentuan Penerbitan', aksi: "window.open('ketentuan.pdf', '_blank')" },
+                      { label: '⎙ Kirim Naskah', aksi: "document.getElementById('close-chat').click(); bukaHalaman('kirim-naskah');" }
                   ]);
               } else if (topik === 'Hak Cipta (HKI)') {
                   addMessageToUI('<strong>Ketentuan Hak Cipta:</strong><br>1. Siapkan foto KTP pencipta.<br>2. Karya bersifat orisinal.<br>3. Sertifikat resmi dari DJKI.<br><br>Silakan unduh detail ketentuan atau langsung ajukan HKI Anda di sini:', 'model', [
-                      { label: '○ Ketentuan Hak Cipta', aksi: "window.open('kategori.pdf', '_blank')" },
-                      { label: '○ Daftar Hak Cipta', aksi: "document.getElementById('close-chat').click(); bukaHalaman('daftar-hki');" }
+                      { label: '⎙ Ketentuan Hak Cipta', aksi: "window.open('kategori.pdf', '_blank')" },
+                      { label: '⎙ Daftar Hak Cipta', aksi: "document.getElementById('close-chat').click(); bukaHalaman('daftar-hki');" }
                   ]);
               } else if (topik === 'Daftar NIB') {
-                  addMessageToUI('Untuk pengurusan NIB, Admin kami akan mendampingi Anda secara langsung. Klik tombol di bawah untuk terhubung ke WhatsApp:', 'model', [{ label: '📱 Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20ingin%20info%20pendaftaran%20NIB', '_blank')` }]);
+                  addMessageToUI('Untuk pengurusan NIB, Admin kami akan mendampingi Anda secara langsung. Klik tombol di bawah untuk terhubung ke WhatsApp:', 'model', [{ label: '» Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20ingin%20info%20pendaftaran%20NIB', '_blank')` }]);
               } else if (topik === 'Hubungi WA') {
-                  addMessageToUI('Tim admin kami siap membalas pesan Anda (Senin-Sabtu 08.00-16.00 WIB).', 'model', [{ label: '💬 Chat Admin Sekarang', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia', '_blank')` }]);
+                  addMessageToUI('Tim admin kami siap membalas pesan Anda (Senin-Sabtu 08.00-16.00 WIB).', 'model', [{ label: '» Chat Admin Sekarang', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia', '_blank')` }]);
               }
               resetTimerChat();
           }, 800);
@@ -2424,7 +2424,7 @@ function filterLiterasi() {
 
       window.mulaiChatBot = function() {
           cm.innerHTML = ''; cm.appendChild(ti); 
-          addMessageToUI('Halo! Selamat datang di Media Tulisan Manusia,ada yang bisa Cipta bantu?', 'model', [
+          addMessageToUI('Selamat datang di Media Tulisan Manusia, ada yang bisa Cipta bantu?', 'model', [
               { label: 'Publikasi Literasi', aksi: "window.pilihTopikChat('Publikasi Literasi')" },
               { label: 'Penerbitan Buku', aksi: "window.pilihTopikChat('Penerbitan Buku')" },
               { label: 'Hak Cipta (HKI)', aksi: "window.pilihTopikChat('Hak Cipta (HKI)')" },
@@ -2453,7 +2453,7 @@ function filterLiterasi() {
                   addMessageToUI("Terima kasih sudah menghubungi Cipta, semoga harimu menyenangkan.", "model");
                   setTimeout(() => { if(cx) cx.click(); }, 2500);
               } else {
-                  addMessageToUI('Untuk pertanyaan yang lebih detail atau diskusi khusus, yuk langsung ngobrol dengan tim Admin kami melalui WhatsApp! 😊', 'model', [
+                  addMessageToUI('Untuk pertanyaan yang lebih detail atau diskusi khusus, yuk langsung ngobrol dengan tim Admin kami melalui WhatsApp! ☻', 'model', [
                       { label: '📱 Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20${encodeURIComponent(text)}', '_blank')` }
                   ]);
                   resetTimerChat();
@@ -2606,10 +2606,10 @@ function filterLiterasi() {
 
               aksiAdmin = `
                   <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none">
-                      <option value="Pending" ${data.status==='Pending'?'selected':''}>⏳ Pending</option>
-                      <option value="Review" ${data.status==='Review'?'selected':''}>👀 Direview</option>
-                      <option value="Diterbitkan" ${data.status==='Diterbitkan'?'selected':''}>✅ Diterbitkan</option>
-                      <option value="Ditolak" ${data.status==='Ditolak'?'selected':''}>❌ Ditolak</option>
+                      <option value="Pending" ${data.status==='Pending'?'selected':''}>⏲ Pending</option>
+                      <option value="Review" ${data.status==='Review'?'selected':''}>⏲ Review</option>
+                      <option value="Diterbitkan" ${data.status==='Diterbitkan'?'selected':''}>✔ Diterbitkan</option>
+                      <option value="Ditolak" ${data.status==='Ditolak'?'selected':''}>✖ Ditolak</option>
                   </select>
                   <div class="flex gap-1 mt-1">
                       <input type="url" id="link-${id}" value="${data.linkKarya || ''}" placeholder="Tempel URL Karya..." class="w-full text-[9px] border border-gray-300 p-1.5 rounded bg-white focus:outline-none focus:border-blue-500">
@@ -2624,9 +2624,9 @@ function filterLiterasi() {
               
               aksiAdmin = `
                   <select onchange="window.ubahStatusAdmin('${id}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none">
-                      <option value="Pending" ${data.status==='Pending'?'selected':''}>⏳ Pending</option>
-                      <option value="Proses" ${data.status==='Proses'?'selected':''}>⚙️ Proses</option>
-                      <option value="Berhasil" ${data.status==='Berhasil'?'selected':''}>✅ Berhasil</option>
+                      <option value="Pending" ${data.status==='Pending'?'selected':''}>⏲ Pending</option>
+                      <option value="Proses" ${data.status==='Proses'?'selected':''}>⏲ Proses</option>
+                      <option value="Berhasil" ${data.status==='Berhasil'?'selected':''}>✔ Berhasil</option>
                   </select>
                   <label id="btn-up-${id}" class="w-full text-center bg-blue-600 text-white px-2 py-1.5 rounded-md text-[10px] font-bold cursor-pointer block hover:bg-blue-700 transition shadow-sm">
                       + Upload PDF Baru
