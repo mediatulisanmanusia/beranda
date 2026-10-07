@@ -2551,30 +2551,6 @@ function filterLiterasi() {
       }
   });
 
-  function tampilkanPopup() {
-      const popup = document.getElementById('popup-promo');
-      const content = document.getElementById('popup-content');
-      if(!popup) return;
-      popup.classList.remove('hidden');
-      setTimeout(() => {
-          popup.classList.remove('opacity-0', 'pointer-events-none');
-          content.classList.remove('scale-95');
-          content.classList.add('scale-100');
-      }, 50);
-      setTimeout(tutupPopup, 30000);
-  }
-
-  function tutupPopup() {
-      const popup = document.getElementById('popup-promo');
-      const content = document.getElementById('popup-content');
-      if(!popup) return;
-      popup.classList.add('opacity-0', 'pointer-events-none');
-      content.classList.remove('scale-100');
-      content.classList.add('scale-95');
-      setTimeout(() => { popup.classList.add('hidden'); }, 500);
-  }
-  window.addEventListener('load', () => { setTimeout(tampilkanPopup, 1500); });
-
   window.muatRiwayatProfil = async function() {
       if(!window.currentUserEmail) return;
       const q = window.query(window.collection(window.db, "pesanan"), window.where("userEmail", "==", window.currentUserEmail));
