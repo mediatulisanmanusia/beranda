@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <!-- Optimasi Viewport iOS: Mencegah auto-zoom yang mengganggu -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#07192C">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07192C">
+    <title>Pelaporan Closing Klien - Media Tulisan Manusia</title>
+    <link rel="icon" type="image/png" href="rev.png?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: { warnautama: '#0A2540', warnakedua: '#D4AF37', warnaketiga: '#0A3F61', warnakeempat: '#1B1B1B' },
+                    animation: { 'fade-up': 'fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards', pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' },
+                    keyframes: { fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Perbaikan Anti-Lag & Smooth UI khusus iOS (Safari) */
+        body { 
+            transition: background-color 0.5s ease, color 0.5s ease; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Mencegah default style dari iOS Safari */
+        input, select, textarea, button {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
+        .dark .bg-custom-gradient { background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%); }
+        
+        .glass { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.8) 100%); 
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.1); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75); }
+        
+        header.glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 250, 0.7) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .dark header.glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.65) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        
+        .bubble-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bubble { 
+            position: absolute; bottom: -100px; 
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.05) 100%); 
+            border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; 
+            /* Memaksa GPU rendering (3D) di iOS */
+            animation: floatUp 15s infinite linear; 
+            -webkit-transform: translate3d(0,0,0);
+        }
+        .dark .bubble { background: radial-gradient(circle at 30% 30%, rgba(10,37,64,0.6), rgba(10,37,64,0.2) 60%, rgba(10,37,64,0.05) 100%); border: 1px solid rgba(10,37,64,0.4); }
+        
+        @keyframes floatUp { 
+            0% { transform: translate3d(0, 110vh, 0) scale(0); opacity: 0; } 
+            10% { opacity: 1; } 
+            90% { opacity: 1; } 
+            100% { transform: translate3d(0, -10vh, 0) scale(1.5); opacity: 0; } 
+        }
+        
+        .b1 { left: 10%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 0s; } .b2 { left: 25%; width: 40px; height: 40px; animation-duration: 18s; animation-delay: 2s; } .b3 { left: 45%; width: 80px; height: 80px; animation-duration: 14s; animation-delay: 4s; }
+        #toast-container { z-index: 999999; }
+    </style>
+</head>
+<body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-screen">
+    
+    <div id="toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-3 pointer-events-none w-11/12 max-w-sm"></div>
+    
+    <div id="loading-form" class="fixed inset-0 z-[99999] bg-white/80 dark:bg-black/80 flex items-center justify-center transition-opacity duration-500 hidden opacity-0">
+        <div class="flex flex-col items-center">
+            <img src="load.webp" alt="Loading" class="h-20 w-auto object-contain animate-pulse mb-4 drop-shadow-md">
+            <p class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse">Mengirim Data...</p>
+        </div>
+    </div>
+
+    <div class="bubble-container"><div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div></div>
+    
+    <div class="fixed top-10 -left-10 w-96 h-96 rounded-full pointer-events-none z-0 dark:hidden" style="background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 60%);"></div>
+    <div class="fixed top-10 -left-10 w-96 h-96 rounded-full pointer-events-none z-0 hidden dark:block" style="background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);"></div>
+
+    <!-- Header -->
+    <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
+        <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.location.href='index.html'">
+            <img src="rev1.png" alt="Logo MTM" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain dark:hidden">
+            <img src="rev2.png" alt="Logo MTM" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain hidden dark:block">
+        </div>
+        <div class="flex items-center gap-2 relative">
+            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200">
+                <svg class="w-6 h-6 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                <svg class="w-6 h-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="h-28 md:h-36"></div>
+
+    <main class="max-w-4xl mx-auto px-4 md:px-6 relative z-10 pb-20">
+        
+        <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl animate-fade-up">
+            <div class="text-center mb-10 border-b border-gray-300 dark:border-gray-700 pb-6">
+                <h2 class="text-2xl md:text-3xl font-black text-warnautama dark:text-white uppercase tracking-tight">Form Pelaporan Closing</h2>
+                <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-2 font-medium">Jaringan Kemitraan Freelance PT Media Tulisan Manusia</p>
+            </div>
+
+            <form id="formClosing" onsubmit="kirimFormPelaporan(event)" class="space-y-6 text-left">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                
+                <!-- BAGIAN DATA MITRA -->
+                <div class="mb-8">
+                    <h3 class="text-sm font-black text-warnakedua uppercase tracking-widest mb-4 border-l-4 border-warnakedua pl-3">Data Mitra (Freelance)</h3>
+                    <!-- Class text-[16px] ditambahkan pada semua input untuk anti-zoom iOS -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label for="ID_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">ID Mitra (Opsional)</label>
+                            <input type="text" id="ID_Mitra" name="ID_Mitra" placeholder="Contoh: 202***" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label for="Nama_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nama Mitra <span class="text-red-500">*</span></label>
+                            <input type="text" id="Nama_Mitra" name="Nama_Mitra" required placeholder="Masukkan nama lengkap Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label for="WhatsApp_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">No. WhatsApp Mitra <span class="text-red-500">*</span></label>
+                            <input type="number" id="WhatsApp_Mitra" name="WhatsApp_Mitra" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label for="Rekening_Bank_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Rekening & Bank <span class="text-red-500">*</span></label>
+                            <input type="text" id="Rekening_Bank_Mitra" name="Rekening_Bank_Mitra" required placeholder="Cth: BCA 1234 a/n Budi" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-6 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
+
+                <!-- BAGIAN DATA KLIEN -->
+                <div class="mb-8">
+                    <h3 class="text-sm font-black text-warnakedua uppercase tracking-widest mb-4 border-l-4 border-warnakedua pl-3">Data Klien (Yang Sudah Deal)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label for="Nama_Klien_Gelar" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nama Klien & Gelar <span class="text-red-500">*</span></label>
+                            <input type="text" id="Nama_Klien_Gelar" name="Nama_Klien_Gelar" required placeholder="Tuliskan nama beserta gelar" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label for="WhatsApp_Klien" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">No. WhatsApp Klien <span class="text-red-500">*</span></label>
+                            <input type="number" id="WhatsApp_Klien" name="WhatsApp_Klien" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="Instansi_Klien" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Instansi / Asal Usaha (Opsional)</label>
+                            <input type="text" id="Instansi_Klien" name="Instansi_Klien" placeholder="Contoh: Dosen Univ X / UMKM Kuliner Y" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label for="Layanan_Diambil" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Layanan yang Diambil <span class="text-red-500">*</span></label>
+                            <select id="Layanan_Diambil" name="Layanan_Diambil" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white appearance-none">
+                                <option value="" disabled selected>Pilih Layanan</option>
+                                <option value="Penerbitan QRCBN">Penerbitan QRCBN</option>
+                                <option value="HKI DJKI">HKI DJKI</option>
+                                <option value="Paket Bundling">Paket Bundling</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="Detail_Paket" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Detail Paket <span class="text-red-500">*</span></label>
+                            <input type="text" id="Detail_Paket" name="Detail_Paket" required placeholder="Misal: Paket QRCBN Standar" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label for="Nilai_Transaksi" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nilai Transaksi Klien <span class="text-red-500">*</span></label>
+                            <input type="text" id="Nilai_Transaksi" name="Nilai_Transaksi" required placeholder="Contoh: Rp1.500.000" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                        <div>
+                            <label for="Status_Pembayaran" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Status Pembayaran <span class="text-red-500">*</span></label>
+                            <input type="text" id="Status_Pembayaran" name="Status_Pembayaran" required placeholder="Contoh: Lunas (Rp1.500.000)" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem]">
+                    <div class="text-left">
+                        <label for="Bukti_Interaksi" class="block text-[11px] font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wider">Upload Bukti Interaksi dengan Klien (Bisa lebih dari satu) <span class="text-red-500">*</span></label>
+                        <!-- Input file dijaga tetap kompatibel iOS -->
+                        <input type="file" id="Bukti_Interaksi" name="Bukti_Interaksi[]" multiple accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition shadow-inner bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer">
+                        <p class="text-[10px] text-gray-500 mt-2 font-medium ml-2">* Format: JPG/PNG. Anda dapat memilih beberapa file sekaligus. Maksimal 3MB per file.</p>
+                    </div>
+                </div>
+
+                <button type="submit" id="btnSubmit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-[13px] md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                    KIRIM LAPORAN CLOSING
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Copyright -->
+    <footer class="w-full pb-8 flex justify-center items-center relative z-10 mt-10">
+        <div class="text-center text-[10px] md:text-xs w-full">
+            <p class="text-warnautama dark:text-gray-400">Copyright &copy; Since 2022 - All Rights Reserved</p>
+            <p class="mt-1 text-gray-600 dark:text-gray-500">Created with passion by</p>
+            <p class="font-bold text-warnautama dark:text-white mt-0.5">PT MEDIA TULISAN MANUSIA</p>
+        </div>
+    </footer>
+
+    <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>    
+
+    <script>
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const icon = type === 'success' ? '✅' : '❌';
+            toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
+            toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.remove('translate-y-[-30px]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100'); }, 10);
+            setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-30px]', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 4000);
+        }
+
+        function kirimFormPelaporan(e) {
+            e.preventDefault();
+            const f = e.target;
+            const fileInputs = f.querySelectorAll('input[type="file"]');
+            
+            for (let i of fileInputs) {
+                if (i.files.length > 0) {
+                    for (let j = 0; j < i.files.length; j++) {
+                        if ((i.files[j].size / 1024 / 1024) > 3) {
+                            showToast(`Berkas ke-${j+1} melebihi batas 3MB. Harap diperkecil.`, 'error');
+                            return;
+                        }
+                    }
+                }
+            }
+
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.innerText = "MENGIRIM...";
+
+            const loader = document.getElementById('loading-form');
+            if (loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
+
+            let subjekEl = f.querySelector('input[name="_subject"]');
+            if (!subjekEl) {
+                subjekEl = document.createElement('input');
+                subjekEl.type = 'hidden';
+                subjekEl.name = '_subject';
+                f.appendChild(subjekEl);
+            }
+            const namaMitra = document.getElementById('Nama_Mitra').value || '-';
+            const namaKlien = document.getElementById('Nama_Klien_Gelar').value || '-';
+            subjekEl.value = `Pelaporan Closing: Mitra ${namaMitra} (Klien: ${namaKlien})`;
+
+            let formDataWA = new FormData(f);
+            let pesanWA = `Halo Admin Media Tulisan Manusia,\nSaya bermaksud mengirimkan *FORMAT PELAPORAN CLOSING KLIEN*.\n\n*DATA MITRA (FREELANCE)*\n`;
+            
+            const idMitra = document.getElementById('ID_Mitra').value;
+            if(idMitra) {
+                pesanWA += `- ID Mitra: ${idMitra}\n`;
+            }
+            pesanWA += `- Nama Mitra: ${namaMitra}\n`;
+            pesanWA += `- No. WhatsApp Mitra: ${document.getElementById('WhatsApp_Mitra').value}\n`;
+            pesanWA += `- Rekening Pencairan: ${document.getElementById('Rekening_Bank_Mitra').value}\n\n`;
+            
+            pesanWA += `*DATA KLIEN (YANG SUDAH DEAL)*\n`;
+            pesanWA += `- Nama Klien: ${namaKlien}\n`;
+            pesanWA += `- Instansi: ${document.getElementById('Instansi_Klien').value || '-'}\n`;
+            pesanWA += `- No. WhatsApp Klien: ${document.getElementById('WhatsApp_Klien').value}\n`;
+            pesanWA += `- Layanan Diambil: ${document.getElementById('Layanan_Diambil').value}\n`;
+            pesanWA += `- Detail Paket: ${document.getElementById('Detail_Paket').value}\n`;
+            pesanWA += `- Nilai Transaksi: ${document.getElementById('Nilai_Transaksi').value}\n`;
+            pesanWA += `- Status Pembayaran: ${document.getElementById('Status_Pembayaran').value}\n\n`;
+
+            pesanWA += `_(Catatan: Bukti interaksi klien telah saya unggah melalui sistem website)._`;
+            
+            const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
+
+            f.action = "https://formsubmit.co/tulisanmanusiaku@gmail.com";
+            f.method = "POST";
+            f.enctype = "multipart/form-data";
+            f.target = "hidden-iframe-upload";
+            f.submit();
+
+            setTimeout(() => {
+                if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+                showToast("Laporan Berhasil Dikirim!", "success");
+                window.location.href = linkWhatsAppLangsung;
+                setTimeout(() => {
+                    f.reset();
+                    btn.disabled = false;
+                    btn.innerText = "KIRIM LAPORAN CLOSING";
+                }, 1500);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
