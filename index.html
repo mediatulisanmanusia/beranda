@@ -57,15 +57,15 @@
         .chat-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .chat-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(10, 37, 64, 0.2); border-radius: 10px; }
         .dark .chat-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); }
-        textarea.auto-resize { resize: none; overflow-y: auto; max-height: 120px; min-height: 42px; }
-        body { transition: background-color 0.5s ease, color 0.5s ease; -webkit-font-smoothing: antialiased; }
+         textarea.auto-resize { resize: none; overflow-y: auto; max-height: 120px; min-height: 42px; }
+         body { transition: background-color 0.5s ease, color 0.5s ease; -webkit-font-smoothing: antialiased; }
         .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
         .dark .bg-custom-gradient { background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%); }
-        .pattern-overlay { position: absolute; inset: 0; background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 1px, transparent 2px); background-size: 32px 32px; z-index: 0; pointer-events: none; }
-        .dark .pattern-overlay { background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 1px, transparent 2px); }
-        .logo-pattern-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('petent.png'); background-repeat: repeat; background-attachment: fixed; background-size: 70px auto; z-index: 0; pointer-events: none; opacity: 0.15; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 95%); mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 95%); }
-        .dark .logo-pattern-overlay { opacity: 0.12; filter: invert(1) brightness(200%); }
-        @media (min-width: 768px) { .logo-pattern-overlay { background-size: 130px auto; } }
+        .pattern-overlay { display: none; }
+        .dark .pattern-overlay { display: none; }
+        .logo-pattern-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('petent.png'); background-repeat: repeat; background-attachment: fixed; background-size: 350px auto; z-index: 0; pointer-events: none; opacity: 0.04; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 90%); mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 90%); }
+        .dark .logo-pattern-overlay { opacity: 0.02; filter: invert(1) brightness(200%); }
+        @media (min-width: 768px) { .logo-pattern-overlay { background-size: 500px auto; } }
         .glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.1); }
         .dark .glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.85) 0%, rgba(10, 10, 12, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95), inset 0 -8px 25px -5px rgba(0, 0, 0, 0.75); }
         header.glass { background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 250, 0.45) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
