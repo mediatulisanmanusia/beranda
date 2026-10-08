@@ -52,26 +52,41 @@
         
         @keyframes floatUp { 0% { transform: translate3d(0, 110vh, 0) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate3d(0, -10vh, 0) scale(1.5); opacity: 0; } }
         
-        .b1 { left: 10%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 0s; } .b2 { left: 25%; width: 40px; height: 40px; animation-duration: 18s; animation-delay: 2s; } .b3 { left: 45%; width: 80px; height: 80px; animation-duration: 14s; animation-delay: 4s; }
-        #toast-container { z-index: 999999; }
-
-        /* Custom style untuk Datalist Arrow agar terlihat seperti select biasa */
-        input::-webkit-calendar-picker-indicator {
-            opacity: 1;
-            cursor: pointer;
+        /* Styling untuk Option Dropdown agar menyesuaikan tema */
+        select option {
+            background-color: #ffffff;
             color: #0A2540;
+            font-weight: 500;
         }
-        .dark input::-webkit-calendar-picker-indicator { filter: invert(1); }
+        .dark select option {
+            background-color: #1b1b1b;
+            color: #ffffff;
+        }
+
+        /* Panah Custom Dropdown */
+        .select-wrapper { position: relative; }
+        .select-wrapper::after {
+            content: "▼";
+            font-size: 10px;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: inherit;
+        }
+
+        #toast-container { z-index: 999999; }
     </style>
 </head>
 <body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-screen">
     
     <div id="toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 flex flex-col gap-3 pointer-events-none w-11/12 max-w-sm"></div>
     
-    <div id="loading-form" class="fixed inset-0 z-[99999] bg-white/80 dark:bg-black/80 flex items-center justify-center transition-opacity duration-500 hidden opacity-0">
-        <div class="flex flex-col items-center">
+    <div id="loading-form" class="fixed inset-0 z-[99999] bg-white/80 dark:bg-black/80 flex items-center justify-center transition-opacity duration-500 hidden opacity-0 backdrop-blur-sm">
+        <div class="flex flex-col items-center text-center px-4">
             <img src="load.webp" alt="Loading" class="h-20 w-auto object-contain animate-pulse mb-4 drop-shadow-md">
-            <p class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse">MENGIRIM DATA...</p>
+            <p id="loading-text" class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse leading-relaxed">MENGIRIM DATA...</p>
         </div>
     </div>
 
@@ -100,7 +115,6 @@
         <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl animate-fade-up">
             <div class="text-center mb-10 border-b border-gray-300 dark:border-gray-700 pb-6">
                 <h2 class="text-2xl md:text-3xl font-black text-warnautama dark:text-white uppercase tracking-tight">PELAPORAN CLOSING</h2>
-                <!-- Teks diperkecil agar rapi di HP -->
                 <p class="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 mt-2 font-black uppercase tracking-widest">JARINGAN KEMITRAAN FREELANCE PT MEDIA TULISAN MANUSIA</p>
             </div>
 
@@ -125,25 +139,32 @@
                             <input type="number" id="WhatsApp_Mitra" name="WhatsApp_Mitra" required placeholder="08XXXXXXXXXX" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                         
-                        <!-- Dropdown Datalist untuk Nama Bank -->
+                        <!-- Dropdown Select Asli untuk Bank -->
                         <div>
-                            <label for="Nama_Bank" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NAMA BANK / E-WALLET <span class="text-red-500">*</span></label>
-                            <input list="listBank" id="Nama_Bank" name="Nama_Bank" required oninput="this.value = this.value.toUpperCase()" placeholder="PILIH / KETIK NAMA BANK" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase cursor-text">
-                            <datalist id="listBank">
-                                <option value="BCA"></option>
-                                <option value="BNI"></option>
-                                <option value="BRI"></option>
-                                <option value="MANDIRI"></option>
-                                <option value="BSI"></option>
-                                <option value="CIMB NIAGA"></option>
-                                <option value="OCBC"></option>
-                                <option value="JATIM"></option>
-                                <option value="SEABANK"></option>
-                                <option value="DANA"></option>
-                                <option value="OVO"></option>
-                                <option value="GOPAY"></option>
-                                <option value="SHOPEEPAY"></option>
-                            </datalist>
+                            <label for="Pilihan_Bank" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NAMA BANK / E-WALLET <span class="text-red-500">*</span></label>
+                            <div class="select-wrapper text-warnautama dark:text-white">
+                                <select id="Pilihan_Bank" required onchange="cekBankLainnya()" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 pr-10 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-inherit appearance-none uppercase cursor-pointer">
+                                    <option value="" disabled selected>PILIH BANK / E-WALLET</option>
+                                    <option value="BCA">BCA</option>
+                                    <option value="BNI">BNI</option>
+                                    <option value="BRI">BRI</option>
+                                    <option value="MANDIRI">MANDIRI</option>
+                                    <option value="BSI">BSI</option>
+                                    <option value="CIMB NIAGA">CIMB NIAGA</option>
+                                    <option value="OCBC">OCBC</option>
+                                    <option value="JATIM">JATIM</option>
+                                    <option value="SEABANK">SEABANK</option>
+                                    <option value="DANA">DANA</option>
+                                    <option value="OVO">OVO</option>
+                                    <option value="GOPAY">GOPAY</option>
+                                    <option value="SHOPEEPAY">SHOPEEPAY</option>
+                                    <option value="LAINNYA">LAINNYA (KETIK MANUAL)</option>
+                                </select>
+                            </div>
+                            <!-- Input tersembunyi untuk nama bank asli -->
+                            <input type="hidden" id="Nama_Bank_Final" name="Nama_Bank">
+                            <!-- Input ketik manual jika pilih LAINNYA -->
+                            <input type="text" id="Nama_Bank_Lainnya" placeholder="KETIK NAMA BANK / E-WALLET" oninput="this.value = this.value.toUpperCase()" class="hidden w-full mt-3 bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
 
                         <div>
@@ -178,18 +199,22 @@
                         
                         <div>
                             <label for="Layanan_Diambil" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">LAYANAN YANG DIAMBIL <span class="text-red-500">*</span></label>
-                            <select id="Layanan_Diambil" name="Layanan_Diambil" required onchange="updateDetailPaket()" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white appearance-none uppercase">
-                                <option value="" disabled selected>PILIH LAYANAN</option>
-                                <option value="PENERBITAN">PENERBITAN</option>
-                                <option value="HAK CIPTA">HAK CIPTA</option>
-                                <option value="NIB">NIB</option>
-                            </select>
+                            <div class="select-wrapper text-warnautama dark:text-white">
+                                <select id="Layanan_Diambil" name="Layanan_Diambil" required onchange="updateDetailPaket()" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 pr-10 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-inherit appearance-none uppercase cursor-pointer">
+                                    <option value="" disabled selected>PILIH LAYANAN</option>
+                                    <option value="PENERBITAN">PENERBITAN</option>
+                                    <option value="HAK CIPTA">HAK CIPTA</option>
+                                    <option value="NIB">NIB</option>
+                                </select>
+                            </div>
                         </div>
                         <div>
                             <label for="Detail_Paket" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">DETAIL PAKET <span class="text-red-500">*</span></label>
-                            <select id="Detail_Paket" name="Detail_Paket" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white appearance-none uppercase">
-                                <option value="" disabled selected>PILIH LAYANAN DULU</option>
-                            </select>
+                            <div class="select-wrapper text-warnautama dark:text-white">
+                                <select id="Detail_Paket" name="Detail_Paket" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 pr-10 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-inherit appearance-none uppercase cursor-pointer">
+                                    <option value="" disabled selected>PILIH LAYANAN DULU</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div>
@@ -230,6 +255,21 @@
     <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>    
 
     <script>
+        // Logika memunculkan kolom ketik manual untuk Bank
+        function cekBankLainnya() {
+            const pilihan = document.getElementById('Pilihan_Bank').value;
+            const inputLainnya = document.getElementById('Nama_Bank_Lainnya');
+            
+            if (pilihan === 'LAINNYA') {
+                inputLainnya.classList.remove('hidden');
+                inputLainnya.setAttribute('required', 'true');
+            } else {
+                inputLainnya.classList.add('hidden');
+                inputLainnya.removeAttribute('required');
+                inputLainnya.value = '';
+            }
+        }
+
         // Logika Dropdown Dinamis untuk Detail Paket
         function updateDetailPaket() {
             const layanan = document.getElementById('Layanan_Diambil').value;
@@ -266,6 +306,21 @@
             setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-30px]', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 4000);
         }
 
+        function prosesSukses(loader, form, btn, waLink) {
+            if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+            showToast("LAPORAN BERHASIL DIKIRIM!", "success");
+            window.location.href = waLink; // Pindah ke WA
+            
+            // Reset form
+            setTimeout(() => {
+                form.reset();
+                document.getElementById('Detail_Paket').innerHTML = '<option value="" disabled selected>PILIH LAYANAN DULU</option>';
+                document.getElementById('Nama_Bank_Lainnya').classList.add('hidden');
+                btn.disabled = false;
+                btn.innerText = "KIRIM LAPORAN CLOSING";
+            }, 1500);
+        }
+
         function kirimFormPelaporan(e) {
             e.preventDefault();
             const f = e.target;
@@ -284,9 +339,12 @@
 
             const btn = document.getElementById('btnSubmit');
             btn.disabled = true;
-            btn.innerText = "MENGIRIM...";
+            btn.innerText = "MENGUNGGAH...";
 
             const loader = document.getElementById('loading-form');
+            // Ganti teks loading agar user tahu proses sedang mengunggah file
+            document.getElementById('loading-text').innerText = "MENGUNGGAH BUKTI INTERAKSI...\nMOHON TUNGGU SEBENTAR";
+            
             if (loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
             let subjekEl = f.querySelector('input[name="_subject"]');
@@ -300,16 +358,19 @@
             const namaKlien = document.getElementById('Nama_Klien_Gelar').value || '-';
             subjekEl.value = `PELAPORAN CLOSING: MITRA ${namaMitra} (KLIEN: ${namaKlien})`;
 
-            let formDataWA = new FormData(f);
+            // Cek nama bank (dari select atau ketikan manual)
+            const pilihanBank = document.getElementById('Pilihan_Bank').value;
+            const bankManual = document.getElementById('Nama_Bank_Lainnya').value;
+            const namaBankFinal = (pilihanBank === 'LAINNYA') ? bankManual : pilihanBank;
+            document.getElementById('Nama_Bank_Final').value = namaBankFinal;
+
             let pesanWA = `Halo Admin Media Tulisan Manusia,\nSaya bermaksud mengirimkan *FORMAT PELAPORAN CLOSING KLIEN*.\n\n*DATA MITRA (FREELANCE)*\n`;
             
             const idMitra = document.getElementById('ID_Mitra').value;
-            if(idMitra) {
-                pesanWA += `- ID Mitra: ${idMitra}\n`;
-            }
+            if(idMitra) { pesanWA += `- ID Mitra: ${idMitra}\n`; }
             pesanWA += `- Nama Mitra: ${namaMitra}\n`;
             pesanWA += `- No. WhatsApp Mitra: ${document.getElementById('WhatsApp_Mitra').value}\n`;
-            pesanWA += `- Nama Bank/E-Wallet: ${document.getElementById('Nama_Bank').value}\n`;
+            pesanWA += `- Nama Bank/E-Wallet: ${namaBankFinal}\n`;
             pesanWA += `- No. Rekening: ${document.getElementById('Nomor_Rekening').value}\n`;
             pesanWA += `- Atas Nama (A/N): ${document.getElementById('Nama_Pemilik').value}\n\n`;
             
@@ -321,28 +382,35 @@
             pesanWA += `- Detail Paket: ${document.getElementById('Detail_Paket').value}\n`;
             pesanWA += `- Nilai Transaksi: ${document.getElementById('Nilai_Transaksi').value}\n`;
             pesanWA += `- Status Pembayaran: ${document.getElementById('Status_Pembayaran').value}\n\n`;
-
             pesanWA += `_(Catatan: Bukti interaksi klien telah saya unggah melalui sistem website)._`;
             
             const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
 
-            f.action = "https://formsubmit.co/tulisanmanusiaku@gmail.com";
+            // Arahkan form langsung ke email yang diminta
+            f.action = "https://formsubmit.co/sufyanwahyudi17@gmail.com";
             f.method = "POST";
             f.enctype = "multipart/form-data";
             f.target = "hidden-iframe-upload";
             f.submit();
 
+            // Mencegah "nyendet": Gunakan event listener onload pada iframe 
+            // agar WA baru terbuka SETELAH file benar-benar selesai diunggah.
+            let disubmitSelesai = false;
+            
+            document.getElementById('hidden-iframe-upload').onload = function() {
+                if(!disubmitSelesai) {
+                    disubmitSelesai = true;
+                    prosesSukses(loader, f, btn, linkWhatsAppLangsung);
+                }
+            };
+
+            // Keamanan tambahan (fallback) jika iframe gagal men-trigger onload
             setTimeout(() => {
-                if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
-                showToast("LAPORAN BERHASIL DIKIRIM!", "success");
-                window.location.href = linkWhatsAppLangsung;
-                setTimeout(() => {
-                    f.reset();
-                    document.getElementById('Detail_Paket').innerHTML = '<option value="" disabled selected>PILIH LAYANAN DULU</option>';
-                    btn.disabled = false;
-                    btn.innerText = "KIRIM LAPORAN CLOSING";
-                }, 1500);
-            }, 4000);
+                if(!disubmitSelesai) {
+                    disubmitSelesai = true;
+                    prosesSukses(loader, f, btn, linkWhatsAppLangsung);
+                }
+            }, 8000); // Tunggu maksimal 8 detik untuk ukuran file upload yang besar
         }
     </script>
 </body>
