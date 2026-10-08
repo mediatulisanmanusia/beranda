@@ -2,7 +2,6 @@
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <!-- Optimasi Viewport iOS: Mencegah auto-zoom yang mengganggu -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#07192C">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07192C">
@@ -24,20 +23,9 @@
         }
     </script>
     <style>
-        /* Perbaikan Anti-Lag & Smooth UI khusus iOS (Safari) */
-        body { 
-            transition: background-color 0.5s ease, color 0.5s ease; 
-            overflow-x: hidden; 
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+        body { transition: background-color 0.5s ease, color 0.5s ease; overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;}
+        input, select, textarea, button { -webkit-appearance: none; appearance: none; }
         
-        /* Mencegah default style dari iOS Safari */
-        input, select, textarea, button {
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
         .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
         .dark .bg-custom-gradient { background: linear-gradient(135deg, #1b1b1b 0%, #181818 50%, #151515 100%); }
         
@@ -57,21 +45,23 @@
             position: absolute; bottom: -100px; 
             background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.05) 100%); 
             border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; 
-            /* Memaksa GPU rendering (3D) di iOS */
             animation: floatUp 15s infinite linear; 
             -webkit-transform: translate3d(0,0,0);
         }
         .dark .bubble { background: radial-gradient(circle at 30% 30%, rgba(10,37,64,0.6), rgba(10,37,64,0.2) 60%, rgba(10,37,64,0.05) 100%); border: 1px solid rgba(10,37,64,0.4); }
         
-        @keyframes floatUp { 
-            0% { transform: translate3d(0, 110vh, 0) scale(0); opacity: 0; } 
-            10% { opacity: 1; } 
-            90% { opacity: 1; } 
-            100% { transform: translate3d(0, -10vh, 0) scale(1.5); opacity: 0; } 
-        }
+        @keyframes floatUp { 0% { transform: translate3d(0, 110vh, 0) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate3d(0, -10vh, 0) scale(1.5); opacity: 0; } }
         
         .b1 { left: 10%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 0s; } .b2 { left: 25%; width: 40px; height: 40px; animation-duration: 18s; animation-delay: 2s; } .b3 { left: 45%; width: 80px; height: 80px; animation-duration: 14s; animation-delay: 4s; }
         #toast-container { z-index: 999999; }
+
+        /* Custom style untuk Datalist Arrow agar terlihat seperti select biasa */
+        input::-webkit-calendar-picker-indicator {
+            opacity: 1;
+            cursor: pointer;
+            color: #0A2540;
+        }
+        .dark input::-webkit-calendar-picker-indicator { filter: invert(1); }
     </style>
 </head>
 <body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-screen">
@@ -81,7 +71,7 @@
     <div id="loading-form" class="fixed inset-0 z-[99999] bg-white/80 dark:bg-black/80 flex items-center justify-center transition-opacity duration-500 hidden opacity-0">
         <div class="flex flex-col items-center">
             <img src="load.webp" alt="Loading" class="h-20 w-auto object-contain animate-pulse mb-4 drop-shadow-md">
-            <p class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse">Mengirim Data...</p>
+            <p class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse">MENGIRIM DATA...</p>
         </div>
     </div>
 
@@ -90,7 +80,6 @@
     <div class="fixed top-10 -left-10 w-96 h-96 rounded-full pointer-events-none z-0 dark:hidden" style="background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 60%);"></div>
     <div class="fixed top-10 -left-10 w-96 h-96 rounded-full pointer-events-none z-0 hidden dark:block" style="background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);"></div>
 
-    <!-- Header -->
     <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
         <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.location.href='index.html'">
             <img src="rev1.png" alt="Logo MTM" class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain dark:hidden">
@@ -110,34 +99,60 @@
         
         <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl animate-fade-up">
             <div class="text-center mb-10 border-b border-gray-300 dark:border-gray-700 pb-6">
-                <h2 class="text-2xl md:text-3xl font-black text-warnautama dark:text-white uppercase tracking-tight">Form Pelaporan Closing</h2>
-                <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-2 font-medium">Jaringan Kemitraan Freelance PT Media Tulisan Manusia</p>
+                <h2 class="text-2xl md:text-3xl font-black text-warnautama dark:text-white uppercase tracking-tight">PELAPORAN CLOSING</h2>
+                <!-- Teks diperkecil agar rapi di HP -->
+                <p class="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 mt-2 font-black uppercase tracking-widest">JARINGAN KEMITRAAN FREELANCE PT MEDIA TULISAN MANUSIA</p>
             </div>
 
-            <form id="formClosing" onsubmit="kirimFormPelaporan(event)" class="space-y-6 text-left">
+            <form id="formClosing" onsubmit="kirimFormPelaporan(event)" class="space-y-6 text-left uppercase">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
                 
                 <!-- BAGIAN DATA MITRA -->
                 <div class="mb-8">
-                    <h3 class="text-sm font-black text-warnakedua uppercase tracking-widest mb-4 border-l-4 border-warnakedua pl-3">Data Mitra (Freelance)</h3>
-                    <!-- Class text-[16px] ditambahkan pada semua input untuk anti-zoom iOS -->
+                    <h3 class="text-sm font-black text-warnakedua uppercase tracking-widest mb-4 border-l-4 border-warnakedua pl-3">DATA MITRA (FREELANCE)</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label for="ID_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">ID Mitra (Opsional)</label>
-                            <input type="text" id="ID_Mitra" name="ID_Mitra" placeholder="Contoh: 202***" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="ID_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">ID MITRA</label>
+                            <input type="text" id="ID_Mitra" name="ID_Mitra" oninput="this.value = this.value.toUpperCase()" placeholder="CONTOH: 202***" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                         <div>
-                            <label for="Nama_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nama Mitra <span class="text-red-500">*</span></label>
-                            <input type="text" id="Nama_Mitra" name="Nama_Mitra" required placeholder="Masukkan nama lengkap Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="Nama_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NAMA MITRA <span class="text-red-500">*</span></label>
+                            <input type="text" id="Nama_Mitra" name="Nama_Mitra" required oninput="this.value = this.value.toUpperCase()" placeholder="NAMA LENGKAP ANDA" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                         <div>
-                            <label for="WhatsApp_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">No. WhatsApp Mitra <span class="text-red-500">*</span></label>
-                            <input type="number" id="WhatsApp_Mitra" name="WhatsApp_Mitra" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="WhatsApp_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NO. WHATSAPP MITRA <span class="text-red-500">*</span></label>
+                            <input type="number" id="WhatsApp_Mitra" name="WhatsApp_Mitra" required placeholder="08XXXXXXXXXX" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
+                        </div>
+                        
+                        <!-- Dropdown Datalist untuk Nama Bank -->
+                        <div>
+                            <label for="Nama_Bank" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NAMA BANK / E-WALLET <span class="text-red-500">*</span></label>
+                            <input list="listBank" id="Nama_Bank" name="Nama_Bank" required oninput="this.value = this.value.toUpperCase()" placeholder="PILIH / KETIK NAMA BANK" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase cursor-text">
+                            <datalist id="listBank">
+                                <option value="BCA"></option>
+                                <option value="BNI"></option>
+                                <option value="BRI"></option>
+                                <option value="MANDIRI"></option>
+                                <option value="BSI"></option>
+                                <option value="CIMB NIAGA"></option>
+                                <option value="OCBC"></option>
+                                <option value="JATIM"></option>
+                                <option value="SEABANK"></option>
+                                <option value="DANA"></option>
+                                <option value="OVO"></option>
+                                <option value="GOPAY"></option>
+                                <option value="SHOPEEPAY"></option>
+                            </datalist>
+                        </div>
+
+                        <div>
+                            <label for="Nomor_Rekening" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NOMOR REKENING <span class="text-red-500">*</span></label>
+                            <input type="number" id="Nomor_Rekening" name="Nomor_Rekening" required placeholder="CONTOH: 1234567890" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                         <div>
-                            <label for="Rekening_Bank_Mitra" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Rekening & Bank <span class="text-red-500">*</span></label>
-                            <input type="text" id="Rekening_Bank_Mitra" name="Rekening_Bank_Mitra" required placeholder="Cth: BCA 1234 a/n Budi" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="Nama_Pemilik" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NAMA PEMILIK (A/N) <span class="text-red-500">*</span></label>
+                            <input type="text" id="Nama_Pemilik" name="Nama_Pemilik" required oninput="this.value = this.value.toUpperCase()" placeholder="SESUAI BUKU TABUNGAN" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                     </div>
                 </div>
@@ -146,50 +161,53 @@
 
                 <!-- BAGIAN DATA KLIEN -->
                 <div class="mb-8">
-                    <h3 class="text-sm font-black text-warnakedua uppercase tracking-widest mb-4 border-l-4 border-warnakedua pl-3">Data Klien (Yang Sudah Deal)</h3>
+                    <h3 class="text-sm font-black text-warnakedua uppercase tracking-widest mb-4 border-l-4 border-warnakedua pl-3">DATA KLIEN (YANG SUDAH DEAL)</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label for="Nama_Klien_Gelar" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nama Klien & Gelar <span class="text-red-500">*</span></label>
-                            <input type="text" id="Nama_Klien_Gelar" name="Nama_Klien_Gelar" required placeholder="Tuliskan nama beserta gelar" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="Nama_Klien_Gelar" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NAMA KLIEN & GELAR <span class="text-red-500">*</span></label>
+                            <input type="text" id="Nama_Klien_Gelar" name="Nama_Klien_Gelar" required oninput="this.value = this.value.toUpperCase()" placeholder="NAMA BESERTA GELAR" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                         <div>
-                            <label for="WhatsApp_Klien" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">No. WhatsApp Klien <span class="text-red-500">*</span></label>
-                            <input type="number" id="WhatsApp_Klien" name="WhatsApp_Klien" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="WhatsApp_Klien" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NO. WHATSAPP KLIEN <span class="text-red-500">*</span></label>
+                            <input type="number" id="WhatsApp_Klien" name="WhatsApp_Klien" required placeholder="08XXXXXXXXXX" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                         <div class="md:col-span-2">
-                            <label for="Instansi_Klien" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Instansi / Asal Usaha (Opsional)</label>
-                            <input type="text" id="Instansi_Klien" name="Instansi_Klien" placeholder="Contoh: Dosen Univ X / UMKM Kuliner Y" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="Instansi_Klien" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">INSTANSI / ASAL USAHA</label>
+                            <input type="text" id="Instansi_Klien" name="Instansi_Klien" oninput="this.value = this.value.toUpperCase()" placeholder="CONTOH: DOSEN UNIV X / UMKM Y" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
+                        
                         <div>
-                            <label for="Layanan_Diambil" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Layanan yang Diambil <span class="text-red-500">*</span></label>
-                            <select id="Layanan_Diambil" name="Layanan_Diambil" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white appearance-none">
-                                <option value="" disabled selected>Pilih Layanan</option>
-                                <option value="Penerbitan QRCBN">Penerbitan QRCBN</option>
-                                <option value="HKI DJKI">HKI DJKI</option>
-                                <option value="Paket Bundling">Paket Bundling</option>
+                            <label for="Layanan_Diambil" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">LAYANAN YANG DIAMBIL <span class="text-red-500">*</span></label>
+                            <select id="Layanan_Diambil" name="Layanan_Diambil" required onchange="updateDetailPaket()" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white appearance-none uppercase">
+                                <option value="" disabled selected>PILIH LAYANAN</option>
+                                <option value="PENERBITAN">PENERBITAN</option>
+                                <option value="HAK CIPTA">HAK CIPTA</option>
+                                <option value="NIB">NIB</option>
                             </select>
                         </div>
                         <div>
-                            <label for="Detail_Paket" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Detail Paket <span class="text-red-500">*</span></label>
-                            <input type="text" id="Detail_Paket" name="Detail_Paket" required placeholder="Misal: Paket QRCBN Standar" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="Detail_Paket" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">DETAIL PAKET <span class="text-red-500">*</span></label>
+                            <select id="Detail_Paket" name="Detail_Paket" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white appearance-none uppercase">
+                                <option value="" disabled selected>PILIH LAYANAN DULU</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="Nilai_Transaksi" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">NILAI TRANSAKSI KLIEN <span class="text-red-500">*</span></label>
+                            <input type="text" id="Nilai_Transaksi" name="Nilai_Transaksi" required oninput="this.value = this.value.toUpperCase()" placeholder="CONTOH: RP1.500.000" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                         <div>
-                            <label for="Nilai_Transaksi" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Nilai Transaksi Klien <span class="text-red-500">*</span></label>
-                            <input type="text" id="Nilai_Transaksi" name="Nilai_Transaksi" required placeholder="Contoh: Rp1.500.000" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
-                        </div>
-                        <div>
-                            <label for="Status_Pembayaran" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">Status Pembayaran <span class="text-red-500">*</span></label>
-                            <input type="text" id="Status_Pembayaran" name="Status_Pembayaran" required placeholder="Contoh: Lunas (Rp1.500.000)" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white">
+                            <label for="Status_Pembayaran" class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase tracking-wider">STATUS PEMBAYARAN <span class="text-red-500">*</span></label>
+                            <input type="text" id="Status_Pembayaran" name="Status_Pembayaran" required oninput="this.value = this.value.toUpperCase()" placeholder="CONTOH: LUNAS (RP1.500.000)" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-4 text-[16px] font-medium focus:outline-none focus:border-warnautama transition shadow-inner text-warnautama dark:text-white uppercase">
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem]">
                     <div class="text-left">
-                        <label for="Bukti_Interaksi" class="block text-[11px] font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wider">Upload Bukti Interaksi dengan Klien (Bisa lebih dari satu) <span class="text-red-500">*</span></label>
-                        <!-- Input file dijaga tetap kompatibel iOS -->
-                        <input type="file" id="Bukti_Interaksi" name="Bukti_Interaksi[]" multiple accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition shadow-inner bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium ml-2">* Format: JPG/PNG. Anda dapat memilih beberapa file sekaligus. Maksimal 3MB per file.</p>
+                        <label for="Bukti_Interaksi" class="block text-[11px] font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wider">UPLOAD BUKTI INTERAKSI KLIEN (BISA LEBIH DARI SATU) <span class="text-red-500">*</span></label>
+                        <input type="file" id="Bukti_Interaksi" name="Bukti_Interaksi[]" multiple accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition shadow-inner bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer uppercase">
+                        <p class="text-[10px] text-gray-500 mt-2 font-medium ml-2 uppercase">* FORMAT: JPG/PNG. MAKSIMAL 3MB PER FILE.</p>
                     </div>
                 </div>
 
@@ -201,10 +219,10 @@
     </main>
 
     <!-- Footer Copyright -->
-    <footer class="w-full pb-8 flex justify-center items-center relative z-10 mt-10">
+    <footer class="w-full pb-8 flex justify-center items-center relative z-10 mt-10 uppercase">
         <div class="text-center text-[10px] md:text-xs w-full">
-            <p class="text-warnautama dark:text-gray-400">Copyright &copy; Since 2022 - All Rights Reserved</p>
-            <p class="mt-1 text-gray-600 dark:text-gray-500">Created with passion by</p>
+            <p class="text-warnautama dark:text-gray-400">COPYRIGHT &copy; SINCE 2022 - ALL RIGHTS RESERVED</p>
+            <p class="mt-1 text-gray-600 dark:text-gray-500">CREATED WITH PASSION BY</p>
             <p class="font-bold text-warnautama dark:text-white mt-0.5">PT MEDIA TULISAN MANUSIA</p>
         </div>
     </footer>
@@ -212,12 +230,36 @@
     <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>    
 
     <script>
+        // Logika Dropdown Dinamis untuk Detail Paket
+        function updateDetailPaket() {
+            const layanan = document.getElementById('Layanan_Diambil').value;
+            const detailSelect = document.getElementById('Detail_Paket');
+            
+            detailSelect.innerHTML = '<option value="" disabled selected>PILIH DETAIL PAKET</option>';
+            
+            let options = [];
+            if (layanan === 'PENERBITAN') {
+                options = ['PENERBITAN STANDAR', 'PENERBITAN EKSKLUSIF'];
+            } else if (layanan === 'HAK CIPTA') {
+                options = ['HAK CIPTA KARYA TULIS', 'HAK CIPTA UMUM'];
+            } else if (layanan === 'NIB') {
+                options = ['PEMBUATAN NIB'];
+            }
+
+            options.forEach(opt => {
+                const optionElement = document.createElement('option');
+                optionElement.value = opt;
+                optionElement.textContent = opt;
+                detailSelect.appendChild(optionElement);
+            });
+        }
+
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
             const icon = type === 'success' ? '✅' : '❌';
-            toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
+            toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto uppercase`;
             toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => { toast.classList.remove('translate-y-[-30px]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100'); }, 10);
@@ -233,7 +275,7 @@
                 if (i.files.length > 0) {
                     for (let j = 0; j < i.files.length; j++) {
                         if ((i.files[j].size / 1024 / 1024) > 3) {
-                            showToast(`Berkas ke-${j+1} melebihi batas 3MB. Harap diperkecil.`, 'error');
+                            showToast(`BERKAS KE-${j+1} MELEBIHI 3MB.`, 'error');
                             return;
                         }
                     }
@@ -256,7 +298,7 @@
             }
             const namaMitra = document.getElementById('Nama_Mitra').value || '-';
             const namaKlien = document.getElementById('Nama_Klien_Gelar').value || '-';
-            subjekEl.value = `Pelaporan Closing: Mitra ${namaMitra} (Klien: ${namaKlien})`;
+            subjekEl.value = `PELAPORAN CLOSING: MITRA ${namaMitra} (KLIEN: ${namaKlien})`;
 
             let formDataWA = new FormData(f);
             let pesanWA = `Halo Admin Media Tulisan Manusia,\nSaya bermaksud mengirimkan *FORMAT PELAPORAN CLOSING KLIEN*.\n\n*DATA MITRA (FREELANCE)*\n`;
@@ -267,7 +309,9 @@
             }
             pesanWA += `- Nama Mitra: ${namaMitra}\n`;
             pesanWA += `- No. WhatsApp Mitra: ${document.getElementById('WhatsApp_Mitra').value}\n`;
-            pesanWA += `- Rekening Pencairan: ${document.getElementById('Rekening_Bank_Mitra').value}\n\n`;
+            pesanWA += `- Nama Bank/E-Wallet: ${document.getElementById('Nama_Bank').value}\n`;
+            pesanWA += `- No. Rekening: ${document.getElementById('Nomor_Rekening').value}\n`;
+            pesanWA += `- Atas Nama (A/N): ${document.getElementById('Nama_Pemilik').value}\n\n`;
             
             pesanWA += `*DATA KLIEN (YANG SUDAH DEAL)*\n`;
             pesanWA += `- Nama Klien: ${namaKlien}\n`;
@@ -290,10 +334,11 @@
 
             setTimeout(() => {
                 if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
-                showToast("Laporan Berhasil Dikirim!", "success");
+                showToast("LAPORAN BERHASIL DIKIRIM!", "success");
                 window.location.href = linkWhatsAppLangsung;
                 setTimeout(() => {
                     f.reset();
+                    document.getElementById('Detail_Paket').innerHTML = '<option value="" disabled selected>PILIH LAYANAN DULU</option>';
                     btn.disabled = false;
                     btn.innerText = "KIRIM LAPORAN CLOSING";
                 }, 1500);
