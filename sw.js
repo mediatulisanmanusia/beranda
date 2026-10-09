@@ -8,6 +8,7 @@ const urlsToCache = [
   '/rev.png',
   '/rev1.png',
   '/rev2.png',
+  '/rev3.png',
   '/load.webp',
   '/mascipta.webp',
   '/menyapa.webp'
