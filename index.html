@@ -2281,7 +2281,30 @@ function filterLiterasi() {
   }
 
   function toggleTema() { document.documentElement.classList.toggle('dark'); }
-  function toggleNavMenu() { document.getElementById('nav-dropdown').classList.toggle('hidden'); }
+  function toggleNavMenu() {
+      const navDropdown = document.getElementById('nav-dropdown');
+      const menuBtn = document.querySelector('button[onclick="toggleNavMenu()"]');
+      const isHidden = navDropdown.classList.contains('hidden');
+
+      if (isHidden) {
+          navDropdown.classList.remove('hidden');
+          menuBtn.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+      } else {
+          navDropdown.classList.add('hidden');
+          menuBtn.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>`;
+      }
+  }
+  document.addEventListener('click', function(event) {
+      const navDropdown = document.getElementById('nav-dropdown');
+      const menuBtn = document.querySelector('button[onclick="toggleNavMenu()"]');
+      
+      if (navDropdown && !navDropdown.classList.contains('hidden')) {
+          if (!navDropdown.contains(event.target) && !menuBtn.contains(event.target)) {
+              navDropdown.classList.add('hidden');
+              menuBtn.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>`;
+          }
+      }
+  });
   function toggleSubMenu() { document.getElementById('sub-penelusuran').classList.toggle('hidden'); document.getElementById('panah-sub').classList.toggle('rotate-180'); }
   function gulirKe(targetId) { bukaHalaman('beranda'); document.getElementById('nav-dropdown').classList.add('hidden'); setTimeout(() => { const el = document.getElementById(targetId); if(el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }
   
