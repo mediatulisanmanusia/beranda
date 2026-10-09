@@ -1,6 +1,5 @@
-const CACHE_NAME = 'mtm-cache-v1';
+const CACHE_NAME = 'mtm-cache-v2';
 
-// Daftar file dasar yang akan disimpan di perangkat pengguna agar aplikasi memuat lebih cepat
 const urlsToCache = [
   '/',
   '/index.html',
@@ -14,7 +13,6 @@ const urlsToCache = [
   '/menyapa.webp'
 ];
 
-// Proses Instalasi Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -25,13 +23,11 @@ self.addEventListener('install', event => {
   );
 });
 
-// Proses Pengambilan Data (Fetch)
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Jika file ada di cache, gunakan itu. Jika tidak, ambil dari internet (jaringan).
-        if (response) {
+          if (response) {
           return response;
         }
         return fetch(event.request);
@@ -39,7 +35,6 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// Proses Pembersihan Cache Lama saat ada pembaruan
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
