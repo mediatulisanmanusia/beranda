@@ -21,49 +21,32 @@
         }
     </script>
     
-    <!-- Font Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Poppins', sans-serif; transition: background-color 0.5s ease, color 0.5s ease; -webkit-font-smoothing: antialiased; }
-        
         .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
         .dark .bg-custom-gradient { background: linear-gradient(135deg, #000000 0%, #111111 50%, #050505 100%); }
-        
-        .glass-header { 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 250, 250, 0.85) 100%); 
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
-        }
-        .dark .glass-header { 
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(17, 17, 17, 0.7) 100%); 
-        }
-        
-        .glass-glow {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);
-            border-radius: 2rem;
-            box-shadow: 0 0 20px rgba(255, 192, 0, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.05);
-            border-top: 4px solid #000000;
-        }
-        .dark .glass-glow {
-            background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(10, 10, 10, 1) 100%);
-            border-top: 4px solid #ffffff;
-            box-shadow: 0 0 20px rgba(255, 192, 0, 0.1), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-        }
+        .glass-header { background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 250, 250, 0.85) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .dark .glass-header { background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(17, 17, 17, 0.7) 100%); }
+        .glass-glow { background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%); border-radius: 2rem; box-shadow: 0 0 20px rgba(255, 192, 0, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.05); border-top: 4px solid #000000; }
+        .dark .glass-glow { background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(10, 10, 10, 1) 100%); border-top: 4px solid #ffffff; box-shadow: 0 0 20px rgba(255, 192, 0, 0.1), 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
     </style>
 </head>
 <body class="bg-custom-gradient text-warnautama dark:text-gray-200 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
-    <!-- Animasi Latar Belakang Blur -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div class="absolute top-10 -left-10 w-96 h-96 rounded-full mix-blend-multiply dark:mix-blend-screen" style="background: radial-gradient(circle, rgba(255, 192, 0, 0.15) 0%, transparent 70%);"></div>
         <div class="absolute top-[35%] -right-10 w-96 h-96 rounded-full mix-blend-multiply dark:mix-blend-screen" style="background: radial-gradient(circle, rgba(230, 168, 0, 0.12) 0%, transparent 70%);"></div>
     </div>
 
-    <!-- HEADER -->
+    <!-- HEADER DENGAN LOGO -->
     <header class="fixed top-4 left-0 right-0 mx-auto w-[95%] sm:w-11/12 max-w-[1200px] glass-header rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between z-50 shadow-lg border border-gray-200/50 dark:border-gray-800/80 transition-colors">
         <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <!-- Bisa ganti teks ini dengan tag <img> logo jika mau -->
-            <span class="text-[12px] sm:text-base md:text-lg font-black tracking-widest text-warnautama dark:text-white uppercase leading-none mt-0.5">MEDIA TULISAN MANUSIA</span>
+            <!-- Logo Rev 1 (Mode Terang) -->
+            <img src="rev1.png" alt="Media Tulisan Manusia" class="h-6 sm:h-8 md:h-10 w-auto object-contain dark:hidden" onerror="this.style.display='none';">
+            <!-- Logo Rev 2 (Mode Gelap) -->
+            <img src="rev2.png" alt="Media Tulisan Manusia" class="h-6 sm:h-8 md:h-10 w-auto object-contain hidden dark:block" onerror="this.style.display='none';">
         </div>
         
         <div class="flex items-center gap-2 sm:gap-4">
@@ -79,7 +62,6 @@
 
     <div class="h-28 sm:h-32"></div>
 
-    <!-- KONTEN UTAMA -->
     <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-8 w-full pb-16 relative z-10">
         <div class="glass-glow p-6 sm:p-10 md:p-14">
             
@@ -89,12 +71,10 @@
             </div>
 
             <div class="space-y-8 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed font-medium text-justify">
-                
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">1. Pendahuluan</h2>
                     <p>Selamat datang di <strong>PT Media Tulisan Manusia</strong> (melalui situs web mediatulisanmanusia.com). Dengan mengakses situs web ini dan menggunakan layanan kami, Anda menyatakan setuju untuk terikat dengan Syarat dan Ketentuan ini. Jika Anda tidak setuju dengan bagian mana pun dari ketentuan ini, Anda tidak diperkenankan menggunakan layanan kami.</p>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">2. Layanan Kami</h2>
                     <p class="mb-2">PT Media Tulisan Manusia menyediakan berbagai layanan yang berfokus pada dunia literasi dan legalitas karya, meliputi namun tidak terbatas pada:</p>
@@ -104,13 +84,11 @@
                         <li>Platform media literasi untuk publikasi karya pendek (cerpen, pentigraf, puisi, artikel, dll).</li>
                     </ul>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">3. Hak Kekayaan Intelektual (HAKI)</h2>
                     <p class="mb-3">Hak Cipta atas setiap naskah atau karya yang dikirimkan dan diterbitkan melalui platform atau layanan penerbitan PT Media Tulisan Manusia tetap sepenuhnya menjadi milik Penulis/Kreator asli, kecuali diatur lain dalam surat perjanjian terpisah.</p>
                     <p>Pengguna secara tegas dilarang mengunggah, mengirimkan, atau memublikasikan karya hasil plagiasi atau karya yang melanggar hak kekayaan intelektual pihak lain. Segala tuntutan hukum yang timbul akibat pelanggaran hak cipta pada naskah yang dikirimkan sepenuhnya menjadi tanggung jawab penulis/pengirim karya.</p>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">4. Ketentuan Pengiriman Karya dan Penggunaan Situs</h2>
                     <p class="mb-2">Sebagai pengguna, Anda setuju untuk mematuhi aturan berikut:</p>
@@ -120,27 +98,22 @@
                         <li>PT Media Tulisan Manusia berhak penuh untuk menolak, menghapus, atau membatalkan penerbitan karya yang dinilai melanggar kebijakan redaksional kami tanpa kewajiban memberikan ganti rugi.</li>
                     </ul>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">5. Akun dan Keamanan Data Pribadi</h2>
                     <p>Saat menggunakan fitur otentikasi atau mendaftar di platform kami, Anda bertanggung jawab penuh untuk menjaga kerahasiaan informasi akun Anda. PT Media Tulisan Manusia berkomitmen menjaga data pribadi (seperti nama, email, dan nomor telepon) dan tidak akan menjual data tersebut kepada pihak ketiga. Informasi lebih lanjut terkait pengelolaan data diatur secara terpisah dalam Kebijakan Privasi.</p>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">6. Batasan Tanggung Jawab</h2>
                     <p>PT Media Tulisan Manusia berupaya semaksimal mungkin menjaga keandalan situs web dan ketepatan waktu layanan. Namun, kami tidak bertanggung jawab atas kerugian langsung maupun tidak langsung yang timbul akibat gangguan teknis, kegagalan sistem, atau keadaan kahar (force majeure) yang berada di luar kendali kami.</p>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">7. Perubahan Syarat dan Ketentuan</h2>
                     <p>PT Media Tulisan Manusia berhak untuk mengubah, memodifikasi, atau memperbarui Syarat dan Ketentuan ini kapan saja tanpa pemberitahuan sebelumnya. Perubahan akan langsung berlaku setelah diterbitkan di halaman ini. Pengguna disarankan untuk meninjau halaman ini secara berkala.</p>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">8. Hukum yang Berlaku dan Yurisdiksi</h2>
                     <p>Syarat dan Ketentuan ini diatur dan ditafsirkan berdasarkan hukum yang berlaku di Republik Indonesia. Segala perselisihan yang timbul sehubungan dengan layanan PT Media Tulisan Manusia akan diselesaikan secara musyawarah, dan apabila tidak mencapai mufakat, akan diselesaikan melalui yurisdiksi pengadilan negeri yang berwenang.</p>
                 </section>
-
                 <section>
                     <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">9. Kontak Kami</h2>
                     <p class="mb-2">Jika Anda memiliki pertanyaan terkait Syarat dan Ketentuan ini, Anda dapat menghubungi kami melalui:</p>
@@ -150,21 +123,22 @@
                         <li class="flex items-center gap-2"><span class="w-2 h-2 bg-warnakedua rounded-full"></span> <strong>Kantor Pusat:</strong> Sukorejo, Pasuruan, Jawa Timur</li>
                     </ul>
                 </section>
-
             </div>
         </div>
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER DENGAN LOGO WEBP -->
     <footer class="mt-auto px-4 sm:px-6 py-8 bg-white/90 dark:bg-[#111111]/90 backdrop-blur-xl text-center relative z-10 border-t border-gray-200 dark:border-[#222]">
         <div class="relative z-10 flex flex-col items-center w-full max-w-4xl mx-auto">
-            <h3 class="font-black text-sm sm:text-base mb-1 text-warnautama dark:text-white tracking-widest uppercase">PT MEDIA TULISAN MANUSIA</h3>
+            <!-- Logo Footer 1 (Mode Terang) -->
+            <img src="footer1.webp" alt="Logo Footer MTM" class="h-10 sm:h-12 w-auto object-contain mb-3 dark:hidden" onerror="this.style.display='none';">
+            <!-- Logo Footer 2 (Mode Gelap) -->
+            <img src="footer2.webp" alt="Logo Footer MTM" class="h-10 sm:h-12 w-auto object-contain mb-3 hidden dark:block" onerror="this.style.display='none';">
             <p class="text-[9px] sm:text-[10px] md:text-xs text-gray-500 font-medium uppercase tracking-wider">Copyright &copy; Since 2023 - All Rights Reserved</p>
         </div>
     </footer>
 
     <script>
-        // Inisialisasi Tema
         if (localStorage.getItem("theme") === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
             document.documentElement.classList.add("dark");
         } else {
