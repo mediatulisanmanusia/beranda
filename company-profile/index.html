@@ -349,6 +349,100 @@
             </div>
         </footer>
     </div>
+        <!-- ========================================== -->
+    <!-- KODE GELEMBUNG (MODAL) & SCRIPT UNTUK FOOTER -->
+    <!-- ========================================== -->
+
+    <!-- 1. CSS Animasi Modal (Jaga-jaga jika belum ada di atas) -->
+    <style>
+        .modal-overlay { opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { transform: scale(0.95); transition: all 0.3s ease-in-out; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+    </style>
+
+    <!-- 2. Modal Syarat & Ketentuan -->
+    <div id="modalSyarat" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl flex flex-col" style="background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);">
+            <button onclick="tutupModal('modalSyarat')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
+            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Syarat & Ketentuan</h3>
+            <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium mb-6">
+                <p>1. <strong>Orisinalitas:</strong> Klien menjamin karya orisinal dan bebas plagiarisme.</p>
+                <p>2. <strong>Etika:</strong> Karya tidak mengandung SARA/Pornografi.</p>
+                <p>3. <strong>Hak Cipta:</strong> Kami fasilitator legalitas, hak komersial tetap milik klien.</p>
+                <p>4. <strong>Pembayaran:</strong> <em>Non-refundable</em> jika dibatalkan sepihak.</p>
+            </div>
+            <a href="../index.html?buka=syarat" class="w-full text-center bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3.5 rounded-xl hover:scale-[1.02] transition shadow-md uppercase tracking-widest text-xs sm:text-sm mt-auto border border-warnautama/20">Baca Selengkapnya</a>
+        </div>
+    </div>
+
+    <!-- 3. Modal Kebijakan Privasi -->
+    <div id="modalPrivasi" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl flex flex-col" style="background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);">
+            <button onclick="tutupModal('modalPrivasi')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
+            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Kebijakan Privasi</h3>
+            <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium mb-6">
+                <p>1. <strong>Kerahasiaan (NDA):</strong> Naskah dilindungi, tidak akan digandakan tanpa izin.</p>
+                <p>2. <strong>Data KTP:</strong> Hanya untuk pendaftaran legalitas QRCBN/ISBN/HKI.</p>
+                <p>3. <strong>Keamanan:</strong> Data tidak akan dijual/disewakan ke pihak ketiga.</p>
+            </div>
+            <a href="../index.html?buka=privasi" class="w-full text-center bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3.5 rounded-xl hover:scale-[1.02] transition shadow-md uppercase tracking-widest text-xs sm:text-sm mt-auto border border-warnautama/20">Baca Selengkapnya</a>
+        </div>
+    </div>
+
+    <!-- 4. Modal Kontak Kami -->
+    <div id="modalKontak" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-4xl glass p-6 md:p-10 relative max-h-[90vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl" style="background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);">
+            <button onclick="tutupModal('modalKontak')" class="absolute top-4 right-5 text-gray-400 hover:text-red-500 font-bold text-3xl z-10">&times;</button>
+            <h2 class="text-xl md:text-2xl font-black text-warnautama dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">Hubungi Kami</h2>
+            <div class="md:flex gap-8">
+                <div class="flex-1 space-y-5 text-left mb-8 md:mb-0">
+                    <div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">WA Bisnis</p>
+                        <a href="https://wa.me/6288294448222" target="_blank" class="font-black text-lg md:text-xl text-warnautama dark:text-white hover:text-warnakedua transition">0882 9444 8222</a>
+                    </div>
+                    <div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Email</p>
+                        <p class="text-xs sm:text-sm font-bold text-warnautama dark:text-gray-300 break-all">ptmediatulisanmanusia@gmail.com</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Jam & Kantor</p>
+                        <p class="text-xs sm:text-sm text-warnautama dark:text-gray-300 font-medium leading-relaxed">Senin-Sabtu 08.00-16.00 WIB<br>Jl. Supriyadi No.48 Malang<br>Jl. Raya Sukorejo No. 19, Pasuruan</p>
+                    </div>
+                </div>
+                <div class="flex-1 bg-white/50 dark:bg-black/40 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-inner">
+                    <form onsubmit="event.preventDefault(); window.open('https://wa.me/6288294448222', '_blank');" class="space-y-3">
+                        <input type="text" required placeholder="Nama Lengkap" class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
+                        <input type="email" required placeholder="Email" class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
+                        <textarea required placeholder="Pesan..." class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white" rows="3"></textarea>
+                        <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-xl text-xs sm:text-sm hover:scale-[1.02] transition shadow-md uppercase tracking-widest">Kirim Pesan WA</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Script Khusus untuk Company Profile -->
+    <script>
+        // Fungsi untuk tombol "Beranda" agar kembali ke halaman utama
+        function bukaHalaman(id) {
+            if (id === 'beranda') {
+                window.location.href = '../index.html';
+            }
+        }
+
+        // Fungsi Buka & Tutup Gelembung
+        function bukaModal(id){let m=document.getElementById(id);if(m){m.classList.remove('hidden');setTimeout(()=>m.classList.add('active'),10);document.body.style.overflow='hidden';}}
+        function tutupModal(id){let m=document.getElementById(id);if(m){m.classList.remove('active');document.body.style.overflow='auto';setTimeout(()=>m.classList.add('hidden'),300);}}
+        
+        // Tutup saat klik di luar area gelembung
+        window.addEventListener('click', e => {
+            document.querySelectorAll('.modal-overlay').forEach(m => {
+                if(e.target === m) tutupModal(m.id);
+            });
+        });
+    </script>
+
     <!-- SCRIPT TEMA & KONVERSI PDF -->
     <script>
         function toggleTema() { 
