@@ -1260,10 +1260,10 @@
                     Media Tulisan Manusia merupakan platform eksklusif yang berdedikasi mengangkat literatur ke tingkat yang lebih tinggi. Kami percaya bahwa setiap karya berhak mendapatkan apresiasi terbaik.
                 </p>
                 <div class="flex flex-row flex-nowrap items-center justify-center w-full gap-2 sm:gap-4 md:gap-6 text-[7px] min-[320px]:text-[8px] min-[375px]:text-[9px] sm:text-xs md:text-sm font-bold text-warnaketiga dark:text-gray-300 mb-4 overflow-hidden px-1">
-                    <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Beranda</a>
-                    <a href="#" onclick="bukaHalaman('syarat'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Syarat & Ketentuan</a>
-                    <a href="#" onclick="bukaHalaman('privasi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Kebijakan Privasi</a>
-                    <a href="#" onclick="bukaHalaman('hubungi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Hubungi Kami</a>
+                   <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Beranda</a>
+                   <a href="#" onclick="bukaModal('modalSyarat'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Syarat & Ketentuan</a>
+                   <a href="#" onclick="bukaModal('modalPrivasi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Kebijakan Privasi</a>
+                   <a href="#" onclick="bukaModal('modalKontak'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Hubungi Kami</a>
                 </div>
                 <div class="flex flex-row flex-nowrap items-center justify-center gap-2 sm:gap-4 md:gap-10 mb-8 glass py-3 md:py-4 px-4 sm:px-6 md:px-8 rounded-full inline-flex border border-warnautama dark:border-gray-300 shadow-sm w-[95%] sm:w-auto mx-auto overflow-hidden">
                     <a href="https://instagram.com/mediatulisanmanusia" target="_blank" class="flex items-center gap-1 sm:gap-2 text-warnautama dark:text-gray-300 hover:text-warnautama dark:hover:text-gray-300 transition truncate">
@@ -2184,79 +2184,68 @@ function filterLiterasi() {
 }
 </script>
 
-<div id="hal-syarat" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-<button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
-<div class="glass p-8 md:p-14 rounded-[3rem]">
-  <h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Syarat & Ketentuan</h2>
-  <div class="space-y-6 text-sm font-medium">
-      <p>1. <strong>Orisinalitas:</strong> Klien menjamin karya orisinal dan bebas plagiarisme.</p>
-      <p>2. <strong>Etika:</strong> Karya tidak mengandung SARA/Pornografi.</p>
-      <p>3. <strong>Hak Cipta:</strong> Kami fasilitator legalitas, hak komersial tetap milik klien.</p>
-      <p>4. <strong>Pembayaran:</strong> <em>Non-refundable</em> jika dibatalkan sepihak.</p>
-  </div>
-</div>
-</div>
+    <div id="modalSyarat" class="modal-overlay fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white">
+            <button onclick="tutupModal('modalSyarat')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
+            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Syarat & Ketentuan</h3>
+            <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium">
+                <p>1. <strong>Orisinalitas:</strong> Klien menjamin karya orisinal dan bebas plagiarisme.</p>
+                <p>2. <strong>Etika:</strong> Karya tidak mengandung SARA/Pornografi.</p>
+                <p>3. <strong>Hak Cipta:</strong> Kami fasilitator legalitas, hak komersial tetap milik klien.</p>
+                <p>4. <strong>Pembayaran:</strong> <em>Non-refundable</em> jika dibatalkan sepihak.</p>
+            </div>
+        </div>
+    </div>
 
-<div id="hal-privasi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-<button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
-<div class="glass p-8 md:p-14 rounded-[3rem]">
-  <h2 class="text-2xl font-extrabold mb-6 border-b pb-4">Kebijakan Privasi</h2>
-  <div class="space-y-6 text-sm font-medium">
-      <p>1. <strong>Kerahasiaan (NDA):</strong> Naskah dilindungi, tidak akan digandakan tanpa izin.</p>
-      <p>2. <strong>Data KTP:</strong> Hanya untuk pendaftaran legalitas QRCBN/ISBN/HKI.</p>
-      <p>3. <strong>Keamanan:</strong> Data tidak akan dijual/disewakan ke pihak ketiga.</p>
-  </div>
-</div>
-</div>
+    <div id="modalPrivasi" class="modal-overlay fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white">
+            <button onclick="tutupModal('modalPrivasi')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
+            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Kebijakan Privasi</h3>
+            <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium">
+                <p>1. <strong>Kerahasiaan (NDA):</strong> Naskah dilindungi, tidak akan digandakan tanpa izin.</p>
+                <p>2. <strong>Data KTP:</strong> Hanya untuk pendaftaran legalitas QRCBN/ISBN/HKI.</p>
+                <p>3. <strong>Keamanan:</strong> Data tidak akan dijual/disewakan ke pihak ketiga.</p>
+            </div>
+        </div>
+    </div>
 
-<div id="hal-hubungi" class="halaman-konten hidden p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
-<button onclick="bukaHalaman('beranda')" class="mb-8 font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
-<div class="glass p-8 md:p-14 rounded-[3rem]">
-  <h2 class="text-2xl font-extrabold mb-8">Hubungi Kami</h2>
-  <div class="md:flex gap-10">
-      <div class="flex-1 space-y-6">
-          <div>
-              <p class="text-xs text-gray-500 font-bold mb-1">WA Bisnis</p>
-              <p class="font-bold text-base md:text-lg">0882 9444 8222</p>
-          </div>
-          <div>
-              <p class="text-xs text-gray-500 font-bold mb-1">Email</p>
-              <p class="text-xs sm:text-sm font-medium italic text-gray-700 dark:text-gray-300 break-all">ptmediatulisanmanusia@gmail.com</p>
-          </div>
-          <div>
-              <p class="text-xs text-gray-500 font-bold mb-1">Operasional</p>
-              <p class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Senin-Sabtu 08.00-16.00 WIB<br>
-                  Jl. Supriyadi No.48 Malang<br>
-                  Jl. Raya Sukorejo No. 19, Pasuruan
-              </p>
-          </div>
-          
-          <div class="w-full rounded-2xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-700 pt-1">
-              <iframe 
-                  src="https://maps.google.com/maps?q=PT%20Media%20Tulisan%20Manusia&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                  width="100%" 
-                  height="200" 
-                  style="border:0;" 
-                  allowfullscreen="" 
-                  loading="lazy" 
-                  referrerpolicy="no-referrer-when-downgrade"
-                  class="w-full">
-              </iframe>
-          </div>
-      </div>
+    <div id="modalKontak" class="modal-overlay fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-4xl glass p-6 md:p-10 relative max-h-[90vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl">
+            <button onclick="tutupModal('modalKontak')" class="absolute top-4 right-5 text-gray-400 hover:text-red-500 font-bold text-3xl z-10">&times;</button>
+            <h2 class="text-xl md:text-2xl font-black text-warnautama dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">Hubungi Kami</h2>
+            <div class="md:flex gap-8">
+                
+                <div class="flex-1 space-y-5 text-left mb-8 md:mb-0">
+                    <div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">WA Bisnis</p>
+                        <a href="https://wa.me/6288294448222" target="_blank" class="font-black text-lg md:text-xl text-warnautama dark:text-white hover:text-warnakedua transition">0882 9444 8222</a>
+                    </div>
+                    <div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Email</p>
+                        <p class="text-xs sm:text-sm font-bold text-warnautama dark:text-gray-300 break-all">ptmediatulisanmanusia@gmail.com</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Jam & Kantor</p>
+                        <p class="text-xs sm:text-sm text-warnautama dark:text-gray-300 font-medium leading-relaxed">
+                            Senin-Sabtu 08.00-16.00 WIB<br>
+                            Jl. Supriyadi No.48 Malang<br>
+                            Jl. Raya Sukorejo No. 19, Pasuruan
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex-1 bg-white/50 dark:bg-black/40 p-5 rounded-2xl border border-gray-200 dark:border-gray-700">
+                    <form onsubmit="kirimPesanKontak(event)" class="space-y-3">
+                        <input type="text" required placeholder="Nama Lengkap" class="input-nama w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
+                        <input type="email" required placeholder="Email" class="input-email w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
+                        <textarea required placeholder="Pesan..." class="input-pesan auto-resize w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white" rows="3"></textarea>
+                        <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-xl text-xs sm:text-sm hover:scale-[1.02] transition shadow-md uppercase tracking-widest">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <div class="flex-1 mt-10 md:mt-0">
-          <form onsubmit="kirimPesanKontak(event)" class="space-y-4">
-              <input type="text" required placeholder="Nama Lengkap" class="input-nama w-full bg-white/70 dark:bg-gray-800/70 border rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-warnautama">
-              <input type="email" required placeholder="Email" class="input-email w-full bg-white/70 dark:bg-gray-800/70 border rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-warnautama">
-              <textarea required placeholder="Pesan..." class="input-pesan w-full bg-white/70 dark:bg-gray-800/70 border rounded-2xl p-4 text-sm auto-resize focus:outline-none focus:ring-2 focus:ring-warnautama" rows="4"></textarea>
-              <button type="submit" class="w-full bg-warnautama text-white font-bold py-4 rounded-full text-sm hover:scale-[1.02] transition shadow-md">Kirim Pesan</button>
-          </form>
-      </div>
-  </div>
-</div>
-</div>
 
 <div id="modal-pencarian" class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
   <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
