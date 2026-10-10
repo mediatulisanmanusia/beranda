@@ -2,90 +2,136 @@
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kebijakan Privasi | Media Tulisan Manusia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kebijakan Privasi - Media Tulisan Manusia</title>
+    <meta name="description" content="Kebijakan Privasi dan Pengelolaan Data PT Media Tulisan Manusia." />
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        warnautama: '#000000', 
+                        warnakedua: '#FFC000', 
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; transition: background-color 0.5s ease, color 0.5s ease; -webkit-font-smoothing: antialiased; }
+        .bg-custom-gradient { background: linear-gradient(135deg, #ffffff 0%, #f4f4f5 50%, #e4e4e7 100%); }
+        .dark .bg-custom-gradient { background: linear-gradient(135deg, #000000 0%, #111111 50%, #050505 100%); }
+        .glass-header { background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 250, 250, 0.85) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .dark .glass-header { background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(17, 17, 17, 0.7) 100%); }
+        .glass-glow { background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%); border-radius: 2rem; box-shadow: 0 0 20px rgba(255, 192, 0, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.05); border-top: 4px solid #000000; }
+        .dark .glass-glow { background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(10, 10, 10, 1) 100%); border-top: 4px solid #ffffff; box-shadow: 0 0 20px rgba(255, 192, 0, 0.1), 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-blue-900 selection:text-white">
+<body class="bg-custom-gradient text-warnautama dark:text-gray-200 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
-    <!-- Navbar Sederhana untuk kembali ke Beranda -->
-    <nav class="w-full bg-white shadow-sm py-4">
-        <div class="max-w-6xl mx-auto px-5 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-2">
-                <!-- Ganti src dengan logo MTM milikmu jika ada -->
-                <span class="font-extrabold text-xl text-[#0f172a] tracking-tight">MEDIA TULISAN MANUSIA</span>
-            </a>
-            <a href="index.html" class="text-sm font-semibold text-gray-600 hover:text-[#0f172a] transition">Kembali ke Beranda</a>
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-10 -left-10 w-96 h-96 rounded-full mix-blend-multiply dark:mix-blend-screen" style="background: radial-gradient(circle, rgba(255, 192, 0, 0.15) 0%, transparent 70%);"></div>
+        <div class="absolute top-[35%] -right-10 w-96 h-96 rounded-full mix-blend-multiply dark:mix-blend-screen" style="background: radial-gradient(circle, rgba(230, 168, 0, 0.12) 0%, transparent 70%);"></div>
+    </div>
+
+    <!-- HEADER DENGAN LOGO -->
+    <header class="fixed top-4 left-0 right-0 mx-auto w-[95%] sm:w-11/12 max-w-[1200px] glass-header rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between z-50 shadow-lg border border-gray-200/50 dark:border-gray-800/80 transition-colors">
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <!-- Logo Rev 1 (Mode Terang) -->
+            <img src="rev1.png" alt="Media Tulisan Manusia" class="h-6 sm:h-8 md:h-10 w-auto object-contain dark:hidden" onerror="this.style.display='none';">
+            <!-- Logo Rev 2 (Mode Gelap) -->
+            <img src="rev2.png" alt="Media Tulisan Manusia" class="h-6 sm:h-8 md:h-10 w-auto object-contain hidden dark:block" onerror="this.style.display='none';">
         </div>
-    </nav>
+        
+        <div class="flex items-center gap-2 sm:gap-4">
+            <button onclick="document.documentElement.classList.toggle('dark'); localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');" class="p-1.5 sm:p-2 rounded-full hover:bg-warnakedua/10 transition text-warnakedua">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </button>
+            <a href="https://mediatulisanmanusia.com" class="bg-warnakedua hover:bg-warnaketiga text-black font-extrabold px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-[9px] sm:text-[10px] md:text-xs transition uppercase tracking-widest shadow-md hover:shadow-lg whitespace-nowrap">
+                Beranda
+            </a>
+        </div>
+    </header>
 
-    <!-- Konten Kebijakan Privasi -->
-    <main class="max-w-4xl mx-auto px-5 sm:px-10 py-12 md:py-20">
-        <div class="bg-white p-8 md:p-12 rounded-[2rem] shadow-xl">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-[#0f172a] mb-4">Kebijakan Privasi</h1>
-            <p class="text-gray-500 font-medium mb-10">Terakhir diperbarui: 6 Oktober 2026</p>
+    <div class="h-28 sm:h-32"></div>
 
-            <div class="space-y-8 text-gray-700 leading-relaxed text-[15px] md:text-base">
-                
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-8 w-full pb-16 relative z-10">
+        <div class="glass-glow p-6 sm:p-10 md:p-14">
+            
+            <div class="mb-10 border-b border-gray-200 dark:border-gray-800 pb-6 text-center sm:text-left">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-warnautama dark:text-white uppercase tracking-tight mb-2">Kebijakan Privasi</h1>
+                <p class="text-xs sm:text-sm text-gray-500 font-bold uppercase tracking-widest">Terakhir diperbarui: 6 Oktober 2026</p>
+            </div>
+
+            <div class="space-y-8 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed font-medium text-justify">
                 <section>
                     <p>Selamat datang di <strong>Media Tulisan Manusia</strong> (mediatulisanmanusia.com). Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, melindungi, dan menangani Informasi Pribadi Anda, terutama saat Anda menggunakan layanan kami, termasuk fitur Autentikasi (Login) pihak ketiga.</p>
                 </section>
-
                 <section>
-                    <h2 class="text-xl font-bold text-[#0f172a] mb-3">1. Informasi yang Kami Kumpulkan</h2>
-                    <ul class="list-disc pl-5 space-y-2">
+                    <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">1. Informasi yang Kami Kumpulkan</h2>
+                    <ul class="list-disc pl-5 sm:pl-6 space-y-1.5 marker:text-warnakedua">
                         <li><strong>Data Autentikasi (Google Login):</strong> Saat Anda mendaftar atau masuk menggunakan akun Google, kami hanya menerima dan menyimpan informasi dasar yang diizinkan oleh profil publik Anda, yaitu <strong>Nama Lengkap</strong>, <strong>Alamat Email</strong>, dan <strong>Foto Profil</strong>.</li>
                         <li><strong>Data Layanan:</strong> Untuk keperluan pendaftaran Hak Cipta (HKI), QRCBN, atau penerbitan buku, kami mungkin meminta data tambahan seperti NIK/KTP, alamat domisili, dan dokumen naskah secara langsung melalui formulir atau komunikasi resmi kami.</li>
                     </ul>
                 </section>
-
                 <section>
-                    <h2 class="text-xl font-bold text-[#0f172a] mb-3">2. Bagaimana Kami Menggunakan Informasi Anda</h2>
-                    <p>Kami menggunakan informasi yang dikumpulkan secara eksklusif untuk:</p>
-                    <ul class="list-disc pl-5 space-y-2 mt-2">
+                    <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">2. Bagaimana Kami Menggunakan Informasi Anda</h2>
+                    <p class="mb-2">Kami menggunakan informasi yang dikumpulkan secara eksklusif untuk:</p>
+                    <ul class="list-disc pl-5 sm:pl-6 space-y-1.5 marker:text-warnakedua">
                         <li>Membuat dan mengelola akun Anda di platform kami.</li>
                         <li>Berkomunikasi dengan Anda mengenai status penerbitan naskah atau proses pendaftaran Hak Cipta Anda.</li>
                         <li>Memproses pendaftaran legalitas karya (seperti DJKI Kemenkumham atau Perpusnas) sesuai dengan persetujuan dan mandat yang Anda berikan.</li>
                     </ul>
                 </section>
-
                 <section>
-                    <h2 class="text-xl font-bold text-[#0f172a] mb-3">3. Keamanan Data dan Hak Kekayaan Intelektual (Naskah)</h2>
-                    <p>Kami sangat menghargai orisinalitas karya Anda. <strong>Seluruh naskah dan dokumen karya yang dikirimkan kepada Media Tulisan Manusia dijamin 100% kerahasiaannya.</strong> Kami tidak akan pernah menyebarkan, menjual, atau mengklaim naskah Anda. Hak Cipta sepenuhnya tetap berada di tangan Penulis/Kreator.</p>
-                    <p class="mt-2">Data kredensial login Anda diamankan menggunakan layanan <strong>Google Cloud dan Firebase Authentication</strong> yang memiliki standar keamanan tingkat tinggi.</p>
+                    <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">3. Keamanan Data dan Hak Kekayaan Intelektual (Naskah)</h2>
+                    <p class="mb-3">Kami sangat menghargai orisinalitas karya Anda. <strong>Seluruh naskah dan dokumen karya yang dikirimkan kepada Media Tulisan Manusia dijamin 100% kerahasiaannya.</strong> Kami tidak akan pernah menyebarkan, menjual, atau mengklaim naskah Anda. Hak Cipta sepenuhnya tetap berada di tangan Penulis/Kreator.</p>
+                    <p>Data kredensial login Anda diamankan menggunakan layanan <strong>Google Cloud dan Firebase Authentication</strong> yang memiliki standar keamanan tingkat tinggi.</p>
                 </section>
-
                 <section>
-                    <h2 class="text-xl font-bold text-[#0f172a] mb-3">4. Pembagian Informasi kepada Pihak Ketiga</h2>
+                    <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">4. Pembagian Informasi kepada Pihak Ketiga</h2>
                     <p>Kami <strong>tidak pernah</strong> menjual, memperdagangkan, atau menyewakan informasi pribadi Anda kepada pihak ketiga untuk tujuan pemasaran. Data Anda (seperti KTP atau detail karya) hanya akan diteruskan kepada otoritas resmi terkait (misalnya DJKI Kemenkumham) semata-mata demi keperluan legalisasi karya yang Anda minta.</p>
                 </section>
-
                 <section>
-                    <h2 class="text-xl font-bold text-[#0f172a] mb-3">5. Penghapusan Data</h2>
+                    <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">5. Penghapusan Data</h2>
                     <p>Anda memiliki hak penuh atas data Anda. Jika Anda ingin menghapus akun, alamat email, atau menarik kembali naskah dari database kami, Anda dapat mengajukan permohonan penghapusan data dengan menghubungi tim dukungan kami. Data Anda akan dihapus secara permanen dari sistem kami.</p>
                 </section>
-
                 <section>
-                    <h2 class="text-xl font-bold text-[#0f172a] mb-3">6. Hubungi Kami</h2>
-                    <p>Jika Anda memiliki pertanyaan mengenai Kebijakan Privasi ini atau pengelolaan data Anda, silakan hubungi kami melalui:</p>
-                    <ul class="mt-2 space-y-1 font-medium">
-                        <li><strong>Email:</strong> ptmediatulisanmanusia@gmail.com</li>
-                        <li><strong>Website:</strong> www.mediatulisanmanusia.com</li>
+                    <h2 class="text-base sm:text-lg font-black text-warnautama dark:text-white mb-3">6. Hubungi Kami</h2>
+                    <p class="mb-2">Jika Anda memiliki pertanyaan mengenai Kebijakan Privasi ini atau pengelolaan data Anda, silakan hubungi kami melalui:</p>
+                    <ul class="list-none space-y-2 mt-3">
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-warnakedua rounded-full"></span> <strong>Email:</strong> ptmediatulisanmanusia@gmail.com</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-warnakedua rounded-full"></span> <strong>Website:</strong> mediatulisanmanusia.com</li>
                     </ul>
                 </section>
-
             </div>
         </div>
     </main>
 
-    <!-- Footer Sederhana -->
-    <footer class="text-center py-8 text-sm text-gray-500">
-        &copy; 2026 Media Tulisan Manusia. Hak Cipta Dilindungi.
+    <!-- FOOTER DENGAN LOGO WEBP -->
+    <footer class="mt-auto px-4 sm:px-6 py-8 bg-white/90 dark:bg-[#111111]/90 backdrop-blur-xl text-center relative z-10 border-t border-gray-200 dark:border-[#222]">
+        <div class="relative z-10 flex flex-col items-center w-full max-w-4xl mx-auto">
+            <!-- Logo Footer 1 (Mode Terang) -->
+            <img src="footer1.webp" alt="Logo Footer MTM" class="h-10 sm:h-12 w-auto object-contain mb-3 dark:hidden" onerror="this.style.display='none';">
+            <!-- Logo Footer 2 (Mode Gelap) -->
+            <img src="footer2.webp" alt="Logo Footer MTM" class="h-10 sm:h-12 w-auto object-contain mb-3 hidden dark:block" onerror="this.style.display='none';">
+            <p class="text-[9px] sm:text-[10px] md:text-xs text-gray-500 font-medium uppercase tracking-wider">Copyright &copy; Since 2023 - All Rights Reserved</p>
+        </div>
     </footer>
 
+    <script>
+        if (localStorage.getItem("theme") === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    </script>
 </body>
 </html>
