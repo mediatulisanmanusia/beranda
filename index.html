@@ -2184,8 +2184,8 @@ function filterLiterasi() {
 }
 </script>
 
-    <div id="modalSyarat" class="modal-overlay fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
-        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white">
+    <div id="modalSyarat" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl">
             <button onclick="tutupModal('modalSyarat')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
             <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Syarat & Ketentuan</h3>
             <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium">
@@ -2197,8 +2197,8 @@ function filterLiterasi() {
         </div>
     </div>
 
-    <div id="modalPrivasi" class="modal-overlay fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
-        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white">
+    <div id="modalPrivasi" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+        <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl">
             <button onclick="tutupModal('modalPrivasi')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
             <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Kebijakan Privasi</h3>
             <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium">
@@ -2209,7 +2209,7 @@ function filterLiterasi() {
         </div>
     </div>
 
-    <div id="modalKontak" class="modal-overlay fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+    <div id="modalKontak" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
         <div class="modal-content w-full max-w-4xl glass p-6 md:p-10 relative max-h-[90vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl">
             <button onclick="tutupModal('modalKontak')" class="absolute top-4 right-5 text-gray-400 hover:text-red-500 font-bold text-3xl z-10">&times;</button>
             <h2 class="text-xl md:text-2xl font-black text-warnautama dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">Hubungi Kami</h2>
@@ -2233,8 +2233,8 @@ function filterLiterasi() {
                         </p>
                     </div>
                 </div>
-                
-                <div class="flex-1 bg-white/50 dark:bg-black/40 p-5 rounded-2xl border border-gray-200 dark:border-gray-700">
+              
+                <div class="flex-1 bg-white/50 dark:bg-black/40 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-inner">
                     <form onsubmit="kirimPesanKontak(event)" class="space-y-3">
                         <input type="text" required placeholder="Nama Lengkap" class="input-nama w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
                         <input type="email" required placeholder="Email" class="input-email w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
