@@ -2963,9 +2963,12 @@ document.addEventListener('click', function(event) {
   btnCloseInstall.addEventListener('click', () => {
     installPopup.classList.add('hidden');
   });
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {const reveals = document.querySelectorAll(".reveal");const revealOptions = {threshold: 0, rootMargin: "0px 0px 0px 0px"}; const revealObserver = new IntersectionObserver(function(entries, observer) {entries.forEach(entry => {if (!entry.isIntersecting) return;entry.target.classList.add("active");observer.unobserve(entry.target);});}, revealOptions);reveals.forEach(reveal => {revealObserver.observe(reveal);});});
-</script>
-</body>
+    </script>
+   <script>
+    document.addEventListener("DOMContentLoaded", function() {const reveals = document.querySelectorAll(".reveal");const revealOptions = {threshold: 0, rootMargin: "0px 0px 0px 0px"}; const revealObserver = new IntersectionObserver(function(entries, observer) {entries.forEach(entry => {if (!entry.isIntersecting) return;entry.target.classList.add("active");observer.unobserve(entry.target);});}, revealOptions);reveals.forEach(reveal => {revealObserver.observe(reveal);});});
+    function bukaModal(id){let m=document.getElementById(id);if(m){m.classList.remove('hidden');setTimeout(()=>m.classList.add('active'),10);document.body.style.overflow='hidden';}}
+    function tutupModal(id){let m=document.getElementById(id);if(m){m.classList.remove('active');document.body.style.overflow='auto';setTimeout(()=>m.classList.add('hidden'),300);}}
+    window.addEventListener('click',e=>document.querySelectorAll('.modal-overlay').forEach(m=>{if(e.target===m)tutupModal(m.id);}));
+  </script>
+ </body>
 </html>
