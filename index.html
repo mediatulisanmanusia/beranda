@@ -166,7 +166,7 @@
         </div>
         <div class="relative flex items-end">
             <button id="chat-trigger" class="relative z-10 hover:scale-110 transition-transform drop-shadow-2xl focus:outline-none translate-y-2"><img src="menyapa.webp" alt="Cipta" class="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-md"></button>
-            <div id="greeting-bubble" class="absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0">Halo saya Cipta ☺︎</div>
+            <div id="greeting-bubble" class="absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0">Halo saya Cipta 👋</div>
         </div>
     </div>
     
@@ -1263,7 +1263,7 @@
                 <p class="text-[10px] sm:text-xs md:text-sm text-gray-800 dark:text-gray-300 leading-relaxed mb-6 max-w-xl mx-auto font-medium text-center px-2">
                     Media Tulisan Manusia merupakan platform eksklusif yang berdedikasi mengangkat literatur ke tingkat yang lebih tinggi. Kami percaya bahwa setiap karya berhak mendapatkan apresiasi terbaik.
                 </p>
-                <div class="reveal flex flex-row flex-nowrap items-center justify-center w-full gap-2 sm:gap-4 md:gap-6 text-[7px] min-[320px]:text-[8px] min-[375px]:text-[9px] sm:text-xs md:text-sm font-bold text-warnaketiga dark:text-gray-300 mb-4 overflow-hidden px-1">
+                <div class="flex flex-row flex-nowrap items-center justify-center w-full gap-2 sm:gap-4 md:gap-6 text-[7px] min-[320px]:text-[8px] min-[375px]:text-[9px] sm:text-xs md:text-sm font-bold text-warnaketiga dark:text-gray-300 mb-4 overflow-hidden px-1">
                     <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Beranda</a>
                     <a href="#" onclick="bukaHalaman('syarat'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Syarat & Ketentuan</a>
                     <a href="#" onclick="bukaHalaman('privasi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Kebijakan Privasi</a>
@@ -2380,7 +2380,7 @@ document.addEventListener('click', function(event) {
                   const gbBaru = document.createElement("div");
                   gbBaru.id = "bubble-penutup";
                   gbBaru.className = "absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 animate-fade-up transition-opacity duration-500 opacity-100";
-                  gbBaru.innerHTML = "Sampai jumpa! Cipta selalu di sini ☺︎";
+                  gbBaru.innerHTML = "Sampai jumpa! Cipta selalu di sini 😊";
                   wadahTrigger.appendChild(gbBaru);
                   setTimeout(() => { if(gbBaru) { gbBaru.classList.replace("opacity-100", "opacity-0"); setTimeout(() => gbBaru.remove(), 500); } }, 5000); 
               }
