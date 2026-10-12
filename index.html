@@ -1112,6 +1112,7 @@
                 <div class="flex flex-col md:flex-row justify-center gap-3">
                     <button onclick="bukaHalaman('kirim-naskah')" class="w-full md:w-auto md:px-8 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 rounded-full shadow-lg uppercase text-[11px] sm:text-sm hover:scale-105 transition">Kirim Naskah</button>
                     <button onclick="bukaHalaman('daftar-hki')" class="w-full md:w-auto md:px-8 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
+                    <button onclick="window.location.href='nib.html'" class="w-full md:w-auto md:px-8 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar NIB</button>
                     <button onclick="bukaHalaman('upload-literasi')" class="w-full md:w-auto md:px-8 bg-warnakedua text-white font-extrabold py-4 rounded-full shadow-lg uppercase text-[11px] sm:text-sm hover:scale-105 transition">Publikasi Literasi</button>
                 </div>
             </div>
@@ -1298,6 +1299,7 @@
         <div class="flex flex-col sm:flex-row justify-center gap-3">
         <button onclick="bukaHalaman('kirim-naskah')" class="w-full sm:w-auto px-6 bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-full shadow-lg uppercase text-[11px] sm:text-xs hover:scale-105 transition">Kirim Naskah</button>
         <button onclick="bukaHalaman('daftar-hki')" class="w-full sm:w-auto px-6 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-2.5 rounded-full shadow-sm uppercase text-[11px] sm:text-xs hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar Hak Cipta</button>
+        <button onclick="window.location.href='nib.html'" class="w-full md:w-auto md:px-8 glass border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3.5 rounded-full shadow-sm uppercase text-[11px] sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">Daftar NIB</button>
         <button onclick="bukaHalaman('upload-literasi')" class="w-full sm:w-auto px-6 bg-warnakedua text-white font-extrabold py-3 rounded-full shadow-lg uppercase text-[11px] sm:text-xs hover:scale-105 transition">Publikasi Literasi</button>
     </div>
     </div>
@@ -2580,7 +2582,10 @@ document.addEventListener('click', function(event) {
                       { label: '⎙ Daftar Hak Cipta', aksi: "document.getElementById('close-chat').click(); bukaHalaman('daftar-hki');" }
                   ]);
               } else if (topik === 'Daftar NIB') {
-                  addMessageToUI('Untuk pengurusan NIB, Admin kami akan mendampingi Anda secara langsung. Klik tombol di bawah untuk terhubung ke WhatsApp:', 'model', [{ label: '» Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20ingin%20info%20pendaftaran%20NIB', '_blank')` }]);
+                  addMessageToUI('Untuk pengurusan NIB, Anda dapat langsung mengisi form pengajuan atau menghubungi Admin kami untuk pendampingan. Klik tombol di bawah ini:', 'model', [
+                      { label: '⎙ Pengajuan NIB', aksi: `window.open('https://mediatulisanmanusia.com/nib', '_blank')` },
+                      { label: '» Lanjut ke WhatsApp', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20ingin%20info%20pendaftaran%20NIB', '_blank')` }
+                  ]);
               } else if (topik === 'Hubungi WA') {
                   addMessageToUI('Tim admin kami siap membalas pesan Anda (Senin-Sabtu 08.00-16.00 WIB).', 'model', [{ label: '» Chat Admin Sekarang', aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia', '_blank')` }]);
               }
