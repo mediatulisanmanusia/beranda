@@ -2559,7 +2559,7 @@ document.addEventListener('click', function(event) {
 
   function prosesLogout() { window.signOut(window.auth).then(() => { showToast("Berhasil keluar.", "success"); bukaHalaman('beranda'); document.getElementById('nav-dropdown').classList.add('hidden'); }); }
   
-  setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 500);
+  setTimeout(() => { const loader = document.getElementById('loading-screen'); if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); } }, 300);
 
   document.addEventListener("DOMContentLoaded", () => {
       const urlParams = new URLSearchParams(window.location.search);
