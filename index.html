@@ -2089,6 +2089,240 @@
         </form>
     </div>
 </div>
+      <script>
+    // ==========================================
+    // LOGIKA MULTI-STEP 2 LANGKAH (UI & HARGA)
+    // ==========================================
+    function updateBayar(jenisForm) {
+        if(jenisForm === 'penerbitan') {
+            const paket = document.getElementById('dropdownPenerbitan').value;
+            const label = document.getElementById('labelHargaPenerbitan');
+            if(paket === 'Standar') { if(label) { label.innerText = 'Rp 500.000'; label.classList.remove('hidden'); } }
+            else if(paket === 'Eksklusif') { if(label) { label.innerText = 'Rp 1.300.000'; label.classList.remove('hidden'); } }
+            else { if(label) label.classList.add('hidden'); }
+        } else if(jenisForm === 'hki') {
+            const kategori = document.getElementById('dropdownHki').value;
+            const label = document.getElementById('labelHargaHki');
+            if(kategori === 'Karya Tulis') { if(label) { label.innerText = 'Rp 800.000'; label.classList.remove('hidden'); } }
+            else if(kategori === 'Karya Lainnya Umum') { if(label) { label.innerText = 'Rp 1.200.000'; label.classList.remove('hidden'); } }
+            else { if(label) label.classList.add('hidden'); }
+        }
+    }
+
+    function lanjutLangkah2(jenisForm) {
+        let formId = '';
+        if(jenisForm === 'penerbitan') formId = 'formPenerbitanNaskah';
+        else if(jenisForm === 'hki') formId = 'formPendaftaranHki';
+        else if(jenisForm === 'literasi') formId = 'formUploadLiterasi';
+        
+        let form = document.getElementById(formId);
+        if(!form) return;
+
+        // Validasi Step 1
+        let inputsStep1 = form.querySelectorAll(`#step1-${jenisForm} input[required], #step1-${jenisForm} textarea[required], #step1-${jenisForm} select[required]`);
+        let isValid = true;
+        for (let input of inputsStep1) {
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                isValid = false;
+                break;
+            }
+        }
+        if(!isValid) return;
+
+        // Cek Metode Pembayaran
+        let metode = form.querySelector(`input[name="Metode_Pembayaran"]:checked`);
+        if(!metode) {
+            showToast("Silakan pilih metode pembayaran!", "error");
+            return;
+        }
+
+        // Tampilkan Loading
+        const loader = document.getElementById('loading-form');
+        const teksLoading = document.getElementById('teks-loading') || (loader ? loader.querySelector('p') : null);
+        if(teksLoading) teksLoading.innerText = "Membuat Tagihan...";
+        if(loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
+
+        setTimeout(() => {
+            document.getElementById(`step1-${jenisForm}`).classList.add('hidden');
+            document.getElementById(`step2-${jenisForm}`).classList.remove('hidden');
+            
+            let targetIdScroll = 'hal-kirim-naskah';
+            if(jenisForm==='hki') targetIdScroll = 'hal-daftar-hki';
+            if(jenisForm==='literasi') targetIdScroll = 'hal-upload-literasi';
+            document.getElementById(targetIdScroll).scrollIntoView({ behavior: 'smooth' });
+
+            let displayHtml = "";
+            let uniqueId = "rek-" + jenisForm;
+            let btnId = "btn-salin-" + jenisForm;
+
+            if (metode.value === 'qris') {
+                displayHtml = `
+                    <p class="text-xs text-gray-500 font-bold mb-3 uppercase tracking-widest">Scan QR Code Berikut</p>
+                    <img src="payqris.png" alt="Scan QRIS" class="w-48 h-48 mx-auto rounded-lg shadow-md border border-gray-200" onerror="this.outerHTML='<div class=\\'w-48 h-48 bg-gray-200 mx-auto rounded-lg text-xs flex items-center justify-center\\'>Gambar QRIS Belum Ada</div>'">
+                `;
+            } else if (metode.value === 'ocbc') {
+                displayHtml = `
+                    <p class="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">Transfer OCBC a/n PT MEDIA TULISAN MANUSIA</p>
+                    <div class="flex justify-center items-center gap-3 bg-gray-100 dark:bg-gray-700 py-3 rounded-xl border border-gray-200 dark:border-gray-600 mt-2 max-w-sm mx-auto">
+                        <span id="${uniqueId}" class="font-mono text-xl font-bold tracking-widest text-warnautama dark:text-white">693800151450</span>
+                        <button id="${btnId}" type="button" onclick="salinNomor('${uniqueId}','${btnId}')" class="bg-gray-300 dark:bg-gray-600 px-3 py-1.5 rounded-lg text-xs font-bold text-gray-800 dark:text-white">Salin</button>
+                    </div>
+                `;
+            } else if (metode.value === 'bri') {
+                displayHtml = `
+                    <p class="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">Transfer BRI a/n ACH. SUFYAN WAHYUDI</p>
+                    <div class="flex justify-center items-center gap-3 bg-gray-100 dark:bg-gray-700 py-3 rounded-xl border border-gray-200 dark:border-gray-600 mt-2 max-w-sm mx-auto">
+                        <span id="${uniqueId}" class="font-mono text-xl font-bold tracking-widest text-warnautama dark:text-white">123001006601501</span>
+                        <button id="${btnId}" type="button" onclick="salinNomor('${uniqueId}','${btnId}')" class="bg-gray-300 dark:bg-gray-600 px-3 py-1.5 rounded-lg text-xs font-bold text-gray-800 dark:text-white">Salin</button>
+                    </div>
+                `;
+            }
+            document.getElementById(`payment-display-${jenisForm}`).innerHTML = displayHtml;
+            
+            let idFile = 'fileBukti' + jenisForm.charAt(0).toUpperCase() + jenisForm.slice(1);
+            let inputBukti = document.getElementById(idFile);
+            if(inputBukti) inputBukti.setAttribute('required', 'true');
+
+            if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+        }, 1500);
+    }
+
+    function kembaliLangkah1(jenisForm) {
+        document.getElementById(`step2-${jenisForm}`).classList.add('hidden');
+        document.getElementById(`step1-${jenisForm}`).classList.remove('hidden');
+        
+        let idFile = 'fileBukti' + jenisForm.charAt(0).toUpperCase() + jenisForm.slice(1);
+        let inputBukti = document.getElementById(idFile);
+        if(inputBukti) inputBukti.removeAttribute('required');
+    }
+
+    // ==========================================
+    // FUNGSI PENGIRIMAN DATA UTAMA (FIREBASE + FORMSUBMIT + WHATSAPP)
+    // ==========================================
+    window.kirimFormLayanan = async function(e, tipeLayanan) {
+        e.preventDefault(); 
+        const f = e.target;
+
+        if(!window.currentUserEmail) { 
+            showToast("Gagal: Anda belum login.", "error"); 
+            bukaHalaman('login'); 
+            return; 
+        }
+
+        const fileInputs = f.querySelectorAll('input[type="file"]');
+        for (let i of fileInputs) {
+            if (i.files.length > 0) {
+                if ((i.files[0].size / 1024 / 1024) > 3) {
+                    showToast(`Berkas "${i.name.replace(/_/g, ' ')}" melebihi batas 3MB.`, "error");
+                    return;
+                }
+            }
+        }
+
+        const btn = f.querySelector('button[type="submit"]'); 
+        btn.disabled = true; 
+        btn.innerText = "MENGIRIM DATA...";
+
+        const loader = document.getElementById('loading-form');
+        const teksLoading = document.getElementById('teks-loading') || (loader ? loader.querySelector('p') : null);
+        if(teksLoading) teksLoading.innerText = "Mengirim Pengajuan...";
+        if(loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
+
+        const nama = f.querySelector('[name^="Nama"]').value || '-';
+        const wa = f.querySelector('[name="WhatsApp"]').value || '-';
+        const judulInput = f.querySelector('[name^="Judul"], [name="Judul_Karya"], [name="Judul_Naskah"], [name="Judul_Ciptaan"]');
+        const judul = judulInput ? judulInput.value : '-';
+
+        try {
+            // 1. Simpan ke Firebase
+            await window.addDoc(window.collection(window.db, "pesanan"), { 
+                userEmail: window.currentUserEmail, 
+                userName: window.currentUserName, 
+                tipeLayanan: tipeLayanan, 
+                judul: judul, 
+                namaLengkap: nama, 
+                wa: wa, 
+                status: "Pending", 
+                fileHasil: "", 
+                waktuLokal: new Date().toLocaleDateString('id-ID') 
+            });
+
+            // 2. FormSubmit Email
+            let subjekEl = f.querySelector('input[name="_subject"]');
+            if(!subjekEl) { 
+                subjekEl = document.createElement('input'); 
+                subjekEl.type = 'hidden'; 
+                subjekEl.name = '_subject'; 
+                f.appendChild(subjekEl); 
+            }
+            subjekEl.value = `Pesanan Baru: ${tipeLayanan} - ${nama}`;
+
+            const urlWeb = window.location.origin + window.location.pathname;
+            let linkEl = f.querySelector('input[name="Link_Dashboard_Admin"]');
+            if(!linkEl) {
+                linkEl = document.createElement('input'); 
+                linkEl.type = 'hidden'; 
+                linkEl.name = "Link_Dashboard_Admin"; 
+                f.appendChild(linkEl);
+            }
+            linkEl.value = `${urlWeb}?admin=true`;
+
+            let iframe = document.getElementById('hidden-iframe-upload');
+            if(!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.name = "hidden-iframe-upload"; 
+                iframe.id = "hidden-iframe-upload"; 
+                iframe.style.display = "none";
+                document.body.appendChild(iframe);
+            }
+
+            // 3. Susun Pesan WhatsApp
+            let formDataWA = new FormData(f);
+            let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah menyelesaikan pengajuan *${tipeLayanan}* via Website.\n\n*RINCIAN DATA:*\n`;
+            for (let [key, value] of formDataWA.entries()) {
+                if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_') && key !== 'Link_Dashboard_Admin') {
+                    pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
+                }
+            }
+            pesanWA += `\n_(Catatan: Semua dokumen syarat dan *Bukti Transfer* telah saya unggah di sistem website)._`;
+            const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
+
+            // 4. Kirim ke FormSubmit
+            f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
+            f.method = "POST"; 
+            f.enctype = "multipart/form-data"; 
+            f.target = "hidden-iframe-upload"; 
+            f.submit(); 
+
+            setTimeout(() => {
+                if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+                showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
+                window.location.href = linkWhatsAppLangsung;
+                
+                setTimeout(() => {
+                    f.reset();
+                    btn.disabled = false; 
+                    btn.innerText = "KONFIRMASI & KIRIM";
+                    
+                    kembaliLangkah1('penerbitan');
+                    kembaliLangkah1('hki');
+                    kembaliLangkah1('literasi');
+
+                    if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
+                    bukaHalaman('profil'); 
+                }, 1500);
+            }, 4500); 
+            
+        } catch (error) { 
+            console.error("Gagal mengirim:", error);
+            if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+            showToast("Sistem bermasalah, silakan coba lagi.", "error"); 
+            btn.disabled = false; 
+            btn.innerText = "KONFIRMASI & KIRIM"; 
+        }
+    };
+</script>
       
     <div id="modalSyarat" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
         <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl flex flex-col">
@@ -2635,152 +2869,19 @@ document.addEventListener('click', function(event) {
           }
       );
   }
-// ==========================================
-  // LOGIKA MULTI-STEP 2 LANGKAH
-  // ==========================================
-  
-  // Fungsi untuk menampilkan harga otomatis di Halaman 1 saat user pilih dropdown paket
-  function updateBiayaPenerbitanLangkah1() {
-      const paket = document.getElementById('dropdownPenerbitan').value;
-      const label = document.getElementById('labelHargaPenerbitan');
-      if(paket === 'Standar') { label.innerText = 'Rp 500.000'; label.classList.remove('hidden'); }
-      else if(paket === 'Eksklusif') { label.innerText = 'Rp 1.300.000'; label.classList.remove('hidden'); }
-      else { label.classList.add('hidden'); }
-  }
 
-  function updateBiayaHkiLangkah1() {
-      const kategori = document.getElementById('dropdownHki').value;
-      const label = document.getElementById('labelHargaHki');
-      if(kategori === 'Karya Tulis') { label.innerText = 'Rp 800.000'; label.classList.remove('hidden'); }
-      else if(kategori === 'Karya Lainnya Umum') { label.innerText = 'Rp 1.200.000'; label.classList.remove('hidden'); }
-      else { label.classList.add('hidden'); }
-  }
-
-  function lanjutLangkah2(jenisForm) {
-      // 1. Tentukan ID Form
-      let formId = '';
-      if(jenisForm === 'penerbitan') formId = 'formPenerbitanNaskah';
-      else if(jenisForm === 'hki') formId = 'formPendaftaranHki';
-      else if(jenisForm === 'literasi') formId = 'formUploadLiterasi';
-      
-      let form = document.getElementById(formId);
-      
-      // 2. Validasi Input Step 1
-      let inputsStep1 = form.querySelectorAll(`#step1-${jenisForm} input[required], #step1-${jenisForm} textarea[required], #step1-${jenisForm} select[required]`);
-      let isValid = true;
-      for (let input of inputsStep1) {
-          if (!input.checkValidity()) {
-              input.reportValidity();
-              isValid = false;
-              break;
-          }
-      }
-      if(!isValid) return;
-
-      // 3. Cek Pilihan Metode Pembayaran
-      let metode = form.querySelector(`input[name="Metode_Pembayaran"]:checked`);
-      if(!metode) {
-          showToast("Silakan pilih metode pembayaran!", "error");
-          return;
-      }
-
-      // 4. Hitung Harga Berdasarkan Jenis
-      let harga = 0;
-      if (jenisForm === 'penerbitan') {
-          const paket = document.getElementById('dropdownPenerbitan').value;
-          harga = (paket === 'Standar') ? 500000 : 1300000;
-          document.getElementById('tagihan-final-penerbitan').innerText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(harga);
-      } else if (jenisForm === 'hki') {
-          const paket = document.getElementById('dropdownHki').value;
-          harga = (paket === 'Karya Tulis') ? 800000 : 1200000;
-          document.getElementById('tagihan-final-hki').innerText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(harga);
-      } else if (jenisForm === 'literasi') {
-          harga = 25000;
-      }
-
-      // 5. Loading Simulasi
-      const loader = document.getElementById('loading-form');
-      const teksLoading = document.getElementById('teks-loading') || loader.querySelector('p');
-      if(teksLoading) teksLoading.innerText = "Membuat Tagihan...";
-      loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10);
-
-      // Simulasi delay 1.5 detik
-      setTimeout(() => {
-          // Beralih tampilan ke Step 2
-          document.getElementById(`step1-${jenisForm}`).classList.add('hidden');
-          document.getElementById(`step2-${jenisForm}`).classList.remove('hidden');
-          
-          let targetIdScroll = 'hal-kirim-naskah';
-          if(jenisForm==='hki') targetIdScroll = 'hal-daftar-hki';
-          if(jenisForm==='literasi') targetIdScroll = 'hal-upload-literasi';
-          document.getElementById(targetIdScroll).scrollIntoView({ behavior: 'smooth' });
-
-          // Render UI Pembayaran
-          let displayHtml = "";
-          let uniqueId = "rek-" + jenisForm;
-          let btnId = "btn-salin-" + jenisForm;
-
-          if (metode.value === 'qris') {
-              displayHtml = `
-                  <img src="qris.png" alt="QRIS" class="h-8 mx-auto mb-3" onerror="this.style.display='none'">
-                  <p class="text-xs text-gray-500 mb-4">Silakan scan kode QRIS di bawah ini menggunakan M-Banking/E-Wallet Anda.</p>
-                  <div class="inline-block p-2 bg-white rounded-xl shadow border border-gray-200">
-                      <img src="payqris.png" alt="Scan QRIS" class="w-48 h-48 object-cover rounded-lg" onerror="this.outerHTML='<div class=\\'w-48 h-48 bg-gray-200 flex items-center justify-center rounded-lg text-xs\\'>Gambar QRIS</div>'">
-                  </div>
-              `;
-          } else if (metode.value === 'ocbc') {
-              displayHtml = `
-                  <img src="ocbc.png" alt="OCBC" class="h-8 mx-auto mb-3" onerror="this.outerHTML='<p class=\\'font-black text-red-600 mb-3\\'>OCBC</p>'">
-                  <p class="text-xs font-bold text-gray-700 dark:text-gray-300">a/n PT MEDIA TULISAN MANUSIA</p>
-                  <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-700 mt-4 mx-auto max-w-sm">
-                      <span id="${uniqueId}" class="font-mono font-black tracking-widest text-lg text-warnautama dark:text-white select-all">693800151450</span>
-                      <button type="button" onclick="salinNomor('${uniqueId}', '${btnId}')" id="${btnId}" class="text-xs font-bold text-warnautama dark:text-blue-400 hover:opacity-70 bg-warnautama/10 px-3 py-1.5 rounded-lg">Salin</button>
-                  </div>
-              `;
-          } else if (metode.value === 'bri') {
-              displayHtml = `
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-6 mx-auto mb-3 dark:filter dark:brightness-0 dark:invert" onerror="this.outerHTML='<p class=\\'font-black text-blue-600 mb-3\\'>BRI</p>'">
-                  <p class="text-xs font-bold text-gray-700 dark:text-gray-300">a/n ACH. SUFYAN WAHYUDI</p>
-                  <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-700 mt-4 mx-auto max-w-sm">
-                      <span id="${uniqueId}" class="font-mono font-black tracking-widest text-lg text-warnautama dark:text-white select-all">123001006601501</span>
-                      <button type="button" onclick="salinNomor('${uniqueId}', '${btnId}')" id="${btnId}" class="text-xs font-bold text-warnautama dark:text-blue-400 hover:opacity-70 bg-warnautama/10 px-3 py-1.5 rounded-lg">Salin</button>
-                  </div>
-              `;
-          }
-          document.getElementById(`payment-display-${jenisForm}`).innerHTML = displayHtml;
-          
-          // Set required upload bukti di langkah 2
-          let idFile = 'fileBukti' + jenisForm.charAt(0).toUpperCase() + jenisForm.slice(1);
-          let inputBukti = document.getElementById(idFile);
-          if(inputBukti) inputBukti.setAttribute('required', 'true');
-
-          loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500);
-      }, 1500);
-  }
-
-  function kembaliLangkah1(jenisForm) {
-      document.getElementById(`step2-${jenisForm}`).classList.add('hidden');
-      document.getElementById(`step1-${jenisForm}`).classList.remove('hidden');
-      
-      let idFile = 'fileBukti' + jenisForm.charAt(0).toUpperCase() + jenisForm.slice(1);
-      let inputBukti = document.getElementById(idFile);
-      if(inputBukti) inputBukti.removeAttribute('required');
-  }
-
-  // ==========================================
-  // FUNGSI PENGIRIMAN DATA FINAL KE FIREBASE & EMAIL
-  // ==========================================
   window.kirimFormLayanan = async function(e, tipeLayanan) {
       e.preventDefault(); 
       const f = e.target;
 
+      // 1. Cek Login Klien
       if(!window.currentUserEmail) { 
           showToast("Gagal: Anda belum login.", "error"); 
           bukaHalaman('login'); 
           return; 
       }
 
-      // Validasi File
+      // 2. Validasi Ukuran File (Maksimal 3MB)
       const fileInputs = f.querySelectorAll('input[type="file"]');
       for (let i of fileInputs) {
           if (i.files.length > 0) {
@@ -2793,10 +2894,12 @@ document.addEventListener('click', function(event) {
 
       const btn = f.querySelector('button[type="submit"]'); 
       btn.disabled = true; 
+      const teksAsliTombol = btn.innerText;
       btn.innerText = "MENGIRIM DATA...";
 
+      // 3. Tampilkan Loading
       const loader = document.getElementById('loading-form');
-      const teksLoading = document.getElementById('teks-loading') || loader.querySelector('p');
+      const teksLoading = document.getElementById('teks-loading') || (loader ? loader.querySelector('p') : null);
       if(teksLoading) teksLoading.innerText = "Mengirim Pengajuan...";
       if(loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
@@ -2806,7 +2909,7 @@ document.addEventListener('click', function(event) {
       const judul = judulInput ? judulInput.value : '-';
 
       try {
-          // 1. Simpan Data ke Firebase (Hanya Text) - Status 'Unpaid' atau 'Pending'
+          // 4. Simpan Data ke Firebase Firestore
           await window.addDoc(window.collection(window.db, "pesanan"), { 
               userEmail: window.currentUserEmail, 
               userName: window.currentUserName, 
@@ -2814,12 +2917,12 @@ document.addEventListener('click', function(event) {
               judul: judul, 
               namaLengkap: nama, 
               wa: wa, 
-              status: "Pending", // Klien sudah upload bukti, jadi bisa diset Pending untuk di-review Admin
+              status: "Pending", 
               fileHasil: "", 
               waktuLokal: new Date().toLocaleDateString('id-ID') 
           });
 
-          // 2. Siapkan Data Email untuk FormSubmit
+          // 5. Konfigurasi FormSubmit ke Email
           let subjekEl = f.querySelector('input[name="_subject"]');
           if(!subjekEl) { 
               subjekEl = document.createElement('input'); 
@@ -2848,7 +2951,7 @@ document.addEventListener('click', function(event) {
               document.body.appendChild(iframe);
           }
 
-          // 3. Susun Teks WhatsApp
+          // 6. Susun Pesan WhatsApp Otomatis
           let formDataWA = new FormData(f);
           let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah menyelesaikan pengajuan *${tipeLayanan}* via Website.\n\n*RINCIAN DATA:*\n`;
           
@@ -2861,29 +2964,24 @@ document.addEventListener('click', function(event) {
           
           const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
 
-          // 4. Eksekusi Pengiriman ke FormSubmit
+          // 7. Kirim Data ke Email via FormSubmit
           f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
           f.method = "POST"; 
           f.enctype = "multipart/form-data"; 
           f.target = "hidden-iframe-upload"; 
           f.submit(); 
 
-          // 5. Redirect setelah timeout
+          // 8. Eksekusi Selesai & Redirect ke WhatsApp
           setTimeout(() => {
               if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
               showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
-              window.location.href = linkWhatsAppLangsung; // Arahkan ke WhatsApp
+              window.location.href = linkWhatsAppLangsung;
               
               setTimeout(() => {
                   f.reset();
                   btn.disabled = false; 
-                  btn.innerText = "KONFIRMASI & KIRIM";
+                  btn.innerText = teksAsliTombol;
                   
-                  // Kembalikan semua form ke step 1
-                  kembaliLangkah1('penerbitan');
-                  kembaliLangkah1('hki');
-                  kembaliLangkah1('literasi');
-
                   if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
                   bukaHalaman('profil'); 
               }, 1500);
@@ -2894,7 +2992,7 @@ document.addEventListener('click', function(event) {
           if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
           showToast("Sistem bermasalah, silakan coba lagi.", "error"); 
           btn.disabled = false; 
-          btn.innerText = "KONFIRMASI & KIRIM"; 
+          btn.innerText = teksAsliTombol; 
       }
   };
   
