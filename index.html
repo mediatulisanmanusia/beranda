@@ -2772,7 +2772,15 @@ document.addEventListener('click', function(event) {
           }
       );
   }
-   window.kirimFormLayanan = async function(e, tipeLayanan) {
+  // Fungsi Bantuan untuk mengubah File menjadi Base64
+  const getBase64 = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(',')[1]); 
+      reader.onerror = error => reject(error);
+  });
+
+  window.kirimFormLayanan = async function(e, tipeLayanan) {
       e.preventDefault(); 
       const f = e.target;
 
@@ -2799,16 +2807,17 @@ document.addEventListener('click', function(event) {
 
       const loader = document.getElementById('loading-form');
       const teksLoading = document.getElementById('teks-loading') || loader.querySelector('p');
-      if(teksLoading) teksLoading.innerText = "Mengirim Pengajuan...";
+      if(teksLoading) teksLoading.innerText = "Sedang Mengamankan File...";
       if(loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
       const nama = f.querySelector('[name^="Nama"]').value || '-';
       const wa = f.querySelector('[name="WhatsApp"]').value || '-';
+      const emailKlien = f.querySelector('input[type="email"]').value || '-';
       const judulInput = f.querySelector('[name^="Judul"], [name="Judul_Karya"], [name="Judul_Naskah"], [name="Judul_Ciptaan"]');
       const judul = judulInput ? judulInput.value : '-';
 
       try {
-          // 1. Simpan Data ke Firebase (Hanya Text) - Status 'Unpaid' atau 'Pending'
+          // 1. SIMPAN KE FIREBASE (TETAP SAMA - AMAN)
           await window.addDoc(window.collection(window.db, "pesanan"), { 
               userEmail: window.currentUserEmail, 
               userName: window.currentUserName, 
@@ -2816,41 +2825,44 @@ document.addEventListener('click', function(event) {
               judul: judul, 
               namaLengkap: nama, 
               wa: wa, 
-              status: "Pending", // Klien sudah upload bukti, jadi bisa diset Pending untuk di-review Admin
+              status: "Pending",
               fileHasil: "", 
               waktuLokal: new Date().toLocaleDateString('id-ID') 
           });
 
-          // 2. Siapkan Data Email untuk FormSubmit
-          let subjekEl = f.querySelector('input[name="_subject"]');
-          if(!subjekEl) { 
-              subjekEl = document.createElement('input'); 
-              subjekEl.type = 'hidden'; 
-              subjekEl.name = '_subject'; 
-              f.appendChild(subjekEl); 
-          }
-          subjekEl.value = `Pesanan Baru: ${tipeLayanan} - ${nama}`;
-
-          const urlWeb = window.location.origin + window.location.pathname;
-          let linkEl = f.querySelector('input[name="Link_Dashboard_Admin"]');
-          if(!linkEl) {
-              linkEl = document.createElement('input'); 
-              linkEl.type = 'hidden'; 
-              linkEl.name = "Link_Dashboard_Admin"; 
-              f.appendChild(linkEl);
-          }
-          linkEl.value = `${urlWeb}?admin=true`;
-
-          let iframe = document.getElementById('hidden-iframe-upload');
-          if(!iframe) {
-              iframe = document.createElement('iframe');
-              iframe.name = "hidden-iframe-upload"; 
-              iframe.id = "hidden-iframe-upload"; 
-              iframe.style.display = "none";
-              document.body.appendChild(iframe);
+          // 2. UBAH SEMUA FILE MENJADI BASE64 UNTUK GOOGLE DRIVE
+          let filesData = [];
+          for (let i of fileInputs) {
+              if (i.files.length > 0) {
+                  let file = i.files[0];
+                  let base64String = await getBase64(file);
+                  filesData.push({
+                      filename: i.name,
+                      mimeType: file.type,
+                      base64: base64String
+                  });
+              }
           }
 
-          // 3. Susun Teks WhatsApp
+          // 3. KIRIM DATA KE GOOGLE APPS SCRIPT (Pengganti FormSubmit)
+          const urlAppsScript = "https://script.google.com/macros/s/AKfycbypEf-VH3oLKVNERjU7tKZRkPXcBxZasvy_h9BVcdpA1ftgMJF2Gb1OomVKU10U97BU/exec"; 
+          
+          const payload = {
+              nama: nama,
+              email: emailKlien,
+              wa: wa,
+              tipeLayanan: tipeLayanan,
+              judul: judul,
+              files: filesData
+          };
+
+          const response = await fetch(urlAppsScript, {
+              method: 'POST',
+              body: JSON.stringify(payload)
+          });
+          const result = await response.json();
+
+          // 4. SUSUN TEKS WHATSAPP & SISIPKAN LINK DRIVE
           let formDataWA = new FormData(f);
           let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah menyelesaikan pengajuan *${tipeLayanan}* via Website.\n\n*RINCIAN DATA:*\n`;
           
@@ -2859,37 +2871,35 @@ document.addEventListener('click', function(event) {
                   pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
               }
           }
-          pesanWA += `\n_(Catatan: Semua dokumen syarat dan *Bukti Transfer* telah saya unggah di sistem website)._`;
+          
+          // Memasukkan Link Google Drive langsung ke Chat WhatsApp!
+          if(result.status === "success" && result.linkText) {
+              pesanWA += `\n*LINK LAMPIRAN KLIEN:*\n${result.linkText}`;
+          } else {
+              pesanWA += `\n_(File telah diunggah ke server MTM)._`;
+          }
           
           const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
 
-          // 4. Eksekusi Pengiriman ke FormSubmit
-          f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
-          f.method = "POST"; 
-          f.enctype = "multipart/form-data"; 
-          f.target = "hidden-iframe-upload"; 
-          f.submit(); 
-
-          // 5. Redirect setelah timeout
+          // 5. REDIRECT KE WA (TETAP SAMA)
+          if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+          showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
+          window.location.href = linkWhatsAppLangsung; 
+          
           setTimeout(() => {
-              if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
-              showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
-              window.location.href = linkWhatsAppLangsung; // Arahkan ke WhatsApp
+              f.reset();
+              btn.disabled = false; 
+              btn.innerText = "KONFIRMASI & KIRIM";
               
-              setTimeout(() => {
-                  f.reset();
-                  btn.disabled = false; 
-                  btn.innerText = "KONFIRMASI & KIRIM";
-                  
-                  // Kembalikan semua form ke step 1
+              if(typeof kembaliLangkah1 === "function") {
                   kembaliLangkah1('penerbitan');
                   kembaliLangkah1('hki');
                   kembaliLangkah1('literasi');
+              }
 
-                  if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
-                  bukaHalaman('profil'); 
-              }, 1500);
-          }, 5000); 
+              if(window.muatRiwayatProfil) window.muatRiwayatProfil(); 
+              if(typeof bukaHalaman === "function") bukaHalaman('profil'); 
+          }, 1500);
           
       } catch (error) { 
           console.error("Gagal mengirim:", error);
@@ -2899,7 +2909,6 @@ document.addEventListener('click', function(event) {
           btn.innerText = "KONFIRMASI & KIRIM"; 
       }
   };
-  
   function toggleEditProfil() {
       const kotak = document.getElementById('kotak-edit-profil'); 
       if (kotak.classList.contains('hidden')) {
