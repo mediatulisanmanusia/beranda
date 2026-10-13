@@ -1636,6 +1636,7 @@
             </div>
         </footer>
     </div>
+<!-- AREA 1: FORM PENERBITAN -->
 <div id="hal-kirim-naskah" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
     <button onclick="bukaHalaman('langkah')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
     <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
@@ -1654,7 +1655,6 @@
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_next" value="https://formsubmit.co/success.html">
             
-            <!-- STEP 1: PENGISIAN DATA -->
             <div id="step1-penerbitan" class="space-y-5 block">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
@@ -1705,17 +1705,14 @@
                     <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
                         <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Cover Depan <span class="text-red-500">*</span></label>
                         <input type="file" name="File_Cover_Depan" accept=".png" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PNG. Maksimal 3MB.</p>
                     </div>
                     <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
                         <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Cover Belakang <span class="text-red-500">*</span></label>
                         <input type="file" name="File_Cover_Belakang" accept=".png" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PNG. Maksimal 3MB.</p>
                     </div>
                     <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl md:col-span-2">
                         <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Naskah <span class="text-red-500">*</span></label>
                         <input type="file" name="File_Naskah" accept=".pdf,.doc,.docx" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: WORD / DOC / DOCX. Maksimal 3MB.</p>
                     </div>
                 </div>
 
@@ -1723,56 +1720,42 @@
 
                 <div>
                     <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Lengkap Penulis <span class="text-red-500">*</span></label>
-                    <textarea name="Alamat_Penulis" required placeholder="Jalan, RT/RW, Desa, Kec, Kab/Kota, Kodepos (Tujuan pengiriman cetakan buku)" rows="2" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Referensi (Opsional)</label>
-                    <input type="text" name="Referensi" placeholder="Nama atau ID pemberi informasi" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Catatan Tambahan (Opsional)</label>
-                    <textarea name="Catatan_Tambahan" placeholder="Tuliskan instruksi khusus jika ada..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+                    <textarea name="Alamat_Penulis" required placeholder="Jalan, RT/RW, Desa, Kec, Kab/Kota, Kodepos" rows="2" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
                 </div>
 
-                <!-- PILIHAN METODE PEMBAYARAN -->
                 <div class="mt-5 bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem] text-left shadow-inner">
                     <div class="flex justify-between items-center mb-5">
                         <label class="block text-[11px] md:text-xs font-bold text-warnautama dark:text-white uppercase tracking-wider border-b border-gray-300 dark:border-gray-700 pb-2">Metode Pembayaran <span class="text-red-500">*</span></label>
                         <span id="labelHargaPenerbitan" class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1.5 rounded-full text-[10px] sm:text-xs uppercase tracking-wider hidden">Rp 0</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="qris" required class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Penerbitan" value="qris" required class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">QRIS</span><span class="text-[10px] text-gray-500">GoPay, OVO, Dana</span></div>
-                            <img src="qris.png" alt="QRIS" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
                         </label>
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="ocbc" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Penerbitan" value="ocbc" class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">Transfer OCBC</span><span class="text-[10px] text-gray-500">Cek Otomatis</span></div>
-                            <img src="ocbc.png" alt="OCBC" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
                         </label>
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="bri" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Penerbitan" value="bri" class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">Transfer BRI</span><span class="text-[10px] text-gray-500">Cek Manual</span></div>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="absolute right-3 h-3 opacity-50" onerror="this.style.display='none'">
                         </label>
                     </div>
                 </div>
 
                 <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
-                    <a href="ketentuan.pdf" download class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold text-warnaketiga dark:text-white hover:underline mb-4 transition"> ☸ Unduh Ketentuan Penerbitan (PDF)</a>
                     <label class="flex items-start gap-3 cursor-pointer group">
                         <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
-                        <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya telah membaca, memahami, dan menyetujui seluruh isi Ketentuan Penerbitan.</span>
+                        <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya menyetujui seluruh Ketentuan Penerbitan.</span>
                     </label>
                 </div>
 
-                <button type="button" onclick="lanjutLangkah2('penerbitan')" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                <button type="button" onclick="lanjutLangkah2('penerbitan')" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform mt-6">
                     BUAT TAGIHAN
                 </button>
             </div>
 
-            <!-- STEP 2: UPLOAD BUKTI -->
             <div id="step2-penerbitan" class="hidden space-y-6 animate-fade-up">
                 <div class="text-center mb-6">
                     <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total Tagihan Penerbitan</p>
@@ -1787,14 +1770,16 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3 mt-8">
-                    <button type="button" onclick="kembaliLangkah1('penerbitan')" class="w-full sm:w-1/3 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 rounded-full text-xs hover:bg-gray-300 transition">GANTI METODE</button>
-                    <button type="submit" class="w-full sm:w-2/3 bg-warnakedua text-white font-black py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition">KONFIRMASI & KIRIM</button>
+                    <button type="button" onclick="kembaliLangkah1('penerbitan')" class="w-full sm:w-1/3 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 rounded-full text-xs transition">GANTI METODE</button>
+                    <button type="submit" class="w-full sm:w-2/3 bg-warnakedua text-white font-black py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm transition">KONFIRMASI & KIRIM</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-      <div id="hal-daftar-hki" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
+
+<!-- AREA 2: FORM HAK CIPTA -->
+<div id="hal-daftar-hki" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
     <button onclick="bukaHalaman('langkah')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
     <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
         <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">DAFTAR HAK CIPTA</h2>
@@ -1812,12 +1797,11 @@
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_next" value="https://formsubmit.co/success.html">
             
-            <!-- STEP 1: PENGISIAN DATA -->
             <div id="step1-hki" class="space-y-5 block">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Lengkap Pencipta <span class="text-red-500">*</span></label>
-                        <input type="text" name="Nama_Lengkap_Pencipta" required placeholder="Tuliskan nama seluruh pencipta sesuai KTP" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                        <input type="text" name="Nama_Lengkap_Pencipta" required placeholder="Tuliskan nama seluruh pencipta" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Email <span class="text-red-500">*</span></label>
@@ -1843,7 +1827,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Jenis Ciptaan <span class="text-red-500">*</span></label>
-                        <input type="text" name="Jenis_Ciptaan" required placeholder="Buku, Artikel, Video, Aplikasi, dll" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                        <input type="text" name="Jenis_Ciptaan" required placeholder="Buku, Artikel, Video, dll" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Kategori Biaya <span class="text-red-500">*</span></label>
@@ -1855,84 +1839,50 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Diumumkan di Kota <span class="text-red-500">*</span></label>
-                        <input type="text" name="Kota_Diumumkan" required placeholder="Kota publikasi pertama kali" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Tanggal Diumumkan <span class="text-red-500">*</span></label>
-                        <input type="date" name="Tanggal_Diumumkan" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
                     <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
                         <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload KTP <span class="text-red-500">*</span></label>
                         <input type="file" name="File_KTP" accept=".png,.pdf,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium">* Scan/Foto KTP Asli. Format: PDF/JPG/PNG. Max 3MB.</p>
                     </div>
                     <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
                         <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload File Karya <span class="text-red-500">*</span></label>
                         <input type="file" name="File_Karya_Utama" accept=".pdf,.jpg,.jpeg,.png" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PDF / JPG / PNG. Max 3MB.</p>
                     </div>
                 </div>
-        
-                <div class="my-8"></div>
 
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Lengkap Pemohon <span class="text-red-500">*</span></label>
-                    <textarea name="Alamat_Pemohon" required placeholder="Jalan, RT/RW, Desa, Kec, Kab/Kota, Kodepos (Tujuan pengiriman sertifikat fisik)" rows="2" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Referensi (Opsional)</label>
-                    <input type="text" name="Referensi" placeholder="Nama atau ID pemberi informasi" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Catatan (Opsional)</label>
-                    <textarea name="Catatan" placeholder="Tuliskan catatan tambahan jika perlu..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
-                </div>
-
-                <!-- PILIHAN METODE PEMBAYARAN -->
                 <div class="mt-5 bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem] text-left shadow-inner">
                     <div class="flex justify-between items-center mb-5">
                         <label class="block text-[11px] md:text-xs font-bold text-warnautama dark:text-white uppercase tracking-wider border-b border-gray-300 dark:border-gray-700 pb-2">Metode Pembayaran <span class="text-red-500">*</span></label>
                         <span id="labelHargaHki" class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1.5 rounded-full text-[10px] sm:text-xs uppercase tracking-wider hidden">Rp 0</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="qris" required class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Hki" value="qris" required class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">QRIS</span><span class="text-[10px] text-gray-500">GoPay, OVO, Dana</span></div>
-                            <img src="qris.png" alt="QRIS" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
                         </label>
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="ocbc" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Hki" value="ocbc" class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">Transfer OCBC</span><span class="text-[10px] text-gray-500">Cek Otomatis</span></div>
-                            <img src="ocbc.png" alt="OCBC" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
                         </label>
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="bri" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Hki" value="bri" class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">Transfer BRI</span><span class="text-[10px] text-gray-500">Cek Manual</span></div>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="absolute right-3 h-3 opacity-50" onerror="this.style.display='none'">
                         </label>
                     </div>
                 </div>
 
                 <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
-                    <a href="kategori.pdf" download class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold text-warnaketiga dark:text-white hover:underline mb-4 transition"> ☸ Unduh Ketentuan Hak Cipta (PDF)</a>
                     <label class="flex items-start gap-3 cursor-pointer group">
                         <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
-                        <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya telah membaca, memahami, dan menyetujui seluruh isi Ketentuan Hak Cipta.</span>
+                        <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya menyetujui seluruh Ketentuan Hak Cipta.</span>
                     </label>
                 </div>
 
-                <button type="button" onclick="lanjutLangkah2('hki')" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                <button type="button" onclick="lanjutLangkah2('hki')" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform mt-6">
                     BUAT TAGIHAN
                 </button>
             </div>
 
-            <!-- STEP 2: UPLOAD BUKTI -->
             <div id="step2-hki" class="hidden space-y-6 animate-fade-up">
                 <div class="text-center mb-6">
                     <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total Tagihan HKI</p>
@@ -1947,202 +1897,116 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3 mt-8">
-                    <button type="button" onclick="kembaliLangkah1('hki')" class="w-full sm:w-1/3 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 rounded-full text-xs hover:bg-gray-300 transition">GANTI METODE</button>
-                    <button type="submit" class="w-full sm:w-2/3 bg-warnakedua text-white font-black py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition">KONFIRMASI & KIRIM</button>
+                    <button type="button" onclick="kembaliLangkah1('hki')" class="w-full sm:w-1/3 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 rounded-full text-xs transition">GANTI METODE</button>
+                    <button type="submit" class="w-full sm:w-2/3 bg-warnakedua text-white font-black py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm transition">KONFIRMASI & KIRIM</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-      <div id="hal-daftar-hki" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto">
+
+<!-- AREA 3: FORM LITERASI -->
+<div id="hal-upload-literasi" class="halaman-konten hidden p-4 sm:p-6 md:p-12 pb-32 animate-fade-up relative z-10 max-w-4xl mx-auto w-full">
     <button onclick="bukaHalaman('langkah')" class="mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold glass px-5 py-2.5 rounded-full transition">&larr; Kembali</button>
     <div class="glass p-6 md:p-14 rounded-[2rem] shadow-2xl">
-        <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">DAFTAR HAK CIPTA</h2>
-        
-        <div class="bg-white/60 dark:bg-black/40 border-l-4 border-warnautama p-5 rounded-2xl mb-8">
-            <h4 class="font-extrabold mb-3 uppercase">Informasi Biaya HKI</h4>
-            <div class="grid sm:grid-cols-2 gap-4">
-                <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Karya Tulis</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 800.000</span></div>
-                <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-xl"><span class="block text-xs uppercase font-bold text-gray-500">Karya Umum</span><span class="text-lg font-black text-warnautama dark:text-white">Rp 1.200.000</span></div>
-            </div>
-        </div>
-        
-        <form id="formPendaftaranHki" onsubmit="kirimFormLayanan(event, 'Pendaftaran Hak Cipta')" class="text-left">
+        <h2 class="text-xl md:text-3xl font-extrabold mb-8 text-warnautama dark:text-white text-center border-b pb-4">PUBLIKASI LITERASI</h2>
+ 
+        <form id="formUploadLiterasi" onsubmit="kirimFormLayanan(event, 'Upload Literasi')" class="text-left">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_next" value="https://formsubmit.co/success.html">
-            
-            <!-- STEP 1: PENGISIAN DATA -->
-            <div id="step1-hki" class="space-y-5 block">
+     
+            <div id="step1-literasi" class="space-y-5 block">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Lengkap Pencipta <span class="text-red-500">*</span></label>
-                        <input type="text" name="Nama_Lengkap_Pencipta" required placeholder="Tuliskan nama seluruh pencipta sesuai KTP" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" name="Nama_Lengkap" required placeholder="Sesuai nama Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Email <span class="text-red-500">*</span></label>
-                        <input type="email" name="Email" required placeholder="email@anda.com" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nomor WhatsApp <span class="text-red-500">*</span></label>
-                        <input type="number" name="WhatsApp" required placeholder="08xxxxxxxxxx" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Nama Pena <span class="text-red-500">*</span></label>
+                        <input type="text" name="Nama_Pena" required placeholder="Nama pena untuk karya" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
                     </div>
                 </div>
 
                 <div class="my-6 border-b border-gray-300 dark:border-gray-700 opacity-50"></div>
 
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Judul Ciptaan <span class="text-red-500">*</span></label>
-                    <input type="text" name="Judul_Ciptaan" required placeholder="Judul resmi karya Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Deskripsi Singkat Ciptaan <span class="text-red-500">*</span></label>
-                    <textarea name="Deskripsi_Ciptaan" required placeholder="Jelaskan secara singkat tentang karya ini..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Judul Karya / Literasi <span class="text-red-500">*</span></label>
+                    <input type="text" name="Judul" required placeholder="Masukkan judul karya Anda" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Jenis Ciptaan <span class="text-red-500">*</span></label>
-                        <input type="text" name="Jenis_Ciptaan" required placeholder="Buku, Artikel, Video, Aplikasi, dll" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Kategori Biaya <span class="text-red-500">*</span></label>
-                        <select id="dropdownHki" name="Kategori_Biaya" onchange="updateBiayaHkiLangkah1()" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white cursor-pointer appearance-none">
-                            <option value="" disabled selected>-- Pilih Kategori --</option>
-                            <option value="Karya Tulis">Karya Tulis (Rp 800.000)</option>
-                            <option value="Karya Lainnya Umum">Karya Lainnya / Umum (Rp 1.200.000)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Diumumkan di Kota <span class="text-red-500">*</span></label>
-                        <input type="text" name="Kota_Diumumkan" required placeholder="Kota publikasi pertama kali" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Tanggal Diumumkan <span class="text-red-500">*</span></label>
-                        <input type="date" name="Tanggal_Diumumkan" required class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
                     <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
-                        <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload KTP <span class="text-red-500">*</span></label>
-                        <input type="file" name="File_KTP" accept=".png,.pdf,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium">* Scan/Foto KTP Asli. Format: PDF/JPG/PNG. Max 3MB.</p>
+                        <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Cover (Landscape) <span class="text-red-500">*</span></label>
+                        <input type="file" name="File_Cover" accept=".png,.jpg,.jpeg" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
                     </div>
                     <div class="bg-white/50 dark:bg-black/40 border border-gray-300 dark:border-gray-700 p-4 rounded-2xl">
-                        <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload File Karya <span class="text-red-500">*</span></label>
-                        <input type="file" name="File_Karya_Utama" accept=".pdf,.jpg,.jpeg,.png" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
-                        <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: PDF / JPG / PNG. Max 3MB.</p>
+                        <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase">Upload Literasi <span class="text-red-500">*</span></label>
+                        <input type="file" name="File_Literasi" accept=".pdf,.doc,.docx" required class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition">
                     </div>
                 </div>
-        
-                <div class="my-8"></div>
 
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Alamat Lengkap Pemohon <span class="text-red-500">*</span></label>
-                    <textarea name="Alamat_Pemohon" required placeholder="Jalan, RT/RW, Desa, Kec, Kab/Kota, Kodepos (Tujuan pengiriman sertifikat fisik)" rows="2" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Referensi (Opsional)</label>
-                    <input type="text" name="Referensi" placeholder="Nama atau ID pemberi informasi" class="w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-2 uppercase">Catatan (Opsional)</label>
-                    <textarea name="Catatan" placeholder="Tuliskan catatan tambahan jika perlu..." rows="3" class="input-pesan auto-resize w-full bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl p-3.5 text-xs md:text-sm font-medium text-warnautama dark:text-white"></textarea>
-                </div>
-
-                <!-- PILIHAN METODE PEMBAYARAN -->
                 <div class="mt-5 bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem] text-left shadow-inner">
                     <div class="flex justify-between items-center mb-5">
                         <label class="block text-[11px] md:text-xs font-bold text-warnautama dark:text-white uppercase tracking-wider border-b border-gray-300 dark:border-gray-700 pb-2">Metode Pembayaran <span class="text-red-500">*</span></label>
-                        <span id="labelHargaHki" class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1.5 rounded-full text-[10px] sm:text-xs uppercase tracking-wider hidden">Rp 0</span>
+                        <span class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1.5 rounded-full text-[10px] sm:text-xs uppercase tracking-wider">Rp 25.000</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="qris" required class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Literasi" value="qris" required class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">QRIS</span><span class="text-[10px] text-gray-500">GoPay, OVO, Dana</span></div>
-                            <img src="qris.png" alt="QRIS" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
                         </label>
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="ocbc" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Literasi" value="ocbc" class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">Transfer OCBC</span><span class="text-[10px] text-gray-500">Cek Otomatis</span></div>
-                            <img src="ocbc.png" alt="OCBC" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
                         </label>
-                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
-                            <input type="radio" name="Metode_Pembayaran" value="bri" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran_Literasi" value="bri" class="peer w-4 h-4 text-warnautama focus:ring-warnautama">
                             <div class="ml-3 flex flex-col"><span class="text-xs font-bold text-warnautama dark:text-white">Transfer BRI</span><span class="text-[10px] text-gray-500">Cek Manual</span></div>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="absolute right-3 h-3 opacity-50" onerror="this.style.display='none'">
                         </label>
                     </div>
                 </div>
 
                 <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
-                    <a href="kategori.pdf" download class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold text-warnaketiga dark:text-white hover:underline mb-4 transition"> ☸ Unduh Ketentuan Hak Cipta (PDF)</a>
                     <label class="flex items-start gap-3 cursor-pointer group">
                         <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
-                        <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya telah membaca, memahami, dan menyetujui seluruh isi Ketentuan Hak Cipta.</span>
+                        <span class="text-[11px] md:text-sm text-gray-700 dark:text-gray-300 font-medium">Saya bersedia konfirmasi ke Admin setelah form terkirim.</span>
                     </label>
                 </div>
 
-                <button type="button" onclick="lanjutLangkah2('hki')" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform duration-300 mt-6">
+                <button type="button" onclick="lanjutLangkah2('literasi')" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 md:py-5 rounded-full shadow-xl uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition-transform mt-6">
                     BUAT TAGIHAN
                 </button>
             </div>
 
-            <!-- STEP 2: UPLOAD BUKTI -->
-            <div id="step2-hki" class="hidden space-y-6 animate-fade-up">
+            <div id="step2-literasi" class="hidden space-y-6 animate-fade-up">
                 <div class="text-center mb-6">
-                    <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total Tagihan HKI</p>
-                    <h3 id="tagihan-final-hki" class="text-3xl font-black text-warnautama dark:text-white">Rp 0</h3>
+                    <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total Biaya Publikasi</p>
+                    <h3 class="text-3xl font-black text-warnautama dark:text-white">Rp 25.000</h3>
                 </div>
 
-                <div id="payment-display-hki" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm text-center"></div>
+                <div id="payment-display-literasi" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm text-center"></div>
 
                 <div class="bg-white/70 dark:bg-black/60 p-5 rounded-2xl border border-gray-300 dark:border-gray-700 text-left mt-6">
                     <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wider">Upload Bukti Transfer <span class="text-red-500">*</span></label>
-                    <input type="file" name="Bukti_Transfer" id="fileBuktiHki" accept=".png,.jpg,.jpeg" class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer">
+                    <input type="file" name="Bukti_Transfer" id="fileBuktiLiterasi" accept=".png,.jpg,.jpeg" class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer">
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3 mt-8">
-                    <button type="button" onclick="kembaliLangkah1('hki')" class="w-full sm:w-1/3 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 rounded-full text-xs hover:bg-gray-300 transition">GANTI METODE</button>
-                    <button type="submit" class="w-full sm:w-2/3 bg-warnakedua text-white font-black py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-[1.02] transition">KONFIRMASI & KIRIM</button>
+                    <button type="button" onclick="kembaliLangkah1('literasi')" class="w-full sm:w-1/3 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold py-4 rounded-full text-xs transition">GANTI METODE</button>
+                    <button type="submit" class="w-full sm:w-2/3 bg-warnakedua text-white font-black py-4 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm transition">KONFIRMASI & KIRIM</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
- <script>
-    function showToast(message, type = 'success') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-        const icon = type === 'success' ? '✔' : '✖';
-        toast.className = `${bgColor} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
-        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
-        container.appendChild(toast);
-        setTimeout(() => { toast.classList.remove('translate-y-[-30px]', 'opacity-0'); toast.classList.add('translate-y-0', 'opacity-100'); }, 10);
-        setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-30px]', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 4000);
-    }
 
-    function salinNomor(idTeks, idTombol) {
-        const teksAsli = document.getElementById(idTeks).innerText;
-        navigator.clipboard.writeText(teksAsli).then(() => {
-            const tombol = document.getElementById(idTombol);
-            tombol.innerHTML = "Tersalin ✓";
-            tombol.classList.add('bg-green-100', 'text-green-700');
-            setTimeout(() => {
-                tombol.innerHTML = "Salin";
-                tombol.classList.remove('bg-green-100', 'text-green-700');
-            }, 2000);
-        });
-    }
+<!-- ========================================================================= -->
+<!-- JAVASCRIPT UNTUK MULTI-STEP FORM (LETAKKAN DI BAGIAN BAWAH HTML) -->
+<!-- ========================================================================= -->
 
-    // ==========================================
-    // LOGIKA MULTI-STEP 2 LANGKAH (PENERBITAN, HKI, LITERASI)
-    // ==========================================
+<script>
+    // Fungsi Menampilkan Harga Form Penerbitan
     function updateBiayaPenerbitanLangkah1() {
         const paket = document.getElementById('dropdownPenerbitan').value;
         const label = document.getElementById('labelHargaPenerbitan');
@@ -2151,6 +2015,7 @@
         else { label.classList.add('hidden'); }
     }
 
+    // Fungsi Menampilkan Harga Form HKI
     function updateBiayaHkiLangkah1() {
         const kategori = document.getElementById('dropdownHki').value;
         const label = document.getElementById('labelHargaHki');
@@ -2159,8 +2024,8 @@
         else { label.classList.add('hidden'); }
     }
 
+    // Fungsi Lanjut ke Step 2 (Validasi dan Tampil Metode Pembayaran)
     function lanjutLangkah2(jenisForm) {
-        // 1. Tentukan ID Form
         let formId = '';
         if(jenisForm === 'penerbitan') formId = 'formPenerbitanNaskah';
         else if(jenisForm === 'hki') formId = 'formPendaftaranHki';
@@ -2168,7 +2033,7 @@
         
         let form = document.getElementById(formId);
         
-        // 2. Validasi Input Step 1 (Abaikan Validasi Input File Bukti di Step 2 sementara)
+        // 1. Validasi Input Step 1 (Wajib Diisi)
         let inputsStep1 = form.querySelectorAll(`#step1-${jenisForm} input[required], #step1-${jenisForm} textarea[required], #step1-${jenisForm} select[required]`);
         let isValid = true;
         for (let input of inputsStep1) {
@@ -2180,14 +2045,19 @@
         }
         if(!isValid) return;
 
-        // 3. Cek Pilihan Metode Pembayaran
-        let metode = form.querySelector(`input[name="Metode_Pembayaran"]:checked`);
+        // 2. Cek apakah metode pembayaran dipilih
+        let nameMetode = '';
+        if(jenisForm === 'penerbitan') nameMetode = 'Metode_Pembayaran_Penerbitan';
+        if(jenisForm === 'hki') nameMetode = 'Metode_Pembayaran_Hki';
+        if(jenisForm === 'literasi') nameMetode = 'Metode_Pembayaran_Literasi';
+        
+        let metode = form.querySelector(`input[name="${nameMetode}"]:checked`);
         if(!metode) {
             showToast("Silakan pilih metode pembayaran!", "error");
             return;
         }
 
-        // 4. Hitung Harga Berdasarkan Jenis
+        // 3. Tentukan Harga Berdasarkan Form
         let harga = 0;
         if (jenisForm === 'penerbitan') {
             const paket = document.getElementById('dropdownPenerbitan').value;
@@ -2198,18 +2068,17 @@
             harga = (paket === 'Karya Tulis') ? 800000 : 1200000;
             document.getElementById('tagihan-final-hki').innerText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(harga);
         } else if (jenisForm === 'literasi') {
-            harga = 25000;
+            harga = 25000; // Harga Fix
         }
 
-        // 5. Loading Simulasi
+        // 4. Loading "Membuat Tagihan..."
         const loader = document.getElementById('loading-form');
-        const teksLoading = document.getElementById('teks-loading') || loader.querySelector('p');
+        const teksLoading = document.getElementById('teks-loading') || (loader ? loader.querySelector('p') : null);
         if(teksLoading) teksLoading.innerText = "Membuat Tagihan...";
-        loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10);
+        if(loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
-        // Simulasi delay 1.5 detik
+        // 5. Animasi ke Step 2
         setTimeout(() => {
-            // Beralih tampilan ke Step 2
             document.getElementById(`step1-${jenisForm}`).classList.add('hidden');
             document.getElementById(`step2-${jenisForm}`).classList.remove('hidden');
             
@@ -2218,60 +2087,57 @@
             if(jenisForm==='literasi') targetIdScroll = 'hal-upload-literasi';
             document.getElementById(targetIdScroll).scrollIntoView({ behavior: 'smooth' });
 
-            // Render UI Pembayaran
+            // 6. Generate UI Metode Pembayaran (Nomor Rekening / QRIS)
             let displayHtml = "";
             let uniqueId = "rek-" + jenisForm;
             let btnId = "btn-salin-" + jenisForm;
 
             if (metode.value === 'qris') {
                 displayHtml = `
-                    <img src="qris.png" alt="QRIS" class="h-8 mx-auto mb-3" onerror="this.style.display='none'">
-                    <p class="text-xs text-gray-500 mb-4">Silakan scan kode QRIS di bawah ini menggunakan M-Banking/E-Wallet Anda.</p>
-                    <div class="inline-block p-2 bg-white rounded-xl shadow border border-gray-200">
-                        <img src="payqris.png" alt="Scan QRIS" class="w-48 h-48 object-cover rounded-lg" onerror="this.outerHTML='<div class=\\'w-48 h-48 bg-gray-200 flex items-center justify-center rounded-lg text-xs\\'>Gambar QRIS</div>'">
-                    </div>
+                    <p class="text-xs text-gray-500 font-bold mb-3 uppercase tracking-widest">Scan QR Code Berikut</p>
+                    <img src="payqris.png" alt="Scan QRIS" class="w-48 h-48 mx-auto rounded-lg shadow-md border border-gray-200" onerror="this.outerHTML='<div class=\\'w-48 h-48 bg-gray-200 mx-auto rounded-lg text-xs flex items-center justify-center\\'>Gambar QRIS Belum Ada</div>'">
                 `;
             } else if (metode.value === 'ocbc') {
                 displayHtml = `
-                    <img src="ocbc.png" alt="OCBC" class="h-8 mx-auto mb-3" onerror="this.outerHTML='<p class=\\'font-black text-red-600 mb-3\\'>OCBC</p>'">
-                    <p class="text-xs font-bold text-gray-700 dark:text-gray-300">a/n PT MEDIA TULISAN MANUSIA</p>
-                    <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-700 mt-4 mx-auto max-w-sm">
-                        <span id="${uniqueId}" class="font-mono font-black tracking-widest text-lg text-warnautama dark:text-white select-all">693800151450</span>
-                        <button type="button" onclick="salinNomor('${uniqueId}', '${btnId}')" id="${btnId}" class="text-xs font-bold text-warnautama dark:text-blue-400 hover:opacity-70 bg-warnautama/10 px-3 py-1.5 rounded-lg">Salin</button>
+                    <p class="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">Transfer OCBC a/n PT MEDIA TULISAN MANUSIA</p>
+                    <div class="flex justify-center items-center gap-3 bg-gray-100 dark:bg-gray-700 py-3 rounded-xl border border-gray-200 dark:border-gray-600 mt-2 max-w-sm mx-auto">
+                        <span id="${uniqueId}" class="font-mono text-xl font-bold tracking-widest text-warnautama dark:text-white">693800151450</span>
+                        <button id="${btnId}" type="button" onclick="salinNomor('${uniqueId}','${btnId}')" class="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 px-3 py-1.5 rounded-lg text-xs font-bold text-gray-800 dark:text-white shadow-sm transition">Salin</button>
                     </div>
                 `;
             } else if (metode.value === 'bri') {
                 displayHtml = `
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-6 mx-auto mb-3 dark:filter dark:brightness-0 dark:invert" onerror="this.outerHTML='<p class=\\'font-black text-blue-600 mb-3\\'>BRI</p>'">
-                    <p class="text-xs font-bold text-gray-700 dark:text-gray-300">a/n ACH. SUFYAN WAHYUDI</p>
-                    <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-700 mt-4 mx-auto max-w-sm">
-                        <span id="${uniqueId}" class="font-mono font-black tracking-widest text-lg text-warnautama dark:text-white select-all">123001006601501</span>
-                        <button type="button" onclick="salinNomor('${uniqueId}', '${btnId}')" id="${btnId}" class="text-xs font-bold text-warnautama dark:text-blue-400 hover:opacity-70 bg-warnautama/10 px-3 py-1.5 rounded-lg">Salin</button>
+                    <p class="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">Transfer BRI a/n ACH. SUFYAN WAHYUDI</p>
+                    <div class="flex justify-center items-center gap-3 bg-gray-100 dark:bg-gray-700 py-3 rounded-xl border border-gray-200 dark:border-gray-600 mt-2 max-w-sm mx-auto">
+                        <span id="${uniqueId}" class="font-mono text-xl font-bold tracking-widest text-warnautama dark:text-white">123001006601501</span>
+                        <button id="${btnId}" type="button" onclick="salinNomor('${uniqueId}','${btnId}')" class="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 px-3 py-1.5 rounded-lg text-xs font-bold text-gray-800 dark:text-white shadow-sm transition">Salin</button>
                     </div>
                 `;
             }
             document.getElementById(`payment-display-${jenisForm}`).innerHTML = displayHtml;
             
-            // Set required upload bukti di langkah 2
+            // Wajibkan input Bukti Transfer
             let idFile = 'fileBukti' + jenisForm.charAt(0).toUpperCase() + jenisForm.slice(1);
             let inputBukti = document.getElementById(idFile);
             if(inputBukti) inputBukti.setAttribute('required', 'true');
 
-            loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500);
+            if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
         }, 1500);
     }
 
+    // Fungsi Kembali ke Langkah 1
     function kembaliLangkah1(jenisForm) {
         document.getElementById(`step2-${jenisForm}`).classList.add('hidden');
         document.getElementById(`step1-${jenisForm}`).classList.remove('hidden');
         
-        // Hapus attribut required dari Bukti Transfer sementara
         let idFile = 'fileBukti' + jenisForm.charAt(0).toUpperCase() + jenisForm.slice(1);
         let inputBukti = document.getElementById(idFile);
         if(inputBukti) inputBukti.removeAttribute('required');
     }
 
-
+    // ==========================================
+    // FUNGSI PENGIRIMAN DATA FINAL (MENGGANTIKAN FUNGSI LAMA)
+    // ==========================================
     window.kirimFormLayanan = async function(e, tipeLayanan) {
         e.preventDefault(); 
         const f = e.target;
@@ -2282,7 +2148,6 @@
             return; 
         }
 
-        // Validasi File
         const fileInputs = f.querySelectorAll('input[type="file"]');
         for (let i of fileInputs) {
             if (i.files.length > 0) {
@@ -2298,7 +2163,7 @@
         btn.innerText = "MENGIRIM DATA...";
 
         const loader = document.getElementById('loading-form');
-        const teksLoading = document.getElementById('teks-loading') || loader.querySelector('p');
+        const teksLoading = document.getElementById('teks-loading') || (loader ? loader.querySelector('p') : null);
         if(teksLoading) teksLoading.innerText = "Mengirim Pengajuan...";
         if(loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
@@ -2308,7 +2173,6 @@
         const judul = judulInput ? judulInput.value : '-';
 
         try {
-            // 1. Simpan Data ke Firebase (Hanya Text) - Status 'Pending'
             await window.addDoc(window.collection(window.db, "pesanan"), { 
                 userEmail: window.currentUserEmail, 
                 userName: window.currentUserName, 
@@ -2316,12 +2180,11 @@
                 judul: judul, 
                 namaLengkap: nama, 
                 wa: wa, 
-                status: "Pending", // Klien sudah upload bukti, jadi diset Pending untuk di-review Admin
+                status: "Pending", 
                 fileHasil: "", 
                 waktuLokal: new Date().toLocaleDateString('id-ID') 
             });
 
-            // 2. Siapkan Data Email untuk FormSubmit
             let subjekEl = f.querySelector('input[name="_subject"]');
             if(!subjekEl) { 
                 subjekEl = document.createElement('input'); 
@@ -2350,38 +2213,32 @@
                 document.body.appendChild(iframe);
             }
 
-            // 3. Susun Teks WhatsApp
             let formDataWA = new FormData(f);
             let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah menyelesaikan pengajuan *${tipeLayanan}* via Website.\n\n*RINCIAN DATA:*\n`;
-            
             for (let [key, value] of formDataWA.entries()) {
                 if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_') && key !== 'Link_Dashboard_Admin') {
                     pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
                 }
             }
             pesanWA += `\n_(Catatan: Semua dokumen syarat dan *Bukti Transfer* telah saya unggah di sistem website)._`;
-            
             const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
 
-            // 4. Eksekusi Pengiriman ke FormSubmit
             f.action = "https://formsubmit.co/ptmediatulisanmanusia@gmail.com"; 
             f.method = "POST"; 
             f.enctype = "multipart/form-data"; 
             f.target = "hidden-iframe-upload"; 
             f.submit(); 
 
-            // 5. Redirect setelah timeout
             setTimeout(() => {
                 if(loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
                 showToast(`${tipeLayanan} Berhasil Dikirim!`, "success");
-                window.location.href = linkWhatsAppLangsung; // Arahkan ke WhatsApp
+                window.location.href = linkWhatsAppLangsung;
                 
                 setTimeout(() => {
                     f.reset();
                     btn.disabled = false; 
                     btn.innerText = "KONFIRMASI & KIRIM";
                     
-                    // Kembalikan semua form ke step 1
                     kembaliLangkah1('penerbitan');
                     kembaliLangkah1('hki');
                     kembaliLangkah1('literasi');
@@ -2400,6 +2257,7 @@
         }
     };
 </script>
+      
     <div id="modalSyarat" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
         <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl flex flex-col">
             <button onclick="tutupModal('modalSyarat')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
