@@ -2211,6 +2211,20 @@
       let inputBukti = document.getElementById(idFile);
       if(inputBukti) inputBukti.removeAttribute('required');
   } 
+  function salinNomor(idTeks, idTombol) {
+    const elTeks = document.getElementById(idTeks);
+    const tombol = document.getElementById(idTombol);
+    if (!elTeks || !tombol) return;
+
+    navigator.clipboard.writeText(elTeks.innerText).then(() => {
+      tombol.innerHTML = "Tersalin ✓";
+      tombol.classList.add('bg-green-100', 'text-green-700');
+      setTimeout(() => {
+        tombol.innerHTML = "Salin";
+        tombol.classList.remove('bg-green-100', 'text-green-700');
+      }, 2000);
+    });
+  }
 </script>
       
     <div id="modalSyarat" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
