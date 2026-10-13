@@ -84,7 +84,7 @@
     <div id="loading-form" class="fixed inset-0 z-[99999] bg-white/80 dark:bg-black/80 flex items-center justify-center transition-opacity duration-500 hidden opacity-0">
         <div class="flex flex-col items-center">
             <img src="load.webp" alt="Loading" class="h-20 w-auto object-contain animate-pulse mb-4 drop-shadow-md">
-            <p class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse">Membuat Tagihan...</p>
+            <p id="loading-text" class="text-warnautama dark:text-white font-black tracking-widest uppercase text-sm animate-pulse">Membuat Tagihan...</p>
         </div>
     </div>
 
@@ -177,6 +177,29 @@
                     <p class="text-[10px] text-gray-500 mt-2 font-medium">* Format: JPG/PNG/PDF. Jelas terbaca. Max 3MB.</p>
                 </div>
 
+                <!-- METODE PEMBAYARAN PELAKU USAHA -->
+                <div class="mt-5 bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem] text-left shadow-inner">
+                    <label class="block text-[11px] md:text-xs font-bold text-warnautama dark:text-white mb-3 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700 pb-2">Metode Pembayaran <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran" value="qris" required class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                            <div class="ml-3 flex flex-col">
+                                <span class="text-xs font-bold text-warnautama dark:text-white">QRIS / E-Wallet</span>
+                                <span class="text-[10px] text-gray-500">Scan QR Code (GoPay, OVO, dll)</span>
+                            </div>
+                            <img src="qris.png" alt="QRIS" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
+                        </label>
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran" value="bca" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                            <div class="ml-3 flex flex-col">
+                                <span class="text-xs font-bold text-warnautama dark:text-white">BCA Virtual Account</span>
+                                <span class="text-[10px] text-gray-500">Transfer bank otomatis</span>
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="absolute right-3 h-3 opacity-50" onerror="this.style.display='none'">
+                        </label>
+                    </div>
+                </div>
+
                 <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
                     <label class="flex items-start gap-3 cursor-pointer group">
                         <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
@@ -261,6 +284,29 @@
                     </div>
                 </div>
 
+                <!-- METODE PEMBAYARAN BADAN USAHA -->
+                <div class="mt-5 bg-white/50 dark:bg-black/40 border border-warnakedua/50 p-6 md:p-8 rounded-[2rem] text-left shadow-inner">
+                    <label class="block text-[11px] md:text-xs font-bold text-warnautama dark:text-white mb-3 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700 pb-2">Metode Pembayaran <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran" value="qris" required class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                            <div class="ml-3 flex flex-col">
+                                <span class="text-xs font-bold text-warnautama dark:text-white">QRIS / E-Wallet</span>
+                                <span class="text-[10px] text-gray-500">Scan QR Code (GoPay, OVO, dll)</span>
+                            </div>
+                            <img src="qris.png" alt="QRIS" class="absolute right-3 h-4 opacity-50" onerror="this.style.display='none'">
+                        </label>
+                        <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white/70 dark:bg-black/60 has-[:checked]:border-warnautama has-[:checked]:bg-warnautama/5">
+                            <input type="radio" name="Metode_Pembayaran" value="bca" class="peer w-4 h-4 text-warnautama border-gray-300 focus:ring-warnautama">
+                            <div class="ml-3 flex flex-col">
+                                <span class="text-xs font-bold text-warnautama dark:text-white">BCA Virtual Account</span>
+                                <span class="text-[10px] text-gray-500">Transfer bank otomatis</span>
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="absolute right-3 h-3 opacity-50" onerror="this.style.display='none'">
+                        </label>
+                    </div>
+                </div>
+
                 <div class="bg-gray-100/50 dark:bg-[#2a2a2a]/50 p-5 rounded-2xl mt-6">
                     <label class="flex items-start gap-3 cursor-pointer group">
                         <input type="checkbox" required class="mt-0.5 w-4 h-4 text-warnautama bg-white border-gray-300 rounded focus:ring-warnautama">
@@ -302,24 +348,15 @@
           
           <div id="kontenTransfer" class="block space-y-5">
             <div class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 relative overflow-hidden group hover:border-warnautama transition-colors shadow-sm">
-              <div class="absolute top-0 right-0 bg-warnautama text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">Rekening Utama</div>
-              <img src="ocbc.png" alt="Logo OCBC" class="h-6 sm:h-8 mb-2 object-contain fallback-text" onerror="this.outerHTML='<p class=\'font-black text-red-600 mb-2\'>OCBC</p>'">
-              <p class="text-[10px] md:text-xs font-bold text-gray-700 dark:text-gray-300">a/n: PT MEDIA TULISAN MANUSIA</p>
+              <div class="absolute top-0 right-0 bg-warnautama text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">Virtual Account</div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6 sm:h-8 mb-2 object-contain fallback-text" onerror="this.outerHTML='<p class=\'font-black text-blue-600 mb-2\'>BCA</p>'">
+              <p class="text-[10px] md:text-xs font-bold text-gray-700 dark:text-gray-300">a/n: <span id="nama-va">PT MEDIA TULISAN MANUSIA</span></p>
               <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-700 mt-3">
-                <span id="rek-ocbc" class="font-mono font-black tracking-widest text-lg text-warnautama dark:text-white select-all">693800151450</span>
-                <button type="button" onclick="salinNomor('rek-ocbc', 'btn-salin-ocbc')" id="btn-salin-ocbc" class="text-xs font-bold text-warnautama dark:text-blue-400 hover:opacity-70 bg-warnautama/10 px-3 py-1.5 rounded-lg flex items-center gap-1">Salin</button>
+                <span id="nomor-va" class="font-mono font-black tracking-widest text-lg text-warnautama dark:text-white select-all">Memuat...</span>
+                <button type="button" onclick="salinNomor('nomor-va', 'btn-salin-va')" id="btn-salin-va" class="text-xs font-bold text-warnautama dark:text-blue-400 hover:opacity-70 bg-warnautama/10 px-3 py-1.5 rounded-lg flex items-center gap-1">Salin</button>
               </div>
             </div>
-
-            <div class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 relative overflow-hidden hover:border-warnautama transition-colors shadow-sm">
-              <div class="absolute top-0 right-0 bg-warnautama text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">Alternatif</div>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-5 sm:h-7 mb-2 dark:filter dark:brightness-0 dark:invert">
-              <p class="text-[10px] md:text-xs font-bold text-gray-700 dark:text-gray-300">a/n: ACH. SUFYAN WAHYUDI</p>
-              <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-700 mt-3">
-                <span id="rek-bri" class="font-mono font-black tracking-widest text-lg text-warnautama dark:text-white select-all">123001006601501</span>
-                <button type="button" onclick="salinNomor('rek-bri', 'btn-salin-bri')" id="btn-salin-bri" class="text-xs font-bold text-warnautama dark:text-blue-400 hover:opacity-70 bg-warnautama/10 px-3 py-1.5 rounded-lg flex items-center gap-1">Salin</button>
-              </div>
-            </div>
+            <p class="text-[10px] text-gray-500 text-center italic">* Lakukan pembayaran sesuai nominal tagihan Anda melalui ATM/M-Banking menggunakan nomor Virtual Account di atas.</p>
           </div>
 
           <div id="kontenQris" class="hidden flex-col items-center text-center">
@@ -331,10 +368,10 @@
             </div>
 
             <div class="bg-white p-3 rounded-2xl shadow-md border border-gray-200 mb-5 inline-block">
-              <img src="payqris.png" alt="Scan QRIS" class="w-56 h-56 object-cover rounded-xl" onerror="this.outerHTML='<div class=\'w-56 h-56 bg-gray-200 flex items-center justify-center rounded-xl text-xs text-gray-500\'>Gambar payqris.png belum ada</div>'">
+              <img src="payqris.png" alt="Scan QRIS" class="w-56 h-56 object-cover rounded-xl" onerror="this.outerHTML='<div class=\'w-56 h-56 bg-gray-200 flex items-center justify-center rounded-xl text-xs text-gray-500\'>Gambar QRIS gagal dimuat</div>'">
             </div>
 
-            <a href="payqris.png" download="QRIS_MediaTulisanManusia.png" class="flex items-center justify-center gap-2 w-full bg-warnautama/10 dark:bg-white/10 text-warnautama dark:text-white border border-warnautama/30 py-3 rounded-xl text-sm font-bold hover:bg-warnautama hover:text-white transition">
+            <a href="#" download="QRIS_MediaTulisanManusia.png" class="flex items-center justify-center gap-2 w-full bg-warnautama/10 dark:bg-white/10 text-warnautama dark:text-white border border-warnautama/30 py-3 rounded-xl text-sm font-bold hover:bg-warnautama hover:text-white transition">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
               Simpan QRIS ke Galeri
             </a>
@@ -432,6 +469,14 @@
             e.preventDefault();
             const f = e.target;
 
+            // 1. Ambil Pilihan Metode Pembayaran dari Form
+            let metodePembayaranElement = f.querySelector('input[name="Metode_Pembayaran"]:checked');
+            if (!metodePembayaranElement) {
+                showToast("Pilih metode pembayaran terlebih dahulu!", "error");
+                return;
+            }
+            let metodePembayaran = metodePembayaranElement.value; // 'qris' atau 'bca'
+
             // Validasi Ukuran File
             const fileInputs = f.querySelectorAll('input[type="file"]');
             for (let i of fileInputs) {
@@ -464,6 +509,7 @@
             const orderId = "NIB-" + Date.now();
 
             try {
+                // >>> GANTI URL GAS DI BAWAH JIKA PERLU <<<
                 const urlGAS = "https://script.google.com/macros/s/AKfycbziG_6VlKxJr8gfghhvXXkOe7YUbhZvyMTibVVt2ZtGzvoje53SJUMxk4L_7ZKAimWLMw/exec";
                 
                 const responGAS = await fetch(urlGAS, {
@@ -472,7 +518,7 @@
                     body: JSON.stringify({
                         order_id: orderId,
                         gross_amount: nominalBayar,
-                        payment_type: "qris", // Default
+                        payment_type: metodePembayaran, 
                         nama: namaKlien,
                         email: emailKlien
                     })
@@ -482,6 +528,7 @@
 
                 if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
 
+                // Jika API Berhasil Dibuat
                 if (dataPembayaran.status_code === "201" || dataPembayaran.status_code === 201) {
                     showToast("Tagihan Berhasil Dibuat!", "success");
                     btn.innerText = "KIRIM PENGAJUAN NIB";
@@ -490,19 +537,28 @@
                     // Tampilkan Modal
                     document.getElementById('modalPembayaran').classList.remove('hidden');
                     document.getElementById('nominalDinamisModal').innerText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(nominalBayar);
-                    pindahTab('qris');
-
-                    let urlQris = "";
-                    if(dataPembayaran.actions && dataPembayaran.actions.length > 0) {
-                       urlQris = dataPembayaran.actions[0].url;
-                    }
-
-                    const imgQrisElement = document.querySelector('#kontenQris img[alt="Scan QRIS"]');
-                    if (imgQrisElement && urlQris !== "") {
-                         imgQrisElement.src = urlQris;
-                         imgQrisElement.classList.remove('hidden');
-                         const aDownload = document.querySelector('#kontenQris a[download]');
-                         if(aDownload) aDownload.href = urlQris;
+                    
+                    // Logika Tampilan Berdasarkan Metode
+                    if (metodePembayaran === "qris") {
+                        pindahTab('qris');
+                        let urlQris = "";
+                        if(dataPembayaran.actions && dataPembayaran.actions.length > 0) {
+                           urlQris = dataPembayaran.actions[0].url;
+                        }
+                        const imgQrisElement = document.querySelector('#kontenQris img[alt="Scan QRIS"]');
+                        if (imgQrisElement && urlQris !== "") {
+                             imgQrisElement.src = urlQris;
+                             imgQrisElement.classList.remove('hidden');
+                             const aDownload = document.querySelector('#kontenQris a[download]');
+                             if(aDownload) aDownload.href = urlQris;
+                        }
+                    } else if (metodePembayaran === "bca") {
+                        pindahTab('transfer');
+                        let vaNumber = "";
+                        if (dataPembayaran.va_numbers && dataPembayaran.va_numbers.length > 0) {
+                            vaNumber = dataPembayaran.va_numbers[0].va_number;
+                        }
+                        document.getElementById('nomor-va').innerText = vaNumber || "Gagal memuat VA";
                     }
 
                     jalankanTimer(900); // Timer 15 Menit
@@ -527,7 +583,6 @@
 
         function tutupModalBayar() {
             document.getElementById('modalPembayaran').classList.add('hidden');
-            // Jika mau, tambahkan f.reset() di sini agar form kosong saat modal ditutup
         }
 
         function pindahTab(jenis) {
