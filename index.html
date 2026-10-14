@@ -2734,44 +2734,60 @@ document.addEventListener('click', function(event) {
   }
 
   window.uploadPDFAdmin = function(id, inputElement) {
-      const file = inputElement.files[0]; if(!file) return;
-      
-      const labelBtn = document.getElementById(`btn-up-${id}`);
-      const originalText = labelBtn.innerHTML;
-      labelBtn.innerHTML = "⏲ Mengunggah...";
-      labelBtn.classList.add("pointer-events-none", "opacity-70");
-      
-      showToast("Memulai unggah PDF...", "success");
-      
-      const stRef = window.storageRef(window.storage, `hasil_admin/${id}_${file.name}`);
-      const uploadTask = window.uploadBytesResumable(stRef, file);
-      
-      uploadTask.on('state_changed', 
-          null, 
-          (error) => {
-              console.error("Gagal Upload:", error);
-              showToast("Gagal! Cek aturan Storage Firebase Anda.", "error");
-              labelBtn.innerHTML = originalText;
-              labelBtn.classList.remove("pointer-events-none", "opacity-70");
-              inputElement.value = "";
-          }, 
-          async () => {
-              try {
-                  const downloadURL = await window.getDownloadURL(uploadTask.snapshot.ref);
-                  await window.updateDoc(window.doc(window.db, "pesanan", id), { 
-                      fileHasil: downloadURL, 
-                      status: 'Berhasil' 
-                  });
-                  showToast("PDF Berhasil disimpan!", "success"); 
-                  window.muatRiwayatAdmin(); 
-              } catch(err) {
-                  showToast("Terjadi kesalahan sistem.", "error");
-                  labelBtn.innerHTML = originalText;
-                  labelBtn.classList.remove("pointer-events-none", "opacity-70");
-              }
-          }
-      );
-  }
+  const file = inputElement.files[0]; 
+  if (!file) return;
+  
+  const labelBtn = document.getElementById(`btn-up-${id}`);
+  const originalText = labelBtn.innerHTML;
+  labelBtn.innerHTML = "⏲ Mengunggah...";
+  labelBtn.classList.add("pointer-events-none", "opacity-70");
+  
+  showToast("Memulai unggah PDF ke Google Drive...", "success");
+
+  // Membaca file PDF dan mengubahnya ke Base64
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    const base64Data = e.target.result.split(',')[1];
+    
+    // URL Google Apps Script terbaru milik MTM
+    const urlAppsScript = "https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec";
+
+    try {
+      const response = await fetch(urlAppsScript, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "upload_hasil_admin", // Penanda khusus untuk upload admin
+          orderId: id,
+          filename: file.name,
+          mimeType: file.type || "application/pdf",
+          base64: base64Data
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        // Simpan Link Google Drive ke Firestore (Database Pesanan Klien)
+        await window.updateDoc(window.doc(window.db, "pesanan", id), { 
+          fileHasil: result.downloadURL, 
+          status: 'Berhasil' 
+        });
+        showToast("PDF Berhasil disimpan di Drive!", "success"); 
+        window.muatRiwayatAdmin(); 
+      } else {
+        throw new Error(result.message || "Gagal mengunggah ke Drive");
+      }
+    } catch (err) {
+      console.error("Gagal Upload:", err);
+      showToast("Gagal mengunggah PDF! Coba lagi.", "error");
+      labelBtn.innerHTML = originalText;
+      labelBtn.classList.remove("pointer-events-none", "opacity-70");
+      inputElement.value = "";
+    }
+  };
+  
+  reader.readAsDataURL(file);
+};
   // Fungsi Bantuan untuk mengubah File menjadi Base64
   const getBase64 = (file) => new Promise((resolve, reject) => {
       const reader = new FileReader();
