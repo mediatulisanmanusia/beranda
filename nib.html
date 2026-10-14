@@ -531,14 +531,14 @@
             if(fileBukti) fileBukti.removeAttribute('required');
         }
 
+       // =====================================
+        // PENGIRIMAN DATA FORM FINAL (KE GOOGLE SHEETS & DRIVE)
         // =====================================
-        // PENGIRIMAN DATA FORM FINAL
-        // =====================================
-        function kirimFormNIB(e, tipePendaftaran) {
+        async function kirimFormNIB(e, tipePendaftaran) {
             e.preventDefault();
             const f = e.target;
 
-            // Validasi Ukuran File
+            // 1. Validasi Ukuran File (Maks 3MB per file)
             const fileInputs = f.querySelectorAll('input[type="file"]');
             for (let i of fileInputs) {
                 if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
@@ -552,56 +552,117 @@
             btn.innerText = "MENGIRIM DATA...";
 
             const loader = document.getElementById('loading-form');
-            document.getElementById('teks-loading').innerText = "Mengirim Pengajuan...";
+            document.getElementById('teks-loading').innerText = "Mengunggah Berkas & Mengirim...";
             if (loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
-            let subjekEl = f.querySelector('input[name="_subject"]');
-            if (!subjekEl) {
-                subjekEl = document.createElement('input');
-                subjekEl.type = 'hidden';
-                subjekEl.name = '_subject';
-                f.appendChild(subjekEl);
-            }
-            
-            let namaAtauUsaha = '';
-            if(tipePendaftaran === 'Pelaku Usaha') {
-                namaAtauUsaha = f.querySelector('input[name="Nama_Usaha"]').value || '-';
-            } else {
-                namaAtauUsaha = f.querySelector('input[name="Nama_Badan_Usaha"]').value || '-';
-            }
-            subjekEl.value = `Pendaftaran NIB (${tipePendaftaran}): ${namaAtauUsaha}`;
+            // 2. Fungsi pembantu ubah File ke Base64
+            const fileToBase64 = (file) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
 
-            let formDataWA = new FormData(f);
-            let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah mengisi form *Pendaftaran NIB* via Website.\n\n*Kategori: ${tipePendaftaran}*\n*RINCIAN DATA:*\n`;
-            
-            for (let [key, value] of formDataWA.entries()) {
-                if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_')) {
-                    pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
+            try {
+                // 3. Kumpulkan semua file yang diunggah (KTP, NPWP, Akta, Bukti Transfer)
+                let filesArray = [];
+                for (let input of fileInputs) {
+                    if (input.files.length > 0) {
+                        const file = input.files[0];
+                        const base64 = await fileToBase64(file);
+                        filesArray.push({
+                            filename: input.name + "_" + file.name,
+                            mimeType: file.type,
+                            base64: base64
+                        });
+                    }
                 }
-            }
-            pesanWA += `\n_(Catatan: Semua file persyaratan dan BUKTI TRANSFER telah saya unggah di sistem website)._`;
-            const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
 
-            f.action = "https://formsubmit.co/tulisanmanusiaku@gmail.com";
-            f.method = "POST";
-            f.enctype = "multipart/form-data";
-            f.target = "hidden-iframe-upload";
-            f.submit();
+                // 4. Ambil data teks berdasarkan kategori (Pelaku Usaha / Badan Usaha)
+                const fd = new FormData(f);
+                let kategoriDetail = tipePendaftaran;
+                let namaPemohon = "";
+                let namaUsaha = "";
+                let nikAtauNpwp = "";
+                let alamatGabung = fd.get('Alamat_Lengkap') || '-';
+                let metodeBayar = "";
 
-            // Simulasi redirect setelah email terkirim
-            setTimeout(() => {
+                if (tipePendaftaran === 'Pelaku Usaha') {
+                    namaPemohon = fd.get('Nama_Lengkap') || '-';
+                    namaUsaha = fd.get('Nama_Usaha') || '-';
+                    let nik = fd.get('NIK') || '-';
+                    let npwp = fd.get('NPWP_Pemohon') || '-';
+                    nikAtauNpwp = `NIK: ${nik} | NPWP: ${npwp}`;
+                    metodeBayar = (fd.get('Metode_Pembayaran') || '-').toUpperCase();
+                } else {
+                    let jenisBadan = fd.get('Jenis_Badan_Usaha') || '';
+                    kategoriDetail = `${tipePendaftaran} (${jenisBadan})`;
+                    namaPemohon = fd.get('Nama_Pimpinan') || '-';
+                    namaUsaha = fd.get('Nama_Badan_Usaha') || '-';
+                    nikAtauNpwp = `NPWP Badan: ${fd.get('NPWP_Badan') || '-'}`;
+                    let linkMaps = fd.get('Link_Maps') || '';
+                    if (linkMaps) alamatGabung += `\nMaps: ${linkMaps}`;
+                    metodeBayar = (fd.get('Metode_Pembayaran_Badan') || '-').toUpperCase();
+                }
+
+                const email = fd.get('Email') || '-';
+                const wa = fd.get('WhatsApp') || '-';
+
+                // 5. Kirim ke Google Apps Script MTM
+                const urlAppsScript = "https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec";
+
+                const response = await fetch(urlAppsScript, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "form_nib", // Penanda agar masuk ke Tab NIB & Folder NIB
+                        kategori: kategoriDetail,
+                        namaPemohon: namaPemohon,
+                        namaUsaha: namaUsaha,
+                        nikAtauNpwp: nikAtauNpwp,
+                        email: email,
+                        wa: wa,
+                        alamat: alamatGabung,
+                        metodeBayar: metodeBayar,
+                        files: filesArray
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    // 6. Buat Pesan WhatsApp lengkap dengan Link Drive
+                    let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah mengisi form *Pendaftaran NIB* via Website.\n\n*Kategori: ${kategoriDetail}*\n*RINCIAN DATA:*\n`;
+                    for (let [key, value] of fd.entries()) {
+                        if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_')) {
+                            pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
+                        }
+                    }
+                    pesanWA += `\n*LINK BERKAS & BUKTI TRANSFER:*\n${result.linkText}`;
+
+                    const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
+
+                    if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+                    showToast("Pengajuan Berhasil Dikirim!", "success");
+                    window.location.href = linkWhatsAppLangsung;
+
+                    setTimeout(() => {
+                        f.reset();
+                        btn.disabled = false;
+                        btn.innerText = "KONFIRMASI & KIRIM";
+                        kembaliStep1('pelaku');
+                        kembaliStep1('badan');
+                    }, 1500);
+                } else {
+                    throw new Error(result.message || "Gagal mengirim data");
+                }
+
+            } catch (err) {
+                console.error("Error NIB:", err);
                 if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
-                showToast("Pengajuan Berhasil Dikirim!", "success");
-                window.location.href = linkWhatsAppLangsung; // Lempar ke WA
-                
-                setTimeout(() => {
-                    f.reset();
-                    btn.disabled = false;
-                    btn.innerText = "KONFIRMASI & KIRIM";
-                    kembaliStep1('pelaku'); // Reset view kembali ke step 1
-                    kembaliStep1('badan');
-                }, 1500);
-            }, 4000);
+                showToast("Gagal mengirim pengajuan! Silakan coba lagi.", "error");
+                btn.disabled = false;
+                btn.innerText = "KONFIRMASI & KIRIM";
+            }
         }
 
     </script>
