@@ -177,13 +177,15 @@
             setTimeout(() => { toast.classList.remove('translate-y-0', 'opacity-100'); toast.classList.add('translate-y-[-30px]', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 4000);
         }
 
-        function kirimPengumpulan(e) {
+        async function kirimPengumpulan(e) {
             e.preventDefault();
             const f = e.target;
+
+            // 1. Validasi Ukuran File (Maks 5MB per file)
             const fileInputs = f.querySelectorAll('input[type="file"]');
             for (let i of fileInputs) {
                 if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 5) {
-                    showToast(`Berkas melebihi batas 5MB. Harap diperkecil.`, 'error');
+                    showToast(`Berkas ${i.name.replace(/_/g, ' ')} melebihi batas 5MB. Harap diperkecil.`, 'error');
                     return;
                 }
             }
@@ -195,45 +197,86 @@
             const loader = document.getElementById('loading-form');
             if (loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
-            let subjekEl = f.querySelector('input[name="_subject"]');
-            if (!subjekEl) {
-                subjekEl = document.createElement('input');
-                subjekEl.type = 'hidden';
-                subjekEl.name = '_subject';
-                f.appendChild(subjekEl);
-            }
-            const nama = f.querySelector('input[name="Nama_Lengkap"]').value || '-';
-            const judul = f.querySelector('input[name="Judul_Naskah"]').value || '-';
-            subjekEl.value = `Pengumpulan Lomba: ${judul} - ${nama}`;
+            // 2. Fungsi pembantu ubah File ke Base64
+            const fileToBase64 = (file) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
 
-            let formDataWA = new FormData(f);
-            let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah mengunggah Karya untuk *Lomba Menulis Novela* via Website.\n\n*RINCIAN KARYA:*\n`;
-            
-            for (let [key, value] of formDataWA.entries()) {
-                if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_')) {
-                    pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
+            try {
+                // 3. Kumpulkan ketiga file (Cover Depan, Cover Belakang, Naskah Word)
+                let filesArray = [];
+                for (let input of fileInputs) {
+                    if (input.files.length > 0) {
+                        const file = input.files[0];
+                        const base64 = await fileToBase64(file);
+                        filesArray.push({
+                            filename: input.name + "_" + file.name,
+                            mimeType: file.type || "application/octet-stream",
+                            base64: base64
+                        });
+                    }
                 }
-            }
-            pesanWA += `\n_(Catatan: Dokumen Naskah dan Cover telah saya unggah secara otomatis melalui sistem website. Saya siap mengirim ulang di ruang obrolan ini jika dibutuhkan untuk keperluan penjurian)._`;
-            const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
 
-            f.action = "https://formsubmit.co/tulisanmanusiaku@gmail.com";
-            f.method = "POST";
-            f.enctype = "multipart/form-data";
-            f.target = "hidden-iframe-upload";
-            f.submit();
+                // 4. Ambil data isian form
+                const fd = new FormData(f);
+                const namaLengkap = fd.get('Nama_Lengkap') || '-';
+                const wa = fd.get('WhatsApp') || '-';
+                const judulNaskah = fd.get('Judul_Naskah') || '-';
+                const sinopsis = fd.get('Sinopsis') || '-';
 
-            setTimeout(() => {
+                // 5. Kirim ke Google Apps Script MTM
+                const urlAppsScript = "https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec";
+
+                const response = await fetch(urlAppsScript, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "form_pengumpulan", // Penanda agar masuk ke Tab PENGUMPULAN & Folder Naskah
+                        namaLengkap: namaLengkap,
+                        wa: wa,
+                        judulNaskah: judulNaskah,
+                        sinopsis: sinopsis,
+                        files: filesArray
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    // 6. Buat Pesan WhatsApp lengkap dengan Link Drive Cover & Naskah
+                    let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah mengunggah Karya untuk *Lomba Menulis Novela* via Website.\n\n*RINCIAN KARYA:*\n`;
+                    for (let [key, value] of fd.entries()) {
+                        if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_')) {
+                            pesanWA += `- *${key.replace(/_/g, ' ')}:* ${value}\n`;
+                        }
+                    }
+                    pesanWA += `\n*LINK FILE COVER & NASKAH:*\n${result.linkText}`;
+
+                    const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
+
+                    if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
+                    showToast("Karya Berhasil Dikumpulkan!", "success");
+                    window.location.href = linkWhatsAppLangsung;
+                    
+                    setTimeout(() => {
+                        f.reset();
+                        btn.disabled = false;
+                        btn.innerText = "KUMPULKAN KARYA";
+                        window.location.href = 'halaman-lomba.html';
+                    }, 1500);
+                } else {
+                    throw new Error(result.message || "Gagal mengunggah naskah");
+                }
+
+            } catch (err) {
+                console.error("Error Pengumpulan:", err);
                 if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
-                showToast("Karya Berhasil Dikumpulkan!", "success");
-                window.location.href = linkWhatsAppLangsung;
-                setTimeout(() => {
-                    f.reset();
-                    btn.disabled = false;
-                    btn.innerText = "KUMPULKAN KARYA";
-                    window.location.href = 'halaman-lomba.html';
-                }, 1500);
-            }, 5000);
+                showToast("Gagal mengirim karya! Pastikan koneksi stabil.", "error");
+                btn.disabled = false;
+                btn.innerText = "KUMPULKAN KARYA";
+            }
         }
     </script>
 </body>
