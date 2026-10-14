@@ -55,6 +55,40 @@
         .tab-pasif { background-color: transparent; color: #4B5563; font-weight: 600; }
         .dark .tab-pasif { color: #9CA3AF; }
     </style>
+
+    <!-- INISIALISASI FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdve7T36Ha3N5m4r7PhCRBkyqtP9c-Mwo",
+            authDomain: "mediatulisanmanusia.firebaseapp.com",
+            projectId: "beranda-9baf8",
+            storageBucket: "beranda-9baf8.firebasestorage.app",
+            messagingSenderId: "1074121327562",
+            appId: "1:1074121327562:web:0e36ff95507367f332c533",
+            measurementId: "G-YRRPBF4P91"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.currentUserEmail = null;
+        window.currentUserName = null;
+
+        onAuthStateChanged(window.auth, (user) => {
+            if (user) {
+                window.currentUserEmail = user.email;
+                window.currentUserName = user.displayName || user.email.split('@')[0];
+            } else {
+                // Jika belum login, lempar kembali ke index.html halaman login
+                alert("Silakan Login terlebih dahulu untuk mengajukan NIB.");
+                window.location.href = 'index.html?buka=login';
+            }
+        });
+    </script>
 </head>
 <body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 bg-custom-gradient relative min-h-screen">
     
@@ -190,19 +224,15 @@
                     </button>
                 </div>
 
-                <!-- STEP 2: HALAMAN UPLOAD BUKTI (SEOLAH-OLAH REDIRECT) -->
+                <!-- STEP 2: HALAMAN UPLOAD BUKTI -->
                 <div id="step2-pelaku" class="hidden space-y-6 animate-fade-up">
                     <div class="text-center mb-6">
                         <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total Tagihan NIB</p>
                         <h3 class="text-3xl font-black text-warnautama dark:text-white">Rp 500.000</h3>
                     </div>
 
-                    <!-- KONTEN DINAMIS METODE PEMBAYARAN -->
-                    <div id="payment-display-pelaku" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm text-center">
-                        <!-- Diisi otomatis oleh JavaScript -->
-                    </div>
+                    <div id="payment-display-pelaku" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm text-center"></div>
 
-                    <!-- KOLOM UPLOAD BUKTI TRANSFER -->
                     <div class="bg-white/70 dark:bg-black/60 p-5 rounded-2xl border border-gray-300 dark:border-gray-700 text-left mt-6">
                         <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wider">Upload Bukti Transfer <span class="text-red-500">*</span></label>
                         <input type="file" name="Bukti_Transfer" id="fileBuktiPelaku" accept=".png,.jpg,.jpeg" class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer">
@@ -329,19 +359,15 @@
                     </button>
                 </div>
 
-                <!-- STEP 2: HALAMAN UPLOAD BUKTI (SEOLAH-OLAH REDIRECT) -->
+                <!-- STEP 2: HALAMAN UPLOAD BUKTI -->
                 <div id="step2-badan" class="hidden space-y-6 animate-fade-up">
                     <div class="text-center mb-6">
                         <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total Tagihan NIB</p>
                         <h3 class="text-3xl font-black text-warnautama dark:text-white">Rp 1.000.000</h3>
                     </div>
 
-                    <!-- KONTEN DINAMIS METODE PEMBAYARAN -->
-                    <div id="payment-display-badan" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm text-center">
-                        <!-- Diisi otomatis oleh JavaScript -->
-                    </div>
+                    <div id="payment-display-badan" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm text-center"></div>
 
-                    <!-- KOLOM UPLOAD BUKTI TRANSFER -->
                     <div class="bg-white/70 dark:bg-black/60 p-5 rounded-2xl border border-gray-300 dark:border-gray-700 text-left mt-6">
                         <label class="block text-xs font-bold text-warnautama dark:text-white mb-2 uppercase tracking-wider">Upload Bukti Transfer <span class="text-red-500">*</span></label>
                         <input type="file" name="Bukti_Transfer" id="fileBuktiBadan" accept=".png,.jpg,.jpeg" class="block w-full text-[11px] text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-warnautama file:text-white hover:file:bg-warnaketiga transition bg-white/70 dark:bg-black/60 p-1 border border-gray-300 dark:border-gray-700 rounded-full cursor-pointer">
@@ -372,9 +398,6 @@
     <iframe name="hidden-iframe-upload" id="hidden-iframe-upload" style="display:none;"></iframe>  
 
     <script>
-        // =====================================
-        // LOGIKA DASAR & UI
-        // =====================================
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -400,9 +423,6 @@
             });
         }
 
-        // =====================================
-        // LOGIKA TAB SWITCHER NIB
-        // =====================================
         function gantiTabNIB(kategori) {
             const btnPelaku = document.getElementById('btnPelakuUsaha');
             const btnBadan = document.getElementById('btnBadanUsaha');
@@ -414,13 +434,13 @@
                 btnBadan.className = "px-6 py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300 tab-pasif";
                 formPelaku.classList.remove('hidden');
                 formBadan.classList.add('hidden');
-                kembaliStep1('pelaku'); // Reset view ke step 1
+                kembaliStep1('pelaku');
             } else {
                 btnBadan.className = "px-6 py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300 tab-aktif";
                 btnPelaku.className = "px-6 py-2.5 rounded-full text-xs sm:text-sm transition-all duration-300 tab-pasif";
                 formBadan.classList.remove('hidden');
                 formPelaku.classList.add('hidden');
-                kembaliStep1('badan'); // Reset view ke step 1
+                kembaliStep1('badan');
             }
         }
 
@@ -437,14 +457,10 @@
             }
         }
 
-        // =====================================
-        // LOGIKA MULTI-STEP FORM (SEOLAH OTOMATIS)
-        // =====================================
         function lanjutPembayaran(kategori, harga) {
             let formId = kategori === 'pelaku' ? 'formPelakuUsaha' : 'formBadanUsaha';
             let form = document.getElementById(formId);
             
-            // Validasi Input Step 1 (Abaikan Validasi Input File Bukti di Step 2 sementara)
             let inputsStep1 = form.querySelectorAll(`#step1-${kategori} input[required], #step1-${kategori} textarea[required], #step1-${kategori} select[required]`);
             let isValid = true;
             for (let input of inputsStep1) {
@@ -456,7 +472,6 @@
             }
             if(!isValid) return;
 
-            // Ambil metode pembayaran yang dipilih
             let inputName = kategori === 'pelaku' ? 'Metode_Pembayaran' : 'Metode_Pembayaran_Badan';
             let metode = form.querySelector(`input[name="${inputName}"]:checked`);
             if(!metode) {
@@ -464,20 +479,16 @@
                 return;
             }
 
-            // Tampilkan Loading "Membuat Tagihan"
             const loader = document.getElementById('loading-form');
             document.getElementById('teks-loading').innerText = "Membuat Tagihan...";
             loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10);
 
-            // Simulasi proses API (1.5 detik)
             setTimeout(() => {
-                // Sembunyikan Step 1, Tampilkan Step 2
                 document.getElementById(`step1-${kategori}`).classList.add('hidden');
                 document.getElementById(`step2-${kategori}`).classList.remove('hidden');
-                document.getElementById('tab-switcher').classList.add('hidden'); // Sembunyikan tab di atas
+                document.getElementById('tab-switcher').classList.add('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                // Render Info Pembayaran Berdasarkan Pilihan
                 let displayHtml = "";
                 let uniqueId = "rek-" + kategori;
                 let btnId = "btn-salin-" + kategori;
@@ -512,11 +523,9 @@
 
                 document.getElementById(`payment-display-${kategori}`).innerHTML = displayHtml;
                 
-                // Tambahkan attribut required ke Bukti Transfer saat pindah ke step 2
                 let fileBukti = kategori === 'pelaku' ? document.getElementById('fileBuktiPelaku') : document.getElementById('fileBuktiBadan');
                 fileBukti.setAttribute('required', 'true');
 
-                // Tutup Loading
                 loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500);
             }, 1500);
         }
@@ -526,19 +535,23 @@
             document.getElementById(`step1-${kategori}`).classList.remove('hidden');
             document.getElementById('tab-switcher').classList.remove('hidden');
             
-            // Hapus attribut required dari Bukti Transfer sementara
             let fileBukti = kategori === 'pelaku' ? document.getElementById('fileBuktiPelaku') : document.getElementById('fileBuktiBadan');
             if(fileBukti) fileBukti.removeAttribute('required');
         }
 
-       // =====================================
-        // PENGIRIMAN DATA FORM FINAL (KE GOOGLE SHEETS & DRIVE)
+        // =====================================
+        // PENGIRIMAN DATA FORM NIB (FIREBASE & DRIVE)
         // =====================================
         async function kirimFormNIB(e, tipePendaftaran) {
             e.preventDefault();
             const f = e.target;
 
-            // 1. Validasi Ukuran File (Maks 3MB per file)
+            if(!window.currentUserEmail) { 
+                showToast("Gagal: Anda belum login.", "error"); 
+                window.location.href = 'index.html?buka=login'; 
+                return; 
+            }
+
             const fileInputs = f.querySelectorAll('input[type="file"]');
             for (let i of fileInputs) {
                 if (i.files.length > 0 && (i.files[0].size / 1024 / 1024) > 3) {
@@ -552,10 +565,9 @@
             btn.innerText = "MENGIRIM DATA...";
 
             const loader = document.getElementById('loading-form');
-            document.getElementById('teks-loading').innerText = "Mengunggah Berkas & Mengirim...";
+            document.getElementById('teks-loading').innerText = "Mengunggah Berkas & Menyimpan...";
             if (loader) { loader.classList.remove('hidden'); setTimeout(() => loader.classList.remove('opacity-0'), 10); }
 
-            // 2. Fungsi pembantu ubah File ke Base64
             const fileToBase64 = (file) => new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
@@ -564,7 +576,6 @@
             });
 
             try {
-                // 3. Kumpulkan semua file yang diunggah (KTP, NPWP, Akta, Bukti Transfer)
                 let filesArray = [];
                 for (let input of fileInputs) {
                     if (input.files.length > 0) {
@@ -572,13 +583,12 @@
                         const base64 = await fileToBase64(file);
                         filesArray.push({
                             filename: input.name + "_" + file.name,
-                            mimeType: file.type,
+                            mimeType: file.type || "application/octet-stream",
                             base64: base64
                         });
                     }
                 }
 
-                // 4. Ambil data teks berdasarkan kategori (Pelaku Usaha / Badan Usaha)
                 const fd = new FormData(f);
                 let kategoriDetail = tipePendaftaran;
                 let namaPemohon = "";
@@ -608,13 +618,26 @@
                 const email = fd.get('Email') || '-';
                 const wa = fd.get('WhatsApp') || '-';
 
-                // 5. Kirim ke Google Apps Script MTM
+                // 1. Simpan ke Firebase Firestore (Agar otomatis masuk ke Riwayat Profil Klien & Dashboard Admin)
+                await window.addDoc(window.collection(window.db, "pesanan"), { 
+                    userEmail: window.currentUserEmail, 
+                    userName: window.currentUserName, 
+                    tipeLayanan: `Pendaftaran NIB (${kategoriDetail})`, 
+                    judul: namaUsaha, 
+                    namaLengkap: namaPemohon, 
+                    wa: wa, 
+                    status: "Pending",
+                    fileHasil: "", 
+                    waktuLokal: new Date().toLocaleDateString('id-ID') 
+                });
+
+                // 2. Kirim berkas & data ke Google Apps Script (Drive & Sheets)
                 const urlAppsScript = "https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec";
 
                 const response = await fetch(urlAppsScript, {
                     method: "POST",
                     body: JSON.stringify({
-                        action: "form_nib", // Penanda agar masuk ke Tab NIB & Folder NIB
+                        action: "form_nib",
                         kategori: kategoriDetail,
                         namaPemohon: namaPemohon,
                         namaUsaha: namaUsaha,
@@ -630,7 +653,6 @@
                 const result = await response.json();
 
                 if (result.status === "success") {
-                    // 6. Buat Pesan WhatsApp lengkap dengan Link Drive
                     let pesanWA = `Halo Admin Media Tulisan Manusia, saya telah mengisi form *Pendaftaran NIB* via Website.\n\n*Kategori: ${kategoriDetail}*\n*RINCIAN DATA:*\n`;
                     for (let [key, value] of fd.entries()) {
                         if (!(value instanceof File) && value.trim() !== "" && !key.startsWith('_')) {
@@ -642,7 +664,7 @@
                     const linkWhatsAppLangsung = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(pesanWA)}`;
 
                     if (loader) { loader.classList.add('opacity-0'); setTimeout(() => loader.classList.add('hidden'), 500); }
-                    showToast("Pengajuan Berhasil Dikirim!", "success");
+                    showToast("Pengajuan NIB Berhasil Dikirim!", "success");
                     window.location.href = linkWhatsAppLangsung;
 
                     setTimeout(() => {
@@ -651,6 +673,7 @@
                         btn.innerText = "KONFIRMASI & KIRIM";
                         kembaliStep1('pelaku');
                         kembaliStep1('badan');
+                        window.location.href = 'index.html?buka=profil';
                     }, 1500);
                 } else {
                     throw new Error(result.message || "Gagal mengirim data");
@@ -664,7 +687,6 @@
                 btn.innerText = "KONFIRMASI & KIRIM";
             }
         }
-
     </script>
 </body>
 </html>
