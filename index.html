@@ -1501,8 +1501,13 @@ Riwayat Upload Literasi
 </div>
 <div class="flex flex-col sm:flex-row gap-3 mb-5">
 <input id=cari-pesanan-admin oninput=filterTabelAdmin() placeholder="Cari nama klien, email, WA, atau judul..." class="flex-grow bg-white/80 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-3 text-xs font-medium text-warnautama dark:text-white focus:outline-none focus:border-warnakedua shadow-inner">
-<select id=filter-layanan-admin onchange=filterTabelAdmin() class="bg-white/80 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-3 text-xs font-bold text-warnautama dark:text-white focus:outline-none cursor-pointer"><option value=SEMUA>Semua Layanan</option><option value="Penerbitan Naskah">Penerbitan Naskah</option><option value="Pendaftaran Hak Cipta">Hak Cipta (HKI)</option><option value="Upload Literasi">Upload Literasi</option></select>
-<select id=filter-status-admin onchange=filterTabelAdmin() class="bg-white/80 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-3 text-xs font-bold text-warnautama dark:text-white focus:outline-none cursor-pointer"><option value=SEMUA>Semua Status</option><option value=Pending>⏲ Pending</option><option value=Proses>⏲ Proses / Review</option><option value=Terbit>✔ Terbit / Berhasil</option><option value=Revisi>✖ Revisi</option></select>
+<select id=filter-layanan-admin onchange=filterTabelAdmin() class="bg-white/80 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-3 text-xs font-bold text-warnautama dark:text-white focus:outline-none cursor-pointer">
+<option value=SEMUA>Semua Layanan</option>
+<option value="Penerbitan Naskah">Penerbitan Naskah</option>
+<option value="Pendaftaran Hak Cipta">Hak Cipta (HKI)</option>
+<option value="Pengurusan NIB">Pengurusan NIB</option>
+<option value="Upload Literasi">Upload Literasi</option>
+</select>
 </div>
 <div class="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-[1.5rem]">
 <table class="w-full text-left min-w-[800px]">
