@@ -2090,3 +2090,105 @@ function filterTabelAdmin(){const e=(document.getElementById("cari-pesanan-admin
 </script>
 </body>
 </html>
+const formatRp = e => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(e);
+
+function hitungSimulasiBuku() {
+    const e = parseInt(document.getElementById("calc-hlm")?.value) || 150,
+          t = parseInt(document.getElementById("calc-eks")?.value) || 50,
+          a = parseInt(document.getElementById("calc-margin")?.value) || 25e3;
+    document.getElementById("label-hlm").innerText = e + " Halaman";
+    document.getElementById("label-eks").innerText = t + " Eks";
+    document.getElementById("label-margin").innerText = formatRp(a);
+    const n = (t >= 100 ? 200 : 300) * e + (t >= 100 ? 15000 : 20000);
+    document.getElementById("out-hpp").innerText = formatRp(n);
+    document.getElementById("out-jual").innerText = formatRp(n + a);
+    document.getElementById("out-jml-eks").innerText = t;
+    document.getElementById("out-total-modal").innerText = formatRp(n * t);
+    document.getElementById("out-profit").innerText = formatRp(a * t);
+}
+
+const dataSinopsisBuku = {
+    "Tanpamu": "Sebuah novel yang merangkai kisah tentang kehilangan, keikhlasan, dan perjalanan menemukan kembali arti kehadiran di tengah ruang hampa.",
+    "Bukan Lagi Tentangmu": "Kisah emosional tentang berdamai dengan masa lalu dan keberanian untuk membuka lembaran baru yang lebih bermakna.",
+    "Formula Kepenulisan": "Panduan praktis dan komprehensif bagi penulis pemula hingga mahir dalam meracik ide, membangun struktur naskah, hingga menembus dapur penerbitan.",
+    "Modul UMKM Kopi": "Panduan strategis pengelolaan dan hilirisasi potensi kopi lokal sebagai motor penggerak ekonomi desa dan UMKM."
+};
+
+document.addEventListener("DOMContentLoaded", (() => {
+    document.getElementById("calc-hlm") && hitungSimulasiBuku();
+    const e = document.getElementById("scroll-katalog");
+    e && e.addEventListener("click", (function(e) {
+        const t = e.target.closest("a[href*='wa.me']");
+        if (!t) return;
+        e.preventDefault();
+        const a = t.closest(".group");
+        if (!a) return;
+        const n = a.querySelector("img[alt='Cover Buku']")?.src || "",
+              l = a.querySelector("h4")?.innerText.trim() || "Judul Buku",
+              r = a.querySelector("p")?.innerText.trim() || "-",
+              i = Array.from(a.querySelectorAll("p")).find((e => e.innerText.includes("QRCBN")))?.innerText.trim() || "QRCBN: -",
+              d = a.querySelector("p:last-child")?.innerText.trim() || "Rp -",
+              o = i.replace(/QRCBN:\s*/i, "").trim();
+        document.getElementById("qv-img").src = n;
+        document.getElementById("qv-judul").innerText = l;
+        document.getElementById("qv-penulis").innerText = "Karya: " + r;
+        document.getElementById("qv-qrcbn").innerText = i;
+        document.getElementById("qv-harga").innerText = d;
+        document.getElementById("qv-sinopsis").innerText = dataSinopsisBuku[l] || `Buku "${l}" karya ${r} merupakan terbitan resmi PT Media Tulisan Manusia yang telah terindeks secara nasional di database QRCBN.`;
+        document.getElementById("qv-btn-wa").href = t.href;
+        document.getElementById("qv-btn-qrcbn").onclick = function() {
+            tutupModal("modalDetailBuku");
+            document.getElementById("input-keyword-qrcbn").value = o;
+            document.getElementById("iframe-pencarian").src = `https://qrcbn.com/check/${encodeURIComponent(o)}`;
+            document.getElementById("modal-pencarian").classList.remove("hidden");
+        };
+        bukaModal("modalDetailBuku");
+    }));
+}));
+
+window.userWaTersimpan = "";
+async function isiOtomatisFormLayanan() {
+    if (!window.currentUserEmail) return;
+    if (!window.userWaTersimpan && window.db && window.getDocs) {
+        try {
+            const e = window.query(window.collection(window.db, "users"), window.where("email", "==", window.currentUserEmail));
+            (await window.getDocs(e)).forEach((e => {
+                e.data().wa && (window.userWaTersimpan = e.data().wa);
+            }));
+        } catch (e) {}
+    }
+    document.querySelectorAll("#hal-kirim-naskah form, #hal-daftar-hki form, #hal-upload-literasi form").forEach((e => {
+        const t = e.querySelector('input[name^="Nama_Lengkap"]'),
+              a = e.querySelector('input[name="Email"]'),
+              n = e.querySelector('input[name="WhatsApp"]');
+        t && !t.value && window.currentUserName && (t.value = window.currentUserName);
+        a && !a.value && window.currentUserEmail && (a.value = window.currentUserEmail);
+        n && !n.value && window.userWaTersimpan && (n.value = window.userWaTersimpan);
+    }));
+}
+
+const _bukaAsli = window.bukaHalaman;
+window.bukaHalaman = function(e) {
+    _bukaAsli(e);
+    ["kirim-naskah", "daftar-hki", "upload-literasi"].includes(e) && window.currentUserEmail && setTimeout(isiOtomatisFormLayanan, 200);
+};
+
+function filterTabelAdmin() {
+    const e = (document.getElementById("cari-pesanan-admin")?.value || "").toLowerCase(),
+          t = document.getElementById("filter-layanan-admin")?.value || "SEMUA",
+          a = document.getElementById("filter-status-admin")?.value || "SEMUA";
+    document.querySelectorAll("#tabel-admin tr").forEach((n => {
+        if (n.children.length < 5) return;
+        const l = n.children[0].innerText,
+              r = n.children[1].innerText.toLowerCase(),
+              i = n.children[2].innerText.toLowerCase(),
+              d = n.children[3].innerText.trim(),
+              o = r.includes(e) || i.includes(e) || l.toLowerCase().includes(e),
+              s = "SEMUA" === t || l.includes(t),
+              c = "SEMUA" === a || ("Proses" === a ? "Proses" === d || "Review" === d : "Terbit" === a ? "Terbit" === d || "Berhasil" === d : d === a);
+        n.style.display = o && s && c ? "" : "none";
+    }));
+}
+</script>
+</body>
+</html>
