@@ -31,23 +31,26 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://mediatulisanmanusia.com/#website",
-      "name": "Media Tulisan Manusia",
-      "alternateName": ["PT Media Tulisan Manusia", "MTM", "Penerbit Media Tulisan Manusia"],
-      "url": "https://mediatulisanmanusia.com/"
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://mediatulisanmanusia.com/#organization",
-      "name": "Media Tulisan Manusia",
-      "legalName": "PT Media Tulisan Manusia",
-      "url": "https://mediatulisanmanusia.com/",
-      "logo": "https://mediatulisanmanusia.com/rev.png"
-    }
-  ]
+  "@type": "ProfessionalService",
+  "name": "Media Tulisan Manusia",
+  "alternateName": ["PT Media Tulisan Manusia", "MTM", "Penerbit Buku", "Jasa Hak Cipta", "Jasa Pembuatam NIB"],
+  "url": "https://mediatulisanmanusia.com",
+  "logo": "https://mediatulisanmanusia.com/rev.png",
+  "description": "Layanan resmi penerbitan buku ber-QRCBN, pendaftaran Hak Cipta (HKI) Kemenkumham, pengurusan NIB OSS, dan platform literasi.",
+  "priceRange": "Rp25.000 - Rp1.500.000",
+  "telephone": "+62-882-9444-8222",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Pasuruan & Kota Malang",
+    "addressRegion": "Jawa Timur",
+    "addressCountry": "ID"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "opens": "08:00",
+    "closes": "16:00"
+  }
 }
 </script>
 <title>Media Tulisan Manusia: Penerbitan Buku & Hak Cipta</title>
@@ -109,6 +112,14 @@
 <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick='bukaHalaman("beranda")'>
 <img src=rev1.png alt="Logo MTM" fetchpriority=high class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain dark:hidden">
 <img src=rev2.png alt="Logo MTM" fetchpriority=high class="h-10 sm:h-12 md:h-14 w-auto max-w-[180px] sm:max-w-[280px] object-contain hidden dark:block">
+</div>
+<div class="hidden lg:flex items-center gap-6 text-xs font-extrabold text-warnautama dark:text-white uppercase tracking-wider">
+<button onclick='navKe("beranda")' class="hover:text-warnakedua transition">Beranda</button>
+<button onclick='navKe("beranda");setTimeout(()=>gulirKe("seksi-pencarian-terpadu"),100)' class="hover:text-warnakedua transition">Cek Legalitas</button>
+<button onclick='navKe("kirim-naskah")' class="hover:text-warnakedua transition">Kirim Naskah</button>
+<button onclick='navKe("daftar-hki")' class="hover:text-warnakedua transition">Daftar HKI</button>
+<button onclick='navKe("beranda");setTimeout(()=>gulirKe("seksi-kalkulator"),100)' class="hover:text-warnakedua transition">Estimasi Royalti</button>
+<a href="https://mediatulisanmanusia.com/literasi" class="bg-warnaketiga dark:bg-gray-800 text-white px-3.5 py-1.5 rounded-full hover:scale-105 transition shadow-sm">📖 Ruang Literasi</a>
 </div>
 <div class="flex items-center gap-2 relative">
 <button onclick=toggleTema() class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200">
