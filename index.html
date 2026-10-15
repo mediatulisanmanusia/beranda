@@ -146,6 +146,7 @@
 <button onclick='navKe("daftar-hki")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
 <button onclick='window.location.href="nib.html"' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar NIB</button>
 <button onclick='navKe("upload-literasi")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Upload Literasi</button>
+<button onclick='navKe("beranda");setTimeout(()=>gulirKe("seksi-kalkulator"),100)' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Estimasi Royalti</button>
 </div>
 <div class="flex flex-col gap-2">
 <a href=https://mediatulisanmanusia.com/literasi class="bg-warnaketiga dark:bg-gray-800 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md mb-1"><span>📖 Ruang Literasi</span></a>
@@ -912,21 +913,21 @@ I
 II
 </div>
 <h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Verifikasi<br class="block sm:hidden">& Kurasi</h5>
-<p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">Cek kelayakan<br class="block sm:hidden">dokumen</p>
+<p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">Cek kelengkapan<br class="block sm:hidden">dokumen</p>
 </div>
 <div class="relative z-10 flex flex-col items-center text-center group cursor-default w-1/4 px-0.5">
 <div class="w-7 h-7 sm:w-14 sm:h-14 bg-white dark:bg-warnakeempat rounded-xl border-2 sm:border-4 border-warnautama dark:border-white flex items-center justify-center text-[10px] sm:text-xl font-black text-warnautama dark:text-white mb-1.5 sm:mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300 shadow-sm">
 III
 </div>
 <h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Proses<br class="block sm:hidden">Legalitas</h5>
-<p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">QRCBN &<br class="block sm:hidden">Kemenkumham</p>
+<p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">QRCBN, HKI, &<br class="block sm:hidden">NIB</p>
 </div>
 <div class="relative z-10 flex flex-col items-center text-center group cursor-default w-1/4 px-0.5">
 <div class="w-7 h-7 sm:w-14 sm:h-14 bg-white dark:bg-warnakeempat rounded-xl border-2 sm:border-4 border-warnautama dark:border-white flex items-center justify-center text-[10px] sm:text-xl font-black text-warnautama dark:text-white mb-1.5 sm:mb-3 group-hover:scale-110 group-hover:bg-warnautama group-hover:text-white transition-all duration-300 shadow-sm">
 <svg class="w-3.5 h-3.5 sm:w-6 sm:h-6" fill=none stroke=currentColor viewBox="0 0 24 24" stroke-width=3><path stroke-linecap=round stroke-linejoin=round d="M5 13l4 4L19 7"></path></svg>
 </div>
-<h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Karya<br class="block sm:hidden">Terbit</h5>
-<p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">Buku & HKI<br class="block sm:hidden">Selesai</p>
+<h5 class="text-[8px] sm:text-sm font-extrabold text-warnautama dark:text-white mb-0.5 leading-tight">Terbit</h5>
+<p class="text-[7px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium leading-tight mt-0.5">Buku, HKI , dan NIB<br class="block sm:hidden">Selesai</p>
 </div>
 </div>
 </section>
@@ -1001,12 +1002,12 @@ Konsultasi NIB
 </a>
 </div>
 </section>
-<section class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-12 relative z-10">
+<section id="seksi-kalkulator" class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-12 relative z-10">
 <div class="glass p-6 sm:p-8 md:p-12 rounded-[2.5rem] border-t-4 border-warnakedua shadow-xl transition duration-500">
 <div class="text-center mb-8">
 <span class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1 rounded-full text-[10px] uppercase tracking-widest">Simulasi Interaktif</span>
 <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight mt-2 uppercase">KALKULATOR<br>CETAK & ROYALTI</h4>
-<p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">Estimasi biaya cetak tambahan, harga jual, dan royalti buku Anda.</p>
+<p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">Estimasi modal dan royalti buku Anda.</p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 <div class="lg:col-span-7 space-y-6 bg-white/60 dark:bg-black/40 p-6 rounded-3xl border border-gray-200 dark:border-gray-800 text-left">
@@ -1016,7 +1017,7 @@ Konsultasi NIB
 <div class="flex justify-between text-[9px] text-gray-400 font-semibold mt-1"><span>50 Hal</span><span>250 Hal</span><span>500 Hal</span></div>
 </div>
 <div>
-<div class="flex justify-between text-xs sm:text-sm font-bold mb-2"><label class="text-gray-700 dark:text-gray-300 uppercase">Jumlah Cetak (Eks)</label><span id=label-eks class="text-warnautama dark:text-warnakedua font-black">50 Eks</span></div>
+<div class="flex justify-between text-xs sm:text-sm font-bold mb-2"><label class="text-gray-700 dark:text-gray-300 uppercase">Jumlah Cetak</label><span id=label-eks class="text-warnautama dark:text-warnakedua font-black">50 Eks</span></div>
 <input type=range id=calc-eks min=10 max=500 step=5 value=50 oninput=hitungSimulasiBuku() class="w-full accent-warnautama dark:accent-warnakedua cursor-pointer h-2 bg-gray-300 dark:bg-gray-700 rounded-lg">
 <div class="flex justify-between text-[9px] text-gray-400 font-semibold mt-1"><span>10 Eks</span><span>250 Eks</span><span>500 Eks</span></div>
 </div>
@@ -1032,8 +1033,8 @@ Konsultasi NIB
 <div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Harga Jual</span><span id=out-jual class="font-bold text-sm sm:text-base text-warnakedua">Rp 52.500</span></div>
 <div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Total Modal (<span id=out-jml-eks>50</span> Eks)</span><span id=out-total-modal class="font-bold text-xs sm:text-sm text-gray-200">Rp 1.375.000</span></div>
 </div>
-<div class="bg-white/10 p-4 rounded-2xl text-center border border-warnakedua/40"><p class="text-[10px] uppercase tracking-widest text-gray-300 font-bold mb-1">Estimasi Keuntungan Penulis</p><h5 id=out-profit class="text-2xl sm:text-3xl font-black text-green-400 tracking-tight">Rp 1.250.000</h5></div>
-<p class="text-[9px] text-gray-300 italic text-center leading-normal">*Estimasi keuntungan bersih di luar modal dan paket penerbitan awal.</p>
+<div class="bg-white/10 p-4 rounded-2xl text-center border border-warnakedua/40"><p class="text-[10px] uppercase tracking-widest text-gray-300 font-bold mb-1">Estimasi Royalti Penulis</p><h5 id=out-profit class="text-2xl sm:text-3xl font-black text-green-400 tracking-tight">Rp 1.250.000</h5></div>
+<p class="text-[9px] text-gray-300 italic text-center leading-normal">*Estimasi Royalti bersih di luar modal dan paket penerbitan awal.</p>
 </div>
 </div>
 </div>
