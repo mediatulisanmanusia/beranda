@@ -727,12 +727,15 @@ HAK CIPTA TERBARU
 </section>
 <section id=seksi-pencarian-terpadu class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-6 relative z-10">
 <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500">
-<div class="flex justify-center gap-2 mb-8 bg-white/50 dark:bg-black/30 p-1.5 rounded-full w-max mx-auto border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
-<button id=tab-qrcbn onclick='gantiPencarian("qrcbn")' class="px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300">
+<div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 bg-white/50 dark:bg-black/30 p-1.5 rounded-full w-max max-w-full mx-auto border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
+<button id=tab-qrcbn onclick='gantiPencarian("qrcbn")' class="px-4 sm:px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300">
 QRCBN
 </button>
-<button id=tab-djki onclick='gantiPencarian("djki")' class="px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
+<button id=tab-djki onclick='gantiPencarian("djki")' class="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
 HAK CIPTA
+</button>
+<button id=tab-nib onclick='gantiPencarian("nib")' class="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
+NIB
 </button>
 </div>
 <div id=konten-qrcbn class=animate-fade-up>
@@ -757,9 +760,39 @@ Telusuri
 </button>
 </form>
 </div>
+<div id=konten-nib class="hidden animate-fade-up">
+<img src=oss.png onerror="this.style.display='none'" loading=lazy decoding=async alt="Logo OSS" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+<h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN NIB</h4>
+<p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Cek keabsahan dan status Nomor Induk Berusaha (NIB) yang terdaftar di sistem OSS.</p>
+<form onsubmit=cariNIB(event) class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+<input id=input-keyword-nib required placeholder="Contoh: 0507230252262" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+<button id=btn-cari-nib type=submit class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+Telusuri
+</button>
+</form>
+</div>
+</div>
+<div id=modal-nib-oss class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+<div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl transform transition-all text-left animate-fade-up">
+<h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">Detail Data Pelaku Usaha</h3>
+<div id=isi-data-nib class="bg-[#e2e4e7] rounded-xl p-4 sm:p-5 space-y-3.5 text-xs sm:text-sm text-gray-900">
+<div class="flex justify-between items-start gap-4"><span class="font-bold text-gray-900 shrink-0">NIB</span><span id=res-nib class="text-right font-medium text-gray-800 break-all">-</span></div>
+<div class="flex justify-between items-start gap-4"><span class="font-bold text-gray-900 shrink-0 leading-snug">Nama<br>Perusahaan</span><span id=res-nama class="text-right font-medium text-gray-800 uppercase">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Status Aktif</span><span id=res-status class="text-right font-medium text-gray-800">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Status Migrasi</span><span id=res-migrasi class="text-right font-medium text-gray-800">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Penanaman Modal</span><span id=res-modal class="text-right font-medium text-gray-800">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Skala Usaha</span><span id=res-skala class="text-right font-medium text-gray-800">-</span></div>
+</div>
+<div id=pesan-error-nib class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-center text-xs sm:text-sm font-semibold">Data NIB tidak ditemukan. Pastikan nomor NIB yang Anda masukkan sudah benar.</div>
+<div class="mt-6 text-center">
+<button type=button onclick=tutupModalNIB() class="bg-[#7b1818] hover:bg-[#5e1212] text-white font-medium py-2.5 px-8 rounded-lg shadow transition duration-200 text-sm">
+Tutup
+</button>
+</div>
+</div>
 </div>
 </section>
-<script>function gantiPencarian(t){const e=document.getElementById("tab-qrcbn"),a=document.getElementById("tab-djki"),n=document.getElementById("konten-qrcbn"),d=document.getElementById("konten-djki"),s="px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300",r="px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent";"qrcbn"===t?(n.classList.remove("hidden"),d.classList.add("hidden"),e.className=s,a.className=r):(d.classList.remove("hidden"),n.classList.add("hidden"),a.className=s,e.className=r)}</script>
+<script>const URL_API_NIB="https://script.google.com/macros/s/AKfycbykk8-tbYS5CTUAOp6gvJeE6hLL0lyVLmVi5V0C55eC5p_I2z52tKC8qZuHukNgnGsY/exec";function gantiPencarian(t){const e=document.getElementById("tab-qrcbn"),a=document.getElementById("tab-djki"),i=document.getElementById("tab-nib"),n=document.getElementById("konten-qrcbn"),d=document.getElementById("konten-djki"),o=document.getElementById("konten-nib"),s="px-4 sm:px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300",r="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent";n.classList.add("hidden"),d.classList.add("hidden"),o.classList.add("hidden"),e.className=r,a.className=r,i.className=r,"qrcbn"===t?(n.classList.remove("hidden"),e.className=s):"djki"===t?(d.classList.remove("hidden"),a.className=s):"nib"===t&&(o.classList.remove("hidden"),i.className=s)}async function cariNIB(t){t.preventDefault();const e=document.getElementById("input-keyword-nib").value.trim(),a=document.getElementById("btn-cari-nib"),i=a.innerText;a.innerText="Memuat...",a.disabled=!0;try{const t=await fetch(URL_API_NIB),n=await t.json(),d=n.find(t=>String(t.NIB||t.nib||"").trim()===e),o=document.getElementById("modal-nib-oss"),s=document.getElementById("isi-data-nib"),r=document.getElementById("pesan-error-nib");d?(document.getElementById("res-nib").innerText=d.NIB||d.nib||"-",document.getElementById("res-nama").innerText=d.NAMA||d.nama||"-",document.getElementById("res-status").innerText=d.STATUS||d.status||"-",document.getElementById("res-migrasi").innerText=d.MIGRASI||d.migrasi||"-",document.getElementById("res-modal").innerText=d.MODAL||d.modal||"-",document.getElementById("res-skala").innerText=d.SKALA||d.skala||"-",s.classList.remove("hidden"),r.classList.add("hidden")):(s.classList.add("hidden"),r.classList.remove("hidden")),o.classList.remove("hidden"),o.classList.add("flex")}catch(t){alert("Gagal mengambil data NIB. Silakan coba lagi.")}finally{a.innerText=i,a.disabled=!1}}function tutupModalNIB(){const t=document.getElementById("modal-nib-oss");t.classList.add("hidden"),t.classList.remove("flex")}</script>
 <section class="reveal pt-8 md:pt-10 relative z-10 w-full overflow-hidden">
 <div class="px-5 md:px-10 mb-6 flex items-center justify-center text-center">
 <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight uppercase">Publikasi Terbaru</h4>
