@@ -126,22 +126,22 @@
 </div>
 <div class="flex items-center gap-2 relative"><button onclick="toggleTema()" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200"><svg class="w-6 h-6 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg><svg class="w-6 h-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg></button><button onclick="toggleNavMenu()" class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnautama dark:text-gray-200"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
 </div>
-<div id="nav-dropdown" class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col text-left animate-fade-up z-50">
+<div id=nav-dropdown class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col text-left animate-fade-up z-50">
 <div class="flex items-center justify-center gap-2 pb-3 mb-3 border-b border-gray-300/40 dark:border-gray-700/40"><button onclick="ubahBahasa('id')" id="btn-lang-id" class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm"><span>🇮🇩</span></button><button onclick="ubahBahasa('en')" id="btn-lang-en" class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300"><span>🇬🇧</span></button></div>
-<button id="menu-profil-btn" onclick='navKe("profil")' class="hidden bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> <span>Profil Saya</span>
+<button id=menu-profil-btn onclick='navKe("profil")' class="hidden bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> <span>Profil Saya</span>
 </button>
-<button id="menu-admin-btn" onclick='navKe("admin")' class="hidden bg-warnakedua dark:bg-warnakeempat text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> <span>Admin Cipta</span>
+<button id=menu-admin-btn onclick='navKe("admin")' class="hidden bg-warnakedua dark:bg-warnakeempat text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24" stroke-width=2><path stroke-linecap=round stroke-linejoin=round d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> <span>Admin Cipta</span>
 </button>
 <div class="flex flex-col gap-3 border-b border-gray-300/40 dark:border-gray-700/40 pb-4 mb-4">
 <button onclick='navKe("beranda")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Beranda</button>
 <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2">
-<div onclick="toggleSubMenu()" class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition">
+<div onclick=toggleSubMenu() class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition">
 <span>Penelusuran</span>
-<svg id="panah-sub" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+<svg id=panah-sub class="w-3.5 h-3.5 transition-transform" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M19 9l-7 7-7-7"></path></svg>
 </div>
-<div id="sub-penelusuran" class="hidden pl-3 pt-2 flex flex-col gap-2">
+<div id=sub-penelusuran class="hidden pl-3 pt-2 flex flex-col gap-2">
 <button onclick='gantiPencarian("qrcbn");gulirKe("seksi-pencarian-terpadu")' class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• <span>Buku</span></button>
 <button onclick='gantiPencarian("djki");gulirKe("seksi-pencarian-terpadu")' class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• <span>Hak Cipta</span></button>
 <button onclick='gantiPencarian("nib");gulirKe("seksi-pencarian-terpadu")' class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• <span>NIB</span></button>
@@ -154,13 +154,13 @@
 <button onclick='navKe("beranda");setTimeout(()=>gulirKe("seksi-kalkulator"),100)' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Estimasi Royalti</button>
 </div>
 <div class="flex flex-col gap-2">
-<a href="https://mediatulisanmanusia.com/literasi" class="bg-warnaketiga dark:bg-gray-800 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md mb-1"><span>📖 Ruang Literasi</span></a>
-<a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target="_blank" class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md"><span>Whatsapp Kami</span></a>
-<button id="menu-login-btn" onclick='navKe("login")' class="bg-warnakedua dark:bg-warnakeempat text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> <span>Login / Signup</span>
+<a href=https://mediatulisanmanusia.com/literasi class="bg-warnaketiga dark:bg-gray-800 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md mb-1"><span>📖 Ruang Literasi</span></a>
+<a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target=_blank class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md"><span>Whatsapp Kami</span></a>
+<button id=menu-login-btn onclick='navKe("login")' class="bg-warnakedua dark:bg-warnakeempat text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> <span>Login / Signup</span>
 </button>
-<button id="menu-logout-btn" onclick="prosesLogout()" class="hidden bg-red-500 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> <span>Logout</span>
+<button id=menu-logout-btn onclick=prosesLogout() class="hidden bg-red-500 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> <span>Logout</span>
 </button>
 </div>
 </div>
@@ -732,73 +732,74 @@ HAK CIPTA TERBARU
 </div>
 </div>
 </section>
-<section id="seksi-pencarian-terpadu" class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-6 relative z-10">
+<<section id=seksi-pencarian-terpadu class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-6 relative z-10">
 <div class="glass p-8 md:p-12 rounded-[2.5rem] text-center transition duration-500">
 <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 bg-white/50 dark:bg-black/30 p-1.5 rounded-full w-max max-w-full mx-auto border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
-<button id="tab-qrcbn" onclick='gantiPencarian("qrcbn")' class="px-4 sm:px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300">
+<button id=tab-qrcbn onclick='gantiPencarian("qrcbn")' class="px-4 sm:px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300">
 QRCBN
 </button>
-<button id="tab-djki" onclick='gantiPencarian("djki")' class="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
+<button id=tab-djki onclick='gantiPencarian("djki")' class="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
 HAK CIPTA
 </button>
-<button id="tab-nib" onclick='gantiPencarian("nib")' class="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
+<button id=tab-nib onclick='gantiPencarian("nib")' class="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent">
 NIB
 </button>
 </div>
-<div id="konten-qrcbn" class="animate-fade-up">
-<img src="qrcbn.png" loading="lazy" decoding="async" alt="Logo QRCBN" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+<div id=konten-qrcbn class=animate-fade-up>
+<img src=qrcbn.png loading=lazy decoding=async alt="Logo QRCBN" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
 <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN BUKU</h4>
 <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan nomor QRCBN untuk menelusuri buku di database QRCBN.</p>
-<form onsubmit="cariQRCBN(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
-<input id="input-keyword-qrcbn" required placeholder="Contoh: 62-39XX-XXXX-XXX" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
-<button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+<form onsubmit=cariQRCBN(event) class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+<input id=input-keyword-qrcbn required placeholder="Contoh: 62-39XX-XXXX-XXX" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+<button type=submit class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
 Telusuri
 </button>
 </form>
 </div>
-<div id="konten-djki" class="hidden animate-fade-up">
-<img src="djki.png" loading="lazy" decoding="async" alt="Logo DJKI" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+<div id=konten-djki class="hidden animate-fade-up">
+<img src=djki.png loading=lazy decoding=async alt="Logo DJKI" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
 <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN HAK CIPTA</h4>
 <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Masukkan judul ciptaan untuk menelusuri status legalitas di database resmi DJKI.</p>
-<form onsubmit="cariDJKI(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
-<input id="input-keyword-djki" required placeholder="Contoh: MC Nusantara" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
-<button type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+<form onsubmit=cariDJKI(event) class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+<input id=input-keyword-djki required placeholder="Contoh: MC Nusantara" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+<button type=submit class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
 Telusuri
 </button>
 </form>
 </div>
-<div id="konten-nib" class="hidden animate-fade-up">
-<img src="oss.png" onerror="this.style.display='none'" loading="lazy" decoding="async" alt="Logo OSS" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
+<div id=konten-nib class="hidden animate-fade-up">
+<img src=oss.png onerror="this.style.display='none'" loading=lazy decoding=async alt="Logo OSS" class="h-14 md:h-20 w-auto object-contain mx-auto mb-5 drop-shadow-sm">
 <h4 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-warnautama dark:text-white mb-3 tracking-tight w-full leading-tight">PENELUSURAN NIB</h4>
 <p class="text-xs md:text-sm text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-2xl mx-auto">Cek keabsahan dan status Nomor Induk Berusaha yang terdaftar di sistem OSS.</p>
-<form onsubmit="cariNIB(event)" class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
-<input id="input-keyword-nib" required placeholder="Contoh: 0507230252262" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
-<button id="btn-cari-nib" type="submit" class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
+<form onsubmit=cariNIB(event) class="flex flex-col sm:flex-row gap-3 justify-center max-w-2xl mx-auto">
+<input id=input-keyword-nib required placeholder="Contoh: 0507230252262" class="flex-grow bg-white/70 dark:bg-black/60 border border-gray-300 dark:border-warnakeempat rounded-full px-5 py-4 text-[10px] sm:text-xs md:text-sm focus:outline-none focus:border-gray-500 transition font-medium text-warnautama dark:text-white shadow-inner">
+<button id=btn-cari-nib type=submit class="bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-4 px-8 rounded-full shadow-lg uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform duration-300 flex-shrink-0">
 Telusuri
 </button>
 </form>
 </div>
 </div>
-<div id="modal-nib-oss" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-transparent px-4">
+<div id=modal-nib-oss class="fixed inset-0 z-[9999] hidden items-center justify-center bg-transparent px-4">
 <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-gray-200 transform transition-all text-left animate-fade-up">
 <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">Detail Data Pelaku Usaha</h3>
-<div id="isi-data-nib" class="bg-[#e2e4e7] rounded-xl p-4 sm:p-5 space-y-3.5 text-xs sm:text-sm text-gray-900">
-<div class="flex justify-between items-start gap-4"><span class="font-bold text-gray-900 shrink-0">NIB</span><span id="res-nib" class="text-right font-medium text-gray-800 break-all">-</span></div>
-<div class="flex justify-between items-start gap-4"><span class="font-bold text-gray-900 shrink-0 leading-snug">Nama</span><span id="res-nama" class="text-right font-medium text-gray-800 uppercase">-</span></div>
-<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Status</span><span id="res-status" class="text-right font-medium text-gray-800">-</span></div>
-<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Database</span><span id="res-migrasi" class="text-right font-medium text-gray-800">-</span></div>
-<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Penanaman Modal</span><span id="res-modal" class="text-right font-medium text-gray-800">-</span></div>
-<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Skala Usaha</span><span id="res-skala" class="text-right font-medium text-gray-800">-</span></div>
+<div id=isi-data-nib class="bg-[#e2e4e7] rounded-xl p-4 sm:p-5 space-y-3.5 text-xs sm:text-sm text-gray-900">
+<div class="flex justify-between items-start gap-4"><span class="font-bold text-gray-900 shrink-0">NIB</span><span id=res-nib class="text-right font-medium text-gray-800 break-all">-</span></div>
+<div class="flex justify-between items-start gap-4"><span class="font-bold text-gray-900 shrink-0 leading-snug">Nama</span><span id=res-nama class="text-right font-medium text-gray-800 uppercase">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Status</span><span id=res-status class="text-right font-medium text-gray-800">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Database</span><span id=res-migrasi class="text-right font-medium text-gray-800">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Penanaman Modal</span><span id=res-modal class="text-right font-medium text-gray-800">-</span></div>
+<div class="flex justify-between items-center gap-4"><span class="font-bold text-gray-900 shrink-0">Skala Usaha</span><span id=res-skala class="text-right font-medium text-gray-800">-</span></div>
 </div>
-<div id="pesan-error-nib" class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-center text-xs sm:text-sm font-semibold">Data NIB tidak ditemukan. Pastikan nomor NIB yang Anda masukkan sudah benar.</div>
+<div id=pesan-error-nib class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-center text-xs sm:text-sm font-semibold">Data NIB tidak ditemukan. Pastikan nomor NIB yang Anda masukkan sudah benar.</div>
 <div class="mt-6 text-center">
-<button type="button" onclick="tutupModalNIB()" class="bg-[#7b1818] hover:bg-[#5e1212] text-white font-medium py-2.5 px-8 rounded-lg shadow transition duration-200 text-sm">
+<button type=button onclick=tutupModalNIB() class="bg-[#7b1818] hover:bg-[#5e1212] text-white font-medium py-2.5 px-8 rounded-lg shadow transition duration-200 text-sm">
 Tutup
 </button>
 </div>
 </div>
 </div>
 </section>
+<script>const URL_API_NIB="https://script.google.com/macros/s/AKfycbykk8-tbYS5CTUAOp6gvJeE6hLL0lyVLmVi5V0C55eC5p_I2z52tKC8qZuHukNgnGsY/exec";function gantiPencarian(t){const e=document.getElementById("tab-qrcbn"),a=document.getElementById("tab-djki"),i=document.getElementById("tab-nib"),n=document.getElementById("konten-qrcbn"),d=document.getElementById("konten-djki"),o=document.getElementById("konten-nib"),s="px-4 sm:px-6 py-2.5 rounded-full bg-warnautama dark:bg-white text-white dark:text-black text-xs sm:text-sm font-extrabold shadow-md transition-all duration-300",r="px-4 sm:px-6 py-2.5 rounded-full text-gray-600 hover:text-warnautama dark:text-gray-400 dark:hover:text-white text-xs sm:text-sm font-extrabold transition-all duration-300 bg-transparent";n.classList.add("hidden"),d.classList.add("hidden"),o.classList.add("hidden"),e.className=r,a.className=r,i.className=r,"qrcbn"===t?(n.classList.remove("hidden"),e.className=s):"djki"===t?(d.classList.remove("hidden"),a.className=s):"nib"===t&&(o.classList.remove("hidden"),i.className=s)}async function cariNIB(t){t.preventDefault();const e=document.getElementById("input-keyword-nib").value.trim(),a=document.getElementById("btn-cari-nib"),i=a.innerText;a.innerText="Memuat...",a.disabled=!0;try{const t=await fetch(URL_API_NIB),n=await t.json(),d=n.find(t=>String(t.NIB||t.nib||"").trim()===e),o=document.getElementById("modal-nib-oss"),s=document.getElementById("isi-data-nib"),r=document.getElementById("pesan-error-nib");d?(document.getElementById("res-nib").innerText=d.NIB||d.nib||"-",document.getElementById("res-nama").innerText=d.NAMA||d.nama||"-",document.getElementById("res-status").innerText=d.STATUS||d.status||"-",document.getElementById("res-migrasi").innerText=d.MIGRASI||d.migrasi||"-",document.getElementById("res-modal").innerText=d.MODAL||d.modal||"-",document.getElementById("res-skala").innerText=d.SKALA||d.skala||"-",s.classList.remove("hidden"),r.classList.add("hidden")):(s.classList.add("hidden"),r.classList.remove("hidden")),o.classList.remove("hidden"),o.classList.add("flex")}catch(t){alert("Gagal mengambil data NIB. Silakan coba lagi.")}finally{a.innerText=i,a.disabled=!1}}function tutupModalNIB(){const t=document.getElementById("modal-nib-oss");t.classList.add("hidden"),t.classList.remove("flex")}</script>
 <section class="reveal pt-8 md:pt-10 relative z-10 w-full overflow-hidden">
 <div class="px-5 md:px-10 mb-6 flex items-center justify-center text-center">
 <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight uppercase">Publikasi Terbaru</h4>
@@ -2042,14 +2043,84 @@ Jl. Raya Sukorejo No. 19, Pasuruan
 </div>
 </div>
 <script>
-function showToast(e,t="success"){const a=document.getElementById("toast-container"),n=document.createElement("div"),i="success"===t?"bg-green-500":"bg-red-500",o="success"===t?"✔":"✖";n.className=`${i} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`,n.innerHTML=`<span>${o}</span> <span>${e}</span>`,a.appendChild(n),setTimeout((()=>{n.classList.remove("translate-y-[-30px]","opacity-0"),n.classList.add("translate-y-0","opacity-100")}),10),setTimeout((()=>{n.classList.remove("translate-y-0","opacity-100"),n.classList.add("translate-y-[-30px]","opacity-0"),setTimeout((()=>n.remove()),300)}),4e3)}
-function toggleTema(){const e=document.documentElement;e.classList.toggle("dark"),localStorage.setItem("mtm_theme",e.classList.contains("dark")?"dark":"light")}
-function toggleNavMenu(){window.event&&window.event.stopPropagation();const e=document.getElementById("nav-dropdown"),t=document.querySelector('button[onclick="toggleNavMenu()"]');e.classList.contains("hidden")?(e.classList.remove("hidden"),t.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>'):(e.classList.add("hidden"),t.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>')}
-function toggleSubMenu(){document.getElementById("sub-penelusuran").classList.toggle("hidden"),document.getElementById("panah-sub").classList.toggle("rotate-180")}
-function gulirKe(e){bukaHalaman("beranda"),document.getElementById("nav-dropdown").classList.add("hidden");const t=document.querySelector('button[onclick="toggleNavMenu()"]');t&&(t.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>'),setTimeout((()=>{const t=document.getElementById("seksi-pencarian-terpadu");if(t&&t.scrollIntoView({behavior:"smooth"}),"seksi-qrcbn"===e&&gantiPencarian("qrcbn"),"seksi-djki"===e&&gantiPencarian("djki"),"seksi-qrcbn"!==e&&"seksi-djki"!==e){const t=document.getElementById(e);t&&t.scrollIntoView({behavior:"smooth"})}}),150)}
-function cariQRCBN(e){e.preventDefault();const t=document.getElementById("input-keyword-qrcbn").value.trim();t&&(document.getElementById("iframe-pencarian").src=`https://qrcbn.com/check/${encodeURIComponent(t)}`,document.getElementById("modal-pencarian").classList.remove("hidden"))}
-function cariDJKI(e) {e.preventDefault();const keyword = document.getElementById("input-keyword-djki")?.value.trim();if (keyword) {window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(keyword)}`, "_blank");} else {showToast("Masukkan judul ciptaan terlebih dahulu!", "error");}}
-function tutupModalPencarian(){document.getElementById("modal-pencarian").classList.add("hidden"),document.getElementById("iframe-pencarian").src=""}
+function showToast(e, t = "success") {
+    const a = document.getElementById("toast-container"),
+          n = document.createElement("div"),
+          i = "success" === t ? "bg-green-500" : "bg-red-500",
+          o = "success" === t ? "✔" : "✖";
+    n.className = `${i} text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-30px] opacity-0 w-max max-w-[90vw] mx-auto`;
+    n.innerHTML = `<span>${o}</span> <span>${e}</span>`;
+    a.appendChild(n);
+    setTimeout(() => {
+        n.classList.remove("translate-y-[-30px]", "opacity-0");
+        n.classList.add("translate-y-0", "opacity-100");
+    }, 10);
+    setTimeout(() => {
+        n.classList.remove("translate-y-0", "opacity-100");
+        n.classList.add("translate-y-[-30px]", "opacity-0");
+        setTimeout(() => n.remove(), 300);
+    }, 4e3);
+}
+
+function toggleTema() {
+    const e = document.documentElement;
+    e.classList.toggle("dark");
+    localStorage.setItem("mtm_theme", e.classList.contains("dark") ? "dark" : "light");
+}
+
+function toggleNavMenu() {
+    window.event && window.event.stopPropagation();
+    const e = document.getElementById("nav-dropdown"),
+          t = document.querySelector('button[onclick="toggleNavMenu()"]');
+    e.classList.contains("hidden") ? (
+        e.classList.remove("hidden"),
+        t.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>'
+    ) : (
+        e.classList.add("hidden"),
+        t.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>'
+    );
+}
+
+function toggleSubMenu() {
+    document.getElementById("sub-penelusuran").classList.toggle("hidden");
+    document.getElementById("panah-sub").classList.toggle("rotate-180");
+}
+
+function gulirKe(e) {
+    bukaHalaman("beranda");
+    document.getElementById("nav-dropdown").classList.add("hidden");
+    const t = document.querySelector('button[onclick="toggleNavMenu()"]');
+    t && (t.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>');
+    setTimeout(() => {
+        const t = document.getElementById("seksi-pencarian-terpadu");
+        if (t && t.scrollIntoView({ behavior: "smooth" }), "seksi-qrcbn" === e && gantiPencarian("qrcbn"), "seksi-djki" === e && gantiPencarian("djki"), "seksi-qrcbn" !== e && "seksi-djki" !== e) {
+            const t = document.getElementById(e);
+            t && t.scrollIntoView({ behavior: "smooth" });
+        }
+    }, 150);
+}
+
+function cariQRCBN(e) {
+    e.preventDefault();
+    const t = document.getElementById("input-keyword-qrcbn").value.trim();
+    t && (document.getElementById("iframe-pencarian").src = `https://qrcbn.com/check/${encodeURIComponent(t)}`, document.getElementById("modal-pencarian").classList.remove("hidden"));
+}
+
+function cariDJKI(e) {
+    e.preventDefault();
+    const keyword = document.getElementById("input-keyword-djki")?.value.trim();
+    if (keyword) {
+        window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(keyword)}`, "_blank");
+    } else {
+        showToast("Masukkan judul ciptaan terlebih dahulu!", "error");
+    }
+}
+
+function tutupModalPencarian() {
+    document.getElementById("modal-pencarian").classList.add("hidden");
+    document.getElementById("iframe-pencarian").src = "";
+}
+
 async function cariNIB(e) {
     e.preventDefault();
     const inputKeyword = document.getElementById("input-keyword-nib");
@@ -2106,47 +2177,93 @@ function tutupModalNIB() {
         modal.classList.remove("flex");
     }
 }
-function bukaHalaman(e,simpan=true){if("daftar-nib"===e)return void(window.location.href="nib.html");"kirim-naskah"!==e&&"daftar-hki"!==e&&"upload-literasi"!==e&&"profil"!==e||window.currentUserEmail||(showToast("Login / Daftar Akun terlebih dahulu","error"),e="login"),"admin"!==e||window.isAdmin||(showToast("Akses Khusus Admin","error"),e="beranda"),simpan&&localStorage.setItem("mtm_current_page",e),document.querySelectorAll(".halaman-konten").forEach((e=>e.classList.add("hidden")));const t=document.getElementById("hal-"+e);t&&(t.classList.remove("hidden"),t.classList.remove("animate-fade-up"),t.offsetWidth,t.classList.add("animate-fade-up")),window.scrollTo({top:0,behavior:"smooth"}),["kirim-naskah","daftar-hki","upload-literasi"].includes(e)&&window.currentUserEmail&&setTimeout(isiOtomatisFormLayanan,200)}
-function navKe(e){bukaHalaman(e),document.getElementById("nav-dropdown").classList.add("hidden");const t=document.querySelector('button[onclick="toggleNavMenu()"]');t&&(t.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>')}
-function toggleFormAuth(e){document.getElementById("form-login-section").classList.add("hidden"),document.getElementById("form-register-section").classList.add("hidden"),document.getElementById("form-reset-section").classList.add("hidden"),"login"===e?(document.getElementById("form-login-section").classList.remove("hidden"),document.getElementById("judul-login").innerText="Masuk Akun"):"register"===e?(document.getElementById("form-register-section").classList.remove("hidden"),document.getElementById("judul-login").innerText="Buat Akun Baru"):"reset"===e&&(document.getElementById("form-reset-section").classList.remove("hidden"),document.getElementById("judul-login").innerText="Reset Sandi")}
-function prosesLoginGoogle(){window.provider.setCustomParameters({prompt:"select_account"}),window.signInWithPopup(window.auth,window.provider).then((()=>{showToast("Login Google Berhasil!","success"),bukaHalaman("beranda")})).catch((e=>{console.error(e),"auth/popup-blocked"===e.code?showToast("Gagal: Popup diblokir browser. Izinkan popup.","error"):"auth/popup-closed-by-user"===e.code?showToast("Login dibatalkan pengguna.","error"):showToast("Gagal Login: "+e.message,"error")}))}
-function prosesLogout(){window.signOut(window.auth).then((()=>{localStorage.setItem("mtm_current_page","beranda"),showToast("Berhasil keluar.","success"),bukaHalaman("beranda"),document.getElementById("nav-dropdown").classList.add("hidden")}))}
-document.addEventListener("click",(function(e){const t=document.getElementById("nav-dropdown"),a=document.querySelector('button[onclick="toggleNavMenu()"]');document.body.contains(e.target)&&t&&!t.classList.contains("hidden")&&(t.contains(e.target)||a.contains(e.target)||(t.classList.add("hidden"),a.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>'))}));
+
+function bukaHalaman(e, simpan = true) {
+    if ("daftar-nib" === e) return void(window.location.href = "nib.html");
+    "kirim-naskah" !== e && "daftar-hki" !== e && "upload-literasi" !== e && "profil" !== e || window.currentUserEmail || (showToast("Login / Daftar Akun terlebih dahulu", "error"), e = "login");
+    "admin" !== e || window.isAdmin || (showToast("Akses Khusus Admin", "error"), e = "beranda");
+    simpan && localStorage.setItem("mtm_current_page", e);
+    document.querySelectorAll(".halaman-konten").forEach((e => e.classList.add("hidden")));
+    const t = document.getElementById("hal-" + e);
+    t && (t.classList.remove("hidden"), t.classList.remove("animate-fade-up"), t.offsetWidth, t.classList.add("animate-fade-up"));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    ["kirim-naskah", "daftar-hki", "upload-literasi"].includes(e) && window.currentUserEmail && setTimeout(isiOtomatisFormLayanan, 200);
+}
+
+function navKe(e) {
+    bukaHalaman(e);
+    document.getElementById("nav-dropdown").classList.add("hidden");
+    const t = document.querySelector('button[onclick="toggleNavMenu()"]');
+    t && (t.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>');
+}
+
+function toggleFormAuth(e) {
+    document.getElementById("form-login-section").classList.add("hidden");
+    document.getElementById("form-register-section").classList.add("hidden");
+    document.getElementById("form-reset-section").classList.add("hidden");
+    "login" === e ? (document.getElementById("form-login-section").classList.remove("hidden"), document.getElementById("judul-login").innerText = "Masuk Akun") : "register" === e ? (document.getElementById("form-register-section").classList.remove("hidden"), document.getElementById("judul-login").innerText = "Buat Akun Baru") : "reset" === e && (document.getElementById("form-reset-section").classList.remove("hidden"), document.getElementById("judul-login").innerText = "Reset Sandi");
+}
+
+function prosesLoginGoogle() {
+    window.provider.setCustomParameters({ prompt: "select_account" });
+    window.signInWithPopup(window.auth, window.provider).then((() => {
+        showToast("Login Google Berhasil!", "success");
+        bukaHalaman("beranda");
+    })).catch((e => {
+        console.error(e);
+        "auth/popup-blocked" === e.code ? showToast("Gagal: Popup diblokir browser. Izinkan popup.", "error") : "auth/popup-closed-by-user" === e.code ? showToast("Login dibatalkan pengguna.", "error") : showToast("Gagal Login: " + e.message, "error");
+    }));
+}
+
+function prosesLogout() {
+    window.signOut(window.auth).then((() => {
+        localStorage.setItem("mtm_current_page", "beranda");
+        showToast("Berhasil keluar.", "success");
+        bukaHalaman("beranda");
+        document.getElementById("nav-dropdown").classList.add("hidden");
+    }));
+}
+
+document.addEventListener("click", (function(e) {
+    const t = document.getElementById("nav-dropdown"),
+          a = document.querySelector('button[onclick="toggleNavMenu()"]');
+    document.body.contains(e.target) && t && !t.classList.contains("hidden") && (t.contains(e.target) || a.contains(e.target) || (t.classList.add("hidden"), a.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>'));
+}));
+
 document.addEventListener("DOMContentLoaded", (function() {
-    function e(e) {
+    function setupCarouselOptimizer(e) {
         const t = document.getElementById(e);
         if (!t) return;
         t.innerHTML += t.innerHTML;
         let a = !1;
-        t.addEventListener("mouseenter", (() => a = !0)), 
-        t.addEventListener("mouseleave", (() => a = !1)), 
-        t.addEventListener("touchstart", (() => a = !0), {
-            passive: !0
-        }), 
-        t.addEventListener("touchend", (() => {
-            setTimeout((() => a = !1), 1500)
-        })), 
-        requestAnimationFrame((function e() {
-            a || (t.scrollLeft += 1.5, t.scrollLeft >= t.scrollWidth / 2 && (t.scrollLeft -= t.scrollWidth / 2)), 
-            requestAnimationFrame(e)
-        }))
+        t.addEventListener("mouseenter", (() => a = !0)),
+        t.addEventListener("mouseleave", (() => a = !1)),
+        t.addEventListener("touchstart", (() => a = !0), { passive: !0 }),
+        t.addEventListener("touchend", (() => setTimeout(() => a = !1, 1500))),
+        requestAnimationFrame((function loop() {
+            a || (t.scrollLeft += 1.5, t.scrollLeft >= t.scrollWidth / 2 && (t.scrollLeft -= t.scrollWidth / 2));
+            requestAnimationFrame(loop);
+        }));
     }
-    
-    e("scroll-katalog"), e("scroll-hki"), e("scroll-mitra"), e("scroll-media"), e("scroll-artikel"), e("scroll-ulasan");
-    
+
+    setupCarouselOptimizer("scroll-katalog");
+    setupCarouselOptimizer("scroll-hki");
+    setupCarouselOptimizer("scroll-mitra");
+    setupCarouselOptimizer("scroll-media");
+    setupCarouselOptimizer("scroll-artikel");
+    setupCarouselOptimizer("scroll-ulasan");
+
     const t = document.getElementById("scrollToTopBtn");
     let a;
     window.addEventListener("scroll", (() => {
-        window.scrollY > 100 ? (t.classList.remove("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.add("translate-y-0", "opacity-100")) : (t.classList.add("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.remove("translate-y-0", "opacity-100")), 
-        clearTimeout(a), 
+        window.scrollY > 100 ? (t.classList.remove("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.add("translate-y-0", "opacity-100")) : (t.classList.add("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.remove("translate-y-0", "opacity-100"));
+        clearTimeout(a);
         a = setTimeout((() => {
-            t.classList.add("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.remove("translate-y-0", "opacity-100")
-        }), 1500)
-    })), 
-    t.addEventListener("click", (() => window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    })));
+            t.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
+            t.classList.remove("translate-y-0", "opacity-100");
+        }), 1500);
+    }));
+    t && t.addEventListener("click", (() => window.scrollTo({ top: 0, behavior: "smooth" })));
 
     const n = document.getElementById("chat-trigger"),
         i = document.getElementById("chat-window"),
@@ -2157,7 +2274,7 @@ document.addEventListener("DOMContentLoaded", (function() {
         l = document.getElementById("greeting-bubble"),
         c = document.getElementById("typing-indicator"),
         u = document.getElementById("jump-to-bottom");
-    
+
     let m, w;
 
     function p(e, t, a = null) {
@@ -2166,24 +2283,19 @@ document.addEventListener("DOMContentLoaded", (function() {
         let i = "";
         "user" === t ? i = `<div class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed font-medium text-[11px] sm:text-xs border border-warnautama/50 whitespace-pre-wrap break-words">${e}</div>` : (i = `<div class="flex items-start gap-2 w-full"><img src="mascipta.webp" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-[#2a2a2a] bg-white"><div class="bg-white/90 dark:bg-[#1b1b1b] text-gray-800 dark:text-gray-200 px-4 py-2.5 rounded-2xl rounded-tl-sm w-full max-w-[85%] shadow-sm border border-gray-200 dark:border-[#2a2a2a] leading-relaxed font-medium text-[11px] sm:text-xs break-words">${e}</div></div>`, a && (i += '<div class="flex flex-col gap-2 mt-1.5 pl-9 md:pl-10 w-[85%]">', a.forEach((e => {
             i += `<button onclick="${e.aksi}" class="text-left text-[10px] sm:text-[11px] bg-white dark:bg-gray-800 border border-warnautama/30 dark:border-gray-600 text-warnautama dark:text-gray-200 font-extrabold py-2 px-3 rounded-xl hover:bg-warnautama hover:text-white dark:hover:bg-white dark:hover:text-black transition shadow-sm hover:-translate-y-0.5">${e.label}</button>`
-        })), i += "")), 
-        n.innerHTML = i, 
-        r.insertBefore(n, c), 
-        r.scrollTo({
-            top: r.scrollHeight,
-            behavior: "smooth"
-        })
+        })), i += ""));
+        n.innerHTML = i;
+        r.insertBefore(n, c);
+        r.scrollTo({ top: r.scrollHeight, behavior: "smooth" });
     }
 
     function g() {
         clearTimeout(m), clearTimeout(w), m = setTimeout((() => {
             p("Apakah masih bersama Cipta?", "model"), w = setTimeout((() => {
-                p("Kalau tidak ada, Cipta akhiri. Terima kasih sudah menghubungi Cipta.", "model"), 
-                setTimeout((() => {
-                    o && o.click()
-                }), 2e3)
-            }), 2500)
-        }), 3e4)
+                p("Kalau tidak ada, Cipta akhiri. Terima kasih sudah menghubungi Cipta.", "model");
+                setTimeout((() => { o && o.click() }), 2e3);
+            }), 2500);
+        }), 3e4);
     }
 
     function h() {
@@ -2202,58 +2314,58 @@ document.addEventListener("DOMContentLoaded", (function() {
                 label: "⎙ Lanjut ke WhatsApp",
                 aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20${encodeURIComponent(e)}', '_blank')`
             }]), g())
-        }), 800))
+        }), 800));
     }
 
     s && s.addEventListener("input", (function() {
         this.style.height = "42px", this.style.height = this.scrollHeight + "px"
-    })), 
+    }));
     r && u && (r.addEventListener("scroll", (() => {
         u.classList.toggle("hidden", r.scrollHeight - r.scrollTop - r.clientHeight <= 50)
     })), u.addEventListener("click", (() => r.scrollTo({
         top: r.scrollHeight,
         behavior: "smooth"
-    })))), 
+    }))));
     setTimeout((() => {
         l && (l.classList.replace("opacity-100", "opacity-0"), setTimeout((() => l.remove()), 500))
-    }), 6e3), 
+    }), 6e3);
     n && n.addEventListener("click", (() => {
-        i.classList.remove("hidden"), 
+        i.classList.remove("hidden");
         setTimeout((() => {
             i.classList.remove("scale-0", "translate-y-10", "opacity-0"), i.classList.add("scale-100", "translate-y-0", "opacity-100")
-        }), 10), 
-        l && l.remove(), 
+        }), 10);
+        l && l.remove();
         r.children.length <= 1 ? window.mulaiChatBot() : r.scrollTo({
             top: r.scrollHeight,
             behavior: "smooth"
-        })
-    })), 
+        });
+    }));
     o && o.addEventListener("click", (() => {
-        i.classList.remove("scale-100", "translate-y-0", "opacity-100"), 
-        i.classList.add("scale-0", "translate-y-10", "opacity-0"), 
+        i.classList.remove("scale-100", "translate-y-0", "opacity-100");
+        i.classList.add("scale-0", "translate-y-10", "opacity-0");
         setTimeout((() => i.classList.add("hidden")), 300);
         const e = document.querySelector(".relative.flex.items-end");
         if (e) {
             let t = document.getElementById("bubble-penutup");
             t && t.remove();
             const a = document.createElement("div");
-            a.id = "bubble-penutup", 
-            a.className = "absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 animate-fade-up transition-opacity duration-500 opacity-100", 
-            a.innerHTML = "Sampai jumpa! Cipta selalu di sini 😊", 
-            e.appendChild(a), 
+            a.id = "bubble-penutup";
+            a.className = "absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 animate-fade-up transition-opacity duration-500 opacity-100";
+            a.innerHTML = "Sampai jumpa! Cipta selalu di sini 😊";
+            e.appendChild(a);
             setTimeout((() => {
                 a && (a.classList.replace("opacity-100", "opacity-0"), setTimeout((() => a.remove()), 500))
-            }), 5e3)
+            }), 5e3);
         }
-    })), 
+    }));
 
     window.pilihTopikChat = function(e) {
         clearTimeout(m), clearTimeout(w), p(e, "user"), c.classList.remove("hidden"), c.classList.add("flex"), r.scrollTo({
             top: r.scrollHeight,
             behavior: "smooth"
-        }), 
+        }),
         setTimeout((() => {
-            c.classList.add("hidden"), c.classList.remove("flex"), 
+            c.classList.add("hidden"), c.classList.remove("flex"),
             "Publikasi Literasi" === e ? p("Siap! Mari publikasikan cerpen, puisi, Berita, Opini, atau artikelmu di Ruang Literasi kami. Silakan klik form di bawah ini:", "model", [{
                 label: "⎙ Publikasi Sekarang",
                 aksi: "document.getElementById('close-chat').click(); bukaHalaman('upload-literasi');"
@@ -2278,9 +2390,9 @@ document.addEventListener("DOMContentLoaded", (function() {
             }]) : "Hubungi WA" === e && p("Tim admin kami siap membalas pesan Anda (Senin-Sabtu 08.00-16.00 WIB).", "model", [{
                 label: "» Chat Admin Sekarang",
                 aksi: "window.open('https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia', '_blank')"
-            }]), g()
-        }), 800)
-    }, 
+            }]), g();
+        }), 800);
+    };
 
     window.mulaiChatBot = function() {
         r.innerHTML = "", r.appendChild(c), p("Selamat datang di Media Tulisan Manusia, ada yang bisa Cipta bantu?", "model", [{
@@ -2298,44 +2410,526 @@ document.addEventListener("DOMContentLoaded", (function() {
         }, {
             label: "WhatsApp Admin",
             aksi: "window.pilihTopikChat('Hubungi WA')"
-        }]), g()
-    }, 
+        }]), g();
+    };
 
-    d && d.addEventListener("click", h), 
+    d && d.addEventListener("click", h);
     s && s.addEventListener("keydown", (e => {
         "Enter" !== e.key || e.shiftKey || (e.preventDefault(), h())
-    }))
+    }));
 }));
-setTimeout((()=>{window.auth&&window.onAuthStateChanged&&window.onAuthStateChanged(window.auth,(e=>{const t=document.getElementById("menu-login-btn"),a=document.getElementById("menu-profil-btn"),n=document.getElementById("menu-admin-btn"),i=document.getElementById("menu-logout-btn"),desktopAuthBtn=document.getElementById("desktop-auth-btn");if(e){window.currentUserEmail=e.email,window.currentUserName=e.displayName||e.email.split("@")[0],window.isAdmin=e.email.toLowerCase()===window.ADMIN_EMAIL,t&&t.classList.add("hidden"),i&&i.classList.remove("hidden");if(desktopAuthBtn){if(window.isAdmin){desktopAuthBtn.innerText="Panel Admin",desktopAuthBtn.setAttribute("onclick","bukaHalaman('admin')")}else{desktopAuthBtn.innerText="Profil Saya",desktopAuthBtn.setAttribute("onclick","bukaHalaman('profil')")}}window.isAdmin?(n&&n.classList.remove("hidden"),a&&a.classList.add("hidden"),window.muatRiwayatAdmin&&window.muatRiwayatAdmin()):(a&&a.classList.remove("hidden"),n&&n.classList.add("hidden"),document.getElementById("profil-nama").innerText=window.currentUserName,document.getElementById("profil-email").innerText=window.currentUserEmail,document.getElementById("profil-inisial").innerText=window.currentUserName.charAt(0).toUpperCase(),window.muatRiwayatProfil&&window.muatRiwayatProfil());const params=new URLSearchParams(window.location.search),savedPage=localStorage.getItem("mtm_current_page");params.has("admin")&&window.isAdmin?bukaHalaman("admin"):params.has("buka")?bukaHalaman(params.get("buka")):(savedPage&&"beranda"!==savedPage&&bukaHalaman(savedPage,!1))}else{window.currentUserEmail=null,window.currentUserName=null,window.isAdmin=!1,t&&t.classList.remove("hidden"),a&&a.classList.add("hidden"),n&&n.classList.add("hidden"),i&&i.classList.add("hidden");if(desktopAuthBtn){desktopAuthBtn.innerText="Masuk / Daftar",desktopAuthBtn.setAttribute("onclick","bukaHalaman('login')")}}}))}),400);
-document.getElementById("loginForm").addEventListener("submit",(function(e){e.preventDefault();const t=document.getElementById("login-email").value,a=document.getElementById("login-password").value;window.signInWithEmailAndPassword(window.auth,t,a).then((()=>{showToast("Login Berhasil!","success"),document.getElementById("loginForm").reset(),t.toLowerCase()===window.ADMIN_EMAIL?bukaHalaman("admin"):bukaHalaman("beranda")})).catch((()=>{showToast("Email atau Sandi salah.","error")}))}));
-document.getElementById("registerForm").addEventListener("submit",(function(e){e.preventDefault();const t=document.getElementById("reg-email").value,a=document.getElementById("reg-password").value;window.createUserWithEmailAndPassword(window.auth,t,a).then((()=>{showToast("Daftar Berhasil!","success"),document.getElementById("registerForm").reset(),bukaHalaman("beranda")})).catch((()=>{showToast("Gagal mendaftar. Sandi min 6 atau email sudah terdaftar.","error")}))}));
-document.getElementById("resetForm").addEventListener("submit",(function(e){e.preventDefault(),window.sendPasswordResetEmail(window.auth,document.getElementById("reset-email").value).then((()=>{showToast("Link reset dikirim!","success"),toggleFormAuth("login"),document.getElementById("resetForm").reset()})).catch((()=>{showToast("Email tidak ditemukan.","error")}))}));
-setTimeout((()=>{const e=document.getElementById("loading-screen");e&&(e.style.opacity="0",setTimeout((()=>e.style.display="none"),500))}),300);
-window.muatRiwayatProfil=async function(){if(!window.currentUserEmail)return;const e=window.query(window.collection(window.db,"pesanan"),window.where("userEmail","==",window.currentUserEmail)),t=await window.getDocs(e);let a="",n="",i="",o="";t.forEach((e=>{const t=e.data(),s="Terbit"===t.status||"Berhasil"===t.status?"text-green-600":"text-yellow-600";if("Upload Literasi"===t.tipeLayanan){let e="Tahap Kurasi / Review";"Pending"===t.status?e="Menunggu Antrean":"Review"===t.status?e="Sedang Direview":"Terbit"===t.status?e="Publikasi":"Revisi"===t.status&&(e="Belum Memenuhi Syarat");let a=`<span class="text-gray-500 text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">${e}</span>`;t.linkKarya&&""!==t.linkKarya&&(a=`<a href="${t.linkKarya}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">⎙ AKSES NASKAH</a>`),o+=`<tr><td class="p-3 border-b">${t.waktuLokal}</td><td class="p-3 border-b font-bold">${t.judul}</td><td class="p-3 border-b font-bold ${s}">${t.status}</td><td class="p-3 border-b text-center align-middle">${a}</td></tr>`}else{const e=t.fileHasil&&""!==t.fileHasil?`<a href="${t.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1"> ⎙ UNDUH FILE</a>`:'<span class="text-gray-400 text-[10px] italic bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-md border border-gray-200 dark:border-gray-700">Belum ada file</span>',r=`<tr><td class="p-3 border-b">${t.waktuLokal}</td><td class="p-3 border-b font-bold">${t.judul}</td><td class="p-3 border-b font-bold ${s}">${t.status}</td><td class="p-3 border-b text-center align-middle">${e}</td></tr>`;t.tipeLayanan.includes("Naskah")?a+=r:t.tipeLayanan.includes("NIB")?i+=r:n+=r}})),document.getElementById("tabel-penerbitan").innerHTML=a||'<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>',document.getElementById("tabel-hki")&&(document.getElementById("tabel-hki").innerHTML=n||'<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>'),document.getElementById("tabel-nib")&&(document.getElementById("tabel-nib").innerHTML=i||'<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>'),document.getElementById("tabel-literasi")&&(document.getElementById("tabel-literasi").innerHTML=o||'<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>')};
-window.muatRiwayatAdmin=async function(){if(!window.isAdmin)return;const e=window.query(window.collection(window.db,"pesanan"),window.orderBy("waktuLokal","desc")),t=await window.getDocs(e);let a="";t.forEach((e=>{const t=e.data(),n=e.id,i="Terbit"===t.status||"Terbit"===t.status?"text-green-600":"text-yellow-600";let o="";if("Upload Literasi"===t.tipeLayanan){const e=t.linkKarya&&""!==t.linkKarya?`<a href="${t.linkKarya}" target="_blank" class="block text-[8px] text-blue-600 hover:underline mt-1 truncate max-w-[130px]">Cek Link: ${t.linkKarya}</a>`:"";o=`<select onchange="window.ubahStatusAdmin('${n}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none"><option value="Pending" ${"Pending"===t.status?"selected":""}>⏲ Pending</option><option value="Review" ${"Review"===t.status?"selected":""}>⏲ Review</option><option value="Terbit" ${"Terbit"===t.status?"selected":""}>✔ Terbit</option><option value="Revisi" ${"Revisi"===t.status?"selected":""}>✖ Revisi</option></select><div class="flex gap-1 mt-1"><input type="url" id="link-${n}" value="${t.linkKarya||""}" placeholder="Tempel URL Karya..." class="w-full text-[9px] border border-gray-300 p-1.5 rounded bg-white focus:outline-none focus:border-blue-500"><button onclick="window.simpanLinkAdmin('${n}')" class="bg-blue-600 text-white text-[9px] px-2 py-1.5 rounded font-bold hover:bg-blue-700 shadow-sm">Set</button></div>${e}`}else{const e=t.fileHasil&&""!==t.fileHasil?`<div class="mt-2 p-1.5 bg-green-50 border border-green-200 rounded-md text-center"><span class="block text-[8px] text-gray-500 mb-0.5">File Terupload:</span><a href="${t.fileHasil}" target="_blank" class="inline-block bg-green-500 text-white px-2 py-1 rounded text-[9px] font-bold hover:bg-green-600 shadow-sm">📄 Lihat File</a></div>`:'<div class="mt-2 p-1 border border-dashed border-gray-300 rounded-md text-center"><span class="text-gray-400 text-[8px] italic">Belum ada file</span></div>';o=`<select onchange="window.ubahStatusAdmin('${n}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none"><option value="Pending" ${"Pending"===t.status?"selected":""}>⏲ Pending</option><option value="Proses" ${"Proses"===t.status?"selected":""}>⏲ Proses</option><option value="Terbit" ${"Terbit"===t.status?"selected":""}>✔ Terbit</option></select><label id="btn-up-${n}" class="w-full text-center bg-blue-600 text-white px-2 py-1.5 rounded-md text-[10px] font-bold cursor-pointer block hover:bg-blue-700 transition shadow-sm">+ Upload PDF<input type="file" class="hidden" accept=".pdf" onchange="window.uploadPDFAdmin('${n}', this)"></label>${e}`}a+=`<tr><td class="p-3 border-b"><span class="block font-bold">${t.waktuLokal}</span><span class="text-[9px] text-gray-500 font-bold bg-gray-100 px-1 py-0.5 rounded mt-1 inline-block">${t.tipeLayanan}</span></td><td class="p-3 border-b"><span class="block font-bold">${t.namaLengkap}</span><span class="text-[9px] text-gray-500">${t.userEmail} | ${t.wa}</span></td><td class="p-3 border-b font-bold">${t.judul}</td><td class="p-3 border-b"><span class="font-bold ${i} bg-white px-2 py-1 rounded-md shadow-sm border border-gray-100">${t.status}</span></td><td class="p-3 border-b align-top w-40">${o}</td></tr>`})),document.getElementById("tabel-admin").innerHTML=a||'<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>'};
-window.ubahStatusAdmin=async function(e,t){try{await window.updateDoc(window.doc(window.db,"pesanan",e),{status:t}),showToast("Status diperbarui!","success"),window.muatRiwayatAdmin()}catch(e){showToast("Gagal memperbarui status","error")}};
-window.simpanLinkAdmin=async function(e){const t=document.getElementById(`link-${e}`).value;if(t)try{await window.updateDoc(window.doc(window.db,"pesanan",e),{linkKarya:t}),showToast("Link berhasil disimpan!","success"),window.muatRiwayatAdmin()}catch(e){showToast("Gagal menyimpan link","error")}else showToast("Masukkan URL/Link terlebih dahulu!","error")};
-window.uploadPDFAdmin=function(e,t){const a=t.files[0];if(!a)return;const n=document.getElementById(`btn-up-${e}`),i=n.innerHTML;n.innerHTML="⏲ Mengunggah...",n.classList.add("pointer-events-none","opacity-70"),showToast("Memulai unggah PDF ke Google Drive...","success");const o=new FileReader;o.onload=async function(o){const s=o.target.result.split(",")[1];try{const t=await fetch("https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec",{method:"POST",body:JSON.stringify({action:"upload_hasil_admin",orderId:e,filename:a.name,mimeType:a.type||"application/pdf",base64:s})}),n=await t.json();if("success"!==n.status)throw new Error(n.message||"Gagal mengunggah ke Drive");await window.updateDoc(window.doc(window.db,"pesanan",e),{fileHasil:n.downloadURL,status:"Berhasil"}),showToast("PDF Berhasil disimpan di Drive!","success"),window.muatRiwayatAdmin()}catch(e){console.error("Gagal Upload:",e),showToast("Gagal mengunggah PDF! Coba lagi.","error"),n.innerHTML=i,n.classList.remove("pointer-events-none","opacity-70"),t.value=""}},o.readAsDataURL(a)};
-const getBase64=e=>new Promise(((t,a)=>{const n=new FileReader;n.readAsDataURL(e),n.onload=()=>t(n.result.split(",")[1]),n.onerror=e=>a(e)}));
-function toggleEditProfil(){const e=document.getElementById("kotak-edit-profil");if(e.classList.contains("hidden")&&(window.currentUserName&&(document.getElementById("edit-nama").value=window.currentUserName),window.currentUserEmail&&(document.getElementById("edit-email").value=window.currentUserEmail),window.auth&&window.auth.currentUser)){window.getDocs(window.query(window.collection(window.db,"users"),window.where("email","==",window.currentUserEmail))).then((e=>{e.forEach((e=>{const t=e.data();t.wa&&(document.getElementById("edit-wa").value=t.wa)}))})).catch((e=>console.log("WA belum diset")))}e.classList.toggle("hidden")}
-async function simpanProfil(){const e=document.getElementById("edit-nama").value,t=document.getElementById("edit-wa").value;if(!e.trim())return void showToast("Nama tidak boleh kosong!","error");const a=window.auth.currentUser;if(a)try{await window.updateProfile(a,{displayName:e});const n=window.query(window.collection(window.db,"users"),window.where("email","==",a.email)),i=await window.getDocs(n);if(i.empty)await window.addDoc(window.collection(window.db,"users"),{email:a.email,nama:e,wa:t});else{const a=i.docs[0].id;await window.updateDoc(window.doc(window.db,"users",a),{wa:t,nama:e})}document.getElementById("profil-nama").innerText=e,document.getElementById("profil-inisial").innerText=e.charAt(0).toUpperCase(),window.currentUserName=e,showToast("Profil berhasil diperbarui permanen!","success"),toggleEditProfil()}catch(e){showToast("Gagal menyimpan: "+e.message,"error")}else showToast("Sesi habis, silakan login ulang.","error")}
-function kirimPesanKontak(e){e.preventDefault();const t=e.target,a=t.querySelector('button[type="submit"]'),n=a.innerText;a.innerText="Mengirim...",a.disabled=!0,fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({Nama:t.querySelector(".input-nama").value,Email:t.querySelector(".input-email").value,Pesan:t.querySelector(".input-pesan").value,_subject:"Pesan Web MTM"})}).then((e=>e.json())).then((()=>{alert("Pesan berhasil terkirim!"),t.reset(),a.innerText=n,a.disabled=!1})).catch((()=>{alert("Terjadi kesalahan."),a.innerText=n,a.disabled=!1}))}
-window.kirimFormLayanan=async function(e,t){e.preventDefault();const a=e.target;if(!window.currentUserEmail)return showToast("Gagal: Anda belum login.","error"),void bukaHalaman("login");const n=a.querySelectorAll('input[type="file"]');for(let e of n)if(e.files.length>0&&e.files[0].size/1024/1024>3)return void showToast(`Berkas "${e.name.replace(/_/g," ")}" melebihi batas 3MB. Harap diperkecil.`,"error");const i=a.querySelector('button[type="submit"]');i.disabled=!0,i.innerText="MENGIRIM DATA...";const o=document.getElementById("loading-form"),s=document.getElementById("teks-loading")||o.querySelector("p");s&&(s.innerText="Sedang Mengamankan File..."),o&&(o.classList.remove("hidden"),setTimeout((()=>o.classList.remove("opacity-0")),10));const d=a.querySelector('[name^="Nama"]').value||"-",r=a.querySelector('[name="WhatsApp"]').value||"-",l=a.querySelector('input[type="email"]').value||"-",c=a.querySelector('[name^="Judul"], [name="Judul_Karya"], [name="Judul_Naskah"], [name="Judul_Ciptaan"]'),u=c?c.value:"-";try{await window.addDoc(window.collection(window.db,"pesanan"),{userEmail:window.currentUserEmail,userName:window.currentUserName,tipeLayanan:t,judul:u,namaLengkap:d,wa:r,status:"Pending",fileHasil:"",waktuLokal:(new Date).toLocaleDateString("id-ID")});let e=[];for(let t of n)if(t.files.length>0){let a=t.files[0],n=await getBase64(a);e.push({filename:t.name,mimeType:a.type,base64:n})}const s="https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec",c={nama:d,email:l,wa:r,tipeLayanan:t,judul:u,files:e},m=await fetch(s,{method:"POST",body:JSON.stringify(c)}),w=await m.json();let p=new FormData(a),g=`Halo Admin Media Tulisan Manusia, saya telah menyelesaikan pengajuan *${t}* via Website.\n\n*RINCIAN DATA:*\n`;for(let[e,t]of p.entries())t instanceof File||""===t.trim()||e.startsWith("_")||"Link_Dashboard_Admin"===e||(g+=`- *${e.replace(/_/g," ")}:* ${t}\n`);"success"===w.status&&w.linkText?g+=`\n*LINK LAMPIRAN KLIEN:*\n${w.linkText}`:g+="\n_(File telah diunggah ke server MTM)._";const h=`whatsapp://send?phone=6288294448222&text=${encodeURIComponent(g)}`;o&&(o.classList.add("opacity-0"),setTimeout((()=>o.classList.add("hidden")),500)),showToast(`${t} Berhasil Dikirim!`,"success"),window.location.href=h,setTimeout((()=>{a.reset(),i.disabled=!1,i.innerText="KONFIRMASI & KIRIM","function"==typeof kembaliLangkah1&&(kembaliLangkah1("penerbitan"),kembaliLangkah1("hki"),kembaliLangkah1("literasi")),window.muatRiwayatProfil&&window.muatRiwayatProfil(),"function"==typeof bukaHalaman&&bukaHalaman("profil")}),1500)}catch(e){console.error("Gagal mengirim:",e),o&&(o.classList.add("opacity-0"),setTimeout((()=>o.classList.add("hidden")),500)),showToast("Sistem bermasalah, silakan coba lagi.","error"),i.disabled=!1,i.innerText="KONFIRMASI & KIRIM"}};
-"serviceWorker"in navigator&&window.addEventListener("load",(()=>{navigator.serviceWorker.register("/sw.js").then((e=>{console.log("ServiceWorker PWA berhasil didaftarkan dengan scope: ",e.scope)})).catch((e=>{console.log("Pendaftaran ServiceWorker PWA gagal: ",e)}))}));
-let deferredPrompt;const installPopup=document.getElementById("install-popup"),btnInstall=document.getElementById("btn-install-app"),btnCloseInstall=document.getElementById("btn-close-install");window.addEventListener("beforeinstallprompt",(e=>{e.preventDefault(),deferredPrompt=e,installPopup.classList.remove("hidden")})),btnInstall.addEventListener("click",(async()=>{if(deferredPrompt){installPopup.classList.add("hidden"),deferredPrompt.prompt();const{outcome:e}=await deferredPrompt.userChoice;deferredPrompt=null}})),btnCloseInstall.addEventListener("click",(()=>{installPopup.classList.add("hidden")}));
-function bukaModal(e){let t=document.getElementById(e);t&&(t.classList.remove("hidden"),setTimeout((()=>t.classList.add("active")),10),document.body.style.overflow="hidden")}
-function tutupModal(e){let t=document.getElementById(e);t&&(t.classList.remove("active"),document.body.style.overflow="auto",setTimeout((()=>t.classList.add("hidden")),300))}
-document.addEventListener("DOMContentLoaded",(function(){const e=document.querySelectorAll(".reveal"),t=new IntersectionObserver((function(e,t){e.forEach((e=>{e.isIntersecting&&(e.target.classList.add("active"),t.unobserve(e.target))}))}),{threshold:0,rootMargin:"0px 0px 0px 0px"});e.forEach((e=>{t.observe(e)}))}));
-window.addEventListener("click",(e=>document.querySelectorAll(".modal-overlay").forEach((t=>{e.target===t&&tutupModal(t.id)}))));
-function ubahBahasa(lang){localStorage.setItem("mtm_lang",lang);const btnId=document.getElementById("btn-lang-id"),btnEn=document.getElementById("btn-lang-en");if(btnId&&btnEn){if(lang==="en"){btnEn.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";btnId.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";}else{btnId.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";btnEn.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";}}let selectField=document.querySelector(".goog-te-combo");if(selectField){selectField.value=lang;selectField.dispatchEvent(new Event("change"));}}
-document.addEventListener("DOMContentLoaded",(()=>{const savedLang=localStorage.getItem("mtm_lang")||"id";setTimeout(()=>{ubahBahasa(savedLang);},1000);}));
-const formatRp=e=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(e);
-function hitungSimulasiBuku(){const e=parseInt(document.getElementById("calc-hlm")?.value)||150,t=parseInt(document.getElementById("calc-eks")?.value)||50,a=parseInt(document.getElementById("calc-margin")?.value)||25e3;document.getElementById("label-hlm").innerText=e+" Halaman",document.getElementById("label-eks").innerText=t+" Eks",document.getElementById("label-margin").innerText=formatRp(a);const n=(t>=100?200:300)*e+(t>=100?15000:20000);document.getElementById("out-hpp").innerText=formatRp(n),document.getElementById("out-jual").innerText=formatRp(n+a),document.getElementById("out-jml-eks").innerText=t,document.getElementById("out-total-modal").innerText=formatRp(n*t),document.getElementById("out-profit").innerText=formatRp(a*t)}
-const dataSinopsisBuku={Tanpamu:"Sebuah novel yang merangkai kisah tentang kehilangan, keikhlasan, dan perjalanan menemukan kembali arti kehadiran di tengah ruang hampa.","Bukan Lagi Tentangmu":"Kisah emosional tentang berdamai dengan masa lalu dan keberanian untuk membuka lembaran baru yang lebih bermakna.","Formula Kepenulisan":"Panduan praktis dan komprehensif bagi penulis pemula hingga mahir dalam meracik ide, membangun struktur naskah, hingga menembus dapur penerbitan.","Modul UMKM Kopi":"Panduan strategis pengelolaan dan hilirisasi potensi kopi lokal sebagai motor penggerak ekonomi desa dan UMKM."};
-document.addEventListener("DOMContentLoaded",(()=>{document.getElementById("calc-hlm")&&hitungSimulasiBuku();const e=document.getElementById("scroll-katalog");e&&e.addEventListener("click",(function(e){const t=e.target.closest("a[href*='wa.me']");if(!t)return;e.preventDefault();const a=t.closest(".group");if(!a)return;const n=a.querySelector("img[alt='Cover Buku']")?.src||"",l=a.querySelector("h4")?.innerText.trim()||"Judul Buku",r=a.querySelector("p")?.innerText.trim()||"-",i=Array.from(a.querySelectorAll("p")).find((e=>e.innerText.includes("QRCBN")))?.innerText.trim()||"QRCBN: -",d=a.querySelector("p:last-child")?.innerText.trim()||"Rp -",o=i.replace(/QRCBN:\s*/i,"").trim();document.getElementById("qv-img").src=n,document.getElementById("qv-judul").innerText=l,document.getElementById("qv-penulis").innerText="Karya: "+r,document.getElementById("qv-qrcbn").innerText=i,document.getElementById("qv-harga").innerText=d,document.getElementById("qv-sinopsis").innerText=dataSinopsisBuku[l]||`Buku "${l}" karya ${r} merupakan terbitan resmi PT Media Tulisan Manusia yang telah terindeks secara nasional di database QRCBN.`,document.getElementById("qv-btn-wa").href=t.href,document.getElementById("qv-btn-qrcbn").onclick=function(){tutupModal("modalDetailBuku"),document.getElementById("input-keyword-qrcbn").value=o,document.getElementById("iframe-pencarian").src=`https://qrcbn.com/check/${encodeURIComponent(o)}`,document.getElementById("modal-pencarian").classList.remove("hidden")},bukaModal("modalDetailBuku")}))}));
-window.userWaTersimpan="";
-async function isiOtomatisFormLayanan(){if(!window.currentUserEmail)return;if(!window.userWaTersimpan&&window.db&&window.getDocs)try{const e=window.query(window.collection(window.db,"users"),window.where("email","==",window.currentUserEmail));(await window.getDocs(e)).forEach((e=>{e.data().wa&&(window.userWaTersimpan=e.data().wa)}))}catch(e){}document.querySelectorAll("#hal-kirim-naskah form, #hal-daftar-hki form, #hal-upload-literasi form").forEach((e=>{const t=e.querySelector('input[name^="Nama_Lengkap"]'),a=e.querySelector('input[name="Email"]'),n=e.querySelector('input[name="WhatsApp"]');t&&!t.value&&window.currentUserName&&(t.value=window.currentUserName),a&&!a.value&&window.currentUserEmail&&(a.value=window.currentUserEmail),n&&!n.value&&window.userWaTersimpan&&(n.value=window.userWaTersimpan)}))}
-function filterTabelAdmin(){const e=(document.getElementById("cari-pesanan-admin")?.value||"").toLowerCase(),t=document.getElementById("filter-layanan-admin")?.value||"SEMUA",a=document.getElementById("filter-status-admin")?.value||"SEMUA";document.querySelectorAll("#tabel-admin tr").forEach((n=>{if(n.children.length<5)return;const l=n.children[0].innerText,r=n.children[1].innerText.toLowerCase(),i=n.children[2].innerText.toLowerCase(),d=n.children[3].innerText.trim(),o=r.includes(e)||i.includes(e)||l.toLowerCase().includes(e),s="SEMUA"===t||l.includes(t),c="SEMUA"===a||("Proses"===a?"Proses"===d||"Review"===d:"Terbit"===a?"Terbit"===d||"Berhasil"===d:d===a);n.style.display=o&&s&&c?"":"none"}))}
+
+setTimeout((() => {
+    window.auth && window.onAuthStateChanged && window.onAuthStateChanged(window.auth, (e => {
+        const t = document.getElementById("menu-login-btn"),
+              a = document.getElementById("menu-profil-btn"),
+              n = document.getElementById("menu-admin-btn"),
+              i = document.getElementById("menu-logout-btn"),
+              desktopAuthBtn = document.getElementById("desktop-auth-btn");
+        if (e) {
+            window.currentUserEmail = e.email;
+            window.currentUserName = e.displayName || e.email.split("@")[0];
+            window.isAdmin = e.email.toLowerCase() === window.ADMIN_EMAIL;
+            t && t.classList.add("hidden");
+            i && i.classList.remove("hidden");
+            if (desktopAuthBtn) {
+                if (window.isAdmin) {
+                    desktopAuthBtn.innerText = "Panel Admin";
+                    desktopAuthBtn.setAttribute("onclick", "bukaHalaman('admin')");
+                } else {
+                    desktopAuthBtn.innerText = "Profil Saya";
+                    desktopAuthBtn.setAttribute("onclick", "bukaHalaman('profil')");
+                }
+            }
+            window.isAdmin ? (n && n.classList.remove("hidden"), a && a.classList.add("hidden"), window.muatRiwayatAdmin && window.muatRiwayatAdmin()) : (a && a.classList.remove("hidden"), n && n.classList.add("hidden"), document.getElementById("profil-nama").innerText = window.currentUserName, document.getElementById("profil-email").innerText = window.currentUserEmail, document.getElementById("profil-inisial").innerText = window.currentUserName.charAt(0).toUpperCase(), window.muatRiwayatProfil && window.muatRiwayatProfil());
+            const params = new URLSearchParams(window.location.search),
+                  savedPage = localStorage.getItem("mtm_current_page");
+            params.has("admin") && window.isAdmin ? bukaHalaman("admin") : params.has("buka") ? bukaHalaman(params.get("buka")) : (savedPage && "beranda" !== savedPage && bukaHalaman(savedPage, !1));
+        } else {
+            window.currentUserEmail = null;
+            window.currentUserName = null;
+            window.isAdmin = !1;
+            t && t.classList.remove("hidden");
+            a && a.classList.add("hidden");
+            n && n.classList.add("hidden");
+            i && i.classList.add("hidden");
+            if (desktopAuthBtn) {
+                desktopAuthBtn.innerText = "Masuk / Daftar";
+                desktopAuthBtn.setAttribute("onclick", "bukaHalaman('login')");
+            }
+        }
+    }))
+}), 400);
+
+document.getElementById("loginForm").addEventListener("submit", (function(e) {
+    e.preventDefault();
+    const t = document.getElementById("login-email").value,
+          a = document.getElementById("login-password").value;
+    window.signInWithEmailAndPassword(window.auth, t, a).then((() => {
+        showToast("Login Berhasil!", "success");
+        document.getElementById("loginForm").reset();
+        t.toLowerCase() === window.ADMIN_EMAIL ? bukaHalaman("admin") : bukaHalaman("beranda");
+    })).catch((() => {
+        showToast("Email atau Sandi salah.", "error");
+    }));
+}));
+
+document.getElementById("registerForm").addEventListener("submit", (function(e) {
+    e.preventDefault();
+    const t = document.getElementById("reg-email").value,
+          a = document.getElementById("reg-password").value;
+    window.createUserWithEmailAndPassword(window.auth, t, a).then((() => {
+        showToast("Daftar Berhasil!", "success");
+        document.getElementById("registerForm").reset();
+        bukaHalaman("beranda");
+    })).catch((() => {
+        showToast("Gagal mendaftar. Sandi min 6 atau email sudah terdaftar.", "error");
+    }));
+}));
+
+document.getElementById("resetForm").addEventListener("submit", (function(e) {
+    e.preventDefault();
+    window.sendPasswordResetEmail(window.auth, document.getElementById("reset-email").value).then((() => {
+        showToast("Link reset dikirim!", "success");
+        toggleFormAuth("login");
+        document.getElementById("resetForm").reset();
+    })).catch((() => {
+        showToast("Email tidak ditemukan.", "error");
+    }));
+}));
+
+setTimeout((() => {
+    const e = document.getElementById("loading-screen");
+    e && (e.style.opacity = "0", setTimeout((() => e.style.display = "none"), 500));
+}), 300);
+
+window.muatRiwayatProfil = async function() {
+    if (!window.currentUserEmail) return;
+    const e = window.query(window.collection(window.db, "pesanan"), window.where("userEmail", "==", window.currentUserEmail)),
+          t = await window.getDocs(e);
+    let a = "", n = "", i = "", o = "";
+    t.forEach((e => {
+        const t = e.data(),
+              s = "Terbit" === t.status || "Berhasil" === t.status ? "text-green-600" : "text-yellow-600";
+        if ("Upload Literasi" === t.tipeLayanan) {
+            let e = "Tahap Kurasi / Review";
+            "Pending" === t.status ? e = "Menunggu Antrean" : "Review" === t.status ? e = "Sedang Direview" : "Terbit" === t.status ? e = "Publikasi" : "Revisi" === t.status && (e = "Belum Memenuhi Syarat");
+            let a = `<span class="text-gray-500 text-[10px] font-bold bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">${e}</span>`;
+            t.linkKarya && "" !== t.linkKarya && (a = `<a href="${t.linkKarya}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">⎙ AKSES NASKAH</a>`);
+            o += `<tr><td class="p-3 border-b">${t.waktuLokal}</td><td class="p-3 border-b font-bold">${t.judul}</td><td class="p-3 border-b font-bold ${s}">${t.status}</td><td class="p-3 border-b text-center align-middle">${a}</td></tr>`;
+        } else {
+            const e = t.fileHasil && "" !== t.fileHasil ? `<a href="${t.fileHasil}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-[10px] font-black shadow-md hover:bg-green-600 transition flex items-center justify-center gap-1 w-max mx-auto border-b-4 border-green-700 active:border-b-0 active:translate-y-1"> ⎙ UNDUH FILE</a>` : '<span class="text-gray-400 text-[10px] italic bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-md border border-gray-200 dark:border-gray-700">Belum ada file</span>';
+            const r = `<tr><td class="p-3 border-b">${t.waktuLokal}</td><td class="p-3 border-b font-bold">${t.judul}</td><td class="p-3 border-b font-bold ${s}">${t.status}</td><td class="p-3 border-b text-center align-middle">${e}</td></tr>`;
+            t.tipeLayanan.includes("Naskah") ? a += r : t.tipeLayanan.includes("NIB") ? i += r : n += r;
+        }
+    }));
+    document.getElementById("tabel-penerbitan").innerHTML = a || '<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>';
+    document.getElementById("tabel-hki") && (document.getElementById("tabel-hki").innerHTML = n || '<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>');
+    document.getElementById("tabel-nib") && (document.getElementById("tabel-nib").innerHTML = i || '<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>');
+    document.getElementById("tabel-literasi") && (document.getElementById("tabel-literasi").innerHTML = o || '<tr><td colspan="4" class="p-4 text-center italic">Kosong...</td></tr>');
+};
+
+window.muatRiwayatAdmin = async function() {
+    if (!window.isAdmin) return;
+    const e = window.query(window.collection(window.db, "pesanan"), window.orderBy("waktuLokal", "desc")),
+          t = await window.getDocs(e);
+    let a = "";
+    t.forEach((e => {
+        const t = e.data(),
+              n = e.id,
+              i = "Terbit" === t.status || "Terbit" === t.status ? "text-green-600" : "text-yellow-600";
+        let o = "";
+        if ("Upload Literasi" === t.tipeLayanan) {
+            const e = t.linkKarya && "" !== t.linkKarya ? `<a href="${t.linkKarya}" target="_blank" class="block text-[8px] text-blue-600 hover:underline mt-1 truncate max-w-[130px]">Cek Link: ${t.linkKarya}</a>` : "";
+            o = `<select onchange="window.ubahStatusAdmin('${n}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none"><option value="Pending" ${"Pending" === t.status ? "selected" : ""}>⏲ Pending</option><option value="Review" ${"Review" === t.status ? "selected" : ""}>⏲ Review</option><option value="Terbit" ${"Terbit" === t.status ? "selected" : ""}>✔ Terbit</option><option value="Revisi" ${"Revisi" === t.status ? "selected" : ""}>✖ Revisi</option></select><div class="flex gap-1 mt-1"><input type="url" id="link-${n}" value="${t.linkKarya || ""}" placeholder="Tempel URL Karya..." class="w-full text-[9px] border border-gray-300 p-1.5 rounded bg-white focus:outline-none focus:border-blue-500"><button onclick="window.simpanLinkAdmin('${n}')" class="bg-blue-600 text-white text-[9px] px-2 py-1.5 rounded font-bold hover:bg-blue-700 shadow-sm">Set</button></div>${e}`;
+        } else {
+            const e = t.fileHasil && "" !== t.fileHasil ? `<div class="mt-2 p-1.5 bg-green-50 border border-green-200 rounded-md text-center"><span class="block text-[8px] text-gray-500 mb-0.5">File Terupload:</span><a href="${t.fileHasil}" target="_blank" class="inline-block bg-green-500 text-white px-2 py-1 rounded text-[9px] font-bold hover:bg-green-600 shadow-sm">📄 Lihat File</a></div>` : '<div class="mt-2 p-1 border border-dashed border-gray-300 rounded-md text-center"><span class="text-gray-400 text-[8px] italic">Belum ada file</span></div>';
+            o = `<select onchange="window.ubahStatusAdmin('${n}', this.value)" class="w-full bg-gray-100 border border-gray-300 rounded p-1.5 text-[10px] mb-2 font-bold text-gray-800 focus:outline-none"><option value="Pending" ${"Pending" === t.status ? "selected" : ""}>⏲ Pending</option><option value="Proses" ${"Proses" === t.status ? "selected" : ""}>⏲ Proses</option><option value="Terbit" ${"Terbit" === t.status ? "selected" : ""}>✔ Terbit</option></select><label id="btn-up-${n}" class="w-full text-center bg-blue-600 text-white px-2 py-1.5 rounded-md text-[10px] font-bold cursor-pointer block hover:bg-blue-700 transition shadow-sm">+ Upload PDF<input type="file" class="hidden" accept=".pdf" onchange="window.uploadPDFAdmin('${n}', this)"></label>${e}`;
+        }
+        a += `<tr><td class="p-3 border-b"><span class="block font-bold">${t.waktuLokal}</span><span class="text-[9px] text-gray-500 font-bold bg-gray-100 px-1 py-0.5 rounded mt-1 inline-block">${t.tipeLayanan}</span></td><td class="p-3 border-b"><span class="block font-bold">${t.namaLengkap}</span><span class="text-[9px] text-gray-500">${t.userEmail} | ${t.wa}</span></td><td class="p-3 border-b font-bold">${t.judul}</td><td class="p-3 border-b"><span class="font-bold ${i} bg-white px-2 py-1 rounded-md shadow-sm border border-gray-100">${t.status}</span></td><td class="p-3 border-b align-top w-40">${o}</td></tr>`;
+    }));
+    document.getElementById("tabel-admin").innerHTML = a || '<tr><td colspan="5" class="p-4 text-center italic">Belum ada pesanan...</td></tr>';
+};
+
+window.ubahStatusAdmin = async function(e, t) {
+    try {
+        await window.updateDoc(window.doc(window.db, "pesanan", e), { status: t });
+        showToast("Status diperbarui!", "success");
+        window.muatRiwayatAdmin();
+    } catch (e) {
+        showToast("Gagal memperbarui status", "error");
+    }
+};
+
+window.simpanLinkAdmin = async function(e) {
+    const t = document.getElementById(`link-${e}`).value;
+    if (t) {
+        try {
+            await window.updateDoc(window.doc(window.db, "pesanan", e), { linkKarya: t });
+            showToast("Link berhasil disimpan!", "success");
+            window.muatRiwayatAdmin();
+        } catch (e) {
+            showToast("Gagal menyimpan link", "error");
+        }
+    } else {
+        showToast("Masukkan URL/Link terlebih dahulu!", "error");
+    }
+};
+
+window.uploadPDFAdmin = function(e, t) {
+    const a = t.files[0];
+    if (!a) return;
+    const n = document.getElementById(`btn-up-${e}`),
+          i = n.innerHTML;
+    n.innerHTML = "⏲ Mengunggah...";
+    n.classList.add("pointer-events-none", "opacity-70");
+    showToast("Memulai unggah PDF ke Google Drive...", "success");
+    const o = new FileReader;
+    o.onload = async function(o) {
+        const s = o.target.result.split(",")[1];
+        try {
+            const t = await fetch("https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec", {
+                method: "POST",
+                body: JSON.stringify({ action: "upload_hasil_admin", orderId: e, filename: a.name, mimeType: a.type || "application/pdf", base64: s })
+            });
+            const n = await t.json();
+            if ("success" !== n.status) throw new Error(n.message || "Gagal mengunggah ke Drive");
+            await window.updateDoc(window.doc(window.db, "pesanan", e), { fileHasil: n.downloadURL, status: "Berhasil" });
+            showToast("PDF Berhasil disimpan di Drive!", "success");
+            window.muatRiwayatAdmin();
+        } catch (e) {
+            console.error("Gagal Upload:", e);
+            showToast("Gagal mengunggah PDF! Coba lagi.", "error");
+            n.innerHTML = i;
+            n.classList.remove("pointer-events-none", "opacity-70");
+            t.value = "";
+        }
+    };
+    o.readAsDataURL(a);
+};
+
+const getBase64 = e => new Promise(((t, a) => {
+    const n = new FileReader;
+    n.readAsDataURL(e);
+    n.onload = () => t(n.result.split(",")[1]);
+    n.onerror = e => a(e);
+}));
+
+function toggleEditProfil() {
+    const e = document.getElementById("kotak-edit-profil");
+    if (e.classList.contains("hidden") && (window.currentUserName && (document.getElementById("edit-nama").value = window.currentUserName), window.currentUserEmail && (document.getElementById("edit-email").value = window.currentUserEmail), window.auth && window.auth.currentUser)) {
+        window.getDocs(window.query(window.collection(window.db, "users"), window.where("email", "==", window.currentUserEmail))).then((e => {
+            e.forEach((e => {
+                const t = e.data();
+                t.wa && (document.getElementById("edit-wa").value = t.wa);
+            }));
+        })).catch((e => console.log("WA belum diset")));
+    }
+    e.classList.toggle("hidden");
+}
+
+async function simpanProfil() {
+    const e = document.getElementById("edit-nama").value,
+          t = document.getElementById("edit-wa").value;
+    if (!e.trim()) return void showToast("Nama tidak boleh kosong!", "error");
+    const a = window.auth.currentUser;
+    if (a) {
+        try {
+            await window.updateProfile(a, { displayName: e });
+            const n = window.query(window.collection(window.db, "users"), window.where("email", "==", a.email)),
+                  i = await window.getDocs(n);
+            if (i.empty) {
+                await window.addDoc(window.collection(window.db, "users"), { email: a.email, nama: e, wa: t });
+            } else {
+                const a = i.docs[0].id;
+                await window.updateDoc(window.doc(window.db, "users", a), { wa: t, nama: e });
+            }
+            document.getElementById("profil-nama").innerText = e;
+            document.getElementById("profil-inisial").innerText = e.charAt(0).toUpperCase();
+            window.currentUserName = e;
+            showToast("Profil berhasil diperbarui permanen!", "success");
+            toggleEditProfil();
+        } catch (e) {
+            showToast("Gagal menyimpan: " + e.message, "error");
+        }
+    } else {
+        showToast("Sesi habis, silakan login ulang.", "error");
+    }
+}
+
+function kirimPesanKontak(e) {
+    e.preventDefault();
+    const t = e.target,
+          a = t.querySelector('button[type="submit"]'),
+          n = a.innerText;
+    a.innerText = "Mengirim...";
+    a.disabled = !0;
+    fetch("https://formsubmit.co/ajax/ptmediatulisanmanusia@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ Nama: t.querySelector(".input-nama").value, Email: t.querySelector(".input-email").value, Pesan: t.querySelector(".input-pesan").value, _subject: "Pesan Web MTM" })
+    }).then((e => e.json())).then((() => {
+        alert("Pesan berhasil terkirim!");
+        t.reset();
+        a.innerText = n;
+        a.disabled = !1;
+    })).catch((() => {
+        alert("Terjadi kesalahan.");
+        a.innerText = n;
+        a.disabled = !1;
+    }));
+}
+
+window.kirimFormLayanan = async function(e, t) {
+    e.preventDefault();
+    const a = e.target;
+    if (!window.currentUserEmail) return showToast("Gagal: Anda belum login.", "error"), void bukaHalaman("login");
+    const n = a.querySelectorAll('input[type="file"]');
+    for (let e of n) {
+        if (e.files.length > 0 && e.files[0].size / 1024 / 1024 > 3) return void showToast(`Berkas "${e.name.replace(/_/g, " ")}" melebihi batas 3MB. Harap diperkecil.`, "error");
+    }
+    const i = a.querySelector('button[type="submit"]');
+    i.disabled = !0;
+    i.innerText = "MENGIRIM DATA...";
+    const o = document.getElementById("loading-form"),
+          s = document.getElementById("teks-loading") || o.querySelector("p");
+    s && (s.innerText = "Sedang Mengamankan File...");
+    o && (o.classList.remove("hidden"), setTimeout((() => o.classList.remove("opacity-0")), 10));
+
+    const d = a.querySelector('[name^="Nama"]').value || "-",
+          r = a.querySelector('[name="WhatsApp"]').value || "-",
+          l = a.querySelector('input[type="email"]').value || "-",
+          c = a.querySelector('[name^="Judul"], [name="Judul_Karya"], [name="Judul_Naskah"], [name="Judul_Ciptaan"]'),
+          u = c ? c.value : "-";
+
+    try {
+        await window.addDoc(window.collection(window.db, "pesanan"), {
+            userEmail: window.currentUserEmail,
+            userName: window.currentUserName,
+            tipeLayanan: t,
+            judul: u,
+            namaLengkap: d,
+            wa: r,
+            status: "Pending",
+            fileHasil: "",
+            waktuLokal: (new Date).toLocaleDateString("id-ID")
+        });
+
+        let e = [];
+        for (let t of n) {
+            if (t.files.length > 0) {
+                let a = t.files[0],
+                    n = await getBase64(a);
+                e.push({ filename: t.name, mimeType: a.type, base64: n });
+            }
+        }
+
+        const s = "https://script.google.com/macros/s/AKfycbw3bzP8_jzQkSRQG5reGXHZiEaNLh5w3mz34arQ-vi7CaTqxQ3fsyP4I1Y7Ld3HQz3J/exec",
+              c = { nama: d, email: l, wa: r, tipeLayanan: t, judul: u, files: e },
+              m = await fetch(s, { method: "POST", body: JSON.stringify(c) }),
+              w = await m.json();
+
+        let p = new FormData(a),
+            g = `Halo Admin Media Tulisan Manusia, saya telah menyelesaikan pengajuan *${t}* via Website.\n\n*RINCIAN DATA:*\n`;
+        for (let [e, t] of p.entries()) {
+            t instanceof File || "" === t.trim() || e.startsWith("_") || "Link_Dashboard_Admin" === e || (g += `- *${e.replace(/_/g, " ")}:* ${t}\n`);
+        }
+        "success" === w.status && w.linkText ? g += `\n*LINK LAMPIRAN KLIEN:*\n${w.linkText}` : g += "\n_(File telah diunggah ke server MTM)._";
+
+        const h = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(g)}`;
+        o && (o.classList.add("opacity-0"), setTimeout((() => o.classList.add("hidden")), 500));
+        showToast(`${t} Berhasil Dikirim!`, "success");
+        window.location.href = h;
+
+        setTimeout((() => {
+            a.reset();
+            i.disabled = !1;
+            i.innerText = "KONFIRMASI & KIRIM";
+            "function" == typeof kembaliLangkah1 && (kembaliLangkah1("penerbitan"), kembaliLangkah1("hki"), kembaliLangkah1("literasi"));
+            window.muatRiwayatProfil && window.muatRiwayatProfil();
+            "function" == typeof bukaHalaman && bukaHalaman("profil");
+        }), 1500);
+    } catch (e) {
+        console.error("Gagal mengirim:", e);
+        o && (o.classList.add("opacity-0"), setTimeout((() => o.classList.add("hidden")), 500));
+        showToast("Sistem bermasalah, silakan coba lagi.", "error");
+        i.disabled = !1;
+        i.innerText = "KONFIRMASI & KIRIM";
+    }
+};
+
+"serviceWorker" in navigator && window.addEventListener("load", (() => {
+    navigator.serviceWorker.register("/sw.js").then((e => {
+        console.log("ServiceWorker PWA berhasil didaftarkan dengan scope: ", e.scope);
+    })).catch((e => {
+        console.log("Pendaftaran ServiceWorker PWA gagal: ", e);
+    }));
+}));
+
+let deferredPrompt;
+const installPopup = document.getElementById("install-popup"),
+      btnInstall = document.getElementById("btn-install-app"),
+      btnCloseInstall = document.getElementById("btn-close-install");
+
+window.addEventListener("beforeinstallprompt", (e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installPopup.classList.remove("hidden");
+}));
+
+btnInstall && btnInstall.addEventListener("click", (async () => {
+    if (deferredPrompt) {
+        installPopup.classList.add("hidden");
+        deferredPrompt.prompt();
+        const { outcome: e } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+    }
+}));
+
+btnCloseInstall && btnCloseInstall.addEventListener("click", (() => {
+    installPopup.classList.add("hidden");
+}));
+
+function bukaModal(e) {
+    let t = document.getElementById(e);
+    t && (t.classList.remove("hidden"), setTimeout((() => t.classList.add("active")), 10), document.body.style.overflow = "hidden");
+}
+
+function tutupModal(e) {
+    let t = document.getElementById(e);
+    t && (t.classList.remove("active"), document.body.style.overflow = "auto", setTimeout((() => t.classList.add("hidden")), 300));
+}
+
+document.addEventListener("DOMContentLoaded", (function() {
+    const e = document.querySelectorAll(".reveal"),
+          t = new IntersectionObserver((function(e, t) {
+              e.forEach((e => {
+                  e.isIntersecting && (e.target.classList.add("active"), t.unobserve(e.target));
+              }));
+          }), { threshold: 0, rootMargin: "0px 0px 0px 0px" });
+    e.forEach((e => { t.observe(e); }));
+}));
+
+window.addEventListener("click", (e => document.querySelectorAll(".modal-overlay").forEach((t => {
+    e.target === t && tutupModal(t.id);
+}))));
+
+function ubahBahasa(lang) {
+    localStorage.setItem("mtm_lang", lang);
+    const btnId = document.getElementById("btn-lang-id"),
+          btnEn = document.getElementById("btn-lang-en");
+    if (btnId && btnEn) {
+        if (lang === "en") {
+            btnEn.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";
+            btnId.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";
+        } else {
+            btnId.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";
+            btnEn.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";
+        }
+    }
+    let selectField = document.querySelector(".goog-te-combo");
+    if (selectField) {
+        selectField.value = lang;
+        selectField.dispatchEvent(new Event("change"));
+    }
+}
+
+document.addEventListener("DOMContentLoaded", (() => {
+    const savedLang = localStorage.getItem("mtm_lang") || "id";
+    setTimeout(() => { ubahBahasa(savedLang); }, 1000);
+}));
+
+const formatRp = e => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(e);
+
+function hitungSimulasiBuku() {
+    const e = parseInt(document.getElementById("calc-hlm")?.value) || 150,
+          t = parseInt(document.getElementById("calc-eks")?.value) || 50,
+          a = parseInt(document.getElementById("calc-margin")?.value) || 25e3;
+    document.getElementById("label-hlm").innerText = e + " Halaman";
+    document.getElementById("label-eks").innerText = t + " Eks";
+    document.getElementById("label-margin").innerText = formatRp(a);
+    const n = (t >= 100 ? 200 : 300) * e + (t >= 100 ? 15000 : 20000);
+    document.getElementById("out-hpp").innerText = formatRp(n);
+    document.getElementById("out-jual").innerText = formatRp(n + a);
+    document.getElementById("out-jml-eks").innerText = t;
+    document.getElementById("out-total-modal").innerText = formatRp(n * t);
+    document.getElementById("out-profit").innerText = formatRp(a * t);
+}
+
+const dataSinopsisBuku = {
+    Tanpamu: "Sebuah novel yang merangkai kisah tentang kehilangan, keikhlasan, dan perjalanan menemukan kembali arti kehadiran di tengah ruang hampa.",
+    "Bukan Lagi Tentangmu": "Kisah emosional tentang berdamai dengan masa lalu dan keberanian untuk membuka lembaran baru yang lebih bermakna.",
+    "Formula Kepenulisan": "Panduan praktis dan komprehensif bagi penulis pemula hingga mahir dalam meracik ide, membangun struktur naskah, hingga menembus dapur penerbitan.",
+    "Modul UMKM Kopi": "Panduan strategis pengelolaan dan hilirisasi potensi kopi lokal sebagai motor penggerak ekonomi desa dan UMKM."
+};
+
+document.addEventListener("DOMContentLoaded", (() => {
+    document.getElementById("calc-hlm") && hitungSimulasiBuku();
+    const e = document.getElementById("scroll-katalog");
+    e && e.addEventListener("click", (function(e) {
+        const t = e.target.closest("a[href*='wa.me']");
+        if (!t) return;
+        e.preventDefault();
+        const a = t.closest(".group");
+        if (!a) return;
+        const n = a.querySelector("img[alt='Cover Buku']")?.src || "",
+              l = a.querySelector("h4")?.innerText.trim() || "Judul Buku",
+              r = a.querySelector("p")?.innerText.trim() || "-",
+              i = Array.from(a.querySelectorAll("p")).find((e => e.innerText.includes("QRCBN")))?.innerText.trim() || "QRCBN: -",
+              d = a.querySelector("p:last-child")?.innerText.trim() || "Rp -",
+              o = i.replace(/QRCBN:\s*/i, "").trim();
+        document.getElementById("qv-img").src = n;
+        document.getElementById("qv-judul").innerText = l;
+        document.getElementById("qv-penulis").innerText = "Karya: " + r;
+        document.getElementById("qv-qrcbn").innerText = i;
+        document.getElementById("qv-harga").innerText = d;
+        document.getElementById("qv-sinopsis").innerText = dataSinopsisBuku[l] || `Buku "${l}" karya ${r} merupakan terbitan resmi PT Media Tulisan Manusia yang telah terindeks secara nasional di database QRCBN.`;
+        document.getElementById("qv-btn-wa").href = t.href;
+        document.getElementById("qv-btn-qrcbn").onclick = function() {
+            tutupModal("modalDetailBuku");
+            document.getElementById("input-keyword-qrcbn").value = o;
+            document.getElementById("iframe-pencarian").src = `https://qrcbn.com/check/${encodeURIComponent(o)}`;
+            document.getElementById("modal-pencarian").classList.remove("hidden");
+        };
+        bukaModal("modalDetailBuku");
+    }));
+}));
+
+window.userWaTersimpan = "";
+async function isiOtomatisFormLayanan() {
+    if (!window.currentUserEmail) return;
+    if (!window.userWaTersimpan && window.db && window.getDocs) {
+        try {
+            const e = window.query(window.collection(window.db, "users"), window.where("email", "==", window.currentUserEmail));
+            (await window.getDocs(e)).forEach((e => { e.data().wa && (window.userWaTersimpan = e.data().wa); }));
+        } catch (e) {}
+    }
+    document.querySelectorAll("#hal-kirim-naskah form, #hal-daftar-hki form, #hal-upload-literasi form").forEach((e => {
+        const t = e.querySelector('input[name^="Nama_Lengkap"]'),
+              a = e.querySelector('input[name="Email"]'),
+              n = e.querySelector('input[name="WhatsApp"]');
+        t && !t.value && window.currentUserName && (t.value = window.currentUserName);
+        a && !a.value && window.currentUserEmail && (a.value = window.currentUserEmail);
+        n && !n.value && window.userWaTersimpan && (n.value = window.userWaTersimpan);
+    }));
+}
+
+function filterTabelAdmin() {
+    const e = (document.getElementById("cari-pesanan-admin")?.value || "").toLowerCase(),
+          t = document.getElementById("filter-layanan-admin")?.value || "SEMUA",
+          a = document.getElementById("filter-status-admin")?.value || "SEMUA";
+    document.querySelectorAll("#tabel-admin tr").forEach((n => {
+        if (n.children.length < 5) return;
+        const l = n.children[0].innerText,
+              r = n.children[1].innerText.toLowerCase(),
+              i = n.children[2].innerText.toLowerCase(),
+              d = n.children[3].innerText.trim(),
+              o = r.includes(e) || i.includes(e) || l.toLowerCase().includes(e),
+              s = "SEMUA" === t || l.includes(t),
+              c = "SEMUA" === a || ("Proses" === a ? "Proses" === d || "Review" === d : "Terbit" === a ? "Terbit" === d || "Berhasil" === d : d === a);
+        n.style.display = o && s && c ? "" : "none";
+    }));
+}
 </script>
 </body>
 </html>
