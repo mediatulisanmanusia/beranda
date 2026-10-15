@@ -1001,6 +1001,43 @@ Konsultasi NIB
 </a>
 </div>
 </section>
+<section class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-12 relative z-10">
+<div class="glass p-6 sm:p-8 md:p-12 rounded-[2.5rem] border-t-4 border-warnakedua shadow-xl transition duration-500">
+<div class="text-center mb-8">
+<span class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1 rounded-full text-[10px] uppercase tracking-widest">Simulasi Interaktif</span>
+<h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight mt-2 uppercase">KALKULATOR CETAK & ROYALTI</h4>
+<p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">Estimasi biaya cetak tambahan, harga jual, dan potensi royalti buku Anda (A5 Bookpaper).</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<div class="lg:col-span-7 space-y-6 bg-white/60 dark:bg-black/40 p-6 rounded-3xl border border-gray-200 dark:border-gray-800 text-left">
+<div>
+<div class="flex justify-between text-xs sm:text-sm font-bold mb-2"><label class="text-gray-700 dark:text-gray-300 uppercase">Jumlah Halaman</label><span id=label-hlm class="text-warnautama dark:text-warnakedua font-black">150 Halaman</span></div>
+<input type=range id=calc-hlm min=50 max=500 step=10 value=150 oninput=hitungSimulasiBuku() class="w-full accent-warnautama dark:accent-warnakedua cursor-pointer h-2 bg-gray-300 dark:bg-gray-700 rounded-lg">
+<div class="flex justify-between text-[9px] text-gray-400 font-semibold mt-1"><span>50 Hlm</span><span>250 Hlm</span><span>500 Hlm</span></div>
+</div>
+<div>
+<div class="flex justify-between text-xs sm:text-sm font-bold mb-2"><label class="text-gray-700 dark:text-gray-300 uppercase">Jumlah Cetak (Eks)</label><span id=label-eks class="text-warnautama dark:text-warnakedua font-black">50 Eks</span></div>
+<input type=range id=calc-eks min=10 max=500 step=5 value=50 oninput=hitungSimulasiBuku() class="w-full accent-warnautama dark:accent-warnakedua cursor-pointer h-2 bg-gray-300 dark:bg-gray-700 rounded-lg">
+<div class="flex justify-between text-[9px] text-gray-400 font-semibold mt-1"><span>10 Eks</span><span>250 Eks</span><span>500 Eks</span></div>
+</div>
+<div>
+<div class="flex justify-between text-xs sm:text-sm font-bold mb-2"><label class="text-gray-700 dark:text-gray-300 uppercase">Royalti Penulis / Buku</label><span id=label-margin class="text-green-600 dark:text-green-400 font-black">Rp 25.000</span></div>
+<input type=range id=calc-margin min=5000 max=100000 step=5000 value=25000 oninput=hitungSimulasiBuku() class="w-full accent-green-600 cursor-pointer h-2 bg-gray-300 dark:bg-gray-700 rounded-lg">
+<div class="flex justify-between text-[9px] text-gray-400 font-semibold mt-1"><span>Rp 5.000</span><span>Rp 50.000</span><span>Rp 100.000</span></div>
+</div>
+</div>
+<div class="lg:col-span-5 bg-warnautama dark:bg-warnakeempat text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 flex flex-col justify-between space-y-5 relative overflow-hidden">
+<div class="space-y-3 text-left">
+<div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Estimasi HPP / Buku</span><span id=out-hpp class="font-bold text-sm sm:text-base">Rp 27.500</span></div>
+<div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Saran Harga Jual</span><span id=out-jual class="font-bold text-sm sm:text-base text-warnakedua">Rp 52.500</span></div>
+<div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Total Modal (<span id=out-jml-eks>50</span> Eks)</span><span id=out-total-modal class="font-bold text-xs sm:text-sm text-gray-200">Rp 1.375.000</span></div>
+</div>
+<div class="bg-white/10 p-4 rounded-2xl text-center border border-warnakedua/40"><p class="text-[10px] uppercase tracking-widest text-gray-300 font-bold mb-1">Estimasi Keuntungan Penulis</p><h5 id=out-profit class="text-2xl sm:text-3xl font-black text-green-400 tracking-tight">Rp 1.250.000</h5></div>
+<p class="text-[9px] text-gray-300 italic text-center leading-normal">*Simulasi estimasi cetak tambahan di luar paket penerbitan awal.</p>
+</div>
+</div>
+</div>
+</section>
 <section class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-8 md:pt-10 relative z-10">
 <div class="glass p-8 md:p-12 rounded-[2rem] text-center border-t-4 border-warnautama dark:border-white transition hover:shadow-2xl">
 <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white mb-2 md:mb-4">MULAI LANGKAHMU</h4>
@@ -1461,6 +1498,11 @@ Riwayat Upload Literasi
 <h2 class="text-xl font-extrabold text-warnakedua dark:text-white">Admin Cipta</h2>
 <p class="text-sm font-medium text-warnakedua dark:text-gray-300">Rekap Pesanan Klien</p>
 </div>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 mb-5">
+<input id=cari-pesanan-admin oninput=filterTabelAdmin() placeholder="Cari nama klien, email, WA, atau judul..." class="flex-grow bg-white/80 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-3 text-xs font-medium text-warnautama dark:text-white focus:outline-none focus:border-warnakedua shadow-inner">
+<select id=filter-layanan-admin onchange=filterTabelAdmin() class="bg-white/80 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-3 text-xs font-bold text-warnautama dark:text-white focus:outline-none cursor-pointer"><option value=SEMUA>Semua Layanan</option><option value="Penerbitan Naskah">Penerbitan Naskah</option><option value="Pendaftaran Hak Cipta">Hak Cipta (HKI)</option><option value="Upload Literasi">Upload Literasi</option></select>
+<select id=filter-status-admin onchange=filterTabelAdmin() class="bg-white/80 dark:bg-black/60 border border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-3 text-xs font-bold text-warnautama dark:text-white focus:outline-none cursor-pointer"><option value=SEMUA>Semua Status</option><option value=Pending>⏲ Pending</option><option value=Proses>⏲ Proses / Review</option><option value=Terbit>✔ Terbit / Berhasil</option><option value=Revisi>✖ Revisi</option></select>
 </div>
 <div class="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-[1.5rem]">
 <table class="w-full text-left min-w-[800px]">
@@ -1947,6 +1989,26 @@ Jl. Raya Sukorejo No. 19, Pasuruan
 </div>
 </div>
 </div>
+<div id=modalDetailBuku class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
+<div class="modal-content w-full max-w-xl glass p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto rounded-[2.5rem] border-t-4 border-warnakedua shadow-2xl text-left animate-fade-up">
+<button onclick='tutupModal("modalDetailBuku")' class="absolute top-4 right-5 text-gray-400 hover:text-red-500 font-bold text-3xl z-10">&times;</button>
+<div class="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
+<div class="w-36 sm:w-44 flex-shrink-0 bg-white/50 dark:bg-black/40 p-3 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 flex justify-center"><img id=qv-img src="" alt="Cover Buku" class="h-44 sm:h-52 w-auto object-contain drop-shadow-lg rounded"></div>
+<div class="flex-1 text-center sm:text-left">
+<span id=qv-qrcbn class="inline-block bg-warnautama/10 dark:bg-white/10 text-warnautama dark:text-gray-200 text-[9px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest mb-2">QRCBN: -</span>
+<h3 id=qv-judul class="text-lg sm:text-xl font-black text-warnautama dark:text-white leading-snug mb-1">Judul Buku</h3>
+<p id=qv-penulis class="text-xs font-bold text-warnakedua uppercase tracking-wider mb-3">Nama Penulis</p>
+<p id=qv-harga class="text-xl font-black text-warnautama dark:text-white mb-4 border-b border-gray-300 dark:border-gray-700 pb-3">Rp 0</p>
+<h5 class="text-[10px] font-extrabold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Sinopsis Singkat</h5>
+<p id=qv-sinopsis class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed font-medium mb-6">-</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700/60">
+<button id=qv-btn-qrcbn type=button class="w-full sm:w-1/2 border-2 border-warnautama dark:border-white text-warnautama dark:text-white font-extrabold py-3 px-4 rounded-full text-[11px] uppercase tracking-wider hover:bg-warnautama hover:text-white dark:hover:bg-white dark:hover:text-black transition">Cek Validasi QRCBN</button>
+<a id=qv-btn-wa href=# target=_blank class="w-full sm:w-1/2 bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-3 px-4 rounded-full text-[11px] uppercase tracking-wider text-center shadow-lg hover:scale-105 transition">Pesan Buku via WA</a>
+</div>
+</div>
+</div>
 <div id=modal-pencarian class="fixed inset-0 z-[99999] hidden flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity">
 <div class="relative w-[90%] md:w-3/4 lg:w-2/3 h-[70vh] md:h-[80vh] bg-white rounded-3xl overflow-hidden flex flex-col border border-gray-300">
 <div class="flex justify-between px-5 py-4 bg-gray-100 border-b"><h3 id=judul-modal-pencarian class="font-bold text-warnautama">Hasil Pencarian</h3><button onclick=tutupModalPencarian() class="text-gray-500 hover:text-red-500 font-bold text-2xl">&times;</button></div>
@@ -1975,6 +2037,7 @@ Jl. Raya Sukorejo No. 19, Pasuruan
 <script>let deferredPrompt;const installPopup=document.getElementById("install-popup"),btnInstall=document.getElementById("btn-install-app"),btnCloseInstall=document.getElementById("btn-close-install");window.addEventListener("beforeinstallprompt",(e=>{e.preventDefault(),deferredPrompt=e,installPopup.classList.remove("hidden")})),btnInstall.addEventListener("click",(async()=>{if(deferredPrompt){installPopup.classList.add("hidden"),deferredPrompt.prompt();const{outcome:e}=await deferredPrompt.userChoice;deferredPrompt=null}})),btnCloseInstall.addEventListener("click",(()=>{installPopup.classList.add("hidden")}))</script>
 <script>function bukaModal(e){let t=document.getElementById(e);t&&(t.classList.remove("hidden"),setTimeout((()=>t.classList.add("active")),10),document.body.style.overflow="hidden")}function tutupModal(e){let t=document.getElementById(e);t&&(t.classList.remove("active"),document.body.style.overflow="auto",setTimeout((()=>t.classList.add("hidden")),300))}document.addEventListener("DOMContentLoaded",(function(){const e=document.querySelectorAll(".reveal"),t=new IntersectionObserver((function(e,t){e.forEach((e=>{e.isIntersecting&&(e.target.classList.add("active"),t.unobserve(e.target))}))}),{threshold:0,rootMargin:"0px 0px 0px 0px"});e.forEach((e=>{t.observe(e)}))})),window.addEventListener("click",(e=>document.querySelectorAll(".modal-overlay").forEach((t=>{e.target===t&&tutupModal(t.id)}))))</script>
 <script>function ubahBahasa(lang){localStorage.setItem("mtm_lang",lang);const btnId=document.getElementById("btn-lang-id"),btnEn=document.getElementById("btn-lang-en");if(btnId&&btnEn){if(lang==="en"){btnEn.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";btnId.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";}else{btnId.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";btnEn.className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";}}let selectField=document.querySelector(".goog-te-combo");if(selectField){selectField.value=lang;selectField.dispatchEvent(new Event("change"));}}document.addEventListener("DOMContentLoaded",()=>{const savedLang=localStorage.getItem("mtm_lang")||"id";setTimeout(()=>{ubahBahasa(savedLang);},1000);});</script>
+<script>const formatRp=e=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(e);function hitungSimulasiBuku(){const e=parseInt(document.getElementById("calc-hlm")?.value)||150,t=parseInt(document.getElementById("calc-eks")?.value)||50,a=parseInt(document.getElementById("calc-margin")?.value)||25e3;document.getElementById("label-hlm").innerText=e+" Halaman",document.getElementById("label-eks").innerText=t+" Eks",document.getElementById("label-margin").innerText=formatRp(a);const n=(t>=100?100:110)*e+(t>=100?9500:11e3);document.getElementById("out-hpp").innerText=formatRp(n),document.getElementById("out-jual").innerText=formatRp(n+a),document.getElementById("out-jml-eks").innerText=t,document.getElementById("out-total-modal").innerText=formatRp(n*t),document.getElementById("out-profit").innerText=formatRp(a*t)}const dataSinopsisBuku={Tanpamu:"Sebuah novel yang merangkai kisah tentang kehilangan, keikhlasan, dan perjalanan menemukan kembali arti kehadiran di tengah ruang hampa.","Bukan Lagi Tentangmu":"Kisah emosional tentang berdamai dengan masa lalu dan keberanian untuk membuka lembaran baru yang lebih bermakna.","Formula Kepenulisan":"Panduan praktis dan komprehensif bagi penulis pemula hingga mahir dalam meracik ide, membangun struktur naskah, hingga menembus dapur penerbitan.","Modul UMKM Kopi":"Panduan strategis pengelolaan dan hilirisasi potensi kopi lokal sebagai motor penggerak ekonomi desa dan UMKM."};document.addEventListener("DOMContentLoaded",(()=>{document.getElementById("calc-hlm")&&hitungSimulasiBuku();const e=document.getElementById("scroll-katalog");e&&e.addEventListener("click",(function(e){const t=e.target.closest("a[href*='wa.me']");if(!t)return;e.preventDefault();const a=t.closest(".group");if(!a)return;const n=a.querySelector("img[alt='Cover Buku']")?.src||"",l=a.querySelector("h4")?.innerText.trim()||"Judul Buku",r=a.querySelector("p")?.innerText.trim()||"-",i=Array.from(a.querySelectorAll("p")).find((e=>e.innerText.includes("QRCBN")))?.innerText.trim()||"QRCBN: -",d=a.querySelector("p:last-child")?.innerText.trim()||"Rp -",o=i.replace(/QRCBN:\s*/i,"").trim();document.getElementById("qv-img").src=n,document.getElementById("qv-judul").innerText=l,document.getElementById("qv-penulis").innerText="Karya: "+r,document.getElementById("qv-qrcbn").innerText=i,document.getElementById("qv-harga").innerText=d,document.getElementById("qv-sinopsis").innerText=dataSinopsisBuku[l]||`Buku "${l}" karya ${r} merupakan terbitan resmi PT Media Tulisan Manusia yang telah terindeks secara nasional di database QRCBN.`,document.getElementById("qv-btn-wa").href=t.href,document.getElementById("qv-btn-qrcbn").onclick=function(){tutupModal("modalDetailBuku"),document.getElementById("input-keyword-qrcbn").value=o,document.getElementById("iframe-pencarian").src=`https://qrcbn.com/check/${encodeURIComponent(o)}`,document.getElementById("modal-pencarian").classList.remove("hidden")},bukaModal("modalDetailBuku")}))})),window.userWaTersimpan="";async function isiOtomatisFormLayanan(){if(!window.currentUserEmail)return;if(!window.userWaTersimpan&&window.db&&window.getDocs)try{const e=window.query(window.collection(window.db,"users"),window.where("email","==",window.currentUserEmail));(await window.getDocs(e)).forEach((e=>{e.data().wa&&(window.userWaTersimpan=e.data().wa)}))}catch(e){}document.querySelectorAll("#hal-kirim-naskah form, #hal-daftar-hki form, #hal-upload-literasi form").forEach((e=>{const t=e.querySelector('input[name^="Nama_Lengkap"]'),a=e.querySelector('input[name="Email"]'),n=e.querySelector('input[name="WhatsApp"]');t&&!t.value&&window.currentUserName&&(t.value=window.currentUserName),a&&!a.value&&window.currentUserEmail&&(a.value=window.currentUserEmail),n&&!n.value&&window.userWaTersimpan&&(n.value=window.userWaTersimpan)}))}const _bukaAsli=window.bukaHalaman;window.bukaHalaman=function(e){_bukaAsli(e),["kirim-naskah","daftar-hki","upload-literasi"].includes(e)&&window.currentUserEmail&&setTimeout(isiOtomatisFormLayanan,200)};function filterTabelAdmin(){const e=(document.getElementById("cari-pesanan-admin")?.value||"").toLowerCase(),t=document.getElementById("filter-layanan-admin")?.value||"SEMUA",a=document.getElementById("filter-status-admin")?.value||"SEMUA";document.querySelectorAll("#tabel-admin tr").forEach((n=>{if(n.children.length<5)return;const l=n.children[0].innerText,r=n.children[1].innerText.toLowerCase(),i=n.children[2].innerText.toLowerCase(),d=n.children[3].innerText.trim(),o=r.includes(e)||i.includes(e)||l.toLowerCase().includes(e),s="SEMUA"===t||l.includes(t),c="SEMUA"===a||("Proses"===a?"Proses"===d||"Review"===d:"Terbit"===a?"Terbit"===d||"Berhasil"===d:d===a);n.style.display=o&&s&&c?"":"none"}))}</script>
 </div>
 </body>
 </html>
