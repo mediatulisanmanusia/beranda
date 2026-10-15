@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Library PDF yang Stabil -->
+    <!-- Stable PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <script>
@@ -51,32 +51,29 @@
         .dark header.glass { background: linear-gradient(135deg, rgba(25, 25, 28, 0.75) 0%, rgba(10, 10, 12, 0.45) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.95); }
 
         /* ============================================================
-           CSS KHUSUS KERTAS A4 (Sangat Responsif di Web, Rapi di PDF)
-           ============================================================ */
+            A4 PAPER CSS (Highly Responsive on Web, Neat on PDF)
+            ============================================================ */
         #kertas-a4 {
             background-color: #ffffff !important; 
             color: #0A2540 !important;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
-            border-radius: 8px; /* Lengkungan halus di web */
+            border-radius: 8px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            /* Padding web yang aman untuk HP (Sangat responsif) */
             padding: 20px 15px; 
         }
         @media (min-width: 640px) { #kertas-a4 { padding: 40px; } }
         @media (min-width: 1024px) { #kertas-a4 { padding: 60px 80px; max-width: 900px; } }
 
-        /* Mencegah elemen terpotong saat jadi PDF banyak halaman */
         .pdf-section { page-break-inside: avoid; margin-bottom: 24px; }
         .pdf-p { text-align: justify; font-size: 13px; line-height: 1.8; margin-bottom: 12px; color: #374151; font-weight: 500; }
         .pdf-list { list-style-type: none; padding-left: 0; font-size: 13px; line-height: 1.8; color: #374151; font-weight: 500; }
         .pdf-list li { position: relative; padding-left: 20px; margin-bottom: 8px; }
         .pdf-list li::before { content: "•"; position: absolute; left: 0; color: #D4AF37; font-weight: bold; font-size: 18px; top: -3px; }
 
-        /* Watermark Tengah Kertas (Diperbaiki untuk PDF) */
         .watermark-img {
-            position: fixed; /* Ubah absolute menjadi fixed di sini */
+            position: fixed;
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%);
@@ -88,38 +85,36 @@
             pointer-events: none;
         }
 
-        /* Tabel Hubungi Kami yang Anti-Potong di HP */
         .tabel-kontak { width: 100%; border-collapse: collapse; font-size: 12px; }
         .tabel-kontak td { padding: 8px 0; vertical-align: top; }
         @media (min-width: 640px) { .tabel-kontak { font-size: 13px; } }
 
-        /* Loader Unduh PDF */
         #loader-pdf { display: none; }
         body.is-downloading #loader-pdf { display: flex; }
     </style>
 </head>
 <body class="bg-gray-100 text-warnautama dark:text-white font-sans transition-colors duration-500 relative">
     
-    <!-- LAYAR LOADING SAAT UNDUH PDF -->
+    <!-- LOADING SCREEN ON PDF DOWNLOAD -->
     <div id="loader-pdf" class="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-sm items-center justify-center flex-col gap-5">
         <div class="w-14 h-14 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin"></div>
-        <p class="text-white font-bold tracking-widest uppercase text-sm animate-pulse">Menyiapkan PDF...</p>
+        <p class="text-white font-bold tracking-widest uppercase text-sm animate-pulse">Preparing PDF...</p>
     </div>
 
-    <!-- WADAH UTAMA -->
+    <!-- MAIN CONTAINER -->
     <div class="max-w-7xl mx-auto min-h-screen relative shadow-2xl bg-custom-gradient overflow-hidden pb-10">
         
-        <!-- HEADER MTM ASLI -->
+        <!-- HEADER -->
         <header class="fixed top-4 left-0 right-0 mx-auto w-11/12 max-w-[1200px] glass rounded-full px-5 py-3 flex items-center justify-between z-50 shadow-lg">
             <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.location.href='../index.html'">
                 <img src="../rev1.png" alt="Logo MTM" fetchpriority="high" class="h-10 sm:h-12 w-auto max-w-[150px] sm:max-w-[280px] object-contain dark:hidden">
                 <img src="../rev2.png" alt="Logo MTM" fetchpriority="high" class="h-10 sm:h-12 w-auto max-w-[150px] sm:max-w-[280px] object-contain hidden dark:block">
             </div>
             
-                        <div class="flex items-center gap-0.5 sm:gap-3">
+            <div class="flex items-center gap-0.5 sm:gap-3">
                 <button onclick="prosesUnduhPDF()" class="bg-[#D4AF37] hover:bg-yellow-600 text-white p-1.5 sm:px-4 sm:py-2.5 rounded-full text-xs font-bold shadow-md hover:scale-105 transition flex items-center justify-center gap-1.5 ring-2 ring-[#D4AF37]/30">
                     <svg class="w-4 h-4 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                    <span class="hidden sm:inline uppercase tracking-widest">Unduh PDF</span>
+                    <span class="hidden sm:inline uppercase tracking-widest">Download PDF</span>
                 </button>
                 <button onclick="toggleTema()" class="p-1.5 sm:p-2.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition text-warnakedua dark:text-gray-200">
                     <svg class="w-5 h-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
@@ -133,19 +128,18 @@
 
         <div class="h-28 md:h-32"></div>
 
-        <!-- WADAH KERTAS VIRTUAL -->
+        <!-- VIRTUAL PAPER CONTAINER -->
         <img src="../footer1.webp" class="watermark-img" alt="Watermark">
         <main class="w-full px-4 sm:px-6 relative z-10">
-       <!-- INSTRUKSI DI ATAS KERTAS (Hanya tampil di web) -->
             <div class="text-center mb-6 hidden sm:block">
-                <p class="text-xs font-bold text-gray-500 dark:text-gray-400 tracking-widest uppercase bg-white/50 dark:bg-black/50 py-1.5 px-4 rounded-full inline-block backdrop-blur-sm border border-gray-300 dark:border-gray-600">Dokumen Profil Perusahaan Resmi</p>
+                <p class="text-xs font-bold text-gray-500 dark:text-gray-400 tracking-widest uppercase bg-white/50 dark:bg-black/50 py-1.5 px-4 rounded-full inline-block backdrop-blur-sm border border-gray-300 dark:border-gray-600">Official Company Profile Document</p>
             </div>
             
             <div id="kertas-a4">
 
                 <div class="relative z-10 w-full">
                     
-                     <!-- KOP SURAT RESPONSIF & RAPI DI HP -->
+                    <!-- LETTERHEAD -->
                     <div class="flex flex-col sm:flex-row items-center justify-between border-b-[3px] border-[#0A2540] pb-4 mb-6 gap-3 text-center sm:text-left">
                         <img src="../rev1.png" alt="Logo Kop" class="w-40 sm:w-56 md:w-72 h-auto object-contain mx-auto sm:mx-0">
                         <div class="text-[9px] sm:text-[10px] md:text-[11px] text-gray-600 font-medium leading-relaxed">
@@ -155,53 +149,51 @@
                         </div>
                     </div>
 
-
-                     <!-- JUDUL BESAR -->
+                    <!-- MAIN TITLE -->
                     <div class="text-center mb-6">
                         <h2 class="text-lg sm:text-xl md:text-2xl font-black text-[#0A2540] uppercase tracking-wide leading-snug">
-                            COMPANY PROFILE<br>MEDIA TULISAN MANUSIA</span>
+                            COMPANY PROFILE<br>MEDIA TULISAN MANUSIA
                         </h2>
                         <div class="w-12 sm:w-16 h-1 bg-[#D4AF37] mx-auto my-2 rounded-full"></div>
                         <h3 class="text-[9px] sm:text-sm md:text-base font-bold text-gray-600 px-1 tracking-tight leading-snug">
-                            Ekosistem Literasi, Penerbitan, dan Legalitas Terintegrasi
+                            Integrated Literary, Publishing, and Legality Ecosystem
                         </h3>
                     </div>
 
-
-                    <!-- ISI DOKUMEN -->
+                    <!-- DOCUMENT CONTENT -->
                     <div class="space-y-8 text-justify text-[12px] sm:text-[13px] md:text-[14px] leading-loose text-gray-700 font-medium font-sans">
                         
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">1</span> Tentang Kami
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">1</span> About Us
                             </h4>
-                            <p><strong>Media Tulisan Manusia</strong> merupakan ekosistem literasi dan solusi penerbitan terintegrasi yang berpusat di Jawa Timur. Lahir dari keresahan akan minimnya ruang publikasi dan perlindungan hukum bagi para kreator, kami hadir menawarkan lebih dari sekadar layanan penerbitan. Sebagai platform eksklusif, kami berdedikasi mengangkat literatur ke tingkat yang lebih tinggi, memastikan setiap karya mendapat apresiasi terbaik, sekaligus menjadi ruang tumbuh profesional bagi penulis, akademisi, dan pelaku usaha rintisan.</p>
-                            <p class="mt-2">Berpusat di Kota Malang di bawah naungan Tulisanmanusia Group, dengan basis operasional di Sukorejo, Pasuruan, kami menyatukan berbagai layanan strategis dalam satu atap. Kami memadukan publikasi karya sastra, penerbitan buku fisik dan digital, perlindungan Hak Kekayaan Intelektual (HKI), hingga kepengurusan legalitas bisnis secara profesional. Hingga kini, lebih dari 100 klien dari beragam latar belakang telah memercayakan pendampingan dan legalisasi karya mereka kepada ekosistem kami.</p>
-                            <p class="mt-2">Komitmen utama kami bertumpu pada efisiensi digital, transparansi alur kerja, dan kualitas kurasi yang ketat. Seluruh naskah maupun perizinan dikelola secara saksama oleh tim tepercaya, sehingga para kreator dapat sepenuhnya fokus pada proses berkarya. Kami yang akan memastikan seluruh aspek legalitas dan distribusi terselesaikan dengan standar terbaik.</p>
-                            <p class="mt-2">​Oleh karena itu, kami mengundang Anda para penulis, akademisi, dan inovator untuk melangkah bersama kami. Jangan biarkan ide besar Anda hanya tersimpan menjadi draf; mari wujudkan gagasan tersebut menjadi karya nyata yang bernilai tinggi dan terlindungi sepenuhnya secara hukum. Bersama Media Tulisan Manusia, mari bangun rekam jejak literasi yang profesional dan berdampak luas.</p>
+                            <p><strong>Media Tulisan Manusia</strong> is an integrated literary ecosystem and publishing solution headquartered in East Java. Born out of a concern for the lack of publication space and legal protection for creators, we are here to offer more than just publishing services. As an exclusive platform, we are dedicated to elevating literature to a higher level, ensuring every work receives the best appreciation, while serving as a professional growth space for writers, academics, and startup business owners.</p>
+                            <p class="mt-2">Headquartered in Malang City under the auspices of Tulisanmanusia Group, with operational bases in Sukorejo, Pasuruan, we unite various strategic services under one roof. We combine literary work publication, physical and digital book publishing, Intellectual Property Rights (IPR) protection, to professional business legality management. To date, more than 100 clients from diverse backgrounds have entrusted the guidance and legalisation of their works to our ecosystem.</p>
+                            <p class="mt-2">Our main commitment relies on digital efficiency, workflow transparency, and strict curation quality. All manuscripts and permits are carefully managed by a trusted team, allowing creators to fully focus on the creative process. We ensure that all aspects of legality and distribution are completed with the highest standards.</p>
+                            <p class="mt-2">Therefore, we invite you writers, academics, and innovators to step forward with us. Do not let your grand ideas remain just drafts; let's turn those concepts into real, high-value works that are fully legally protected. Together with Media Tulisan Manusia, let's build a professional and widely impactful literary track record.</p>
                         </section>
 
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">2</span> Visi & Misi
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">2</span> Vision & Mission
                             </h4>
-                            <h5 class="font-bold text-[#0A2540] mb-1">Visi</h5>
-                            <p class="mb-4">Menjadi ekosistem literasi dan pendamping legalitas terdepan di Indonesia yang berdedikasi untuk melindungi, memberdayakan, dan memastikan setiap gagasan memiliki nilai profesional serta kepastian hukum.</p>
+                            <h5 class="font-bold text-[#0A2540] mb-1">Vision</h5>
+                            <p class="mb-4">To become the leading literacy ecosystem and legality companion in Indonesia dedicated to protecting, empowering, and ensuring that every idea possesses professional value and legal certainty.</p>
                             
-                            <h5 class="font-bold text-[#0A2540] mb-1">Misi</h5>
+                            <h5 class="font-bold text-[#0A2540] mb-1">Mission</h5>
                             <ul class="list-disc pl-5 space-y-1.5">
-                                <li><strong>Publikasi:</strong> Menyediakan platform digital terkurasi bagi penulis pemula maupun profesional untuk memvalidasi dan mendistribusikan karyanya secara luas.</li>
-                                <li><strong>Penerbitan Nasional:</strong> Menerbitkan literatur berkualitas tinggi yang dilengkapi dengan standar identifikasi Quick Response Code Book Number (QRCBN) yang diakui secara resmi.</li>
-                                <li><strong>Perlindungan HKI:</strong> Mengedukasi masyarakat serta memproses perlindungan hukum atas Hak Kekayaan Intelektual (HKI) Hak Cipta kreator di DJKI Kemenkumham guna mencegah praktik plagiarisme.</li>
-                                <li><strong>Legalitas Usaha:</strong> Memfasilitasi legalitas dasar bagi pelaku usaha, kreator, dan UMKM melalui pendampingan penerbitan Nomor Induk Berusaha (NIB) yang terintegrasi dengan sistem OSS.</li>
+                                <li><strong>Publication:</strong> Provide a curated digital platform for novice and professional writers to validate and widely distribute their works.</li>
+                                <li><strong>National Publishing:</strong> Publish high-end literature equipped with officially recognized Quick Response Code Book Number (QRCBN) identification standards.</li>
+                                <li><strong>IPR Protection:</strong> Educate the public and process legal protection for creators' Copyright Intellectual Property Rights (IPR) at the Directorate General of Intellectual Property (DJKI) of the Ministry of Law and Human Rights to prevent plagiarism practices.</li>
+                                <li><strong>Business Legality:</strong> Facilitate basic legality for business actors, creators, and MSMEs through mentoring on the issuance of Business Identification Numbers (NIB) integrated with the OSS system.</li>
                             </ul>
                         </section>
 
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">3</span> Legalitas Perusahaan
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">3</span> Company Legality
                             </h4>
-                            <p class="mb-3">Kepercayaan klien adalah fondasi utama kami. Seluruh ekosistem operasional, kemitraan, dan transaksi bisnis Media Tulisan Manusia bernaung di bawah legalitas resmi yang disahkan oleh negara:</p>
+                            <p class="mb-3">Client trust is our primary foundation. All operational ecosystems, partnerships, and business transactions of Media Tulisan Manusia operate under official state-sanctioned legality:</p>
                             <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 sm:p-5">
                                 <ul class="space-y-2">
                                     <li class="flex flex-col sm:flex-row sm:gap-2"><span class="font-bold text-[#0A2540] min-w-[200px]">Nama Badan Hukum:</span> <span class="hidden sm:inline">:</span> <span>PT Media Tulisan Manusia</span></li>
@@ -215,67 +207,67 @@
 
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">4</span> Layanan Kami
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">4</span> Our Services
                             </h4>
-                            <p class="mb-4">Kami beroperasi melalui empat pilar layanan yang dirancang khusus untuk mendampingi karya Anda dari tahap gagasan hingga diakui secara hukum:</p>
+                            <p class="mb-4">We operate through four service pillars specifically designed to support your work from the conceptual stage to legal recognition:</p>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
-                                    <h5 class="font-black text-[#0A2540] mb-1.5">Platform Media Sastra Digital</h5>
-                                    <p class="text-[11px] sm:text-xs leading-relaxed">Ruang publikasi digital terkurasi yang mewadahi karya literasi berformat pendek (cerpen, pentigraf, puisi, hingga artikel dan berita). Platform ini menjadi kawah candradimuka bagi para penulis untuk menjangkau pembaca yang lebih luas.</p>
+                                    <h5 class="font-black text-[#0A2540] mb-1.5">Digital Literary Media Platform</h5>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">A curated digital publication space accommodating short-form literary works (short stories, pentigraphs, poetry, articles, and news). This platform serves as a crucible for writers to reach wider readers.</p>
                                 </div>
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
-                                    <h5 class="font-black text-[#0A2540] mb-1.5">Penerbitan Buku Berstandar QRCBN</h5>
-                                    <p class="text-[11px] sm:text-xs leading-relaxed">Layanan penerbitan naskah cetak dan digital secara komprehensif. Setiap buku diproses secara cermat melalui tahapan penyuntingan, tata letak, desain sampul eksklusif, dan dilengkapi dengan QRCBN agar terindeks secara resmi.</p>
+                                    <h5 class="font-black text-[#0A2540] mb-1.5">QRCBN-Standardized Book Publishing</h5>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">Comprehensive print and digital manuscript publishing services. Each book is carefully processed through editing stages, layout, exclusive cover design, and equipped with QRCBN for official indexing.</p>
                                 </div>
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
-                                    <h5 class="font-black text-[#0A2540] mb-1.5">Konsultasi & Perlindungan HKI</h5>
-                                    <p class="text-[11px] sm:text-xs leading-relaxed">Layanan pendampingan pendaftaran Hak Kekayaan Intelektual. Kami memastikan setiap gagasan orisinal dan karya cipta Anda mendapatkan payung hukum yang sah dari negara sehingga terhindar dari klaim sepihak.</p>
+                                    <h5 class="font-black text-[#0A2540] mb-1.5">Consultation & IPR Protection</h5>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">Intellectual Property Rights registration assistance services. We ensure every original idea and copyrighted work of yours obtains valid state legal coverage to prevent unilateral claims.</p>
                                 </div>
                                 <div class="border border-[#0A2540]/20 p-4 rounded-xl hover:bg-[#0A2540]/5 transition">
-                                    <h5 class="font-black text-[#0A2540] mb-1.5">Jasa Pembuatan NIB OSS</h5>
-                                    <p class="text-[11px] sm:text-xs leading-relaxed">Layanan pendampingan sistem Online Single Submission (OSS) bagi kreator, penulis, maupun pelaku UMKM yang ingin mengamankan legalitas dan izin operasional usahanya secara cepat dan tepat.</p>
+                                    <h5 class="font-black text-[#0A2540] mb-1.5">OSS NIB Creation Services</h5>
+                                    <p class="text-[11px] sm:text-xs leading-relaxed">Online Single Submission (OSS) system mentoring services for creators, writers, and MSME actors wanting to secure their business legality and operational permits quickly and precisely.</p>
                                 </div>
                             </div>
                         </section>
 
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">5</span> Profil Pendiri
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">5</span> Founder Profile
                             </h4>
-                            <p class="mb-3">Dedikasi Media Tulisan Manusia dalam memajukan literasi didorong oleh rekam jejak kepemimpinan yang berakar kuat pada dunia pendidikan dan manajerial.</p>
+                            <p class="mb-3">Media Tulisan Manusia's dedication to advancing literacy is driven by a leadership track record deeply rooted in the world of education and management.</p>
                             <div class="bg-gray-50 border border-gray-200 rounded-xl p-5">
                                 <h5 class="font-black text-base text-[#0A2540]">ACH. SUFYAN WAHYUDI</h5>
-                                <p class="text-[10px] font-bold text-[#D4AF37] mb-2 tracking-widest uppercase">Founder & Chief Executive Officee</p>
-                                <p class="text-[11px] sm:text-xs leading-relaxed mb-2">Merupakan seorang pegiat literasi, spesialis media digital, dan pendiri ekosistem Media Tulisan Manusia yang memimpin arah strategis perusahaan sejak Januari 2023. Memiliki latar belakang keilmuan yang kuat sebagai Magister Pendidikan Bahasa dan Sastra Indonesia, ia berdedikasi penuh untuk memajukan iklim literasi yang berpayung hukum di Indonesia.</p>
-                                <p class="text-[11px] sm:text-xs">Portofolio dapat diakses melalui laman: <strong>sufyan.mediatulisanmanusia.com</strong></p>
+                                <p class="text-[10px] font-bold text-[#D4AF37] mb-2 tracking-widest uppercase">Founder & Chief Executive Officer</p>
+                                <p class="text-[11px] sm:text-xs leading-relaxed mb-2">A literacy activist, digital media specialist, and founder of the Media Tulisan Manusia ecosystem who has guided the company's strategic direction since January 2023. Possessing a strong scientific background as a Master of Indonesian Language and Literature Education, he is fully dedicated to advancing a legally protected literary climate in Indonesia.</p>
+                                <p class="text-[11px] sm:text-xs">Portfolio can be accessed via: <strong>sufyan.mediatulisanmanusia.com</strong></p>
                             </div>
                         </section>
 
                         <section>
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">6</span> Kemitraan
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">6</span> Partnerships
                             </h4>
-                            <p class="mb-2">Untuk memperluas dampak literasi secara masif, operasional pemasaran perusahaan didukung penuh oleh <strong> 12 team inti dan 55 mitra freelance marketing aktif</strong> yang tersebar secara strategis di wilayah Malang, Pasuruan, Surabaya, dan sekitarnya.</p>
-                            <p class="mb-2">Kami juga senantiasa membuka pintu kolaborasi dan saat ini telah dipercaya menjadi mitra strategis oleh berbagai institusi akademik dan komunitas kreatif terkemuka, di antaranya:</p>
+                            <p class="mb-2">To massively expand the impact of literacy, the company's marketing operations are fully supported by <strong>12 core team members and 55 active freelance marketing partners</strong> strategically distributed across Malang, Pasuruan, Surabaya, and surrounding areas.</p>
+                            <p class="mb-2">We also constantly open doors for collaboration and are currently trusted as a strategic partner by various prominent academic institutions and creative communities, including:</p>
                             <ul class="list-disc pl-5 space-y-1">
-                                <li><strong>Institusi Pendidikan:</strong> Universitas Negeri Malang, Universitas PGRI Kanjuruhan, BEC, SMA PGRI 6 Malang, SMA Taman Harapan, SMK Shalahhuddin Malang dan lainnya.</li>
-                                <li><strong>Komunitas & Media:</strong> MC Nusantara, Dosen Blangkon, Sambaternak, Game Fest, Linimedia, Wartacakrawala, Doopamine, dan lainnya..</li>
+                                <li><strong>Educational Institutions:</strong> Universitas Negeri Malang, Universitas PGRI Kanjuruhan, BEC, SMA PGRI 6 Malang, SMA Taman Harapan, SMK Shalahhuddin Malang, and others.</li>
+                                <li><strong>Communities & Media:</strong> MC Nusantara, Dosen Blangkon, Sambaternak, Game Fest, Linimedia, Wartacakrawala, Doopamine, and others.</li>
                             </ul>
                         </section>
 
                         <section class="pdf-section">
                             <h4 class="text-base sm:text-lg font-black text-[#0A2540] mb-3 uppercase flex items-center gap-2">
-                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">7</span> Hubungi Kami
+                                <span class="bg-[#0A2540] text-white w-6 h-6 rounded flex items-center justify-center text-xs">7</span> Contact Us
                             </h4>
-                         <div class="bg-[#0A2540] p-3.5 sm:p-5 rounded-xl text-white w-full">
+                           <div class="bg-[#0A2540] p-3.5 sm:p-5 rounded-xl text-white w-full">
                             <table class="w-full border-collapse text-[11px] sm:text-xs">
                                 <tr>
-                                    <td class="font-bold text-[#D4AF37] w-24 sm:w-32 py-1 align-top">Operasional</td>
+                                    <td class="font-bold text-[#D4AF37] w-24 sm:w-32 py-1 align-top">Operations</td>
                                     <td class="w-2 text-center py-1 align-top">:</td>
                                     <td class="py-1 align-top text-gray-200">Jl. Raya Sukorejo No. 19, Pasuruan</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-bold text-[#D4AF37] w-24 sm:w-32 py-1 align-top">Kantor pusat</td>
+                                    <td class="font-bold text-[#D4AF37] w-24 sm:w-32 py-1 align-top">Head Office</td>
                                     <td class="text-center py-1 align-top">:</td>
                                     <td class="py-1 align-top text-gray-200">Jl. S. Supriyadi No 48, Malang</td>
                                 </tr>
@@ -292,7 +284,7 @@
                                 <tr>
                                     <td class="font-bold text-[#D4AF37] w-24 sm:w-32 py-1 align-top">Email</td>
                                     <td class="text-center py-1 align-top">:</td>
-                                    <td class="py-1 align-top text-gray-200 break-all">ptmediatulisanmanusia@gmail.com</td>
+                                    <td class="py-1 align-top text-gray-200 break-all">companyemail@gmail.com</td>
                                 </tr>
                                 <tr>
                                     <td class="font-bold text-[#D4AF37] w-24 sm:w-32 py-1 align-top">Instagram</td>
@@ -308,7 +300,7 @@
                         </div>
                         
                         <div class="mt-4 sm:mt-6 flex justify-center w-full">
-                            <img src="../pendukung.png" alt="Pendukung MTM" class="w-full sm:w-full md:w-full h-auto object-contain rounded-lg"onerror="this.src='pendukung.png'">
+                            <img src="../pendukung.png" alt="Pendukung MTM" class="w-full sm:w-full md:w-full h-auto object-contain rounded-lg" onerror="this.src='pendukung.png'">
                         </div>
                     </div>
 
@@ -320,15 +312,15 @@
                 <div class="relative z-10 flex flex-col items-center w-full">
                 <img src="footer1.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl dark:hidden">
                 <img src="footer2.webp" loading="lazy" decoding="async" alt="Logo PT Media Tulisan Manusia" class="w-56 sm:w-64 md:w-80 h-auto object-contain mb-6 drop-shadow-lg rounded-2xl hidden dark:block">
-                <a href="https://mediatulisanmanusia.com/company-profile" class="font-bold text-xs sm:text-base mb-2 text-warnautama dark:text-white uppercase tracking-wider hover:text-warnakedua transition block">TENTANG KAMI</a>
+                <a href="https://mediatulisanmanusia.com/company-profile" class="font-bold text-xs sm:text-base mb-2 text-warnautama dark:text-white uppercase tracking-wider hover:text-warnakedua transition block">ABOUT US</a>
                 <p class="text-[10px] sm:text-xs md:text-sm text-gray-800 dark:text-gray-300 leading-relaxed mb-6 max-w-xl mx-auto font-medium text-center px-2">
-                    Media Tulisan Manusia merupakan platform eksklusif yang berdedikasi mengangkat literatur ke tingkat yang lebih tinggi. Kami percaya bahwa setiap karya berhak mendapatkan apresiasi terbaik.
+                    Media Tulisan Manusia is an exclusive platform dedicated to elevating literature to a higher level. We believe that every work deserves the best appreciation.
                 </p>
                 <div class="flex flex-row flex-nowrap items-center justify-center w-full gap-2 sm:gap-4 md:gap-6 text-[7px] min-[320px]:text-[8px] min-[375px]:text-[9px] sm:text-xs md:text-sm font-bold text-warnaketiga dark:text-gray-300 mb-4 overflow-hidden px-1">
-                   <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Beranda</a>
-                   <a href="#" onclick="bukaModal('modalSyarat'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Syarat & Ketentuan</a>
-                   <a href="#" onclick="bukaModal('modalPrivasi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Kebijakan Privasi</a>
-                   <a href="#" onclick="bukaModal('modalKontak'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Hubungi Kami</a>
+                   <a href="#" onclick="bukaHalaman('beranda'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Home</a>
+                   <a href="#" onclick="bukaModal('modalSyarat'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Terms & Conditions</a>
+                   <a href="#" onclick="bukaModal('modalPrivasi'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Privacy Policy</a>
+                   <a href="#" onclick="bukaModal('modalKontak'); return false;" class="hover:text-warnaketiga transition whitespace-nowrap">Contact Us</a>
                 </div>
                 <div class="flex flex-row flex-nowrap items-center justify-center gap-2 sm:gap-4 md:gap-10 mb-8 glass py-3 md:py-4 px-4 sm:px-6 md:px-8 rounded-full inline-flex border border-warnautama dark:border-gray-300 shadow-sm w-[95%] sm:w-auto mx-auto overflow-hidden">
                     <a href="https://instagram.com/mediatulisanmanusia" target="_blank" class="flex items-center gap-1 sm:gap-2 text-warnautama dark:text-gray-300 hover:text-warnautama dark:hover:text-gray-300 transition truncate">
@@ -349,11 +341,8 @@
             </div>
         </footer>
     </div>
-        <!-- ========================================== -->
-    <!-- KODE GELEMBUNG (MODAL) & SCRIPT UNTUK FOOTER -->
-    <!-- ========================================== -->
 
-    <!-- 1. CSS Animasi Modal (Jaga-jaga jika belum ada di atas) -->
+    <!-- MODALS -->
     <style>
         .modal-overlay { opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
@@ -361,81 +350,78 @@
         .modal-overlay.active .modal-content { transform: scale(1); }
     </style>
 
-    <!-- 2. Modal Syarat & Ketentuan -->
+    <!-- 2. Terms & Conditions Modal -->
     <div id="modalSyarat" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
         <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl flex flex-col" style="background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);">
             <button onclick="tutupModal('modalSyarat')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
-            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Syarat & Ketentuan</h3>
+            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Terms & Conditions</h3>
             <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium mb-6">
-                <p>1. <strong>Orisinalitas:</strong> Klien menjamin karya orisinal dan bebas plagiarisme.</p>
-                <p>2. <strong>Etika:</strong> Karya tidak mengandung SARA/Pornografi.</p>
-                <p>3. <strong>Hak Cipta:</strong> Kami fasilitator legalitas, hak komersial tetap milik klien.</p>
-                <p>4. <strong>Pembayaran:</strong> <em>Non-refundable</em> jika dibatalkan sepihak.</p>
+                <p>1. <strong>Originality:</strong> Clients guarantee their work is original and plagiarism-free.</p>
+                <p>2. <strong>Ethics:</strong> Works must not contain SARA/Pornography.</p>
+                <p>3. <strong>Copyright:</strong> We are legality facilitators, commercial rights remain with the client.</p>
+                <p>4. <strong>Payment:</strong> <em>Non-refundable</em> if unilaterally cancelled.</p>
             </div>
-            <a href="../index.html?buka=syarat" class="w-full text-center bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3.5 rounded-xl hover:scale-[1.02] transition shadow-md uppercase tracking-widest text-xs sm:text-sm mt-auto border border-warnautama/20">Baca Selengkapnya</a>
+            <a href="../index.html?buka=syarat" class="w-full text-center bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3.5 rounded-xl hover:scale-[1.02] transition shadow-md uppercase tracking-widest text-xs sm:text-sm mt-auto border border-warnautama/20">Read More</a>
         </div>
     </div>
 
-    <!-- 3. Modal Kebijakan Privasi -->
+    <!-- 3. Privacy Policy Modal -->
     <div id="modalPrivasi" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
         <div class="modal-content w-full max-w-2xl glass p-8 md:p-10 relative max-h-[85vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl flex flex-col" style="background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);">
             <button onclick="tutupModal('modalPrivasi')" class="absolute top-5 right-6 text-gray-400 hover:text-red-500 font-bold text-3xl">&times;</button>
-            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Kebijakan Privasi</h3>
+            <h3 class="text-xl md:text-2xl font-black text-warnautama dark:text-white border-b border-gray-200 dark:border-gray-700 pb-3 mb-5">Privacy Policy</h3>
             <div class="space-y-4 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 font-medium mb-6">
-                <p>1. <strong>Kerahasiaan (NDA):</strong> Naskah dilindungi, tidak akan digandakan tanpa izin.</p>
-                <p>2. <strong>Data KTP:</strong> Hanya untuk pendaftaran legalitas QRCBN/ISBN/HKI.</p>
-                <p>3. <strong>Keamanan:</strong> Data tidak akan dijual/disewakan ke pihak ketiga.</p>
+                <p>1. <strong>Confidentiality (NDA):</strong> Manuscripts are protected and will not be duplicated without permission.</p>
+                <p>2. <strong>ID Card Data:</strong> Exclusively for QRCBN/ISBN/IPR legality registration.</p>
+                <p>3. <strong>Security:</strong> Data will not be sold or rented to third parties.</p>
             </div>
-            <a href="../index.html?buka=privasi" class="w-full text-center bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3.5 rounded-xl hover:scale-[1.02] transition shadow-md uppercase tracking-widest text-xs sm:text-sm mt-auto border border-warnautama/20">Baca Selengkapnya</a>
+            <a href="../index.html?buka=privasi" class="w-full text-center bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3.5 rounded-xl hover:scale-[1.02] transition shadow-md uppercase tracking-widest text-xs sm:text-sm mt-auto border border-warnautama/20">Read More</a>
         </div>
     </div>
 
-    <!-- 4. Modal Kontak Kami -->
+    <!-- 4. Contact Us Modal -->
     <div id="modalKontak" class="modal-overlay fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
         <div class="modal-content w-full max-w-4xl glass p-6 md:p-10 relative max-h-[90vh] overflow-y-auto rounded-[2rem] border-t-4 border-warnautama dark:border-white shadow-2xl" style="background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);">
             <button onclick="tutupModal('modalKontak')" class="absolute top-4 right-5 text-gray-400 hover:text-red-500 font-bold text-3xl z-10">&times;</button>
-            <h2 class="text-xl md:text-2xl font-black text-warnautama dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">Hubungi Kami</h2>
+            <h2 class="text-xl md:text-2xl font-black text-warnautama dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">Contact Us</h2>
             <div class="md:flex gap-8">
                 <div class="flex-1 space-y-5 text-left mb-8 md:mb-0">
                     <div>
-                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">WA Bisnis</p>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Business WA</p>
                         <a href="https://wa.me/6288294448222" target="_blank" class="font-black text-lg md:text-xl text-warnautama dark:text-white hover:text-warnakedua transition">0882 9444 8222</a>
                     </div>
                     <div>
                         <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Email</p>
-                        <p class="text-xs sm:text-sm font-bold text-warnautama dark:text-gray-300 break-all">ptmediatulisanmanusia@gmail.com</p>
+                        <p class="text-xs sm:text-sm font-bold text-warnautama dark:text-gray-300 break-all">companyemail@gmail.com</p>
                     </div>
                     <div>
-                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Jam & Kantor</p>
-                        <p class="text-xs sm:text-sm text-warnautama dark:text-gray-300 font-medium leading-relaxed">Senin-Sabtu 08.00-16.00 WIB<br>Jl. Supriyadi No.48 Malang<br>Jl. Raya Sukorejo No. 19, Pasuruan</p>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-bold mb-1 uppercase tracking-wider">Hours & Office</p>
+                        <p class="text-xs sm:text-sm text-warnautama dark:text-gray-300 font-medium leading-relaxed">Monday-Saturday 08.00-16.00 WIB<br>Jl. Supriyadi No.48 Malang<br>Jl. Raya Sukorejo No. 19, Pasuruan</p>
                     </div>
                 </div>
                 <div class="flex-1 bg-white/50 dark:bg-black/40 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-inner">
                     <form onsubmit="event.preventDefault(); window.open('https://wa.me/6288294448222', '_blank');" class="space-y-3">
-                        <input type="text" required placeholder="Nama Lengkap" class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
+                        <input type="text" required placeholder="Full Name" class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
                         <input type="email" required placeholder="Email" class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white">
-                        <textarea required placeholder="Pesan..." class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white" rows="3"></textarea>
-                        <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-xl text-xs sm:text-sm hover:scale-[1.02] transition shadow-md uppercase tracking-widest">Kirim Pesan WA</button>
+                        <textarea required placeholder="Message..." class="w-full bg-white/80 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-600 rounded-xl p-3 text-xs sm:text-sm focus:outline-none focus:border-warnautama font-medium text-warnautama dark:text-white" rows="3"></textarea>
+                        <button type="submit" class="w-full bg-warnautama dark:bg-white text-white dark:text-black font-extrabold py-3 rounded-xl text-xs sm:text-sm hover:scale-[1.02] transition shadow-md uppercase tracking-widest">Send WhatsApp Message</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 5. Script Khusus untuk Company Profile -->
+    <!-- SCRIPT -->
     <script>
-        // Fungsi untuk tombol "Beranda" agar kembali ke halaman utama
         function bukaHalaman(id) {
             if (id === 'beranda') {
                 window.location.href = '../index.html';
             }
         }
 
-        // Fungsi Buka & Tutup Gelembung
         function bukaModal(id){let m=document.getElementById(id);if(m){m.classList.remove('hidden');setTimeout(()=>m.classList.add('active'),10);document.body.style.overflow='hidden';}}
         function tutupModal(id){let m=document.getElementById(id);if(m){m.classList.remove('active');document.body.style.overflow='auto';setTimeout(()=>m.classList.add('hidden'),300);}}
         
-        // Tutup saat klik di luar area gelembung
         window.addEventListener('click', e => {
             document.querySelectorAll('.modal-overlay').forEach(m => {
                 if(e.target === m) tutupModal(m.id);
@@ -443,41 +429,33 @@
         });
     </script>
 
-    <!-- SCRIPT TEMA & KONVERSI PDF -->
     <script>
         function toggleTema() { 
             document.documentElement.classList.toggle('dark'); 
         }
 
         function prosesUnduhPDF() {
-            // Aktifkan Loader Layar Penuh
             document.body.classList.add('is-downloading');
             
-            // Elemen target
             const elemen = document.getElementById('kertas-a4');
             
-            // Konfigurasi presisi tinggi
             const opsi = {
-                margin:       [10, 5, 10, 5], // Margin atas, kiri, kanan, bawah kertas PDF
+                margin:       [10, 5, 10, 5],
                 filename:     'Company_Profile_PT_Media_Tulisan_Manusia.pdf',
                 image:        { type: 'jpeg', quality: 1 },
-                // scale 3 untuk ketajaman tulisan maksimal
                 html2canvas:  { scale: 3, useCORS: true, backgroundColor: '#ffffff', scrollY: 0 }, 
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                // Mencegah div terpotong di batas halaman
                 pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
-            // Beri jeda kecil agar loader sempat muncul di layar sebelum proses berat berjalan
             setTimeout(() => {
                 html2pdf().set(opsi).from(elemen).save()
                 .then(() => {
-                    // Matikan loader saat sukses terunduh
                     document.body.classList.remove('is-downloading');
                 })
                 .catch(err => {
                     console.error(err);
-                    alert("Gagal memproses PDF. Silakan coba lagi.");
+                    alert("Failed to process PDF. Please try again.");
                     document.body.classList.remove('is-downloading');
                 });
             }, 300);
