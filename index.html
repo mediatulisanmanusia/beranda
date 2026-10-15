@@ -2056,7 +2056,200 @@ function toggleFormAuth(e){document.getElementById("form-login-section").classLi
 function prosesLoginGoogle(){window.provider.setCustomParameters({prompt:"select_account"}),window.signInWithPopup(window.auth,window.provider).then((()=>{showToast("Login Google Berhasil!","success"),bukaHalaman("beranda")})).catch((e=>{console.error(e),"auth/popup-blocked"===e.code?showToast("Gagal: Popup diblokir browser. Izinkan popup.","error"):"auth/popup-closed-by-user"===e.code?showToast("Login dibatalkan pengguna.","error"):showToast("Gagal Login: "+e.message,"error")}))}
 function prosesLogout(){window.signOut(window.auth).then((()=>{localStorage.setItem("mtm_current_page","beranda"),showToast("Berhasil keluar.","success"),bukaHalaman("beranda"),document.getElementById("nav-dropdown").classList.add("hidden")}))}
 document.addEventListener("click",(function(e){const t=document.getElementById("nav-dropdown"),a=document.querySelector('button[onclick="toggleNavMenu()"]');document.body.contains(e.target)&&t&&!t.classList.contains("hidden")&&(t.contains(e.target)||a.contains(e.target)||(t.classList.add("hidden"),a.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>'))}));
-document.addEventListener("DOMContentLoaded",(function(){function e(e){const t=document.getElementById(e);if(!t)return;t.innerHTML+=t.innerHTML;let a=!1;t.addEventListener("mouseenter",(()=>a=!0)),t.addEventListener("mouseleave",(()=>a=!1)),t.addEventListener("touchstart",(()=>a=!0),{passive:!0}),t.addEventListener("touchend",(()=>{setTimeout((()=>a=!1),1500)})),requestAnimationFrame((function e(){a||(t.scrollLeft+=1.5,t.scrollLeft>=t.scrollWidth/2&&(t.scrollLeft-=t.scrollWidth/2)),requestAnimationFrame(e)}))}e("scroll-katalog"),e("scroll-hki"),e("scroll-mitra"),e("scroll-media"),e("scroll-artikel"),e("scroll-ulasan");const t=document.getElementById("scrollToTopBtn");let a;window.addEventListener("scroll",(()=>{window.scrollY>100?(t.classList.remove("translate-y-20","opacity-0","pointer-events-none"),t.classList.add("translate-y-0","opacity-100")):(t.classList.add("translate-y-20","opacity-0","pointer-events-none"),t.classList.remove("translate-y-0","opacity-100")),clearTimeout(a),a=setTimeout((()=>{t.classList.add("translate-y-20","opacity-0","pointer-events-none"),t.classList.remove("translate-y-0","opacity-100")}),1500)})),t.addEventListener("click",(()=>window.scrollTo({top:0,behavior:"smooth"})));const n=document.getElementById("chat-trigger"),i=document.getElementById("chat-window"),o=document.getElementById("close-chat"),s=document.getElementById("chat-input"),d=document.getElementById("send-chat"),r=document.getElementById("chat-messages"),l=document.getElementById("greeting-bubble"),c=document.getElementById("typing-indicator"),u=document.getElementById("jump-to-bottom");let m,w;function p(e,t,a=null){const n=document.createElement("div");n.className="user"===t?"flex items-end justify-end gap-2 mt-3 animate-fade-up shrink-0 w-full":"flex flex-col items-start gap-1 mt-3 animate-fade-up shrink-0 w-full";let i="";"user"===t?i=`<div class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed font-medium text-[11px] sm:text-xs border border-warnautama/50 whitespace-pre-wrap break-words">${e}</div>`:(i=`<div class="flex items-start gap-2 w-full"><img src="mascipta.webp" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-[#2a2a2a] bg-white"><div class="bg-white/90 dark:bg-[#1b1b1b] text-gray-800 dark:text-gray-200 px-4 py-2.5 rounded-2xl rounded-tl-sm w-full max-w-[85%] shadow-sm border border-gray-200 dark:border-[#2a2a2a] leading-relaxed font-medium text-[11px] sm:text-xs break-words">${e}</div></div>`,a&&(i+='<div class="flex flex-col gap-2 mt-1.5 pl-9 md:pl-10 w-[85%]">',a.forEach((e=>{i+=`<button onclick="${e.aksi}" class="text-left text-[10px] sm:text-[11px] bg-white dark:bg-gray-800 border border-warnautama/30 dark:border-gray-600 text-warnautama dark:text-gray-200 font-extrabold py-2 px-3 rounded-xl hover:bg-warnautama hover:text-white dark:hover:bg-white dark:hover:text-black transition shadow-sm hover:-translate-y-0.5">${e.label}</button>`})),i+="</div>")),n.innerHTML=i,r.insertBefore(n,c),r.scrollTo({top:r.scrollHeight,behavior:"smooth"})}function g(){clearTimeout(m),clearTimeout(w),m=setTimeout((()=>{p("Apakah masih bersama Cipta?","model"),w=setTimeout((()=>{p("Kalau tidak ada, Cipta akhiri. Terima kasih sudah menghubungi Cipta.","model"),setTimeout((()=>{o&&o.click()}),2e3)}),2500)}),3e4)}function h(){const e=s.value.trim();e&&(clearTimeout(m),clearTimeout(w),p(e,"user"),s.value="",s.style.height="42px",c.classList.remove("hidden"),c.classList.add("flex"),r.scrollTo({top:r.scrollHeight,behavior:"smooth"}),setTimeout((()=>{c.classList.add("hidden"),c.classList.remove("flex");const t=e.toLowerCase(),a=["makasih","terima kasih","suwun","thanks","oke","ok","baik","sip"].some((e=>t.includes(e))),n=["tidak ada","gak ada","udah","sudah","nggak","tidak","cukup"].some((e=>t.includes(e)));a&&!n?(p("Dengan senang hati, ada lagi yang bisa saya bantu?","model"),g()):n?(p("Terima kasih sudah menghubungi Cipta, semoga harimu menyenangkan.","model"),setTimeout((()=>{o&&o.click()}),2500)):(p("Untuk pertanyaan yang lebih detail atau diskusi khusus, yuk langsung ngobrol dengan tim Admin kami melalui WhatsApp!","model",[{label:"⎙ Lanjut ke WhatsApp",aksi:`window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20${encodeURIComponent(e)}', '_blank')`}]),g())}),800)}s&&s.addEventListener("input",(function(){this.style.height="42px",this.style.height=this.scrollHeight+"px"})),r&&u&&(r.addEventListener("scroll",(()=>{u.classList.toggle("hidden",r.scrollHeight-r.scrollTop-r.clientHeight<=50)})),u.addEventListener("click",(()=>r.scrollTo({top:r.scrollHeight,behavior:"smooth"})))),setTimeout((()=>{l&&(l.classList.replace("opacity-100","opacity-0"),setTimeout((()=>l.remove()),500))}),6e3),n&&n.addEventListener("click",(()=>{i.classList.remove("hidden"),setTimeout((()=>{i.classList.remove("scale-0","translate-y-10","opacity-0"),i.classList.add("scale-100","translate-y-0","opacity-100")}),10),l&&l.remove(),r.children.length<=1?window.mulaiChatBot():r.scrollTo({top:r.scrollHeight,behavior:"smooth"})})),o&&o.addEventListener("click",(()=>{i.classList.remove("scale-100","translate-y-0","opacity-100"),i.classList.add("scale-0","translate-y-10","opacity-0"),setTimeout((()=>i.classList.add("hidden")),300);const e=document.querySelector(".relative.flex.items-end");if(e){let t=document.getElementById("bubble-penutup");t&&t.remove();const a=document.createElement("div");a.id="bubble-penutup",a.className="absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 animate-fade-up transition-opacity duration-500 opacity-100",a.innerHTML="Sampai jumpa! Cipta selalu di sini 😊",e.appendChild(a),setTimeout((()=>{a&&(a.classList.replace("opacity-100","opacity-0"),setTimeout((()=>a.remove()),500))}),5e3)}})),window.pilihTopikChat=function(e){clearTimeout(m),clearTimeout(w),p(e,"user"),c.classList.remove("hidden"),c.classList.add("flex"),r.scrollTo({top:r.scrollHeight,behavior:"smooth"}),setTimeout((()=>{c.classList.add("hidden"),c.classList.remove("flex"),"Publikasi Literasi"===e?p("Siap! Mari publikasikan cerpen, puisi, Berita, Opini, atau artikelmu di Ruang Literasi kami. Silakan klik form di bawah ini:","model",[{label:"⎙ Publikasi Sekarang",aksi:"document.getElementById('close-chat').click(); bukaHalaman('upload-literasi');"}]):"Penerbitan Buku"===e?p("<strong>Ketentuan Penerbitan:</strong><br>1. Naskah wajib orisinal.<br>2. Tidak mengandung SARA.<br>3. Hak komersial tetap milik penulis.<br><br>Silakan unduh detail ketentuan atau langsung isi formnya:","model",[{label:"⎙ Ketentuan Penerbitan",aksi:"window.open('ketentuan-penerbitan.pdf', '_blank')"},{label:"⎙ Kirim Naskah",aksi:"document.getElementById('close-chat').click(); bukaHalaman('kirim-naskah');"}]):"Hak Cipta (HKI)"===e?p("<strong>Ketentuan Hak Cipta:</strong><br>1. Siapkan foto KTP pencipta.<br>2. Karya bersifat orisinal.<br>3. Sertifikat resmi dari DJKI.<br><br>Silakan unduh detail ketentuan atau langsung ajukan HKI Anda di sini:","model",[{label:"⎙ Ketentuan Hak Cipta",aksi:"window.open('ketentuan-hakcipta.pdf', '_blank')"},{label:"⎙ Daftar Hak Cipta",aksi:"document.getElementById('close-chat').click(); bukaHalaman('daftar-hki');"}]):"Daftar NIB"===e?p("Untuk pengurusan NIB, Anda dapat langsung mengisi form pengajuan atau menghubungi Admin kami untuk pendampingan. Klik tombol di bawah ini:","model",[{label:"⎙ Pengajuan NIB",aksi:"window.open('https://mediatulisanmanusia.com/nib', '_blank')"},{label:"» Lanjut ke WhatsApp",aksi:"window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20ingin%20info%20pendaftaran%20NIB', '_blank')"}]):"Hubungi WA"===e&&p("Tim admin kami siap membalas pesan Anda (Senin-Sabtu 08.00-16.00 WIB).","model",[{label:"» Chat Admin Sekarang",aksi:"window.open('https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia', '_blank')"}]),g()}),800)},window.mulaiChatBot=function(){r.innerHTML="",r.appendChild(c),p("Selamat datang di Media Tulisan Manusia, ada yang bisa Cipta bantu?","model",[{label:"Publikasi Literasi",aksi:"window.pilihTopikChat('Publikasi Literasi')"},{label:"Penerbitan Buku",aksi:"window.pilihTopikChat('Penerbitan Buku')"},{label:"Hak Cipta - HKI",aksi:"window.pilihTopikChat('Hak Cipta (HKI)')"},{label:"Daftar NIB",aksi:"window.pilihTopikChat('Daftar NIB')"},{label:"WhatsApp Admin",aksi:"window.pilihTopikChat('Hubungi WA')"}]),g()},d&&d.addEventListener("click",h),s&&s.addEventListener("keydown",(e=>{"Enter"!==e.key||e.shiftKey||(e.preventDefault(),h())}))}));
+document.addEventListener("DOMContentLoaded", (function() {
+    function e(e) {
+        const t = document.getElementById(e);
+        if (!t) return;
+        t.innerHTML += t.innerHTML;
+        let a = !1;
+        t.addEventListener("mouseenter", (() => a = !0)), 
+        t.addEventListener("mouseleave", (() => a = !1)), 
+        t.addEventListener("touchstart", (() => a = !0), {
+            passive: !0
+        }), 
+        t.addEventListener("touchend", (() => {
+            setTimeout((() => a = !1), 1500)
+        })), 
+        requestAnimationFrame((function e() {
+            a || (t.scrollLeft += 1.5, t.scrollLeft >= t.scrollWidth / 2 && (t.scrollLeft -= t.scrollWidth / 2)), 
+            requestAnimationFrame(e)
+        }))
+    }
+    
+    e("scroll-katalog"), e("scroll-hki"), e("scroll-mitra"), e("scroll-media"), e("scroll-artikel"), e("scroll-ulasan");
+    
+    const t = document.getElementById("scrollToTopBtn");
+    let a;
+    window.addEventListener("scroll", (() => {
+        window.scrollY > 100 ? (t.classList.remove("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.add("translate-y-0", "opacity-100")) : (t.classList.add("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.remove("translate-y-0", "opacity-100")), 
+        clearTimeout(a), 
+        a = setTimeout((() => {
+            t.classList.add("translate-y-20", "opacity-0", "pointer-events-none"), t.classList.remove("translate-y-0", "opacity-100")
+        }), 1500)
+    })), 
+    t.addEventListener("click", (() => window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    })));
+
+    const n = document.getElementById("chat-trigger"),
+        i = document.getElementById("chat-window"),
+        o = document.getElementById("close-chat"),
+        s = document.getElementById("chat-input"),
+        d = document.getElementById("send-chat"),
+        r = document.getElementById("chat-messages"),
+        l = document.getElementById("greeting-bubble"),
+        c = document.getElementById("typing-indicator"),
+        u = document.getElementById("jump-to-bottom");
+    
+    let m, w;
+
+    function p(e, t, a = null) {
+        const n = document.createElement("div");
+        n.className = "user" === t ? "flex items-end justify-end gap-2 mt-3 animate-fade-up shrink-0 w-full" : "flex flex-col items-start gap-1 mt-3 animate-fade-up shrink-0 w-full";
+        let i = "";
+        "user" === t ? i = `<div class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed font-medium text-[11px] sm:text-xs border border-warnautama/50 whitespace-pre-wrap break-words">${e}</div>` : (i = `<div class="flex items-start gap-2 w-full"><img src="mascipta.webp" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex-shrink-0 object-cover shadow-md border border-gray-200 dark:border-[#2a2a2a] bg-white"><div class="bg-white/90 dark:bg-[#1b1b1b] text-gray-800 dark:text-gray-200 px-4 py-2.5 rounded-2xl rounded-tl-sm w-full max-w-[85%] shadow-sm border border-gray-200 dark:border-[#2a2a2a] leading-relaxed font-medium text-[11px] sm:text-xs break-words">${e}</div></div>`, a && (i += '<div class="flex flex-col gap-2 mt-1.5 pl-9 md:pl-10 w-[85%]">', a.forEach((e => {
+            i += `<button onclick="${e.aksi}" class="text-left text-[10px] sm:text-[11px] bg-white dark:bg-gray-800 border border-warnautama/30 dark:border-gray-600 text-warnautama dark:text-gray-200 font-extrabold py-2 px-3 rounded-xl hover:bg-warnautama hover:text-white dark:hover:bg-white dark:hover:text-black transition shadow-sm hover:-translate-y-0.5">${e.label}</button>`
+        })), i += "")), 
+        n.innerHTML = i, 
+        r.insertBefore(n, c), 
+        r.scrollTo({
+            top: r.scrollHeight,
+            behavior: "smooth"
+        })
+    }
+
+    function g() {
+        clearTimeout(m), clearTimeout(w), m = setTimeout((() => {
+            p("Apakah masih bersama Cipta?", "model"), w = setTimeout((() => {
+                p("Kalau tidak ada, Cipta akhiri. Terima kasih sudah menghubungi Cipta.", "model"), 
+                setTimeout((() => {
+                    o && o.click()
+                }), 2e3)
+            }), 2500)
+        }), 3e4)
+    }
+
+    function h() {
+        const e = s.value.trim();
+        e && (clearTimeout(m), clearTimeout(w), p(e, "user"), s.value = "", s.style.height = "42px", c.classList.remove("hidden"), c.classList.add("flex"), r.scrollTo({
+            top: r.scrollHeight,
+            behavior: "smooth"
+        }), setTimeout((() => {
+            c.classList.add("hidden"), c.classList.remove("flex");
+            const t = e.toLowerCase(),
+                a = ["makasih", "terima kasih", "suwun", "thanks", "oke", "ok", "baik", "sip"].some((e => t.includes(e))),
+                n = ["tidak ada", "gak ada", "udah", "sudah", "nggak", "tidak", "cukup"].some((e => t.includes(e)));
+            a && !n ? (p("Dengan senang hati, ada lagi yang bisa saya bantu?", "model"), g()) : n ? (p("Terima kasih sudah menghubungi Cipta, semoga harimu menyenangkan.", "model"), setTimeout((() => {
+                o && o.click()
+            }), 2500)) : (p("Untuk pertanyaan yang lebih detail atau diskusi khusus, yuk langsung ngobrol dengan tim Admin kami melalui WhatsApp!", "model", [{
+                label: "⎙ Lanjut ke WhatsApp",
+                aksi: `window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20${encodeURIComponent(e)}', '_blank')`
+            }]), g())
+        }), 800))
+    }
+
+    s && s.addEventListener("input", (function() {
+        this.style.height = "42px", this.style.height = this.scrollHeight + "px"
+    })), 
+    r && u && (r.addEventListener("scroll", (() => {
+        u.classList.toggle("hidden", r.scrollHeight - r.scrollTop - r.clientHeight <= 50)
+    })), u.addEventListener("click", (() => r.scrollTo({
+        top: r.scrollHeight,
+        behavior: "smooth"
+    })))), 
+    setTimeout((() => {
+        l && (l.classList.replace("opacity-100", "opacity-0"), setTimeout((() => l.remove()), 500))
+    }), 6e3), 
+    n && n.addEventListener("click", (() => {
+        i.classList.remove("hidden"), 
+        setTimeout((() => {
+            i.classList.remove("scale-0", "translate-y-10", "opacity-0"), i.classList.add("scale-100", "translate-y-0", "opacity-100")
+        }), 10), 
+        l && l.remove(), 
+        r.children.length <= 1 ? window.mulaiChatBot() : r.scrollTo({
+            top: r.scrollHeight,
+            behavior: "smooth"
+        })
+    })), 
+    o && o.addEventListener("click", (() => {
+        i.classList.remove("scale-100", "translate-y-0", "opacity-100"), 
+        i.classList.add("scale-0", "translate-y-10", "opacity-0"), 
+        setTimeout((() => i.classList.add("hidden")), 300);
+        const e = document.querySelector(".relative.flex.items-end");
+        if (e) {
+            let t = document.getElementById("bubble-penutup");
+            t && t.remove();
+            const a = document.createElement("div");
+            a.id = "bubble-penutup", 
+            a.className = "absolute left-16 md:left-20 bottom-4 bg-warnautama dark:bg-white text-white dark:text-warnakeempat px-4 py-2 rounded-2xl rounded-bl-sm shadow-xl font-bold text-[10px] md:text-xs whitespace-nowrap border border-white/20 dark:border-black/10 z-0 animate-fade-up transition-opacity duration-500 opacity-100", 
+            a.innerHTML = "Sampai jumpa! Cipta selalu di sini 😊", 
+            e.appendChild(a), 
+            setTimeout((() => {
+                a && (a.classList.replace("opacity-100", "opacity-0"), setTimeout((() => a.remove()), 500))
+            }), 5e3)
+        }
+    })), 
+
+    window.pilihTopikChat = function(e) {
+        clearTimeout(m), clearTimeout(w), p(e, "user"), c.classList.remove("hidden"), c.classList.add("flex"), r.scrollTo({
+            top: r.scrollHeight,
+            behavior: "smooth"
+        }), 
+        setTimeout((() => {
+            c.classList.add("hidden"), c.classList.remove("flex"), 
+            "Publikasi Literasi" === e ? p("Siap! Mari publikasikan cerpen, puisi, Berita, Opini, atau artikelmu di Ruang Literasi kami. Silakan klik form di bawah ini:", "model", [{
+                label: "⎙ Publikasi Sekarang",
+                aksi: "document.getElementById('close-chat').click(); bukaHalaman('upload-literasi');"
+            }]) : "Penerbitan Buku" === e ? p("<strong>Ketentuan Penerbitan:</strong><br>1. Naskah wajib orisinal.<br>2. Tidak mengandung SARA.<br>3. Hak komersial tetap milik penulis.<br><br>Silakan unduh detail ketentuan atau langsung isi formnya:", "model", [{
+                label: "⎙ Ketentuan Penerbitan",
+                aksi: "window.open('ketentuan-penerbitan.pdf', '_blank')"
+            }, {
+                label: "⎙ Kirim Naskah",
+                aksi: "document.getElementById('close-chat').click(); bukaHalaman('kirim-naskah');"
+            }]) : "Hak Cipta (HKI)" === e ? p("<strong>Ketentuan Hak Cipta:</strong><br>1. Siapkan foto KTP pencipta.<br>2. Karya bersifat orisinal.<br>3. Sertifikat resmi dari DJKI.<br><br>Silakan unduh detail ketentuan atau langsung ajukan HKI Anda di sini:", "model", [{
+                label: "⎙ Ketentuan Hak Cipta",
+                aksi: "window.open('ketentuan-hakcipta.pdf', '_blank')"
+            }, {
+                label: "⎙ Daftar Hak Cipta",
+                aksi: "document.getElementById('close-chat').click(); bukaHalaman('daftar-hki');"
+            }]) : "Daftar NIB" === e ? p("Untuk pengurusan NIB, Anda dapat langsung mengisi form pengajuan atau menghubungi Admin kami untuk pendampingan. Klik tombol di bawah ini:", "model", [{
+                label: "⎙ Pengajuan NIB",
+                aksi: "window.open('https://mediatulisanmanusia.com/nib', '_blank')"
+            }, {
+                label: "» Lanjut ke WhatsApp",
+                aksi: "window.open('https://wa.me/6288294448222?text=Halo%20Admin,%20saya%20ingin%20info%20pendaftaran%20NIB', '_blank')"
+            }]) : "Hubungi WA" === e && p("Tim admin kami siap membalas pesan Anda (Senin-Sabtu 08.00-16.00 WIB).", "model", [{
+                label: "» Chat Admin Sekarang",
+                aksi: "window.open('https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia', '_blank')"
+            }]), g()
+        }), 800)
+    }, 
+
+    window.mulaiChatBot = function() {
+        r.innerHTML = "", r.appendChild(c), p("Selamat datang di Media Tulisan Manusia, ada yang bisa Cipta bantu?", "model", [{
+            label: "Publikasi Literasi",
+            aksi: "window.pilihTopikChat('Publikasi Literasi')"
+        }, {
+            label: "Penerbitan Buku",
+            aksi: "window.pilihTopikChat('Penerbitan Buku')"
+        }, {
+            label: "Hak Cipta - HKI",
+            aksi: "window.pilihTopikChat('Hak Cipta (HKI)')"
+        }, {
+            label: "Daftar NIB",
+            aksi: "window.pilihTopikChat('Daftar NIB')"
+        }, {
+            label: "WhatsApp Admin",
+            aksi: "window.pilihTopikChat('Hubungi WA')"
+        }]), g()
+    }, 
+
+    d && d.addEventListener("click", h), 
+    s && s.addEventListener("keydown", (e => {
+        "Enter" !== e.key || e.shiftKey || (e.preventDefault(), h())
+    }))
+}));
 setTimeout((()=>{window.auth&&window.onAuthStateChanged&&window.onAuthStateChanged(window.auth,(e=>{const t=document.getElementById("menu-login-btn"),a=document.getElementById("menu-profil-btn"),n=document.getElementById("menu-admin-btn"),i=document.getElementById("menu-logout-btn"),desktopAuthBtn=document.getElementById("desktop-auth-btn");if(e){window.currentUserEmail=e.email,window.currentUserName=e.displayName||e.email.split("@")[0],window.isAdmin=e.email.toLowerCase()===window.ADMIN_EMAIL,t&&t.classList.add("hidden"),i&&i.classList.remove("hidden");if(desktopAuthBtn){if(window.isAdmin){desktopAuthBtn.innerText="Panel Admin",desktopAuthBtn.setAttribute("onclick","bukaHalaman('admin')")}else{desktopAuthBtn.innerText="Profil Saya",desktopAuthBtn.setAttribute("onclick","bukaHalaman('profil')")}}window.isAdmin?(n&&n.classList.remove("hidden"),a&&a.classList.add("hidden"),window.muatRiwayatAdmin&&window.muatRiwayatAdmin()):(a&&a.classList.remove("hidden"),n&&n.classList.add("hidden"),document.getElementById("profil-nama").innerText=window.currentUserName,document.getElementById("profil-email").innerText=window.currentUserEmail,document.getElementById("profil-inisial").innerText=window.currentUserName.charAt(0).toUpperCase(),window.muatRiwayatProfil&&window.muatRiwayatProfil());const params=new URLSearchParams(window.location.search),savedPage=localStorage.getItem("mtm_current_page");params.has("admin")&&window.isAdmin?bukaHalaman("admin"):params.has("buka")?bukaHalaman(params.get("buka")):(savedPage&&"beranda"!==savedPage&&bukaHalaman(savedPage,!1))}else{window.currentUserEmail=null,window.currentUserName=null,window.isAdmin=!1,t&&t.classList.remove("hidden"),a&&a.classList.add("hidden"),n&&n.classList.add("hidden"),i&&i.classList.add("hidden");if(desktopAuthBtn){desktopAuthBtn.innerText="Masuk / Daftar",desktopAuthBtn.setAttribute("onclick","bukaHalaman('login')")}}}))}),400);
 document.getElementById("loginForm").addEventListener("submit",(function(e){e.preventDefault();const t=document.getElementById("login-email").value,a=document.getElementById("login-password").value;window.signInWithEmailAndPassword(window.auth,t,a).then((()=>{showToast("Login Berhasil!","success"),document.getElementById("loginForm").reset(),t.toLowerCase()===window.ADMIN_EMAIL?bukaHalaman("admin"):bukaHalaman("beranda")})).catch((()=>{showToast("Email atau Sandi salah.","error")}))}));
 document.getElementById("registerForm").addEventListener("submit",(function(e){e.preventDefault();const t=document.getElementById("reg-email").value,a=document.getElementById("reg-password").value;window.createUserWithEmailAndPassword(window.auth,t,a).then((()=>{showToast("Daftar Berhasil!","success"),document.getElementById("registerForm").reset(),bukaHalaman("beranda")})).catch((()=>{showToast("Gagal mendaftar. Sandi min 6 atau email sudah terdaftar.","error")}))}));
