@@ -121,37 +121,38 @@
 </button>
 </div>
 <div id=nav-dropdown class="hidden absolute top-16 right-0 w-56 sm:w-64 bg-white/95 dark:bg-[#151515]/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-gray-200/80 dark:border-gray-700/80 flex flex-col text-left animate-fade-up z-50">
+<div class="flex items-center justify-center gap-2 pb-3 mb-3 border-b border-gray-300/40 dark:border-gray-700/40"><button onclick="ubahBahasa('id')" id="btn-lang-id" class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm"><span>🇮🇩</span> <span>ID</span></button><button onclick="ubahBahasa('en')" id="btn-lang-en" class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300"><span>🇬🇧</span> <span>EN</span></button></div>
 <button id=menu-profil-btn onclick='navKe("profil")' class="hidden bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
-<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Profil Saya
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> <span data-i18n="profil_saya">Profil Saya</span>
 </button>
 <button id=menu-admin-btn onclick='navKe("admin")' class="hidden bg-warnakedua dark:bg-warnakeempat text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 mb-3 shadow-md">
-<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24" stroke-width=2><path stroke-linecap=round stroke-linejoin=round d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Admin Cipta
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24" stroke-width=2><path stroke-linecap=round stroke-linejoin=round d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> <span data-i18n="admin_cipta">Admin Cipta</span>
 </button>
 <div class="flex flex-col gap-3 border-b border-gray-300/40 dark:border-gray-700/40 pb-4 mb-4">
-<button onclick='navKe("beranda")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Beranda</button>
+<button onclick='navKe("beranda")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left" data-i18n="beranda">Beranda</button>
 <div class="border-y border-gray-300/40 dark:border-gray-700/40 py-2">
 <div onclick=toggleSubMenu() class="flex justify-between items-center cursor-pointer font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition">
-<span>Penelusuran</span>
+<span data-i18n="penelusuran">Penelusuran</span>
 <svg id=panah-sub class="w-3.5 h-3.5 transition-transform" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M19 9l-7 7-7-7"></path></svg>
 </div>
 <div id=sub-penelusuran class="hidden pl-3 pt-2 flex flex-col gap-2">
-<button onclick='gulirKe("seksi-qrcbn")' class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• Buku</button>
-<button onclick='gulirKe("seksi-djki")' class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• Hak Cipta</button>
+<button onclick='gulirKe("seksi-qrcbn")' class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• <span data-i18n="buku">Buku</span></button>
+<button onclick='gulirKe("seksi-djki")' class="text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-warnautama text-left">• <span data-i18n="hak_cipta">Hak Cipta</span></button>
 </div>
 </div>
-<button onclick='navKe("kirim-naskah")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Kirim Naskah</button>
-<button onclick='navKe("daftar-hki")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar Hak Cipta</button>
-<button onclick='window.location.href="nib.html"' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Daftar NIB</button>
-<button onclick='navKe("upload-literasi")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left">Upload Literasi</button>
+<button onclick='navKe("kirim-naskah")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left" data-i18n="kirim_naskah">Kirim Naskah</button>
+<button onclick='navKe("daftar-hki")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left" data-i18n="daftar_hki">Daftar Hak Cipta</button>
+<button onclick='window.location.href="nib.html"' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left" data-i18n="daftar_nib">Daftar NIB</button>
+<button onclick='navKe("upload-literasi")' class="font-bold text-xs sm:text-sm text-warnautama dark:text-white hover:text-warnakedua transition py-1 text-left" data-i18n="upload_literasi">Upload Literasi</button>
 </div>
 <div class="flex flex-col gap-2">
-<a href=https://mediatulisanmanusia.com/literasi class="bg-warnaketiga dark:bg-gray-800 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md mb-1">📖 Ruang Literasi</a>
-<a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target=_blank class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md">Whatsapp Kami</a>
+<a href=https://mediatulisanmanusia.com/literasi class="bg-warnaketiga dark:bg-gray-800 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md mb-1"><span data-i18n="ruang_literasi">📖 Ruang Literasi</span></a>
+<a href="https://wa.me/6288294448222?text=Halo%20Admin%20Media%20Tulisan%20Manusia" target=_blank class="bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center shadow-md"><span data-i18n="wa_kami">Whatsapp Kami</span></a>
 <button id=menu-login-btn onclick='navKe("login")' class="bg-warnakedua dark:bg-warnakeempat text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
-<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> Login / Signup
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg> <span data-i18n="login_signup">Login / Signup</span>
 </button>
 <button id=menu-logout-btn onclick=prosesLogout() class="hidden bg-red-500 text-white font-extrabold py-2.5 px-4 rounded-xl text-xs text-center uppercase tracking-wider hover:scale-105 transition flex justify-center items-center gap-2 shadow-md">
-<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Logout
+<svg class="w-4 h-4" fill=none stroke=currentColor viewBox="0 0 24 24"><path stroke-width=2 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> <span data-i18n="logout">Logout</span>
 </button>
 </div>
 </div>
@@ -1938,6 +1939,67 @@ Jl. Raya Sukorejo No. 19, Pasuruan
 </div>
 <script>let deferredPrompt;const installPopup=document.getElementById("install-popup"),btnInstall=document.getElementById("btn-install-app"),btnCloseInstall=document.getElementById("btn-close-install");window.addEventListener("beforeinstallprompt",(e=>{e.preventDefault(),deferredPrompt=e,installPopup.classList.remove("hidden")})),btnInstall.addEventListener("click",(async()=>{if(deferredPrompt){installPopup.classList.add("hidden"),deferredPrompt.prompt();const{outcome:e}=await deferredPrompt.userChoice;deferredPrompt=null}})),btnCloseInstall.addEventListener("click",(()=>{installPopup.classList.add("hidden")}))</script>
 <script>function bukaModal(e){let t=document.getElementById(e);t&&(t.classList.remove("hidden"),setTimeout((()=>t.classList.add("active")),10),document.body.style.overflow="hidden")}function tutupModal(e){let t=document.getElementById(e);t&&(t.classList.remove("active"),document.body.style.overflow="auto",setTimeout((()=>t.classList.add("hidden")),300))}document.addEventListener("DOMContentLoaded",(function(){const e=document.querySelectorAll(".reveal"),t=new IntersectionObserver((function(e,t){e.forEach((e=>{e.isIntersecting&&(e.target.classList.add("active"),t.unobserve(e.target))}))}),{threshold:0,rootMargin:"0px 0px 0px 0px"});e.forEach((e=>{t.observe(e)}))})),window.addEventListener("click",(e=>document.querySelectorAll(".modal-overlay").forEach((t=>{e.target===t&&tutupModal(t.id)}))))</script>
+<script>
+const translations = {
+id: {
+profil_saya: "Profil Saya",
+admin_cipta: "Admin Cipta",
+beranda: "Beranda",
+penelusuran: "Penelusuran",
+buku: "Buku",
+hak_cipta: "Hak Cipta",
+kirim_naskah: "Kirim Naskah",
+daftar_hki: "Daftar Hak Cipta",
+daftar_nib: "Daftar NIB",
+upload_literasi: "Upload Literasi",
+ruang_literasi: "📖 Ruang Literasi",
+wa_kami: "Whatsapp Kami",
+login_signup: "Login / Signup",
+logout: "Logout"
+},
+en: {
+profil_saya: "My Profile",
+admin_cipta: "Admin Cipta",
+beranda: "Home",
+penelusuran: "Browse",
+buku: "Books",
+hak_cipta: "Copyright",
+kirim_naskah: "Submit Manuscript",
+daftar_hki: "Register Copyright",
+daftar_nib: "Register Business ID (NIB)",
+upload_literasi: "Upload Literature",
+ruang_literasi: "📖 Literature Room",
+wa_kami: "WhatsApp Us",
+login_signup: "Login / Signup",
+logout: "Logout"
+}
+};
+function ubahBahasa(lang) {
+localStorage.setItem("mtm_lang", lang);
+const btnId = document.getElementById("btn-lang-id");
+const btnEn = document.getElementById("btn-lang-en");
+if (btnId && btnEn) {
+if (lang === "en") {
+btnEn.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";
+btnId.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";
+} else {
+btnId.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-warnautama text-white dark:bg-white dark:text-warnakeempat shadow-sm";
+btnEn.className = "flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold transition bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300";
+}
+}
+const elements = document.querySelectorAll("[data-i18n]");
+elements.forEach(el => {
+const key = el.getAttribute("data-i18n");
+if (translations[lang] && translations[lang][key]) {
+el.innerText = translations[lang][key];
+}
+});
+}
+document.addEventListener("DOMContentLoaded", () => {
+const savedLang = localStorage.getItem("mtm_lang") || "id";
+ubahBahasa(savedLang);
+});
+</script>
 </div>
 </body>
 </html>
