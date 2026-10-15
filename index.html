@@ -2048,8 +2048,64 @@ function toggleNavMenu(){window.event&&window.event.stopPropagation();const e=do
 function toggleSubMenu(){document.getElementById("sub-penelusuran").classList.toggle("hidden"),document.getElementById("panah-sub").classList.toggle("rotate-180")}
 function gulirKe(e){bukaHalaman("beranda"),document.getElementById("nav-dropdown").classList.add("hidden");const t=document.querySelector('button[onclick="toggleNavMenu()"]');t&&(t.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>'),setTimeout((()=>{const t=document.getElementById("seksi-pencarian-terpadu");if(t&&t.scrollIntoView({behavior:"smooth"}),"seksi-qrcbn"===e&&gantiPencarian("qrcbn"),"seksi-djki"===e&&gantiPencarian("djki"),"seksi-qrcbn"!==e&&"seksi-djki"!==e){const t=document.getElementById(e);t&&t.scrollIntoView({behavior:"smooth"})}}),150)}
 function cariQRCBN(e){e.preventDefault();const t=document.getElementById("input-keyword-qrcbn").value.trim();t&&(document.getElementById("iframe-pencarian").src=`https://qrcbn.com/check/${encodeURIComponent(t)}`,document.getElementById("modal-pencarian").classList.remove("hidden"))}
-function cariDJKI(e){e.preventDefault();const t=document.getElementById("input-keyword-djki").value.trim();t&&window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(t)}`,"_blank")}
+function cariDJKI(e) {e.preventDefault();const keyword = document.getElementById("input-keyword-djki")?.value.trim();if (keyword) {window.open(`https://pdki-indonesia.dgip.go.id/search?type=hakcipta&keyword=${encodeURIComponent(keyword)}`, "_blank");} else {showToast("Masukkan judul ciptaan terlebih dahulu!", "error");}}
 function tutupModalPencarian(){document.getElementById("modal-pencarian").classList.add("hidden"),document.getElementById("iframe-pencarian").src=""}
+async function cariNIB(e) {
+    e.preventDefault();
+    const inputKeyword = document.getElementById("input-keyword-nib");
+    const btnCari = document.getElementById("btn-cari-nib");
+    if (!inputKeyword || !btnCari) return;
+
+    const t = inputKeyword.value.trim();
+    if (!t) {
+        showToast("Masukkan nomor NIB terlebih dahulu!", "error");
+        return;
+    }
+
+    const originalText = btnCari.innerText;
+    btnCari.innerText = "Memuat...";
+    btnCari.disabled = true;
+
+    try {
+        const response = await fetch(URL_API_NIB);
+        const data = await response.json();
+        const found = data.find(item => String(item.NIB || item.nib || "").trim() === t);
+        
+        const modal = document.getElementById("modal-nib-oss");
+        const isiData = document.getElementById("isi-data-nib");
+        const pesanError = document.getElementById("pesan-error-nib");
+
+        if (found) {
+            document.getElementById("res-nib").innerText = found.NIB || found.nib || "-";
+            document.getElementById("res-nama").innerText = found.NAMA || found.nama || "-";
+            document.getElementById("res-status").innerText = found.STATUS || found.status || "-";
+            document.getElementById("res-migrasi").innerText = found.MIGRASI || found.migrasi || "-";
+            document.getElementById("res-modal").innerText = found.MODAL || found.modal || "-";
+            document.getElementById("res-skala").innerText = found.SKALA || found.skala || "-";
+            isiData.classList.remove("hidden");
+            pesanError.classList.add("hidden");
+        } else {
+            isiData.classList.add("hidden");
+            pesanError.classList.remove("hidden");
+        }
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+    } catch (err) {
+        console.error("Gagal mengambil NIB:", err);
+        showToast("Gagal mengambil data NIB. Silakan coba lagi.", "error");
+    } finally {
+        btnCari.innerText = originalText;
+        btnCari.disabled = false;
+    }
+}
+
+function tutupModalNIB() {
+    const modal = document.getElementById("modal-nib-oss");
+    if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+    }
+}
 function bukaHalaman(e,simpan=true){if("daftar-nib"===e)return void(window.location.href="nib.html");"kirim-naskah"!==e&&"daftar-hki"!==e&&"upload-literasi"!==e&&"profil"!==e||window.currentUserEmail||(showToast("Login / Daftar Akun terlebih dahulu","error"),e="login"),"admin"!==e||window.isAdmin||(showToast("Akses Khusus Admin","error"),e="beranda"),simpan&&localStorage.setItem("mtm_current_page",e),document.querySelectorAll(".halaman-konten").forEach((e=>e.classList.add("hidden")));const t=document.getElementById("hal-"+e);t&&(t.classList.remove("hidden"),t.classList.remove("animate-fade-up"),t.offsetWidth,t.classList.add("animate-fade-up")),window.scrollTo({top:0,behavior:"smooth"}),["kirim-naskah","daftar-hki","upload-literasi"].includes(e)&&window.currentUserEmail&&setTimeout(isiOtomatisFormLayanan,200)}
 function navKe(e){bukaHalaman(e),document.getElementById("nav-dropdown").classList.add("hidden");const t=document.querySelector('button[onclick="toggleNavMenu()"]');t&&(t.innerHTML='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>')}
 function toggleFormAuth(e){document.getElementById("form-login-section").classList.add("hidden"),document.getElementById("form-register-section").classList.add("hidden"),document.getElementById("form-reset-section").classList.add("hidden"),"login"===e?(document.getElementById("form-login-section").classList.remove("hidden"),document.getElementById("judul-login").innerText="Masuk Akun"):"register"===e?(document.getElementById("form-register-section").classList.remove("hidden"),document.getElementById("judul-login").innerText="Buat Akun Baru"):"reset"===e&&(document.getElementById("form-reset-section").classList.remove("hidden"),document.getElementById("judul-login").innerText="Reset Sandi")}
