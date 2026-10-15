@@ -1004,13 +1004,13 @@ Konsultasi NIB
 <div class="glass p-6 sm:p-8 md:p-12 rounded-[2.5rem] border-t-4 border-warnakedua shadow-xl transition duration-500">
 <div class="text-center mb-8">
 <span class="bg-warnakedua/20 text-warnakedua font-extrabold px-4 py-1 rounded-full text-[10px] uppercase tracking-widest">Simulasi Interaktif</span>
-<h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight mt-2 uppercase">KALKULATOR CETAK & ROYALTI</h4>
-<p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">Estimasi biaya cetak tambahan, harga jual, dan potensi royalti buku Anda (A5 Bookpaper).</p>
+<h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-warnautama dark:text-white tracking-tight mt-2 uppercase">KALKULATOR<br>CETAK & ROYALTI</h4>
+<p class="text-[11px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">Estimasi biaya cetak tambahan, harga jual, dan potensi royalti buku Anda.</p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 <div class="lg:col-span-7 space-y-6 bg-white/60 dark:bg-black/40 p-6 rounded-3xl border border-gray-200 dark:border-gray-800 text-left">
 <div>
-<div class="flex justify-between text-xs sm:text-sm font-bold mb-2"><label class="text-gray-700 dark:text-gray-300 uppercase">Jumlah Halaman</label><span id=label-hlm class="text-warnautama dark:text-warnakedua font-black">150 Halaman</span></div>
+<div class="flex justify-between text-xs sm:text-sm font-bold mb-2"><label class="text-gray-700 dark:text-gray-300 uppercase">Jumlah Halaman</label><span id=label-hlm class="text-warnautama dark:text-warnakedua font-black">150 Hal</span></div>
 <input type=range id=calc-hlm min=50 max=500 step=10 value=150 oninput=hitungSimulasiBuku() class="w-full accent-warnautama dark:accent-warnakedua cursor-pointer h-2 bg-gray-300 dark:bg-gray-700 rounded-lg">
 <div class="flex justify-between text-[9px] text-gray-400 font-semibold mt-1"><span>50 Hlm</span><span>250 Hlm</span><span>500 Hlm</span></div>
 </div>
@@ -1028,7 +1028,7 @@ Konsultasi NIB
 <div class="lg:col-span-5 bg-warnautama dark:bg-warnakeempat text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-white/10 flex flex-col justify-between space-y-5 relative overflow-hidden">
 <div class="space-y-3 text-left">
 <div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Estimasi HPP / Buku</span><span id=out-hpp class="font-bold text-sm sm:text-base">Rp 27.500</span></div>
-<div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Saran Harga Jual</span><span id=out-jual class="font-bold text-sm sm:text-base text-warnakedua">Rp 52.500</span></div>
+<div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Harga Jual</span><span id=out-jual class="font-bold text-sm sm:text-base text-warnakedua">Rp 52.500</span></div>
 <div class="flex justify-between items-center border-b border-white/15 pb-2.5"><span class="text-[11px] sm:text-xs text-gray-300">Total Modal (<span id=out-jml-eks>50</span> Eks)</span><span id=out-total-modal class="font-bold text-xs sm:text-sm text-gray-200">Rp 1.375.000</span></div>
 </div>
 <div class="bg-white/10 p-4 rounded-2xl text-center border border-warnakedua/40"><p class="text-[10px] uppercase tracking-widest text-gray-300 font-bold mb-1">Estimasi Keuntungan Penulis</p><h5 id=out-profit class="text-2xl sm:text-3xl font-black text-green-400 tracking-tight">Rp 1.250.000</h5></div>
