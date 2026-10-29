@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,326 +6,1006 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TM Lomba Menulis Novela Nasional 2026 - PT Media Tulisan Manusia</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   <style>
-    body {
-      overflow: hidden;
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      color: #1e293b;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.28);
+      --glass-border: rgba(255, 255, 255, 0.62);
+      --glass-shadow: rgba(15, 23, 42, 0.18);
+      --modal-glass-bg: rgba(15, 23, 42, 0.68);
+      --modal-card-bg: rgba(255, 255, 255, 0.11);
+      --modal-card-border: rgba(255, 255, 255, 0.24);
+      --hud-text: #0f172a;
+      --hud-subtext: #334155;
+    }
+
+    body.dark-glass {
+      --glass-bg: rgba(15, 23, 42, 0.48);
+      --glass-border: rgba(255, 255, 255, 0.28);
+      --glass-shadow: rgba(2, 6, 23, 0.5);
+      --modal-glass-bg: rgba(7, 12, 26, 0.76);
+      --modal-card-bg: rgba(255, 255, 255, 0.08);
+      --modal-card-border: rgba(255, 255, 255, 0.2);
+      --hud-text: #f8fafc;
+      --hud-subtext: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
       user-select: none;
     }
-    .font-serif-title {
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #0f172a;
+      color: var(--hud-text);
+      transition: background 0.5s ease, color 0.4s ease;
+    }
+
+    .font-serif-luxury {
       font-family: 'Playfair Display', serif;
     }
 
-    /* Pola Latar Belakang Estetik Cerah */
-    .bg-pattern {
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(14, 116, 144, 0.05) 0%, transparent 40%),
-        linear-gradient(to right, rgba(203, 213, 225, 0.25) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(203, 213, 225, 0.25) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    /* ===================================================================== */
+    /* EFEK KACA TRANSPARAN (GLASSMORPHISM) UTAMA                            */
+    /* ===================================================================== */
+    .glass-hud {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: 
+        0 12px 32px -4px var(--glass-shadow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.7);
+      transition: all 0.35s ease;
     }
 
-    /* Kanvas Interaktif Prezi Zoom */
-    #canvas {
+    body.dark-glass .glass-hud {
+      box-shadow: 
+        0 12px 32px -4px var(--glass-shadow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Kanvas Peta Kamera Interaktif (Prezi-Style Zoom) */
+    #map-viewport {
+      position: fixed;
+      inset: 0;
       width: 100vw;
       height: 100vh;
-      position: relative;
-      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-      transform-origin: center center;
+      overflow: hidden;
+      z-index: 10;
     }
 
-    /* Kartu Stasiun Peta Profesional */
-    .map-card {
+    #canvas {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 1.1s cubic-bezier(0.2, 0.9, 0.2, 1);
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    /* ===================================================================== */
+    /* GELEMBUNG POS RAMPING & KACA TRANSPARAN (TIDAK BESAR & TIDAK MONOTON) */
+    /* ===================================================================== */
+    @keyframes floatPod {
+      0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+      50% { transform: translate(-50%, -50%) translateY(-8px); }
+    }
+
+    @keyframes sonarPulse {
+      0% { transform: scale(0.9); opacity: 0.75; }
+      75% { transform: scale(1.55); opacity: 0; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    .station-pod {
       position: absolute;
       transform: translate(-50%, -50%);
       cursor: pointer;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
+      z-index: 25;
+      animation: floatPod 4s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      group: true;
+    }
+
+    .station-pod:hover {
+      z-index: 45;
+      animation-play-state: paused;
+    }
+
+    /* Medali Bulat Kaca Transparan */
+    .glass-orb {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.26);
+      backdrop-filter: blur(14px) saturate(190%);
+      -webkit-backdrop-filter: blur(14px) saturate(190%);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 
+        0 10px 25px -4px rgba(15, 23, 42, 0.32),
+        inset 0 2px 4px rgba(255, 255, 255, 0.9),
+        inset 0 -3px 6px rgba(15, 23, 42, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .map-card:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-      border-color: #d97706;
-      box-shadow: 0 20px 40px -10px rgba(217, 119, 6, 0.25), 0 8px 12px -4px rgba(15, 23, 42, 0.08);
-      z-index: 30;
+
+    body.dark-glass .glass-orb {
+      background: rgba(15, 23, 42, 0.52);
+      border-color: rgba(255, 255, 255, 0.45);
+      box-shadow: 
+        0 10px 25px -4px rgba(0, 0, 0, 0.6),
+        inset 0 2px 4px rgba(255, 255, 255, 0.35);
     }
 
-    /* Garis Peta Elegan */
-    .road-line {
-      stroke-dasharray: 6, 6;
-      animation: dashMove 20s linear infinite;
-    }
-    @keyframes dashMove {
-      to { stroke-dashoffset: -300; }
+    .station-pod:hover .glass-orb {
+      transform: scale(1.18) translateY(-4px);
     }
 
-    /* Modal Zoom */
+    /* Kapsul Label Kaca Transparan Ramping di Bawah Orb */
+    .glass-pill-label {
+      margin-top: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 
+        0 6px 18px rgba(15, 23, 42, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.85);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    body.dark-glass .glass-pill-label {
+      background: rgba(15, 23, 42, 0.62);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    }
+
+    .station-pod:hover .glass-pill-label {
+      transform: scale(1.08);
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    body.dark-glass .station-pod:hover .glass-pill-label {
+      background: rgba(30, 41, 59, 0.85);
+    }
+
+    .orb-pulse-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 9999px;
+      pointer-events: none;
+      animation: sonarPulse 2.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    /* Animasi Awan, Burung, Air & Jalur Cahaya */
+    @keyframes cloudDrift {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(28px); }
+    }
+    .cloud-slow { animation: cloudDrift 18s ease-in-out infinite; }
+    .cloud-med { animation: cloudDrift 13s ease-in-out infinite reverse; }
+
+    .glowing-trail-dash {
+      stroke-dasharray: 10, 14;
+      animation: flowDash 18s linear infinite;
+    }
+    @keyframes flowDash {
+      to { stroke-dashoffset: -360; }
+    }
+
+    /* Pin Penjelajah Kaca Emas yang Ikut Berpindah dari Pos ke Pos */
+    #traveler-token {
+      position: absolute;
+      transform: translate(-50%, -115%);
+      transition: left 1.05s cubic-bezier(0.22, 1, 0.36, 1), top 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 35;
+      pointer-events: none;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.35));
+    }
+
+    /* ===================================================================== */
+    /* MODAL PRESENTASI FULL GLASSMORPHISM (TRANSPARAN & ELEGAN)             */
+    /* ===================================================================== */
     #content-overlay {
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease 0.2s;
+      transition: opacity 0.4s ease;
     }
     #content-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
-    .modal-box {
-      background: #ffffff;
-      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-      transform: scale(0.92);
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+
+    .modal-crystal-window {
+      background: var(--modal-glass-bg);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 
+        0 30px 70px -12px rgba(0, 0, 0, 0.65),
+        inset 0 1px 2px rgba(255, 255, 255, 0.45);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      color: #f8fafc;
     }
-    #content-overlay.active .modal-box {
-      transform: scale(1);
+
+    #content-overlay.active .modal-crystal-window {
+      transform: scale(1) translateY(0);
     }
+
+    /* Sub-Kartu Kaca Transparan di Dalam Modal */
+    .inner-glass-card {
+      background: var(--modal-card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--modal-card-border);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+    .inner-glass-card:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.42);
+      transform: translateY(-2px);
+    }
+
+    /* Drawer Kaca Daftar Pos */
+    #glass-drawer {
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateY(-15px) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #glass-drawer.open {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .custom-scroll::-webkit-scrollbar { width: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.06); border-radius: 99px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 99px; }
   </style>
 </head>
-<body class="bg-pattern">
+<body>
 
-  <!-- HEADER ATAS PROFESIONAL -->
-  <header id="top-bar" class="fixed top-4 left-1/2 -translate-x-1/2 z-30 w-[92%] max-w-4xl transition-opacity duration-500">
-    <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl px-5 py-3 flex flex-col md:flex-row items-center justify-between gap-2 shadow-xl">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold shadow-md text-lg">
-          📖
-        </div>
-        <div class="text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-2">
-            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">Technical Meeting</span>
-            <span class="text-xs text-slate-500 hidden sm:inline">• PT Media Tulisan Manusia</span>
-          </div>
-          <h1 class="font-serif-title text-base md:text-xl font-bold text-slate-900 tracking-wide">
-            PANDUAN LOMBA NOVELA NASIONAL 2026
-          </h1>
-        </div>
-      </div>
-      <div class="text-xs text-amber-800 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200 font-medium">
-        ✨ Klik kartu stasiun untuk membaca materi
-      </div>
-    </div>
-  </header>
-
-  <!-- KANVAS PETA INTERAKTIF -->
-  <div id="canvas">
-    <!-- SVG Jalur Peta -->
-    <svg class="w-full h-full absolute inset-0 pointer-events-none" id="lines-svg">
+  <!-- ===================================================================== -->
+  <!-- 1. BINGKAI ORNAMEN SUDUT EMAS & SILUET ALAM ATAS-BAWAH (GAK POLOSAN)  -->
+  <!-- ===================================================================== -->
+  <div class="fixed inset-0 pointer-events-none z-30 overflow-hidden">
+    <!-- Ornamen Filigree Emas Kiri Atas -->
+    <svg class="absolute top-2 left-2 w-24 h-24 md:w-32 md:h-32 opacity-75" viewBox="0 0 120 120" fill="none">
+      <path d="M4 90 V20 C4 11 11 4 20 4 H90" stroke="url(#goldCorner)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M12 70 V24 C12 17 17 12 24 12 H70" stroke="url(#goldCorner)" stroke-width="1.2" stroke-dasharray="4 4"/>
+      <circle cx="20" cy="20" r="4" fill="#fbbf24"/>
       <defs>
-        <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#0ea5e9"/>
-          <stop offset="50%" stop-color="#d97706"/>
-          <stop offset="100%" stop-color="#10b981"/>
+        <linearGradient id="goldCorner" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fde68a"/>
+          <stop offset="50%" stop-color="#f59e0b"/>
+          <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
         </linearGradient>
       </defs>
     </svg>
-
-    <div id="nodes-container"></div>
+    <!-- Ornamen Filigree Emas Kanan Atas -->
+    <svg class="absolute top-2 right-2 w-24 h-24 md:w-32 md:h-32 opacity-75 scale-x-[-1]" viewBox="0 0 120 120" fill="none">
+      <path d="M4 90 V20 C4 11 11 4 20 4 H90" stroke="url(#goldCorner)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M12 70 V24 C12 17 17 12 24 12 H70" stroke="url(#goldCorner)" stroke-width="1.2" stroke-dasharray="4 4"/>
+      <circle cx="20" cy="20" r="4" fill="#fbbf24"/>
+    </svg>
+    <!-- Ornamen Filigree Emas Kiri Bawah -->
+    <svg class="absolute bottom-2 left-2 w-24 h-24 md:w-32 md:h-32 opacity-75 scale-y-[-1]" viewBox="0 0 120 120" fill="none">
+      <path d="M4 90 V20 C4 11 11 4 20 4 H90" stroke="url(#goldCorner)" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="20" cy="20" r="4" fill="#fbbf24"/>
+    </svg>
+    <!-- Ornamen Filigree Emas Kanan Bawah -->
+    <svg class="absolute bottom-2 right-2 w-24 h-24 md:w-32 md:h-32 opacity-75 scale-[-1]" viewBox="0 0 120 120" fill="none">
+      <path d="M4 90 V20 C4 11 11 4 20 4 H90" stroke="url(#goldCorner)" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="20" cy="20" r="4" fill="#fbbf24"/>
+    </svg>
   </div>
 
-  <!-- MODAL ZOOM MATERI -->
-  <div id="content-overlay" class="fixed inset-0 flex items-center justify-center p-4 md:p-6 z-50 bg-slate-900/40 backdrop-blur-sm">
-    <div class="modal-box border border-slate-200 rounded-3xl max-w-3xl w-full p-6 md:p-10 relative overflow-hidden">
+  <!-- ===================================================================== -->
+  <!-- 2. HEADER KACA TRANSPARAN MENGAMBANG (FLOATING GLASS HUD BAR)         -->
+  <!-- ===================================================================== -->
+  <header id="top-bar" class="fixed top-3 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-6xl transition-all duration-500">
+    <div class="glass-hud rounded-2xl px-3.5 py-2 md:px-5 md:py-2.5 flex items-center justify-between gap-3">
       
-      <!-- Header Modal -->
-      <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
-        <div class="flex items-center gap-3.5">
-          <div id="modal-icon" class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shadow-md">
-            📌
-          </div>
-          <div>
-            <span id="modal-step" class="text-xs font-bold uppercase tracking-widest text-amber-600">POS 01</span>
-            <h2 id="modal-title" class="font-serif-title text-xl md:text-2xl font-bold text-slate-900">JUDUL</h2>
+      <!-- KIRI: Bingkai Kaca Logo Persegi Panjang rev1.png + Identitas -->
+      <div class="flex items-center gap-3">
+        <!-- Slot Logo Persegi Panjang Agak Kecil (rev1.png) -->
+        <div class="bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-white/80 rounded-xl px-2.5 py-1 shadow-sm flex items-center justify-center h-9 md:h-10 min-w-[96px] max-w-[155px] shrink-0">
+          <img 
+            src="rev1.png" 
+            alt="Logo PT Media Tulisan Manusia" 
+            class="h-6 md:h-7 w-auto object-contain"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <!-- Fallback elegan bila rev1.png belum ditempatkan di folder yang sama -->
+          <div class="hidden items-center gap-1.5">
+            <span class="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white font-extrabold text-[10px] flex items-center justify-center shadow-sm">M</span>
+            <div class="leading-none text-left">
+              <div class="text-[9px] font-extrabold text-slate-900 tracking-tight">PT MEDIA</div>
+              <div class="text-[8px] font-semibold text-amber-700">Tulisan Manusia</div>
+            </div>
           </div>
         </div>
-        <button onclick="zoomOut()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-600 text-xs md:text-sm font-semibold transition flex items-center gap-2 border border-slate-200">
-          <span>✕</span> <span class="hidden sm:inline">Kembali</span>
+
+        <div class="hidden sm:block h-7 w-[1px] bg-white/40"></div>
+
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-[9px] md:text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-950 dark:text-amber-200 border border-amber-400/50">
+              Technical Meeting 2026
+            </span>
+            <span class="text-[11px] font-semibold opacity-75 hidden lg:inline">
+              • Ekspedisi Literasi Nasional
+            </span>
+          </div>
+          <h1 class="font-serif-luxury text-sm sm:text-base md:text-lg font-bold tracking-wide leading-snug">
+            PANDUAN LOMBA MENULIS NOVELA NASIONAL
+          </h1>
+        </div>
+      </div>
+
+      <!-- KANAN: Kontrol Presentasi Kaca Transparan -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- Indikator & Tombol Buka Drawer 8 Pos -->
+        <button onclick="toggleDrawer()" class="glass-hud px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 hover:scale-105 active:scale-95" title="Daftar 8 Pos Stasiun">
+          <span>🧭</span>
+          <span class="hidden md:inline">Peta Pos</span>
+          <span id="visited-counter" class="px-1.5 py-0.2 rounded-md bg-emerald-500/25 border border-emerald-400/50 text-[10px] font-extrabold">
+            0/8
+          </span>
+        </button>
+
+        <!-- Toggle Mode Kaca Cerah / Mode Kaca Malam -->
+        <button onclick="toggleGlassTheme()" id="theme-btn" class="glass-hud px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 hover:scale-105 active:scale-95" title="Ubah Nuansa Kaca (Siang / Malam)">
+          <span id="theme-icon">☀️</span>
+          <span id="theme-label" class="hidden lg:inline">Kaca Cerah</span>
+        </button>
+
+        <!-- Tombol Layar Penuh -->
+        <button onclick="toggleFullScreen()" class="glass-hud w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center hover:scale-105 active:scale-95" title="Layar Penuh (Fullscreen)">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+          </svg>
+        </button>
+
+        <!-- Tombol Reset Zoom Peta -->
+        <button onclick="zoomOut()" class="glass-hud px-2.5 py-1.5 rounded-xl text-xs font-extrabold text-rose-600 dark:text-rose-300 hover:bg-rose-500/20 flex items-center gap-1" title="Kembali ke Peta Utuh (ESC)">
+          <span>✕</span>
+          <span class="hidden xl:inline">Reset</span>
         </button>
       </div>
 
-      <!-- Isi Materi -->
-      <div id="modal-body" class="min-h-[220px] flex flex-col justify-center text-base md:text-lg leading-relaxed text-slate-700 space-y-4">
+    </div>
+  </header>
+
+  <!-- DRAWER KACA TRANSPARAN (DAFTAR CEPAT 8 POS) -->
+  <div id="glass-drawer" class="fixed top-20 right-4 md:right-8 z-50 w-72 sm:w-80 glass-hud rounded-3xl p-4">
+    <div class="flex justify-between items-center border-b border-white/30 pb-2.5 mb-3">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🗺️</span>
+        <span class="font-bold text-xs uppercase tracking-wider">Navigasi Cepat 8 Pos</span>
+      </div>
+      <button onclick="toggleDrawer()" class="w-6 h-6 rounded-full bg-white/30 hover:bg-rose-500/30 flex items-center justify-center text-xs font-bold">✕</button>
+    </div>
+    <div id="drawer-list" class="space-y-1.5 max-h-80 overflow-y-auto custom-scroll pr-1"></div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 3. KANVAS PETA EKSPEDISI ARTISTIK & KAPSUL KACA TRANSPARAN            -->
+  <!-- ===================================================================== -->
+  <main id="map-viewport">
+    <div id="canvas">
+
+      <!-- LAYER A: ILUSTRASI PETA EKSPEDISI ARTISTIK (ATAS & BAWAH KAYA VISUAL) -->
+      <svg id="map-art-svg" class="w-full h-full absolute inset-0 pointer-events-none" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <!-- Langit Atas Golden Dawn ke Lembah Zamrud -->
+          <linearGradient id="skyToValleyLight" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fde68a" />
+            <stop offset="18%" stop-color="#bae6fd" />
+            <stop offset="42%" stop-color="#a7f3d0" />
+            <stop offset="75%" stop-color="#6ee7b7" />
+            <stop offset="100%" stop-color="#34d399" />
+          </linearGradient>
+
+          <!-- Langit Malam Aurora untuk Mode Kaca Gelap -->
+          <linearGradient id="skyToValleyDark" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#090d16" />
+            <stop offset="22%" stop-color="#1e1b4b" />
+            <stop offset="55%" stop-color="#0f3d3e" />
+            <stop offset="85%" stop-color="#064e3b" />
+            <stop offset="100%" stop-color="#022c22" />
+          </linearGradient>
+
+          <!-- Gradasi Bukit Belakang -->
+          <linearGradient id="distantHill" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#34d399" stop-opacity="0.75" />
+            <stop offset="100%" stop-color="#059669" stop-opacity="0.9" />
+          </linearGradient>
+
+          <!-- Gradasi Padang Lembah Utama -->
+          <linearGradient id="meadowMain" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#86efac" />
+            <stop offset="55%" stop-color="#4ade80" />
+            <stop offset="100%" stop-color="#22c55e" />
+          </linearGradient>
+
+          <!-- Gradasi Sungai Kristal & Telaga -->
+          <linearGradient id="crystalRiver" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#67e8f9" stop-opacity="0.85" />
+            <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0.85" />
+          </linearGradient>
+
+          <!-- Gradasi Jalur Ekspedisi Bercahaya -->
+          <linearGradient id="trailGoldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#fef08a" />
+            <stop offset="50%" stop-color="#f59e0b" />
+            <stop offset="100%" stop-color="#10b981" />
+          </linearGradient>
+
+          <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+
+        <!-- 1. Latar Langit & Lembah -->
+        <rect id="bg-sky-rect" width="1600" height="900" fill="url(#skyToValleyLight)" />
+
+        <!-- 2. Cahaya Matahari / Aurora di Bagian Atas Peta (Agar Atas Tidak Polos) -->
+        <circle cx="800" cy="40" r="320" fill="#fef08a" opacity="0.35" filter="url(#softGlow)" />
+        <circle cx="280" cy="90" r="180" fill="#ffffff" opacity="0.25" filter="url(#softGlow)" />
+        <circle cx="1320" cy="80" r="200" fill="#fed7aa" opacity="0.3" filter="url(#softGlow)" />
+
+        <!-- Awan Kaca Mengambang di Langit Atas -->
+        <g class="cloud-slow" opacity="0.65" fill="#ffffff">
+          <path d="M 140 110 Q 165 80 205 92 Q 235 68 275 90 Q 305 85 315 110 Z" />
+          <path d="M 1120 95 Q 1150 65 1190 80 Q 1225 55 1265 82 Q 1295 78 1305 98 Z" />
+        </g>
+        <g class="cloud-med" opacity="0.5" fill="#ffffff">
+          <path d="M 620 82 Q 650 55 685 70 Q 720 50 750 75 Q 775 72 785 88 Z" />
+        </g>
+
+        <!-- Burung-Burung Terbang di Langit Atas -->
+        <g stroke="#0f766e" stroke-width="2.2" fill="none" opacity="0.55" stroke-linecap="round">
+          <path d="M 450 85 Q 460 73 470 82 Q 480 73 490 85" />
+          <path d="M 485 68 Q 493 58 501 66 Q 509 58 517 68" />
+          <path d="M 1020 75 Q 1030 63 1040 72 Q 1050 63 1060 75" />
+        </g>
+
+        <!-- 3. Siluet Pegunungan Belakang Berlapis (Kiri ke Kanan) -->
+        <path d="M 0 310 L 140 180 L 290 270 L 480 145 L 670 265 L 890 135 L 1110 255 L 1320 140 L 1490 235 L 1600 175 L 1600 900 L 0 900 Z" fill="#10b981" opacity="0.32" />
+
+        <!-- 4. Bukit-Bukit Lembah Hijau Berlapis (Gaya Peta Petualangan Modern) -->
+        <path d="M 0 360 Q 260 220 580 320 T 1180 290 T 1600 340 L 1600 900 L 0 900 Z" fill="url(#distantHill)" />
+        <path id="main-meadow-path" d="M 0 430 Q 380 310 790 400 T 1600 370 L 1600 900 L 0 900 Z" fill="url(#meadowMain)" opacity="0.88" />
+
+        <!-- 5. Sungai Kristal & Telaga Teratai yang Mengalir Indah di Tengah Peta -->
+        <path d="M 480 205 C 530 290, 820 295, 810 410 C 800 525, 520 560, 560 695 C 595 810, 910 830, 1080 900" 
+              fill="none" stroke="#fef9c3" stroke-width="46" stroke-linecap="round" opacity="0.45" />
+        <path d="M 480 205 C 530 290, 820 295, 810 410 C 800 525, 520 560, 560 695 C 595 810, 910 830, 1080 900" 
+              fill="none" stroke="url(#crystalRiver)" stroke-width="32" stroke-linecap="round" />
+
+        <!-- Telaga Biru Kristal di Tengah Peta (Area Pos 03 & Pos 05) -->
+        <g transform="translate(780, 415)">
+          <ellipse cx="0" cy="6" rx="125" ry="64" fill="#fef08a" opacity="0.45" />
+          <ellipse cx="0" cy="0" rx="112" ry="54" fill="url(#crystalRiver)" stroke="#ffffff" stroke-width="2" />
+          <!-- Riak Air & Teratai Kecil -->
+          <ellipse cx="-35" cy="-12" rx="28" ry="8" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.65" />
+          <ellipse cx="38" cy="14" rx="24" ry="7" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.65" />
+          <circle cx="-45" cy="12" r="7" fill="#4ade80" />
+          <circle cx="-45" cy="12" r="3" fill="#f472b6" />
+          <circle cx="25" cy="-16" r="8" fill="#4ade80" />
+          <circle cx="25" cy="-16" r="3.5" fill="#fb7185" />
+        </g>
+
+        <!-- =============================================================== -->
+        <!-- 8 LANDMARK ARSITEKTUR ARTISTIK DI SETIAP POS (TIDAK MONOTON)     -->
+        <!-- =============================================================== -->
+
+        <!-- Landmark Pos 01 (Kiri Atas): Gerbang Kubah Literasi -->
+        <g transform="translate(260, 235)">
+          <ellipse cx="0" cy="36" rx="68" ry="18" fill="#047857" opacity="0.28" />
+          <path d="M -38 32 V -8 C -38 -32, 38 -32, 38 -8 V 32 Z" fill="#fef3c7" stroke="#b45309" stroke-width="2.5" />
+          <path d="M -46 -6 L 0 -38 L 46 -6 Z" fill="#f59e0b" stroke="#78350f" stroke-width="2" />
+          <path d="M -16 32 V 4 C -16 -8, 16 -8, 16 4 V 32 Z" fill="#0284c7" />
+        </g>
+
+        <!-- Landmark Pos 02 (Atas Tengah-Kanan): Menara Jam & Kupu-Kupu Emas -->
+        <g transform="translate(650, 175)">
+          <ellipse cx="0" cy="38" rx="62" ry="16" fill="#047857" opacity="0.28" />
+          <rect x="-18" y="-26" width="36" height="60" rx="6" fill="#fffbeb" stroke="#be185d" stroke-width="2.5" />
+          <polygon points="-24,-26 0,-52 24,-26" fill="#ec4899" stroke="#831843" stroke-width="2" />
+          <circle cx="0" cy="-6" r="10" fill="#fce7f3" stroke="#be185d" stroke-width="2" />
+          <path d="M 0 -6 L 0 -12 M 0 -6 L 5 -6" stroke="#831843" stroke-width="2" stroke-linecap="round" />
+        </g>
+
+        <!-- Landmark Pos 03 (Tengah): Sanctuari Pena Kristal di Tepi Telaga -->
+        <g transform="translate(885, 360)">
+          <ellipse cx="0" cy="36" rx="58" ry="16" fill="#0369a1" opacity="0.3" />
+          <path d="M 0 -46 L 18 -10 L 8 30 L -8 30 L -18 -10 Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5" />
+          <circle cx="0" cy="-12" r="5" fill="#0284c7" />
+        </g>
+
+        <!-- Landmark Pos 04 (Kanan Atas): Benteng Perisai Etika & Hutan Ungu -->
+        <g transform="translate(1280, 250)">
+          <ellipse cx="0" cy="38" rx="75" ry="18" fill="#047857" opacity="0.28" />
+          <circle cx="-38" cy="10" r="22" fill="#8b5cf6" opacity="0.85" />
+          <circle cx="38" cy="12" r="20" fill="#a855f7" opacity="0.85" />
+          <path d="M -24 -22 H 24 V 8 C 24 26, 0 36, 0 36 C 0 36, -24 26, -24 8 Z" fill="#ede9fe" stroke="#6d28d9" stroke-width="2.5" />
+        </g>
+
+        <!-- Landmark Pos 05 (Kiri Tengah-Bawah): Dermaga Portal Pengumpulan -->
+        <g transform="translate(490, 560)">
+          <ellipse cx="0" cy="36" rx="68" ry="18" fill="#047857" opacity="0.28" />
+          <path d="M -32 28 L -20 -26 L 20 -26 L 32 28 Z" fill="#ffedd5" stroke="#c2410c" stroke-width="2.5" />
+          <circle cx="0" cy="-2" r="14" fill="#38bdf8" stroke="#0284c7" stroke-width="2.5" />
+        </g>
+
+        <!-- Landmark Pos 06 (Kanan Tengah-Bawah): Candi Kurasi & Permata -->
+        <g transform="translate(1240, 545)">
+          <ellipse cx="0" cy="40" rx="78" ry="20" fill="#047857" opacity="0.28" />
+          <path d="M -36 32 L -22 -24 L 22 -24 L 36 32 Z" fill="#ffe4e6" stroke="#be123c" stroke-width="2.5" />
+          <!-- Gugusan Kristal Warna-warni -->
+          <circle cx="-38" cy="30" r="8" fill="#facc15" />
+          <circle cx="-22" cy="35" r="9" fill="#f43f5e" />
+          <circle cx="-4" cy="36" r="8" fill="#38bdf8" />
+          <circle cx="16" cy="35" r="9" fill="#a855f7" />
+          <circle cx="34" cy="31" r="8" fill="#10b981" />
+        </g>
+
+        <!-- Landmark Pos 07 (Kiri Bawah): Puncak Mahkota Apresiasi -->
+        <g transform="translate(310, 745)">
+          <ellipse cx="0" cy="36" rx="74" ry="18" fill="#047857" opacity="0.3" />
+          <path d="M -38 26 L -28 -16 L -10 4 L 0 -24 L 10 4 L 28 -16 L 38 26 Z" fill="#fef08a" stroke="#b45309" stroke-width="2.5" />
+        </g>
+
+        <!-- Landmark Pos 08 (Tengah-Kanan Bawah): Amfiteater Taman Diskusi -->
+        <g transform="translate(920, 760)">
+          <ellipse cx="0" cy="34" rx="84" ry="20" fill="#047857" opacity="0.3" />
+          <ellipse cx="0" cy="20" rx="56" ry="16" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.5" />
+          <ellipse cx="0" cy="14" rx="36" ry="10" fill="#5eead4" />
+        </g>
+
+        <!-- 6. Pepohonan Pinus & Cemara Estetik Tersebar di Lembah -->
+        <g fill="#059669" opacity="0.75">
+          <polygon points="130,420 148,375 166,420" />
+          <polygon points="155,430 175,380 195,430" />
+          <polygon points="1060,370 1078,325 1096,370" />
+          <polygon points="1450,435 1470,385 1490,435" />
+          <polygon points="690,680 710,630 730,680" />
+          <polygon points="1410,730 1432,675 1454,730" />
+        </g>
+
+        <!-- 7. Siluet Dedaunan & Bukit Foreground di Tepi Bawah (Agar Bawah Tidak Polos) -->
+        <path d="M 0 845 Q 180 790 380 855 T 820 850 T 1260 845 T 1600 835 L 1600 900 L 0 900 Z" fill="#064e3b" opacity="0.45" />
+      </svg>
+
+      <!-- LAYER B: JALUR CAHAYA EMAS ANTAR POS (DYNAMIC SVG) -->
+      <svg class="w-full h-full absolute inset-0 pointer-events-none" id="lines-svg"></svg>
+
+      <!-- LAYER C: PIN PENJELAJAH KACA EMAS (BERGERAK MENGIKUTI POS AKTIF) -->
+      <div id="traveler-token" style="left: 16%; top: 30%;">
+        <div class="relative flex flex-col items-center">
+          <div class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-extrabold text-[9px] uppercase tracking-wider shadow-md mb-1 border border-white whitespace-nowrap">
+            ✨ Posisi Kita
+          </div>
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-orange-600 border-2 border-white flex items-center justify-center text-base shadow-lg">
+            🪶
+          </div>
+        </div>
       </div>
 
-      <!-- Navigasi Slide -->
-      <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-100">
-        <div id="slide-indicator" class="text-xs md:text-sm text-slate-500 font-medium">Halaman 1 dari 1</div>
-        <div class="flex gap-2">
-          <button id="prev-btn" onclick="changeSubSlide(-1)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs md:text-sm font-semibold transition hidden">← Sebelumnya</button>
-          <button id="next-btn" onclick="changeSubSlide(1)" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs md:text-sm font-bold shadow transition hidden">Selanjutnya →</button>
+      <!-- LAYER D: 8 KAPSUL KACA TRANSPARAN (RAMPING, ELEGAN & BERBEDA WARNA) -->
+      <div id="nodes-container"></div>
+
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 4. DOCK NAVIGASI KACA TRANSPARAN DI BAGIAN BAWAH                      -->
+  <!-- ===================================================================== -->
+  <footer id="bottom-bar" class="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-5xl transition-all duration-500">
+    <div class="glass-hud rounded-2xl px-3 py-2 md:px-5 md:py-2.5 flex items-center justify-between gap-2">
+      
+      <!-- Tombol Mulai / Kembali Bergaya Kapsul Kaca Biru -->
+      <button onclick="handlePrimaryAction()" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-sky-500/85 to-indigo-600/85 hover:from-sky-400 hover:to-indigo-500 text-white font-bold text-xs md:text-sm border border-white/60 shadow-lg flex items-center gap-1.5 shrink-0 transition hover:scale-105 active:scale-95">
+        <span id="primary-action-icon">🚀</span>
+        <span id="primary-action-text">Mulai Tur</span>
+      </button>
+
+      <!-- Deretan Kapsul Nomor Pos 01 - 08 Berefek Kaca -->
+      <div id="dock-pills" class="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-0.5 px-1">
+        <!-- Diisi otomatis via JavaScript -->
+      </div>
+
+      <!-- Info Portal Resmi -->
+      <div class="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/25 dark:bg-slate-900/40 border border-white/40 text-xs font-bold shrink-0">
+        <span>🌐</span>
+        <span>lomba.mediatulisanmanusia.com</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- 5. MODAL ZOOM KACA TRANSPARAN (CRYSTAL FROSTED GLASS MODAL)           -->
+  <!-- ===================================================================== -->
+  <div id="content-overlay" class="fixed inset-0 flex items-center justify-center p-3 sm:p-6 z-50 bg-slate-950/35 backdrop-blur-xs">
+    <div class="modal-crystal-window rounded-3xl max-w-3xl w-full p-5 sm:p-7 md:p-8 relative overflow-hidden max-h-[88vh] flex flex-col">
+      
+      <!-- Pendaran Cahaya Dekoratif di Sudut Kaca Modal -->
+      <div id="modal-glow-orb" class="absolute -top-24 -right-24 w-60 h-60 rounded-full bg-amber-400/25 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-60 h-60 rounded-full bg-sky-400/20 blur-3xl pointer-events-none"></div>
+
+      <!-- Header Modal Kaca -->
+      <div class="relative z-10 flex flex-wrap justify-between items-center border-b border-white/20 pb-4 mb-5 gap-3">
+        <div class="flex items-center gap-3.5">
+          <div id="modal-icon" class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/15 border border-white/40 flex items-center justify-center text-2xl md:text-3xl shadow-inner shrink-0">
+            🏛️
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="modal-step" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-amber-400/25 text-amber-200 border border-amber-300/40">
+                POS 01 DARI 08
+              </span>
+              <span id="modal-landmark" class="text-xs font-semibold text-sky-200/90">
+                • Gerbang Kubah Literasi
+              </span>
+            </div>
+            <h2 id="modal-title" class="font-serif-luxury text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-wide mt-0.5">
+              PENGANTAR
+            </h2>
+          </div>
+        </div>
+
+        <!-- Kanan Header Modal: Slot Logo rev1.png & Tombol Tutup Kaca -->
+        <div class="flex items-center gap-2.5 ml-auto">
+          <div class="hidden sm:flex items-center bg-white/85 backdrop-blur-md border border-white rounded-xl px-2.5 py-1 h-9 shadow-sm">
+            <img 
+              src="rev1.png" 
+              alt="Logo PT Media Tulisan Manusia" 
+              class="h-6 w-auto object-contain"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="hidden items-center gap-1">
+              <span class="px-1.5 py-0.5 rounded bg-amber-600 text-white font-black text-[9px]">MTM</span>
+              <span class="text-[10px] font-extrabold text-slate-900">PT Media Tulisan Manusia</span>
+            </div>
+          </div>
+
+          <button onclick="zoomOut()" class="w-9 h-9 rounded-xl bg-white/15 hover:bg-rose-500/40 border border-white/30 text-white flex items-center justify-center font-bold transition" title="Tutup & Kembali ke Peta (ESC)">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Isi Materi Kaca Transparan -->
+      <div id="modal-body" class="relative z-10 custom-scroll overflow-y-auto pr-1 min-h-[220px] flex-1 flex flex-col justify-center text-sm sm:text-base md:text-lg leading-relaxed text-slate-100 space-y-3.5">
+      </div>
+
+      <!-- Footer Navigasi Modal Kaca -->
+      <div class="relative z-10 flex flex-col sm:flex-row justify-between items-center gap-3 mt-6 pt-4 border-t border-white/20">
+        <div class="flex items-center gap-2">
+          <button onclick="zoomOut()" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold border border-white/30 flex items-center gap-1.5 transition">
+            <span>🗺️</span> <span>Lihat Peta Utuh</span>
+          </button>
+          <span id="slide-indicator" class="px-3 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-semibold text-slate-200">
+            Halaman 1 / 1
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="prev-btn" onclick="navigateStep(-1)" class="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs md:text-sm font-bold border border-white/30 transition flex items-center gap-1.5">
+            <span>←</span> <span id="prev-btn-label">Sebelumnya</span>
+          </button>
+          <button id="next-btn" onclick="navigateStep(1)" class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 text-xs md:text-sm font-extrabold shadow-lg transition flex items-center gap-1.5">
+            <span id="next-btn-label">Pos Berikutnya</span> <span>→</span>
+          </button>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <div id="bottom-bar" class="fixed bottom-3 left-1/2 -translate-x-1/2 text-xs text-slate-500 bg-white/80 px-4 py-1.5 rounded-full border border-slate-200 shadow-sm pointer-events-none transition-opacity duration-500 whitespace-nowrap font-medium">
-    ✨ Technical Meeting Ekspedisi • <b>lomba.mediatulisanmanusia.com</b>
+  <!-- Notifikasi Toast Kaca Kecil Saat Menyalin Format/Link -->
+  <div id="glass-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full glass-hud text-xs font-extrabold opacity-0 pointer-events-none transition-all duration-300">
+    ✅ Berhasil disalin ke papan klip!
   </div>
 
   <script>
+    // DATA 8 POS STASIUN DENGAN TEMA KRISTAL KACA BERBEDA AGAR TIDAK MONOTON
     const points = [
       {
-        id: 1, word: "PENGANTAR", icon: "🏛️", badgeBg: "bg-sky-100 text-sky-700",
-        desktopPos: { x: 10, y: 36 }, mobilePos: { x: 26, y: 18 },
+        id: 1,
+        word: "PENGANTAR",
+        landmark: "Gerbang Kubah Literasi",
+        icon: "🏛️",
+        ringColor: "border-emerald-400",
+        glowHex: "#10b981",
+        badgeTone: "text-emerald-950 dark:text-emerald-200",
+        orbAccent: "shadow-[0_0_25px_rgba(16,185,129,0.45)]",
+        desktopPos: { x: 16, y: 28 },
+        mobilePos: { x: 24, y: 18 },
         slides: [
-          `<p class="text-xl font-bold text-slate-900 mb-2">Selamat Datang Peserta Lomba Menulis Novela Nasional 2026! ✨</p>
-           <p>Diselenggarakan secara resmi oleh <b class="text-amber-700">PT Media Tulisan Manusia</b>:</p>
-           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
-             <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-               <div class="text-xl mb-1">📚</div>
-               <div class="font-bold text-slate-900 text-sm">Penerbitan Buku</div>
-               <div class="text-xs text-slate-500 mt-0.5">QRCBN & ISBN Resmi</div>
+          `<div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-emerald-400">
+             <p class="text-lg md:text-xl font-bold text-white">
+               Selamat Datang Peserta Lomba Menulis Novela Nasional 2026! ✨
+             </p>
+             <p class="text-sm md:text-base text-slate-200 mt-1">
+               Diselenggarakan secara resmi oleh <b class="text-amber-300">PT Media Tulisan Manusia</b>:
+             </p>
+           </div>
+           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-1">
+             <div class="inner-glass-card p-4 rounded-2xl">
+               <div class="text-2xl mb-1.5">📚</div>
+               <div class="font-bold text-white text-sm md:text-base">Penerbitan Buku</div>
+               <div class="text-xs text-slate-300 mt-0.5">QRCBN & ISBN Resmi Perpusnas</div>
              </div>
-             <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-               <div class="text-xl mb-1">⚖️</div>
-               <div class="font-bold text-slate-900 text-sm">Konsultan HKI</div>
-               <div class="text-xs text-slate-500 mt-0.5">Pendampingan Hak Cipta</div>
+             <div class="inner-glass-card p-4 rounded-2xl">
+               <div class="text-2xl mb-1.5">⚖️</div>
+               <div class="font-bold text-white text-sm md:text-base">Konsultan HKI</div>
+               <div class="text-xs text-slate-300 mt-0.5">Pendampingan Legalitas Hak Cipta</div>
              </div>
-             <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-               <div class="text-xl mb-1">🌐</div>
-               <div class="font-bold text-slate-900 text-sm">Media Literasi</div>
-               <div class="text-xs text-slate-500 mt-0.5">Publikasi Karya Penulis</div>
+             <div class="inner-glass-card p-4 rounded-2xl">
+               <div class="text-2xl mb-1.5">🌐</div>
+               <div class="font-bold text-white text-sm md:text-base">Media Literasi</div>
+               <div class="text-xs text-slate-300 mt-0.5">Publikasi Digital Karya Penulis</div>
              </div>
            </div>`
         ]
       },
       {
-        id: 2, word: "LINIMASA", icon: "⏳", badgeBg: "bg-amber-100 text-amber-800",
-        desktopPos: { x: 21, y: 68 }, mobilePos: { x: 74, y: 26 },
+        id: 2,
+        word: "LINIMASA",
+        landmark: "Menara Waktu Ekspedisi",
+        icon: "⏳",
+        ringColor: "border-pink-400",
+        glowHex: "#ec4899",
+        badgeTone: "text-pink-950 dark:text-pink-200",
+        orbAccent: "shadow-[0_0_25px_rgba(236,72,153,0.45)]",
+        desktopPos: { x: 40, y: 22 },
+        mobilePos: { x: 74, y: 24 },
         slides: [
-          `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-             <div class="p-4 rounded-2xl bg-slate-50 border-l-4 border-sky-500 border border-slate-200">
-               <div class="text-xs font-bold uppercase text-sky-600">Jumat, 30 Oktober 2026</div>
-               <div class="font-bold text-slate-900 mt-0.5">Technical Meeting (TM)</div>
+          `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+             <div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-sky-400">
+               <div class="text-[11px] font-extrabold uppercase tracking-wider text-sky-300">Jumat, 30 Oktober 2026</div>
+               <div class="font-bold text-white text-base mt-0.5">🎙️ Technical Meeting (TM)</div>
+               <div class="text-xs text-slate-300 mt-0.5">Pemaparan teknis & diskusi peserta</div>
              </div>
-             <div class="p-4 rounded-2xl bg-slate-50 border-l-4 border-rose-500 border border-slate-200">
-               <div class="text-xs font-bold uppercase text-rose-600">1 – 5 November 2026</div>
-               <div class="font-bold text-slate-900 mt-0.5">Pengumpulan Naskah (23.59 WIB)</div>
+             <div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-rose-400">
+               <div class="text-[11px] font-extrabold uppercase tracking-wider text-rose-300">1 – 5 November 2026</div>
+               <div class="font-bold text-white text-base mt-0.5">📤 Pengumpulan Naskah (23.59 WIB)</div>
+               <div class="text-xs text-slate-300 mt-0.5">Unggah karya di portal resmi</div>
              </div>
-             <div class="p-4 rounded-2xl bg-slate-50 border-l-4 border-amber-500 border border-slate-200">
-               <div class="text-xs font-bold uppercase text-amber-600">6 – 9 November 2026</div>
-               <div class="font-bold text-slate-900 mt-0.5">Penjurian & Kurasi Karya</div>
+             <div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-amber-400">
+               <div class="text-[11px] font-extrabold uppercase tracking-wider text-amber-300">6 – 9 November 2026</div>
+               <div class="font-bold text-white text-base mt-0.5">🔍 Penjurian & Kurasi Karya</div>
+               <div class="text-xs text-slate-300 mt-0.5">Seleksi substansi & orisinalitas</div>
              </div>
-             <div class="p-4 rounded-2xl bg-slate-50 border-l-4 border-emerald-500 border border-slate-200">
-               <div class="text-xs font-bold uppercase text-emerald-600">Selasa, 10 November 2026</div>
-               <div class="font-bold text-slate-900 mt-0.5">Puncak & Pengumuman (MCC Malang)</div>
+             <div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-emerald-400">
+               <div class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-300">Selasa, 10 November 2026</div>
+               <div class="font-bold text-white text-base mt-0.5">🏆 Puncak & Pengumuman (MCC Malang)</div>
+               <div class="text-xs text-slate-300 mt-0.5">Apresiasi pemenang nasional</div>
              </div>
            </div>`
         ]
       },
       {
-        id: 3, word: "FORMAT", icon: "📄", badgeBg: "bg-indigo-100 text-indigo-800",
-        desktopPos: { x: 33, y: 30 }, mobilePos: { x: 26, y: 37 },
+        id: 3,
+        word: "FORMAT",
+        landmark: "Telaga Pena Kristal",
+        icon: "📄",
+        ringColor: "border-sky-400",
+        glowHex: "#0ea5e9",
+        badgeTone: "text-sky-950 dark:text-sky-200",
+        orbAccent: "shadow-[0_0_25px_rgba(14,165,233,0.45)]",
+        desktopPos: { x: 54, y: 42 },
+        mobilePos: { x: 26, y: 36 },
         slides: [
-          `<h3 class="text-lg font-bold text-slate-900 mb-2">Ketentuan Teknis Pengetikan (Bagian 1/2)</h3>
-           <ul class="space-y-3">
-             <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-               <span>📏</span>
-               <div><b>Panjang Naskah:</b> Minimal <span class="text-amber-700 font-bold">50 Halaman</span> isi cerita.</div>
-             </li>
-             <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-               <span>🔤</span>
+          `<div class="flex items-center justify-between mb-1">
+             <h3 class="text-base md:text-lg font-bold text-sky-200">Ketentuan Teknis Pengetikan (Bagian 1/2)</h3>
+           </div>
+           <div class="space-y-2.5">
+             <div class="inner-glass-card p-3.5 rounded-2xl flex items-center gap-3">
+               <span class="text-2xl">📏</span>
+               <div><b>Panjang Naskah:</b> Minimal <span class="text-amber-300 font-extrabold underline">50 Halaman</span> isi cerita.</div>
+             </div>
+             <div class="inner-glass-card p-3.5 rounded-2xl flex items-center gap-3">
+               <span class="text-2xl">🔤</span>
                <div><b>Tipografi:</b> Huruf <i>Times New Roman</i> atau <i>Book Antiqua</i>, ukuran <b>12 pt</b>.</div>
-             </li>
-             <li class="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-               <span>📑</span>
+             </div>
+             <div class="inner-glass-card p-3.5 rounded-2xl flex items-center gap-3">
+               <span class="text-2xl">📑</span>
                <div><b>Tata Letak:</b> Spasi <b>1,5</b>, rata kanan-kiri (<i>justify</i>), margin normal.</div>
-             </li>
-           </ul>`,
-          `<h3 class="text-lg font-bold text-slate-900 mb-2">Kelengkapan & Penamaan File (Bagian 2/2)</h3>
-           <ul class="list-disc list-inside space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-             <li><b>Struktur Naskah:</b> Halaman Judul, Sinopsis Singkat (1–2 hal), Isi Bab, & Biodata Narasi Penulis.</li>
-             <li><b>Format File:</b> <b>PDF</b> atau <b>Word (.docx)</b>.</li>
-             <li><b>Nama File:</b> <code class="bg-white px-2 py-0.5 rounded text-amber-700 font-bold border border-slate-200">Nama Penulis_Judul Novela</code></li>
-           </ul>`
+             </div>
+           </div>`,
+          `<div class="flex items-center justify-between mb-1">
+             <h3 class="text-base md:text-lg font-bold text-sky-200">Kelengkapan & Penamaan File (Bagian 2/2)</h3>
+           </div>
+           <div class="inner-glass-card p-4 rounded-2xl space-y-3">
+             <div>• <b>Struktur Naskah:</b> Halaman Judul, Sinopsis Singkat (1–2 hal), Isi Bab, & Biodata Narasi Penulis.</div>
+             <div>• <b>Format File:</b> <b>PDF</b> atau <b>Word (.docx)</b>.</div>
+             <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/15">
+               <div>• <b>Nama File:</b> <code class="bg-white/15 px-2.5 py-1 rounded-lg text-amber-300 font-bold border border-white/25">Nama Penulis_Judul Novela</code></div>
+               <button onclick="copyText('Nama Penulis_Judul Novela')" class="px-3 py-1 rounded-lg bg-sky-500/30 hover:bg-sky-500/50 border border-sky-300/40 text-xs font-bold text-white transition">
+                 📋 Salin Format
+               </button>
+             </div>
+           </div>`
         ]
       },
       {
-        id: 4, word: "ORISINALITAS", icon: "🤖", badgeBg: "bg-rose-100 text-rose-800",
-        desktopPos: { x: 45, y: 66 }, mobilePos: { x: 74, y: 47 },
+        id: 4,
+        word: "ORISINALITAS",
+        landmark: "Benteng Perisai Etika",
+        icon: "🤖",
+        ringColor: "border-violet-400",
+        glowHex: "#8b5cf6",
+        badgeTone: "text-violet-950 dark:text-violet-200",
+        orbAccent: "shadow-[0_0_25px_rgba(139,92,246,0.45)]",
+        desktopPos: { x: 80, y: 29 },
+        mobilePos: { x: 74, y: 46 },
         slides: [
-          `<h3 class="text-lg font-bold text-slate-900 mb-2">Keaslian Karya & Ketentuan AI (Bagian 1/2)</h3>
+          `<h3 class="text-base md:text-lg font-bold text-violet-200 mb-1">Keaslian Karya & Ketentuan AI (Bagian 1/2)</h3>
            <div class="space-y-3">
-             <p class="p-3 bg-slate-50 rounded-xl border border-slate-200">✅ Naskah wajib karya asli, belum pernah diterbitkan ber-ISBN/QRCBN, dan tidak sedang dilombakan di tempat lain.</p>
-             <div class="p-4 bg-amber-50 border-2 border-amber-300 rounded-2xl text-slate-800">
-               <div class="font-extrabold text-amber-800 mb-1">🤖 Kebijakan Penggunaan AI (Maksimal 20%):</div>
+             <div class="inner-glass-card p-3.5 rounded-2xl">
+               ✅ Naskah wajib karya asli, belum pernah diterbitkan ber-ISBN/QRCBN, dan tidak sedang dilombakan di tempat lain.
+             </div>
+             <div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-amber-400 bg-amber-500/10">
+               <div class="font-extrabold text-amber-300 mb-1">🤖 Kebijakan Penggunaan AI (Maksimal 20%):</div>
                Penggunaan bantuan AI diperbolehkan dengan <b>batasan maksimal 20%</b> dan <b>WAJIB DIPARAFRASE</b> kembali menggunakan gaya bahasa penulis sendiri.
              </div>
            </div>`,
-          `<h3 class="text-lg font-bold text-slate-900 mb-2">Ketentuan Hak Cipta (Bagian 2/2)</h3>
-           <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 leading-relaxed">
-             Hak cipta moral dan ekonomi tetap melekat pada penulis, dengan memberikan hak tayang digital serta fasilitas penerbitan program kepada <b>PT Media Tulisan Manusia</b>.
+          `<h3 class="text-base md:text-lg font-bold text-violet-200 mb-1">Ketentuan Hak Cipta (Bagian 2/2)</h3>
+           <div class="inner-glass-card p-5 rounded-2xl leading-relaxed">
+             ⚖️ Hak cipta moral dan ekonomi tetap melekat pada penulis, dengan memberikan hak tayang digital serta fasilitas penerbitan program kepada <b>PT Media Tulisan Manusia</b>.
            </div>`
         ]
       },
       {
-        id: 5, word: "PENGUMPULAN", icon: "🚀", badgeBg: "bg-cyan-100 text-cyan-800",
-        desktopPos: { x: 57, y: 32 }, mobilePos: { x: 26, y: 58 },
+        id: 5,
+        word: "PENGUMPULAN",
+        landmark: "Dermaga Portal Resmi",
+        icon: "🚀",
+        ringColor: "border-orange-400",
+        glowHex: "#f97316",
+        badgeTone: "text-orange-950 dark:text-orange-200",
+        orbAccent: "shadow-[0_0_25px_rgba(249,115,22,0.45)]",
+        desktopPos: { x: 31, y: 60 },
+        mobilePos: { x: 26, y: 57 },
         slides: [
-          `<p class="text-slate-600">Pengiriman naskah dilakukan satu pintu melalui portal resmi:</p>
-           <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-center my-2 shadow-sm">
-             <span class="text-lg md:text-xl font-extrabold text-amber-800">🌐 lomba.mediatulisanmanusia.com</span>
+          `<p class="text-slate-200 text-sm md:text-base">Pengiriman naskah dilakukan satu pintu melalui portal resmi:</p>
+           <div class="inner-glass-card p-4 rounded-2xl flex flex-wrap items-center justify-between gap-2 border-amber-300/40 bg-amber-400/10">
+             <span class="text-base md:text-xl font-extrabold text-amber-300">🌐 lomba.mediatulisanmanusia.com</span>
+             <button onclick="copyText('https://lomba.mediatulisanmanusia.com')" class="px-3 py-1.5 rounded-xl bg-amber-400/25 hover:bg-amber-400/40 border border-amber-300/50 text-xs font-bold text-white transition">
+               📋 Salin Link
+             </button>
            </div>
-           <ol class="list-decimal list-inside space-y-2 text-sm md:text-base text-slate-700 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+           <ol class="list-decimal list-inside space-y-2 text-sm md:text-base inner-glass-card p-4 rounded-2xl">
              <li>Akses website pada periode <b>1–5 November 2026</b>.</li>
-             <li>Isi data diri lengkap (pastikan WA & Email aktif).</li>
+             <li>Isi data diri lengkap (pastikan <b>WA & Email aktif</b>).</li>
              <li>Unggah file naskah & simpan <i>screenshot</i> bukti kirim.</li>
            </ol>`
         ]
       },
       {
-        id: 6, word: "PENILAIAN", icon: "⚖️", badgeBg: "bg-purple-100 text-purple-800",
-        desktopPos: { x: 69, y: 68 }, mobilePos: { x: 74, y: 68 },
+        id: 6,
+        word: "PENILAIAN",
+        landmark: "Candi Timbangan Kurasi",
+        icon: "⚖️",
+        ringColor: "border-rose-400",
+        glowHex: "#f43f5e",
+        badgeTone: "text-rose-950 dark:text-rose-200",
+        orbAccent: "shadow-[0_0_25px_rgba(244,63,94,0.45)]",
+        desktopPos: { x: 77, y: 60 },
+        mobilePos: { x: 74, y: 66 },
         slides: [
           `<div class="space-y-2.5">
-             <div class="flex justify-between items-center p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-               <span><b>1. Kekuatan Alur (Plot) & Konflik</b></span>
-               <span class="px-3 py-1 bg-amber-600 text-white font-bold rounded-lg">30%</span>
+             <div class="inner-glass-card p-3 rounded-2xl">
+               <div class="flex justify-between items-center text-sm md:text-base mb-1.5">
+                 <span><b>1. Kekuatan Alur (Plot) & Konflik</b></span>
+                 <span class="px-2.5 py-0.5 bg-amber-400 text-slate-950 font-extrabold rounded-lg text-xs">30%</span>
+               </div>
+               <div class="w-full h-2 rounded-full bg-white/15 overflow-hidden"><div class="h-full bg-gradient-to-r from-amber-400 to-orange-500 w-[30%]"></div></div>
              </div>
-             <div class="flex justify-between items-center p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-               <span><b>2. Kesesuaian Tema & Kedalaman Gagasan</b></span>
-               <span class="px-3 py-1 bg-amber-600 text-white font-bold rounded-lg">25%</span>
+             <div class="inner-glass-card p-3 rounded-2xl">
+               <div class="flex justify-between items-center text-sm md:text-base mb-1.5">
+                 <span><b>2. Kesesuaian Tema & Kedalaman Gagasan</b></span>
+                 <span class="px-2.5 py-0.5 bg-sky-400 text-slate-950 font-extrabold rounded-lg text-xs">25%</span>
+               </div>
+               <div class="w-full h-2 rounded-full bg-white/15 overflow-hidden"><div class="h-full bg-gradient-to-r from-sky-400 to-blue-500 w-[25%]"></div></div>
              </div>
-             <div class="flex justify-between items-center p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-               <span><b>3. Penokohan & Dimensi Karakter</b></span>
-               <span class="px-3 py-1 bg-amber-600 text-white font-bold rounded-lg">25%</span>
+             <div class="inner-glass-card p-3 rounded-2xl">
+               <div class="flex justify-between items-center text-sm md:text-base mb-1.5">
+                 <span><b>3. Penokohan & Dimensi Karakter</b></span>
+                 <span class="px-2.5 py-0.5 bg-emerald-400 text-slate-950 font-extrabold rounded-lg text-xs">25%</span>
+               </div>
+               <div class="w-full h-2 rounded-full bg-white/15 overflow-hidden"><div class="h-full bg-gradient-to-r from-emerald-400 to-teal-500 w-[25%]"></div></div>
              </div>
-             <div class="flex justify-between items-center p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-               <span><b>4. Gaya Bahasa & Kerapian Ejaan (PUEBI)</b></span>
-               <span class="px-3 py-1 bg-amber-600 text-white font-bold rounded-lg">20%</span>
+             <div class="inner-glass-card p-3 rounded-2xl">
+               <div class="flex justify-between items-center text-sm md:text-base mb-1.5">
+                 <span><b>4. Gaya Bahasa & Kerapian Ejaan (PUEBI)</b></span>
+                 <span class="px-2.5 py-0.5 bg-purple-400 text-slate-950 font-extrabold rounded-lg text-xs">20%</span>
+               </div>
+               <div class="w-full h-2 rounded-full bg-white/15 overflow-hidden"><div class="h-full bg-gradient-to-r from-purple-400 to-pink-500 w-[20%]"></div></div>
              </div>
            </div>`
         ]
       },
       {
-        id: 7, word: "BENEFIT", icon: "🏆", badgeBg: "bg-yellow-100 text-yellow-800",
-        desktopPos: { x: 80, y: 34 }, mobilePos: { x: 26, y: 78 },
+        id: 7,
+        word: "BENEFIT",
+        landmark: "Puncak Mahkota Juara",
+        icon: "🏆",
+        ringColor: "border-yellow-400",
+        glowHex: "#eab308",
+        badgeTone: "text-amber-950 dark:text-amber-200",
+        orbAccent: "shadow-[0_0_25px_rgba(234,179,8,0.5)]",
+        desktopPos: { x: 20, y: 80 },
+        mobilePos: { x: 26, y: 78 },
         slides: [
           `<div class="space-y-3">
-             <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl">
-               <div class="font-bold text-amber-900">🏆 Apresiasi Pemenang (Juara 1–3 & Harapan 1–3):</div>
-               <div class="text-sm text-slate-700 mt-1">Total Hadiah Rp3.000.000, Buku Ber-QRCBN, Cetak Fisik, Sertifikat, & HKI.</div>
+             <div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-amber-400">
+               <div class="font-bold text-amber-300 text-base md:text-lg">🏆 Apresiasi Pemenang (Juara 1–3 & Harapan 1–3):</div>
+               <div class="text-sm md:text-base text-slate-100 mt-1">
+                 Total Hadiah <b>Rp3.000.000</b>, Buku Ber-QRCBN, Cetak Fisik, Sertifikat Pemenang, & HKI.
+               </div>
              </div>
-             <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl">
-               <div class="font-bold text-sky-800">📜 Seluruh Peserta:</div>
-               <div class="text-sm text-slate-700 mt-1">Mendapatkan <b>E-Sertifikat Nasional</b> & Publikasi Digital Karya di website resmi.</div>
+             <div class="inner-glass-card p-4 rounded-2xl border-l-4 border-l-sky-400">
+               <div class="font-bold text-sky-300 text-base md:text-lg">📜 Seluruh Peserta:</div>
+               <div class="text-sm md:text-base text-slate-100 mt-1">
+                 Mendapatkan <b>E-Sertifikat Nasional</b> & Publikasi Digital Karya di website resmi.
+               </div>
              </div>
            </div>`
         ]
       },
       {
-        id: 8, word: "DISKUSI", icon: "💬", badgeBg: "bg-emerald-100 text-emerald-800",
-        desktopPos: { x: 91, y: 62 }, mobilePos: { x: 74, y: 86 },
+        id: 8,
+        word: "DISKUSI",
+        landmark: "Amfiteater Tanya Jawab",
+        icon: "💬",
+        ringColor: "border-teal-400",
+        glowHex: "#14b8a6",
+        badgeTone: "text-teal-950 dark:text-teal-200",
+        orbAccent: "shadow-[0_0_25px_rgba(20,184,166,0.45)]",
+        desktopPos: { x: 58, y: 82 },
+        mobilePos: { x: 74, y: 86 },
         slides: [
-          `<div class="text-center py-6 space-y-3">
-             <div class="text-5xl">🙋‍♂️✨</div>
-             <h3 class="font-serif-title text-2xl font-bold text-slate-900">Sesi Tanya Jawab (Q&A)</h3>
-             <p class="text-slate-600 max-w-md mx-auto">Silakan gunakan fitur <b>Raise Hand</b> atau ketikkan pertanyaan di kolom <b>Chat</b>.</p>
+          `<div class="inner-glass-card p-5 rounded-2xl text-center space-y-2.5">
+             <div class="text-4xl">🙋‍♂️✨</div>
+             <h3 class="font-serif-luxury text-2xl font-bold text-white">Sesi Tanya Jawab (Q&A)</h3>
+             <p class="text-sm text-slate-200 max-w-md mx-auto">
+               Silakan gunakan fitur <b>Raise Hand</b> atau ketikkan pertanyaan di kolom <b>Chat</b>.
+             </p>
+             <!-- Catatan Pertanyaan Live Saat Presentasi -->
+             <div class="pt-3 border-t border-white/15 text-left">
+               <div class="flex gap-2">
+                 <input id="qa-input" type="text" placeholder="Catat pertanyaan peserta di layar..." class="flex-1 px-3 py-2 rounded-xl bg-white/10 border border-white/25 text-white placeholder-slate-300 text-xs focus:outline-none focus:border-amber-400" onkeydown="if(event.key==='Enter') addLiveQuestion()" />
+                 <button onclick="addLiveQuestion()" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition">+ Tampilkan</button>
+               </div>
+               <div id="qa-list" class="mt-2.5 space-y-1.5 max-h-28 overflow-y-auto custom-scroll"></div>
+             </div>
            </div>`
         ]
       }
@@ -334,106 +1015,371 @@
     const nodesContainer = document.getElementById('nodes-container');
     const svg = document.getElementById('lines-svg');
     const overlay = document.getElementById('content-overlay');
-    const topBar = document.getElementById('top-bar');
-    const bottomBar = document.getElementById('bottom-bar');
+    const dockPills = document.getElementById('dock-pills');
+    const drawerList = document.getElementById('drawer-list');
+    const glassDrawer = document.getElementById('glass-drawer');
+    const travelerToken = document.getElementById('traveler-token');
 
     let activePoint = null;
     let currentSubSlide = 0;
+    let visitedIds = new Set();
+    let cachedCoords = [];
+    let liveQuestions = [];
+    let isDarkGlass = false;
+
+    function playCrystalChime(f1 = 520, f2 = 880) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f1, now);
+        osc.frequency.exponentialRampToValueAtTime(f2, now + 0.14);
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.15);
+      } catch (e) {}
+    }
 
     function renderRoadmap() {
       nodesContainer.innerHTML = '';
-      const defs = svg.querySelector('defs').outerHTML;
-      svg.innerHTML = defs;
+      svg.innerHTML = '';
 
       const w = window.innerWidth;
       const h = window.innerHeight;
       const isMobile = w < 768;
 
-      const coords = points.map(pt => {
+      cachedCoords = points.map(pt => {
         const pos = isMobile ? pt.mobilePos : pt.desktopPos;
         return { x: (pos.x / 100) * w, y: (pos.y / 100) * h, pt };
       });
 
-      let pathD = `M ${coords[0].x} ${coords[0].y}`;
-      for (let i = 0; i < coords.length - 1; i++) {
-        const curr = coords[i], next = coords[i + 1];
-        if (isMobile) {
-          const midY = (curr.y + next.y) / 2;
-          pathD += ` C ${curr.x} ${midY}, ${next.x} ${midY}, ${next.x} ${next.y}`;
-        } else {
-          const midX = (curr.x + next.x) / 2;
-          pathD += ` C ${midX} ${curr.y}, ${midX} ${next.y}, ${next.x} ${next.y}`;
-        }
+      // Buat Jalur Ekspedisi Melengkung Halus
+      let pathD = `M ${cachedCoords[0].x} ${cachedCoords[0].y}`;
+      for (let i = 0; i < cachedCoords.length - 1; i++) {
+        const curr = cachedCoords[i];
+        const next = cachedCoords[i + 1];
+        const midX = (curr.x + next.x) / 2;
+        const midY = (curr.y + next.y) / 2;
+        pathD += ` Q ${midX} ${curr.y}, ${midX} ${midY} T ${next.x} ${next.y}`;
       }
 
-      const roadLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      roadLine.setAttribute('d', pathD);
-      roadLine.setAttribute('fill', 'none');
-      roadLine.setAttribute('stroke', 'url(#roadGrad)');
-      roadLine.setAttribute('stroke-width', isMobile ? '3' : '4');
-      roadLine.setAttribute('stroke-linecap', 'round');
-      roadLine.setAttribute('class', 'road-line');
-      svg.appendChild(roadLine);
+      // 1. Jalur Kaca Transparan Lebar
+      const glassPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      glassPath.setAttribute('d', pathD);
+      glassPath.setAttribute('fill', 'none');
+      glassPath.setAttribute('stroke', isDarkGlass ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.55)');
+      glassPath.setAttribute('stroke-width', isMobile ? '12' : '18');
+      glassPath.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(glassPath);
 
-      coords.forEach(({ x, y, pt }) => {
-        const card = document.createElement('div');
-        card.className = 'map-card z-20 rounded-2xl p-3 md:p-4 flex flex-col items-center text-center w-28 sm:w-32 md:w-36';
-        card.style.left = `${x}px`;
-        card.style.top = `${y}px`;
-        card.onclick = () => zoomIn(pt, x, y);
+      // 2. Garis Putus-Putus Emas Bercahaya
+      const glowDots = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      glowDots.setAttribute('d', pathD);
+      glowDots.setAttribute('fill', 'none');
+      glowDots.setAttribute('stroke', '#f59e0b');
+      glowDots.setAttribute('stroke-width', isMobile ? '3' : '4');
+      glowDots.setAttribute('stroke-linecap', 'round');
+      glowDots.setAttribute('class', 'glowing-trail-dash');
+      svg.appendChild(glowDots);
 
-        card.innerHTML = `
-          <span class="px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-extrabold uppercase tracking-wider ${pt.badgeBg} mb-2">POS 0${pt.id}</span>
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-100 flex items-center justify-center text-xl md:text-2xl mb-2 shadow-sm">${pt.icon}</div>
-          <span class="font-bold text-xs md:text-sm text-slate-900 tracking-wide">${pt.word}</span>
+      // Posisikan Pin Penjelajah
+      const currentTarget = activePoint
+        ? cachedCoords.find(c => c.pt.id === activePoint.id)
+        : cachedCoords[0];
+      if (currentTarget) {
+        travelerToken.style.left = `${currentTarget.x}px`;
+        travelerToken.style.top = `${currentTarget.y}px`;
+      }
+
+      // Render 8 Kapsul Medali Kaca Transparan (Ramping & Tidak Menutupi Peta)
+      cachedCoords.forEach(({ x, y, pt }, idx) => {
+        const isVisited = visitedIds.has(pt.id);
+        const pod = document.createElement('div');
+        pod.className = 'station-pod';
+        pod.style.left = `${x}px`;
+        pod.style.top = `${y}px`;
+        pod.style.animationDelay = `${idx * 0.35}s`;
+        pod.onclick = () => zoomIn(pt, x, y);
+
+        pod.innerHTML = `
+          <!-- Medali Bulat Kaca Transparan -->
+          <div class="glass-orb ${pt.orbAccent}">
+            <div class="orb-pulse-ring border-2 ${pt.ringColor}"></div>
+            <span class="text-2xl sm:text-3xl select-none">${pt.icon}</span>
+            <!-- Lencana Nomor Kecil di Sudut Orb -->
+            <span class="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-slate-900/85 text-white border border-white/80 text-[10px] font-extrabold flex items-center justify-center shadow">
+              ${isVisited ? '✓' : '0' + pt.id}
+            </span>
+          </div>
+
+          <!-- Kapsul Kaca Ramping di Bawah Medali -->
+          <div class="glass-pill-label">
+            <div class="text-[11px] sm:text-xs font-extrabold tracking-wide ${pt.badgeTone}">
+              ${pt.word}
+            </div>
+            <div class="text-[9px] font-semibold opacity-75 hidden sm:block">
+              ${pt.landmark}
+            </div>
+          </div>
         `;
-        nodesContainer.appendChild(card);
+        nodesContainer.appendChild(pod);
       });
+
+      updateHUD();
+    }
+
+    function updateHUD() {
+      dockPills.innerHTML = '';
+      drawerList.innerHTML = '';
+
+      points.forEach(pt => {
+        const isVisited = visitedIds.has(pt.id);
+        const isCurrent = activePoint && activePoint.id === pt.id;
+
+        // Pill di Dock Bawah
+        const pill = document.createElement('button');
+        pill.onclick = () => {
+          const t = cachedCoords.find(c => c.pt.id === pt.id);
+          if (t) zoomIn(pt, t.x, t.y);
+        };
+        pill.className = `px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1 border shrink-0 ${
+          isCurrent
+            ? 'bg-amber-400 text-slate-950 border-white shadow-md scale-105'
+            : isVisited
+            ? 'bg-emerald-500/30 border-emerald-400/60'
+            : 'bg-white/20 hover:bg-white/40 border-white/40'
+        }`;
+        pill.innerHTML = `<span>0${pt.id}</span><span class="hidden md:inline">${pt.word}</span>`;
+        dockPills.appendChild(pill);
+
+        // Baris di Drawer Kaca
+        const row = document.createElement('button');
+        row.onclick = () => {
+          toggleDrawer();
+          const t = cachedCoords.find(c => c.pt.id === pt.id);
+          if (t) zoomIn(pt, t.x, t.y);
+        };
+        row.className = `w-full p-2.5 rounded-2xl text-left flex items-center justify-between border transition ${
+          isVisited
+            ? 'bg-emerald-500/20 border-emerald-400/50'
+            : 'bg-white/15 hover:bg-white/30 border-white/30'
+        }`;
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="text-xl">${pt.icon}</span>
+            <div>
+              <div class="text-xs font-extrabold">POS 0${pt.id} • ${pt.word}</div>
+              <div class="text-[10px] opacity-75">${pt.landmark}</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-white/25">
+            ${isVisited ? '✓ Selesai' : 'Buka'}
+          </span>
+        `;
+        drawerList.appendChild(row);
+      });
+
+      document.getElementById('visited-counter').innerText = `${visitedIds.size}/8`;
+      const isOpen = overlay.classList.contains('active');
+      document.getElementById('primary-action-icon').innerText = isOpen ? '⬅' : '🚀';
+      document.getElementById('primary-action-text').innerText = isOpen ? 'Kembali ke Peta' : 'Mulai Tur';
     }
 
     function zoomIn(pt, x, y) {
+      playCrystalChime(480, 840);
+      glassDrawer.classList.remove('open');
       activePoint = pt;
       currentSubSlide = 0;
+      visitedIds.add(pt.id);
+
+      travelerToken.style.left = `${x}px`;
+      travelerToken.style.top = `${y}px`;
+
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
-      const scale = window.innerWidth < 768 ? 2.3 : 3.0;
+      const scale = window.innerWidth < 768 ? 2.2 : 2.75;
       const tx = (cx - x) * scale;
       const ty = (cy - y) * scale;
 
-      topBar.style.opacity = '0';
-      bottomBar.style.opacity = '0';
       canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 
       updateModalContent();
       overlay.classList.add('active');
+      updateHUD();
     }
 
     function updateModalContent() {
       document.getElementById('modal-icon').innerText = activePoint.icon;
-      document.getElementById('modal-step').innerText = `STASIUN 0${activePoint.id} DARI 08`;
+      document.getElementById('modal-step').innerText = `POS 0${activePoint.id} DARI 0${points.length}`;
+      document.getElementById('modal-landmark').innerText = `• ${activePoint.landmark}`;
       document.getElementById('modal-title').innerText = activePoint.word;
       document.getElementById('modal-body').innerHTML = activePoint.slides[currentSubSlide];
+      document.getElementById('modal-glow-orb').style.backgroundColor = activePoint.glowHex;
+
+      if (activePoint.id === 8) {
+        renderLiveQuestions();
+      }
 
       const total = activePoint.slides.length;
-      document.getElementById('slide-indicator').innerText = `Halaman ${currentSubSlide + 1} dari ${total}`;
-      document.getElementById('prev-btn').classList.toggle('hidden', currentSubSlide === 0);
-      document.getElementById('next-btn').classList.toggle('hidden', currentSubSlide === total - 1);
+      document.getElementById('slide-indicator').innerText = `Halaman ${currentSubSlide + 1} / ${total}`;
+
+      const prevBtn = document.getElementById('prev-btn');
+      const prevLabel = document.getElementById('prev-btn-label');
+      const nextLabel = document.getElementById('next-btn-label');
+
+      if (currentSubSlide > 0) {
+        prevBtn.classList.remove('hidden');
+        prevLabel.innerText = 'Slide Sebelumnya';
+      } else if (activePoint.id > 1) {
+        prevBtn.classList.remove('hidden');
+        prevLabel.innerText = `Pos 0${activePoint.id - 1}`;
+      } else {
+        prevBtn.classList.add('hidden');
+      }
+
+      if (currentSubSlide < total - 1) {
+        nextLabel.innerText = 'Slide Selanjutnya';
+      } else if (activePoint.id < points.length) {
+        nextLabel.innerText = `Lanjut Pos 0${activePoint.id + 1}`;
+      } else {
+        nextLabel.innerText = 'Selesai & Lihat Peta';
+      }
     }
 
-    function changeSubSlide(dir) {
-      currentSubSlide += dir;
-      updateModalContent();
+    function navigateStep(dir) {
+      if (!activePoint) return;
+      const total = activePoint.slides.length;
+
+      if (dir === 1) {
+        if (currentSubSlide < total - 1) {
+          currentSubSlide++;
+          playCrystalChime(580, 760);
+          updateModalContent();
+        } else if (activePoint.id < points.length) {
+          const nextPt = points.find(p => p.id === activePoint.id + 1);
+          const target = cachedCoords.find(c => c.pt.id === nextPt.id);
+          if (target) zoomIn(nextPt, target.x, target.y);
+        } else {
+          zoomOut();
+        }
+      } else {
+        if (currentSubSlide > 0) {
+          currentSubSlide--;
+          playCrystalChime(580, 760);
+          updateModalContent();
+        } else if (activePoint.id > 1) {
+          const prevPt = points.find(p => p.id === activePoint.id - 1);
+          const target = cachedCoords.find(c => c.pt.id === prevPt.id);
+          if (target) zoomIn(prevPt, target.x, target.y);
+        }
+      }
     }
 
     function zoomOut() {
+      playCrystalChime(680, 420);
       overlay.classList.remove('active');
       canvas.style.transform = `translate(0px, 0px) scale(1)`;
-      topBar.style.opacity = '1';
-      bottomBar.style.opacity = '1';
+      renderRoadmap();
     }
 
+    function handlePrimaryAction() {
+      if (overlay.classList.contains('active')) {
+        zoomOut();
+      } else {
+        const nextPt = points.find(p => !visitedIds.has(p.id)) || points[0];
+        const target = cachedCoords.find(c => c.pt.id === nextPt.id);
+        if (target) zoomIn(nextPt, target.x, target.y);
+      }
+    }
+
+    function toggleDrawer() {
+      playCrystalChime(520, 700);
+      glassDrawer.classList.toggle('open');
+    }
+
+    // Fitur Ganti Mode Kaca Cerah vs Mode Kaca Malam Aurora
+    function toggleGlassTheme() {
+      isDarkGlass = !isDarkGlass;
+      document.body.classList.toggle('dark-glass', isDarkGlass);
+      const skyRect = document.getElementById('bg-sky-rect');
+      const meadowPath = document.getElementById('main-meadow-path');
+
+      if (isDarkGlass) {
+        skyRect.setAttribute('fill', 'url(#skyToValleyDark)');
+        meadowPath.setAttribute('opacity', '0.35');
+        document.getElementById('theme-icon').innerText = '🌙';
+        document.getElementById('theme-label').innerText = 'Kaca Malam';
+      } else {
+        skyRect.setAttribute('fill', 'url(#skyToValleyLight)');
+        meadowPath.setAttribute('opacity', '0.88');
+        document.getElementById('theme-icon').innerText = '☀️';
+        document.getElementById('theme-label').innerText = 'Kaca Cerah';
+      }
+      renderRoadmap();
+    }
+
+    // Fitur Copy Format & URL tanpa alert()
+    function copyText(txt) {
+      const el = document.createElement('textarea');
+      el.value = txt;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      const toast = document.getElementById('glass-toast');
+      toast.innerText = `✅ Disalin: ${txt}`;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 2200);
+    }
+
+    // Fitur Catatan Q&A Interaktif di Pos 08
+    function addLiveQuestion() {
+      const input = document.getElementById('qa-input');
+      if (!input || !input.value.trim()) return;
+      liveQuestions.push(input.value.trim());
+      input.value = '';
+      renderLiveQuestions();
+    }
+
+    function renderLiveQuestions() {
+      const container = document.getElementById('qa-list');
+      if (!container) return;
+      container.innerHTML = liveQuestions.map((q, i) => `
+        <div class="px-3 py-1.5 rounded-xl bg-white/15 border border-white/25 text-xs flex justify-between items-center">
+          <span><b>Q${i + 1}:</b> ${q}</span>
+        </div>
+      `).join('');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (document.activeElement && document.activeElement.id === 'qa-input') return;
+      const isOpen = overlay.classList.contains('active');
+      if (e.key === 'Escape' && isOpen) zoomOut();
+      else if ((e.key === 'ArrowRight' || e.key === ' ') && isOpen) { e.preventDefault(); navigateStep(1); }
+      else if (e.key === 'ArrowLeft' && isOpen) navigateStep(-1);
+      else if (e.key >= '1' && e.key <= '8') {
+        const idx = parseInt(e.key, 10);
+        const t = cachedCoords.find(c => c.pt.id === idx);
+        if (t) zoomIn(t.pt, t.x, t.y);
+      }
+    });
+
     window.addEventListener('resize', renderRoadmap);
-    renderRoadmap();
+    window.onload = renderRoadmap;
   </script>
 </body>
 </html>
