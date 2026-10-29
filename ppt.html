@@ -3,146 +3,279 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TM Lomba Menulis Novela Nasional 2026</title>
+  <title>TM Lomba Menulis Novela Nasional 2026 - PT Media Tulisan Manusia</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --gold: #f59e0b;
+      --gold-light: #fcd34d;
+    }
     body {
       overflow: hidden;
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      background-color: #060913;
       color: #f8fafc;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       user-select: none;
     }
-    /* Kanvas Utama untuk Efek Prezi Zoom */
+    .font-serif-title {
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Tekstur Grid Peta & Aurora Eksklusif */
+    .bg-map-texture {
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.4) 0%, #050811 100%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 45px 45px, 45px 45px;
+    }
+
+    /* Kanvas Peta untuk Efek Prezi Zoom */
     #canvas {
       width: 100vw;
       height: 100vh;
       position: relative;
-      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
       transform-origin: center center;
     }
-    .bubble {
+
+    /* Desain Node / Gelembung Peta Eksklusif */
+    .map-node {
       position: absolute;
       transform: translate(-50%, -50%);
-      transition: all 0.3s ease;
       cursor: pointer;
-      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .bubble:hover {
-      transform: translate(-50%, -50%) scale(1.12);
-      box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.6);
-      border-color: #f59e0b;
+    .map-node:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+      z-index: 30;
     }
+    .node-circle {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+      box-shadow: 
+        0 10px 30px -5px rgba(0, 0, 0, 0.7),
+        0 0 20px -2px rgba(245, 158, 11, 0.25),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    .map-node:hover .node-circle {
+      border-color: #fbbf24;
+      box-shadow: 
+        0 15px 35px -5px rgba(245, 158, 11, 0.45),
+        0 0 25px 2px rgba(251, 191, 36, 0.4),
+        inset 0 1px 3px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Cincin Putar Dekoratif di Luar Gelembung */
+    .orbit-ring {
+      position: absolute;
+      inset: -8px;
+      border-radius: 9999px;
+      border: 1.5px dashed rgba(251, 191, 36, 0.35);
+      animation: spinSlow 24s linear infinite;
+      pointer-events: none;
+    }
+    .map-node:hover .orbit-ring {
+      border-color: rgba(251, 191, 36, 0.85);
+      animation-duration: 8s;
+    }
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Animasi Garis Peta Mengalir */
+    .flow-path {
+      stroke-dasharray: 10, 10;
+      animation: flowDash 25s linear infinite;
+    }
+    @keyframes flowDash {
+      to { stroke-dashoffset: -500; }
+    }
+
     /* Modal Konten Zoom */
     #content-overlay {
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease 0.3s;
+      transition: opacity 0.4s ease 0.25s;
     }
     #content-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
-    .dashed-line {
-      stroke-dasharray: 8, 8;
-      animation: dash 30s linear infinite;
+    .modal-card {
+      background: linear-gradient(160deg, rgba(15, 23, 42, 0.95) 0%, rgba(9, 13, 24, 0.98) 100%);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px -10px rgba(245, 158, 11, 0.3);
+      transform: scale(0.92);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
     }
-    @keyframes dash {
-      to { stroke-dashoffset: -1000; }
+    #content-overlay.active .modal-card {
+      transform: scale(1);
     }
   </style>
 </head>
-<body>
+<body class="bg-map-texture">
 
-  <!-- KANVAS PETA PIKIRAN (MINDMAP) -->
+  <!-- HEADER EKSKLUSIF MENGAMBANG -->
+  <header id="top-bar" class="fixed top-4 left-1/2 -translate-x-1/2 z-30 w-[92%] max-w-4xl transition-opacity duration-500">
+    <div class="bg-slate-900/75 backdrop-blur-md border border-amber-500/30 rounded-2xl px-5 py-3 flex flex-col md:flex-row items-center justify-between gap-2 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-extrabold shadow-lg">
+          ✒️
+        </div>
+        <div class="text-center md:text-left">
+          <div class="flex items-center justify-center md:justify-start gap-2">
+            <span class="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Technical Meeting</span>
+            <span class="text-xs text-slate-400 hidden sm:inline">• PT Media Tulisan Manusia</span>
+          </div>
+          <h1 class="font-serif-title text-base md:text-xl font-bold text-white tracking-wider">
+            PETA PANDUAN LOMBA NOVELA NASIONAL 2026
+          </h1>
+        </div>
+      </div>
+      <div class="text-xs text-amber-200/80 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700">
+        ✨ Klik titik stasiun untuk <b>Zoom-In</b>
+      </div>
+    </div>
+  </header>
+
+  <!-- KANVAS PETA INTERAKTIF -->
   <div id="canvas">
-    <!-- Garis Titik-Titik Penghubung (SVG) -->
-    <svg class="w-full h-full absolute inset-0 pointer-events-none" id="lines-svg"></svg>
-
-    <!-- Gelembung Pusat -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 p-6 flex flex-col items-center justify-center text-center shadow-2xl border-4 border-amber-300 z-10">
-      <span class="text-xs font-bold tracking-widest uppercase text-slate-900 bg-white/80 px-3 py-1 rounded-full mb-2">Technical Meeting</span>
-      <h1 class="text-xl font-extrabold text-white leading-tight drop-shadow">LOMBA NOVELA NASIONAL 2026</h1>
-      <p class="text-xs text-amber-100 mt-2 font-medium">PT Media Tulisan Manusia</p>
+    <!-- Dekorasi Kompas Peta Latar Belakang -->
+    <div class="absolute right-8 bottom-12 opacity-10 pointer-events-none hidden md:block">
+      <svg width="160" height="160" viewBox="0 0 100 100" fill="none" stroke="#f59e0b" stroke-width="1">
+        <circle cx="50" cy="50" r="45" stroke-dasharray="4 4"/>
+        <circle cx="50" cy="50" r="35"/>
+        <polygon points="50,5 56,44 50,38 44,44" fill="#f59e0b"/>
+        <polygon points="50,95 56,56 50,62 44,56"/>
+        <polygon points="5,50 44,44 38,50 44,56"/>
+        <polygon points="95,50 56,44 62,50 56,56"/>
+      </svg>
     </div>
 
-    <!-- Container untuk 8 Gelembung Poin -->
-    <div id="bubbles-container"></div>
+    <!-- SVG Jalur Kurva Penghubung -->
+    <svg class="w-full h-full absolute inset-0 pointer-events-none" id="lines-svg">
+      <defs>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+          <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#10b981" stop-opacity="0.9"/>
+        </linearGradient>
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Container untuk 8 Titik Stasiun Peta -->
+    <div id="nodes-container"></div>
   </div>
 
-  <!-- TAMPILAN ISI SAAT DI-ZOOM -->
-  <div id="content-overlay" class="fixed inset-0 flex items-center justify-center p-6 z-50 bg-slate-950/80 backdrop-blur-md">
-    <div class="bg-slate-900 border-2 border-amber-500/50 rounded-3xl max-w-3xl w-full p-8 md:p-12 shadow-2xl relative">
+  <!-- MODAL KONTEN SAAT DI-ZOOM -->
+  <div id="content-overlay" class="fixed inset-0 flex items-center justify-center p-4 md:p-6 z-50 bg-slate-950/80 backdrop-blur-md">
+    <div class="modal-card border border-amber-500/40 rounded-3xl max-w-3xl w-full p-6 md:p-10 relative overflow-hidden">
       
+      <!-- Cahaya Dekoratif di Pojok Modal -->
+      <div class="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
       <!-- Header Modal -->
-      <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
-        <div class="flex items-center gap-3">
-          <span id="modal-badge" class="w-10 h-10 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center text-lg">1</span>
-          <h2 id="modal-title" class="text-2xl md:text-3xl font-extrabold text-amber-400 tracking-wide">JUDUL</h2>
+      <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6 relative z-10">
+        <div class="flex items-center gap-3 md:gap-4">
+          <div id="modal-icon" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center text-2xl shadow-lg">
+            📌
+          </div>
+          <div>
+            <span id="modal-step" class="text-xs font-bold uppercase tracking-widest text-amber-400">POS 01</span>
+            <h2 id="modal-title" class="font-serif-title text-xl md:text-3xl font-extrabold text-white tracking-wide">JUDUL</h2>
+          </div>
         </div>
-        <button onclick="zoomOut()" class="px-4 py-2 rounded-full bg-slate-800 hover:bg-rose-600 text-sm font-semibold transition flex items-center gap-2 border border-slate-600">
-          ✕ Kembali ke Peta
+        <button onclick="zoomOut()" class="px-4 py-2 rounded-xl bg-slate-800/90 hover:bg-rose-600 text-slate-200 hover:text-white text-xs md:text-sm font-semibold transition flex items-center gap-2 border border-slate-700 shadow-lg">
+          <span>✕</span> <span class="hidden sm:inline">Kembali ke Peta</span>
         </button>
       </div>
 
-      <!-- Isi Slide -->
-      <div id="modal-body" class="min-h-[220px] flex flex-col justify-center text-lg md:text-xl leading-relaxed text-slate-200 space-y-4">
+      <!-- Isi Materi Slide -->
+      <div id="modal-body" class="min-h-[230px] flex flex-col justify-center text-base md:text-lg leading-relaxed text-slate-200 space-y-4 relative z-10">
       </div>
 
-      <!-- Navigasi Sub-Slide (Jika Poin Panjang / 2 Slide) -->
-      <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-800">
-        <div id="slide-indicator" class="text-sm text-slate-400 font-medium">Slide 1 dari 1</div>
-        <div class="flex gap-3">
-          <button id="prev-btn" onclick="changeSubSlide(-1)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold hidden">← Sebelumnya</button>
-          <button id="next-btn" onclick="changeSubSlide(1)" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-sm font-bold hidden">Selanjutnya →</button>
+      <!-- Footer & Navigasi Sub-Slide -->
+      <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-800/80 relative z-10">
+        <div id="slide-indicator" class="text-xs md:text-sm text-slate-400 font-medium">Slide 1 dari 1</div>
+        <div class="flex gap-2.5">
+          <button id="prev-btn" onclick="changeSubSlide(-1)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs md:text-sm font-semibold border border-slate-700 transition hidden">← Sebelumnya</button>
+          <button id="next-btn" onclick="changeSubSlide(1)" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs md:text-sm font-bold shadow-md transition hidden">Selanjutnya →</button>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- Petunjuk Bawah -->
-  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 text-xs text-slate-400 bg-slate-900/80 px-4 py-2 rounded-full border border-slate-800 pointer-events-none">
-    💡 Klik pada gelembung kata untuk melakukan <b>Zoom-In</b> ke materi penjelasan
+  <!-- Footer Watermark -->
+  <div id="bottom-bar" class="fixed bottom-3 left-1/2 -translate-x-1/2 text-[11px] text-slate-400 bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-800/80 pointer-events-none transition-opacity duration-500 whitespace-nowrap">
+    🗺️ Alur Ekspedisi Technical Meeting • <b>lomba.mediatulisanmanusia.com</b>
   </div>
 
   <script>
+    // Data 8 Poin dengan Koordinat Peta Zig-Zag (Menyamping Atas-Bawah untuk Desktop & Berkelok untuk Mobile)
     const points = [
       {
         id: 1,
         word: "PENGANTAR",
-        angle: -90,
+        icon: "🏛️",
+        color: "from-sky-400 to-blue-600",
+        // Desktop: Menyamping Kiri ke Kanan (Atas-Bawah) | Mobile: Berkelok Kiri-Kanan dari Atas ke Bawah
+        desktopPos: { x: 10, y: 36 },
+        mobilePos:  { x: 26, y: 18 },
         slides: [
-          `<p class="text-2xl font-semibold text-white mb-2">Selamat Datang Peserta Lomba Menulis Novela Nasional 2026! ✨</p>
-           <p>Diselenggarakan oleh <b class="text-amber-400">PT Media Tulisan Manusia</b>:</p>
-           <ul class="list-disc list-inside space-y-2 mt-2 text-slate-300">
-             <li>Penerbitan Buku Berindeks Resmi (QRCBN/ISBN)</li>
-             <li>Layanan Konsultan Hak Cipta (HKI)</li>
-             <li>Platform Media Literasi Digital</li>
-           </ul>`
+          `<p class="text-xl md:text-2xl font-bold text-amber-300 mb-2">Selamat Datang di Lomba Menulis Novela Nasional 2026! ✨</p>
+           <p>Ajang kompetisi literasi ini diselenggarakan secara resmi oleh <b class="text-white">PT Media Tulisan Manusia</b>:</p>
+           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+             <div class="p-3.5 rounded-2xl bg-slate-800/70 border border-slate-700">
+               <div class="text-xl mb-1">📚</div>
+               <div class="font-bold text-white text-sm">Penerbitan Buku</div>
+               <div class="text-xs text-slate-400 mt-0.5">Berindeks Resmi QRCBN & ISBN</div>
+             </div>
+             <div class="p-3.5 rounded-2xl bg-slate-800/70 border border-slate-700">
+               <div class="text-xl mb-1">⚖️</div>
+               <div class="font-bold text-white text-sm">Konsultan HKI</div>
+               <div class="text-xs text-slate-400 mt-0.5">Pendampingan Hak Cipta Resmi</div>
+             </div>
+             <div class="p-3.5 rounded-2xl bg-slate-800/70 border border-slate-700">
+               <div class="text-xl mb-1">🌐</div>
+               <div class="font-bold text-white text-sm">Media Literasi</div>
+               <div class="text-xs text-slate-400 mt-0.5">Publikasi Karya Penulis Indonesia</div>
+             </div>
+           </div>`
         ]
       },
       {
         id: 2,
         word: "LINIMASA",
-        angle: -45,
+        icon: "⏳",
+        color: "from-amber-400 to-orange-500",
+        desktopPos: { x: 21, y: 68 },
+        mobilePos:  { x: 74, y: 26 },
         slides: [
-          `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-blue-400">
-               <div class="text-sm text-blue-300">Jumat, 30 Oktober 2026</div>
-               <div class="font-bold text-white">Technical Meeting (TM)</div>
+          `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+             <div class="p-4 rounded-2xl bg-slate-800/80 border-l-4 border-sky-400">
+               <div class="text-xs font-bold uppercase text-sky-400">Jumat, 30 Oktober 2026</div>
+               <div class="font-bold text-white mt-0.5">Technical Meeting (TM)</div>
              </div>
-             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-rose-500">
-               <div class="text-sm text-rose-300">1 – 5 November 2026</div>
-               <div class="font-bold text-white">Pengumpulan Naskah (23.59 WIB)</div>
+             <div class="p-4 rounded-2xl bg-slate-800/80 border-l-4 border-rose-500">
+               <div class="text-xs font-bold uppercase text-rose-400">1 – 5 November 2026</div>
+               <div class="font-bold text-white mt-0.5">Pengumpulan Naskah (23.59 WIB)</div>
              </div>
-             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-amber-400">
-               <div class="text-sm text-amber-300">6 – 9 November 2026</div>
-               <div class="font-bold text-white">Penjurian & Kurasi Karya</div>
+             <div class="p-4 rounded-2xl bg-slate-800/80 border-l-4 border-amber-400">
+               <div class="text-xs font-bold uppercase text-amber-400">6 – 9 November 2026</div>
+               <div class="font-bold text-white mt-0.5">Penjurian & Kurasi Karya</div>
              </div>
-             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-emerald-400">
-               <div class="text-sm text-emerald-300">Selasa, 10 November 2026</div>
-               <div class="font-bold text-white">Puncak & Pengumuman (MCC Malang)</div>
+             <div class="p-4 rounded-2xl bg-slate-800/80 border-l-4 border-emerald-400">
+               <div class="text-xs font-bold uppercase text-emerald-400">Selasa, 10 November 2026</div>
+               <div class="font-bold text-white mt-0.5">Puncak & Pengumuman (MCC Malang)</div>
              </div>
            </div>`
         ]
@@ -150,49 +283,70 @@
       {
         id: 3,
         word: "FORMAT",
-        angle: 0,
+        icon: "📄",
+        color: "from-indigo-400 to-purple-600",
+        desktopPos: { x: 33, y: 30 },
+        mobilePos:  { x: 26, y: 37 },
         slides: [
-          `<h3 class="text-xl font-bold text-white mb-2">Ketentuan Teknis Pengetikan (Bagian 1/2)</h3>
-           <ul class="list-disc list-inside space-y-3">
-             <li><b>Panjang Naskah:</b> Minimal <span class="text-amber-400 font-bold">50 Halaman</span> isi cerita.</li>
-             <li><b>Tipografi:</b> Huruf <i>Times New Roman</i> atau <i>Book Antiqua</i>, ukuran <b>12 pt</b>.</li>
-             <li><b>Tata Letak:</b> Spasi <b>1,5</b>, rata kanan-kiri (<i>justify</i>), margin standar.</li>
+          `<h3 class="text-lg font-bold text-amber-300 mb-2">Ketentuan Teknis Pengetikan (Bagian 1/2)</h3>
+           <ul class="space-y-3">
+             <li class="flex items-start gap-3 bg-slate-800/60 p-3 rounded-xl border border-slate-700/70">
+               <span>📏</span>
+               <div><b>Panjang Naskah:</b> Minimal <span class="text-amber-400 font-bold">50 Halaman</span> isi cerita (tidak termasuk cover & biodata).</div>
+             </li>
+             <li class="flex items-start gap-3 bg-slate-800/60 p-3 rounded-xl border border-slate-700/70">
+               <span>🔤</span>
+               <div><b>Tipografi:</b> Huruf <i>Times New Roman</i> atau <i>Book Antiqua</i>, ukuran <b>12 pt</b>.</div>
+             </li>
+             <li class="flex items-start gap-3 bg-slate-800/60 p-3 rounded-xl border border-slate-700/70">
+               <span>📑</span>
+               <div><b>Tata Letak:</b> Spasi <b>1,5</b>, rata kanan-kiri (<i>justify</i>), margin normal.</div>
+             </li>
            </ul>`,
-          `<h3 class="text-xl font-bold text-white mb-2">Kelengkapan & Penamaan File (Bagian 2/2)</h3>
-           <ul class="list-disc list-inside space-y-3">
-             <li><b>Struktur Naskah:</b> Halaman Judul, Sinopsis Singkat (1–2 halaman), Isi Cerita per Bab, & Biodata Narasi Penulis.</li>
-             <li><b>Format File:</b> PDF atau Word (.docx).</li>
-             <li><b>Nama File:</b> <code class="bg-slate-800 px-2 py-1 rounded text-amber-300">Nama Penulis_Judul Novela</code></li>
+          `<h3 class="text-lg font-bold text-amber-300 mb-2">Kelengkapan & Penamaan File (Bagian 2/2)</h3>
+           <ul class="list-disc list-inside space-y-3 bg-slate-800/50 p-4 rounded-2xl border border-slate-700">
+             <li><b>Struktur Naskah:</b> Halaman Judul, Sinopsis Singkat (1–2 halaman), Isi Cerita per Bab, & Biodata Narasi Penulis di akhir.</li>
+             <li><b>Format File:</b> Disimpan dalam <b>PDF</b> atau <b>Word (.docx)</b>.</li>
+             <li><b>Format Nama File:</b> <code class="bg-slate-900 px-2.5 py-1 rounded-lg text-amber-300 border border-amber-500/30">Nama Penulis_Judul Novela</code></li>
            </ul>`
         ]
       },
       {
         id: 4,
         word: "ORISINALITAS",
-        angle: 45,
+        icon: "🤖",
+        color: "from-rose-400 to-pink-600",
+        desktopPos: { x: 45, y: 66 },
+        mobilePos:  { x: 74, y: 47 },
         slides: [
-          `<h3 class="text-xl font-bold text-white mb-2">Keaslian Karya & Ketentuan AI (Bagian 1/2)</h3>
-           <ul class="list-disc list-inside space-y-3">
-             <li>Karya asli, belum pernah diterbitkan ber-ISBN/QRCBN, dan tidak sedang dilombakan di tempat lain.</li>
-             <li class="p-3 bg-amber-500/10 border border-amber-500/40 rounded-xl text-amber-200">
-               🤖 <b>Ketentuan Penggunaan AI:</b> Diperbolehkan dengan <b>batasan maksimal 20%</b> dan <b>WAJIB DIPARAFRASE</b> kembali menggunakan gaya bahasa penulis sendiri.
-             </li>
-           </ul>`,
-          `<h3 class="text-xl font-bold text-white mb-2">Ketentuan Hak Cipta (Bagian 2/2)</h3>
-           <p>Hak cipta moral dan ekonomi tetap melekat pada penulis masing-masing, dengan memberikan hak tayang digital dan penerbitan program lomba kepada <b>PT Media Tulisan Manusia</b>.</p>`
+          `<h3 class="text-lg font-bold text-amber-300 mb-2">Keaslian Karya & Ketentuan AI (Bagian 1/2)</h3>
+           <div class="space-y-3">
+             <p class="p-3 bg-slate-800/70 rounded-xl border border-slate-700">✅ Naskah wajib karya asli, belum pernah diterbitkan ber-ISBN/QRCBN, dan tidak sedang dilombakan di ajang lain.</p>
+             <div class="p-4 bg-amber-500/15 border-2 border-amber-400/60 rounded-2xl text-amber-100">
+               <div class="font-extrabold text-amber-300 mb-1">🤖 Kebijakan Penggunaan AI (Maksimal 20%):</div>
+               Penggunaan bantuan AI diperbolehkan dengan <b>batasan maksimal 20%</b> dan <b>WAJIB DIPARAFRASE</b> kembali menggunakan gaya bahasa serta sentuhan khas penulis sendiri.
+             </div>
+           </div>`,
+          `<h3 class="text-lg font-bold text-amber-300 mb-2">Ketentuan Hak Cipta (Bagian 2/2)</h3>
+           <div class="p-5 bg-slate-800/70 rounded-2xl border border-slate-700 leading-relaxed">
+             Hak cipta moral dan ekonomi tetap melekat pada penulis masing-masing, dengan memberikan hak tayang digital serta fasilitas penerbitan program kompetisi kepada <b>PT Media Tulisan Manusia</b>.
+           </div>`
         ]
       },
       {
         id: 5,
         word: "PENGUMPULAN",
-        angle: 90,
+        icon: "🚀",
+        color: "from-cyan-400 to-teal-600",
+        desktopPos: { x: 57, y: 32 },
+        mobilePos:  { x: 26, y: 58 },
         slides: [
-          `<p class="mb-3">Pengiriman naskah dilakukan satu pintu melalui portal resmi:</p>
-           <div class="p-4 bg-slate-800 border border-amber-400 rounded-2xl text-center mb-4">
-             <span class="text-2xl font-bold text-amber-400">🌐 lomba.mediatulisanmanusia.com</span>
+          `<p class="text-slate-300">Pengiriman naskah dilakukan satu pintu melalui portal resmi:</p>
+           <div class="p-4 bg-gradient-to-r from-amber-500/20 via-amber-400/10 to-transparent border border-amber-400/60 rounded-2xl text-center my-2">
+             <span class="text-lg md:text-2xl font-extrabold text-amber-300 tracking-wide">🌐 lomba.mediatulisanmanusia.com</span>
            </div>
-           <ol class="list-decimal list-inside space-y-2 text-base text-slate-300">
-             <li>Akses website pada periode <b>1–5 November 2026</b>.</li>
+           <ol class="list-decimal list-inside space-y-2 text-sm md:text-base text-slate-200 bg-slate-800/50 p-4 rounded-2xl border border-slate-700/70">
+             <li>Buka website pada periode pengumpulan (<b>1–5 November 2026</b>).</li>
              <li>Isi data diri lengkap (pastikan WA & Email aktif untuk E-Sertifikat).</li>
              <li>Unggah file naskah & simpan <i>screenshot</i> bukti pengiriman.</li>
            </ol>`
@@ -201,24 +355,27 @@
       {
         id: 6,
         word: "PENILAIAN",
-        angle: 135,
+        icon: "⚖️",
+        color: "from-violet-400 to-fuchsia-600",
+        desktopPos: { x: 69, y: 68 },
+        mobilePos:  { x: 74, y: 68 },
         slides: [
-          `<div class="space-y-3">
-             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+          `<div class="space-y-2.5">
+             <div class="flex justify-between items-center p-3.5 bg-slate-800/80 rounded-xl border border-slate-700">
                <span><b>1. Kekuatan Alur (Plot) & Konflik</b></span>
-               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">30%</span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-extrabold rounded-lg">30%</span>
              </div>
-             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+             <div class="flex justify-between items-center p-3.5 bg-slate-800/80 rounded-xl border border-slate-700">
                <span><b>2. Kesesuaian Tema & Kedalaman Gagasan</b></span>
-               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">25%</span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-extrabold rounded-lg">25%</span>
              </div>
-             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+             <div class="flex justify-between items-center p-3.5 bg-slate-800/80 rounded-xl border border-slate-700">
                <span><b>3. Penokohan & Dimensi Karakter</b></span>
-               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">25%</span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-extrabold rounded-lg">25%</span>
              </div>
-             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+             <div class="flex justify-between items-center p-3.5 bg-slate-800/80 rounded-xl border border-slate-700">
                <span><b>4. Gaya Bahasa & Kerapian Ejaan (PUEBI)</b></span>
-               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">20%</span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-extrabold rounded-lg">20%</span>
              </div>
            </div>`
         ]
@@ -226,104 +383,126 @@
       {
         id: 7,
         word: "BENEFIT",
-        angle: 180,
+        icon: "🏆",
+        color: "from-yellow-400 to-amber-600",
+        desktopPos: { x: 80, y: 34 },
+        mobilePos:  { x: 26, y: 78 },
         slides: [
-          `<ul class="list-disc list-inside space-y-3">
-             <li>🏆 <b>Pemenang (Juara 1–3 & Harapan 1–3):</b> Dana Pembinaan (Total Rp3.000.000), Penerbitan Buku QRCBN, Cetak Buku Fisik, Sertifikat Cetak, & HKI (sesuai kategori juara).</li>
-             <li>📜 <b>Seluruh Peserta:</b> Mendapatkan <b>E-Sertifikat Nasional</b>.</li>
-             <li>🌐 <b>Publikasi Digital:</b> Karya yang lolos kurasi akan ditayangkan secara digital di website resmi sebagai portofolio penulis.</li>
-           </ul>`
+          `<div class="space-y-3">
+             <div class="p-3.5 bg-amber-500/10 border border-amber-500/40 rounded-2xl">
+               <div class="font-bold text-amber-300">🏆 Apresiasi Pemenang (Juara 1–3 & Harapan 1–3):</div>
+               <div class="text-sm text-slate-200 mt-1">Total Hadiah Rp3.000.000, Penerbitan Buku Ber-QRCBN, Cetak Buku Fisik, Sertifikat Cetak, & Fasilitas HKI (sesuai kategori juara).</div>
+             </div>
+             <div class="p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl">
+               <div class="font-bold text-sky-300">📜 Benefit Seluruh Peserta:</div>
+               <div class="text-sm text-slate-200 mt-1">Mendapatkan <b>E-Sertifikat Nasional</b> dan <b>Publikasi Digital Karya</b> di website resmi sebagai portofolio penulis.</div>
+             </div>
+           </div>`
         ]
       },
       {
         id: 8,
         word: "DISKUSI",
-        angle: -135,
+        icon: "💬",
+        color: "from-emerald-400 to-green-600",
+        desktopPos: { x: 91, y: 62 },
+        mobilePos:  { x: 74, y: 86 },
         slides: [
-          `<div class="text-center py-6 space-y-4">
-             <div class="text-5xl">🙋‍♂️💬</div>
-             <h3 class="text-3xl font-extrabold text-white">Sesi Tanya Jawab (Q&A)</h3>
-             <p class="text-slate-300">Silakan gunakan fitur <b>Raise Hand</b> atau ketikkan pertanyaan Anda di kolom <b>Chat</b>.</p>
+          `<div class="text-center py-6 space-y-3">
+             <div class="text-5xl">🙋‍♂️✨</div>
+             <h3 class="font-serif-title text-2xl md:text-3xl font-extrabold text-amber-300">Sesi Tanya Jawab (Q&A)</h3>
+             <p class="text-slate-300 max-w-lg mx-auto">Silakan gunakan fitur <b>Raise Hand</b> atau ketikkan pertanyaan Anda di kolom <b>Chat</b> mengenai teknis penulisan maupun pengumpulan karya.</p>
            </div>`
         ]
       }
     ];
 
     const canvas = document.getElementById('canvas');
-    const bubblesContainer = document.getElementById('bubbles-container');
+    const nodesContainer = document.getElementById('nodes-container');
     const svg = document.getElementById('lines-svg');
     const overlay = document.getElementById('content-overlay');
+    const topBar = document.getElementById('top-bar');
+    const bottomBar = document.getElementById('bottom-bar');
 
     let activePoint = null;
     let currentSubSlide = 0;
 
-    function renderMindMap() {
-      bubblesContainer.innerHTML = '';
-      svg.innerHTML = '';
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      const radius = Math.min(cx, cy) * 0.68;
+    function renderRoadmap() {
+      nodesContainer.innerHTML = '';
+      // Pertahankan elemen <defs> di dalam SVG
+      const defs = svg.querySelector('defs').outerHTML;
+      svg.innerHTML = defs;
 
-      // Gambar garis melingkar penghubung antar gelembung + garis ke pusat
-      let prevX = null, prevY = null, firstX = null, firstY = null;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const isMobile = w < 768;
 
-      points.forEach((pt, index) => {
-        const rad = (pt.angle * Math.PI) / 180;
-        const x = cx + radius * Math.cos(rad);
-        const y = cy + radius * Math.sin(rad);
+      const coords = points.map(pt => {
+        const pos = isMobile ? pt.mobilePos : pt.desktopPos;
+        return {
+          x: (pos.x / 100) * w,
+          y: (pos.y / 100) * h,
+          pt
+        };
+      });
 
-        // Garis titik-titik dari pusat ke gelembung
-        const lineCenter = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        lineCenter.setAttribute('x1', cx);
-        lineCenter.setAttribute('y1', cy);
-        lineCenter.setAttribute('x2', x);
-        lineCenter.setAttribute('y2', y);
-        lineCenter.setAttribute('stroke', '#475569');
-        lineCenter.setAttribute('stroke-width', '2');
-        lineCenter.setAttribute('class', 'dashed-line');
-        svg.appendChild(lineCenter);
-
-        // Garis titik-titik penghubung antar gelembung berurutan
-        if (prevX !== null) {
-          const lineLoop = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          lineLoop.setAttribute('x1', prevX);
-          lineLoop.setAttribute('y1', prevY);
-          lineLoop.setAttribute('x2', x);
-          lineLoop.setAttribute('y2', y);
-          lineLoop.setAttribute('stroke', '#f59e0b');
-          lineLoop.setAttribute('stroke-opacity', '0.45');
-          lineLoop.setAttribute('stroke-width', '2');
-          lineLoop.setAttribute('class', 'dashed-line');
-          svg.appendChild(lineLoop);
+      // Buat Jalur Kurva S (Cubic Bezier) yang Menghubungkan Titik 1 -> 8 seperti Peta
+      let pathD = `M ${coords[0].x} ${coords[0].y}`;
+      for (let i = 0; i < coords.length - 1; i++) {
+        const curr = coords[i];
+        const next = coords[i + 1];
+        if (isMobile) {
+          const midY = (curr.y + next.y) / 2;
+          pathD += ` C ${curr.x} ${midY}, ${next.x} ${midY}, ${next.x} ${next.y}`;
         } else {
-          firstX = x; firstY = y;
+          const midX = (curr.x + next.x) / 2;
+          pathD += ` C ${midX} ${curr.y}, ${midX} ${next.y}, ${next.x} ${next.y}`;
         }
-        prevX = x; prevY = y;
+      }
 
-        if (index === points.length - 1) {
-          const lineClose = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          lineClose.setAttribute('x1', x);
-          lineClose.setAttribute('y1', y);
-          lineClose.setAttribute('x2', firstX);
-          lineClose.setAttribute('y2', firstY);
-          lineClose.setAttribute('stroke', '#f59e0b');
-          lineClose.setAttribute('stroke-opacity', '0.45');
-          lineClose.setAttribute('stroke-width', '2');
-          lineClose.setAttribute('class', 'dashed-line');
-          svg.appendChild(lineClose);
-        }
+      // 1. Jalur Bayangan Bawah (Glow)
+      const glowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      glowPath.setAttribute('d', pathD);
+      glowPath.setAttribute('fill', 'none');
+      glowPath.setAttribute('stroke', 'url(#goldGrad)');
+      glowPath.setAttribute('stroke-width', isMobile ? '4' : '6');
+      glowPath.setAttribute('stroke-opacity', '0.25');
+      glowPath.setAttribute('filter', 'url(#glow)');
+      svg.appendChild(glowPath);
 
-        // Buat Elemen Gelembung 1 Kata
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble w-32 h-32 md:w-36 md:h-36 rounded-full bg-slate-800 border-2 border-blue-400 flex flex-col items-center justify-center text-center p-2 z-20';
-        bubble.style.left = `${x}px`;
-        bubble.style.top = `${y}px`;
-        bubble.onclick = () => zoomIn(pt, x, y);
-        bubble.innerHTML = `
-          <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold flex items-center justify-center mb-1 border border-blue-400/30">${pt.id}</span>
-          <span class="font-extrabold text-sm md:text-base tracking-wider text-white">${pt.word}</span>
+      // 2. Jalur Titik-Titik Mengalir (Dashed Road)
+      const dashedPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      dashedPath.setAttribute('d', pathD);
+      dashedPath.setAttribute('fill', 'none');
+      dashedPath.setAttribute('stroke', 'url(#goldGrad)');
+      dashedPath.setAttribute('stroke-width', isMobile ? '2.5' : '3.5');
+      dashedPath.setAttribute('stroke-linecap', 'round');
+      dashedPath.setAttribute('class', 'flow-path');
+      svg.appendChild(dashedPath);
+
+      // Render Gelembung Stasiun Peta
+      coords.forEach(({ x, y, pt }) => {
+        const node = document.createElement('div');
+        node.className = 'map-node z-20';
+        node.style.left = `${x}px`;
+        node.style.top = `${y}px`;
+        node.onclick = () => zoomIn(pt, x, y);
+
+        node.innerHTML = `
+          <div class="relative flex flex-col items-center">
+            <div class="orbit-ring"></div>
+            <!-- Badge Nomor Pos -->
+            <div class=" -mb-2.5 z-10 px-2.5 py-0.5 rounded-full bg-gradient-to-r ${pt.color} text-slate-950 font-extrabold text-[10px] tracking-wider shadow">
+              POS 0${pt.id}
+            </div>
+            <!-- Lingkaran Utama -->
+            <div class="node-circle w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-2 border-amber-400/50 flex flex-col items-center justify-center p-2 text-center">
+              <div class="text-xl sm:text-2xl md:text-3xl mb-1 drop-shadow">${pt.icon}</div>
+              <div class="font-extrabold text-[11px] sm:text-xs md:text-sm tracking-wider text-white leading-tight">${pt.word}</div>
+            </div>
+          </div>
         `;
-        bubblesContainer.appendChild(bubble);
+        nodesContainer.appendChild(node);
       });
     }
 
@@ -332,22 +511,26 @@
       currentSubSlide = 0;
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
-      const scale = 3.2;
+      const scale = window.innerWidth < 768 ? 2.5 : 3.2;
       const tx = (cx - x) * scale;
       const ty = (cy - y) * scale;
 
+      topBar.style.opacity = '0';
+      bottomBar.style.opacity = '0';
       canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+
       updateModalContent();
       overlay.classList.add('active');
     }
 
     function updateModalContent() {
-      document.getElementById('modal-badge').innerText = activePoint.id;
+      document.getElementById('modal-icon').innerText = activePoint.icon;
+      document.getElementById('modal-step').innerText = `STASIUN 0${activePoint.id} DARI 08`;
       document.getElementById('modal-title').innerText = activePoint.word;
       document.getElementById('modal-body').innerHTML = activePoint.slides[currentSubSlide];
-      
+
       const total = activePoint.slides.length;
-      document.getElementById('slide-indicator').innerText = `Bagian ${currentSubSlide + 1} dari ${total}`;
+      document.getElementById('slide-indicator').innerText = `Halaman ${currentSubSlide + 1} dari ${total}`;
       document.getElementById('prev-btn').classList.toggle('hidden', currentSubSlide === 0);
       document.getElementById('next-btn').classList.toggle('hidden', currentSubSlide === total - 1);
     }
@@ -360,10 +543,12 @@
     function zoomOut() {
       overlay.classList.remove('active');
       canvas.style.transform = `translate(0px, 0px) scale(1)`;
+      topBar.style.opacity = '1';
+      bottomBar.style.opacity = '1';
     }
 
-    window.addEventListener('resize', renderMindMap);
-    renderMindMap();
+    window.addEventListener('resize', renderRoadmap);
+    renderRoadmap();
   </script>
 </body>
 </html>
