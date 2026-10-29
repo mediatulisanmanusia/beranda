@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TM Lomba Menulis Novela Nasional 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      overflow: hidden;
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      color: #f8fafc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
+    }
+    /* Kanvas Utama untuk Efek Prezi Zoom */
+    #canvas {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-origin: center center;
+    }
+    .bubble {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+    }
+    .bubble:hover {
+      transform: translate(-50%, -50%) scale(1.12);
+      box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.6);
+      border-color: #f59e0b;
+    }
+    /* Modal Konten Zoom */
+    #content-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease 0.3s;
+    }
+    #content-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .dashed-line {
+      stroke-dasharray: 8, 8;
+      animation: dash 30s linear infinite;
+    }
+    @keyframes dash {
+      to { stroke-dashoffset: -1000; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KANVAS PETA PIKIRAN (MINDMAP) -->
+  <div id="canvas">
+    <!-- Garis Titik-Titik Penghubung (SVG) -->
+    <svg class="w-full h-full absolute inset-0 pointer-events-none" id="lines-svg"></svg>
+
+    <!-- Gelembung Pusat -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 p-6 flex flex-col items-center justify-center text-center shadow-2xl border-4 border-amber-300 z-10">
+      <span class="text-xs font-bold tracking-widest uppercase text-slate-900 bg-white/80 px-3 py-1 rounded-full mb-2">Technical Meeting</span>
+      <h1 class="text-xl font-extrabold text-white leading-tight drop-shadow">LOMBA NOVELA NASIONAL 2026</h1>
+      <p class="text-xs text-amber-100 mt-2 font-medium">PT Media Tulisan Manusia</p>
+    </div>
+
+    <!-- Container untuk 8 Gelembung Poin -->
+    <div id="bubbles-container"></div>
+  </div>
+
+  <!-- TAMPILAN ISI SAAT DI-ZOOM -->
+  <div id="content-overlay" class="fixed inset-0 flex items-center justify-center p-6 z-50 bg-slate-950/80 backdrop-blur-md">
+    <div class="bg-slate-900 border-2 border-amber-500/50 rounded-3xl max-w-3xl w-full p-8 md:p-12 shadow-2xl relative">
+      
+      <!-- Header Modal -->
+      <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
+        <div class="flex items-center gap-3">
+          <span id="modal-badge" class="w-10 h-10 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center text-lg">1</span>
+          <h2 id="modal-title" class="text-2xl md:text-3xl font-extrabold text-amber-400 tracking-wide">JUDUL</h2>
+        </div>
+        <button onclick="zoomOut()" class="px-4 py-2 rounded-full bg-slate-800 hover:bg-rose-600 text-sm font-semibold transition flex items-center gap-2 border border-slate-600">
+          ✕ Kembali ke Peta
+        </button>
+      </div>
+
+      <!-- Isi Slide -->
+      <div id="modal-body" class="min-h-[220px] flex flex-col justify-center text-lg md:text-xl leading-relaxed text-slate-200 space-y-4">
+      </div>
+
+      <!-- Navigasi Sub-Slide (Jika Poin Panjang / 2 Slide) -->
+      <div class="flex justify-between items-center mt-8 pt-4 border-t border-slate-800">
+        <div id="slide-indicator" class="text-sm text-slate-400 font-medium">Slide 1 dari 1</div>
+        <div class="flex gap-3">
+          <button id="prev-btn" onclick="changeSubSlide(-1)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold hidden">← Sebelumnya</button>
+          <button id="next-btn" onclick="changeSubSlide(1)" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-sm font-bold hidden">Selanjutnya →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Petunjuk Bawah -->
+  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 text-xs text-slate-400 bg-slate-900/80 px-4 py-2 rounded-full border border-slate-800 pointer-events-none">
+    💡 Klik pada gelembung kata untuk melakukan <b>Zoom-In</b> ke materi penjelasan
+  </div>
+
+  <script>
+    const points = [
+      {
+        id: 1,
+        word: "PENGANTAR",
+        angle: -90,
+        slides: [
+          `<p class="text-2xl font-semibold text-white mb-2">Selamat Datang Peserta Lomba Menulis Novela Nasional 2026! ✨</p>
+           <p>Diselenggarakan oleh <b class="text-amber-400">PT Media Tulisan Manusia</b>:</p>
+           <ul class="list-disc list-inside space-y-2 mt-2 text-slate-300">
+             <li>Penerbitan Buku Berindeks Resmi (QRCBN/ISBN)</li>
+             <li>Layanan Konsultan Hak Cipta (HKI)</li>
+             <li>Platform Media Literasi Digital</li>
+           </ul>`
+        ]
+      },
+      {
+        id: 2,
+        word: "LINIMASA",
+        angle: -45,
+        slides: [
+          `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-blue-400">
+               <div class="text-sm text-blue-300">Jumat, 30 Oktober 2026</div>
+               <div class="font-bold text-white">Technical Meeting (TM)</div>
+             </div>
+             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-rose-500">
+               <div class="text-sm text-rose-300">1 – 5 November 2026</div>
+               <div class="font-bold text-white">Pengumpulan Naskah (23.59 WIB)</div>
+             </div>
+             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-amber-400">
+               <div class="text-sm text-amber-300">6 – 9 November 2026</div>
+               <div class="font-bold text-white">Penjurian & Kurasi Karya</div>
+             </div>
+             <div class="p-4 rounded-xl bg-slate-800/80 border-l-4 border-emerald-400">
+               <div class="text-sm text-emerald-300">Selasa, 10 November 2026</div>
+               <div class="font-bold text-white">Puncak & Pengumuman (MCC Malang)</div>
+             </div>
+           </div>`
+        ]
+      },
+      {
+        id: 3,
+        word: "FORMAT",
+        angle: 0,
+        slides: [
+          `<h3 class="text-xl font-bold text-white mb-2">Ketentuan Teknis Pengetikan (Bagian 1/2)</h3>
+           <ul class="list-disc list-inside space-y-3">
+             <li><b>Panjang Naskah:</b> Minimal <span class="text-amber-400 font-bold">50 Halaman</span> isi cerita.</li>
+             <li><b>Tipografi:</b> Huruf <i>Times New Roman</i> atau <i>Book Antiqua</i>, ukuran <b>12 pt</b>.</li>
+             <li><b>Tata Letak:</b> Spasi <b>1,5</b>, rata kanan-kiri (<i>justify</i>), margin standar.</li>
+           </ul>`,
+          `<h3 class="text-xl font-bold text-white mb-2">Kelengkapan & Penamaan File (Bagian 2/2)</h3>
+           <ul class="list-disc list-inside space-y-3">
+             <li><b>Struktur Naskah:</b> Halaman Judul, Sinopsis Singkat (1–2 halaman), Isi Cerita per Bab, & Biodata Narasi Penulis.</li>
+             <li><b>Format File:</b> PDF atau Word (.docx).</li>
+             <li><b>Nama File:</b> <code class="bg-slate-800 px-2 py-1 rounded text-amber-300">Nama Penulis_Judul Novela</code></li>
+           </ul>`
+        ]
+      },
+      {
+        id: 4,
+        word: "ORISINALITAS",
+        angle: 45,
+        slides: [
+          `<h3 class="text-xl font-bold text-white mb-2">Keaslian Karya & Ketentuan AI (Bagian 1/2)</h3>
+           <ul class="list-disc list-inside space-y-3">
+             <li>Karya asli, belum pernah diterbitkan ber-ISBN/QRCBN, dan tidak sedang dilombakan di tempat lain.</li>
+             <li class="p-3 bg-amber-500/10 border border-amber-500/40 rounded-xl text-amber-200">
+               🤖 <b>Ketentuan Penggunaan AI:</b> Diperbolehkan dengan <b>batasan maksimal 20%</b> dan <b>WAJIB DIPARAFRASE</b> kembali menggunakan gaya bahasa penulis sendiri.
+             </li>
+           </ul>`,
+          `<h3 class="text-xl font-bold text-white mb-2">Ketentuan Hak Cipta (Bagian 2/2)</h3>
+           <p>Hak cipta moral dan ekonomi tetap melekat pada penulis masing-masing, dengan memberikan hak tayang digital dan penerbitan program lomba kepada <b>PT Media Tulisan Manusia</b>.</p>`
+        ]
+      },
+      {
+        id: 5,
+        word: "PENGUMPULAN",
+        angle: 90,
+        slides: [
+          `<p class="mb-3">Pengiriman naskah dilakukan satu pintu melalui portal resmi:</p>
+           <div class="p-4 bg-slate-800 border border-amber-400 rounded-2xl text-center mb-4">
+             <span class="text-2xl font-bold text-amber-400">🌐 lomba.mediatulisanmanusia.com</span>
+           </div>
+           <ol class="list-decimal list-inside space-y-2 text-base text-slate-300">
+             <li>Akses website pada periode <b>1–5 November 2026</b>.</li>
+             <li>Isi data diri lengkap (pastikan WA & Email aktif untuk E-Sertifikat).</li>
+             <li>Unggah file naskah & simpan <i>screenshot</i> bukti pengiriman.</li>
+           </ol>`
+        ]
+      },
+      {
+        id: 6,
+        word: "PENILAIAN",
+        angle: 135,
+        slides: [
+          `<div class="space-y-3">
+             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+               <span><b>1. Kekuatan Alur (Plot) & Konflik</b></span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">30%</span>
+             </div>
+             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+               <span><b>2. Kesesuaian Tema & Kedalaman Gagasan</b></span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">25%</span>
+             </div>
+             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+               <span><b>3. Penokohan & Dimensi Karakter</b></span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">25%</span>
+             </div>
+             <div class="flex justify-between items-center p-3 bg-slate-800 rounded-xl">
+               <span><b>4. Gaya Bahasa & Kerapian Ejaan (PUEBI)</b></span>
+               <span class="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg">20%</span>
+             </div>
+           </div>`
+        ]
+      },
+      {
+        id: 7,
+        word: "BENEFIT",
+        angle: 180,
+        slides: [
+          `<ul class="list-disc list-inside space-y-3">
+             <li>🏆 <b>Pemenang (Juara 1–3 & Harapan 1–3):</b> Dana Pembinaan (Total Rp3.000.000), Penerbitan Buku QRCBN, Cetak Buku Fisik, Sertifikat Cetak, & HKI (sesuai kategori juara).</li>
+             <li>📜 <b>Seluruh Peserta:</b> Mendapatkan <b>E-Sertifikat Nasional</b>.</li>
+             <li>🌐 <b>Publikasi Digital:</b> Karya yang lolos kurasi akan ditayangkan secara digital di website resmi sebagai portofolio penulis.</li>
+           </ul>`
+        ]
+      },
+      {
+        id: 8,
+        word: "DISKUSI",
+        angle: -135,
+        slides: [
+          `<div class="text-center py-6 space-y-4">
+             <div class="text-5xl">🙋‍♂️💬</div>
+             <h3 class="text-3xl font-extrabold text-white">Sesi Tanya Jawab (Q&A)</h3>
+             <p class="text-slate-300">Silakan gunakan fitur <b>Raise Hand</b> atau ketikkan pertanyaan Anda di kolom <b>Chat</b>.</p>
+           </div>`
+        ]
+      }
+    ];
+
+    const canvas = document.getElementById('canvas');
+    const bubblesContainer = document.getElementById('bubbles-container');
+    const svg = document.getElementById('lines-svg');
+    const overlay = document.getElementById('content-overlay');
+
+    let activePoint = null;
+    let currentSubSlide = 0;
+
+    function renderMindMap() {
+      bubblesContainer.innerHTML = '';
+      svg.innerHTML = '';
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const radius = Math.min(cx, cy) * 0.68;
+
+      // Gambar garis melingkar penghubung antar gelembung + garis ke pusat
+      let prevX = null, prevY = null, firstX = null, firstY = null;
+
+      points.forEach((pt, index) => {
+        const rad = (pt.angle * Math.PI) / 180;
+        const x = cx + radius * Math.cos(rad);
+        const y = cy + radius * Math.sin(rad);
+
+        // Garis titik-titik dari pusat ke gelembung
+        const lineCenter = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        lineCenter.setAttribute('x1', cx);
+        lineCenter.setAttribute('y1', cy);
+        lineCenter.setAttribute('x2', x);
+        lineCenter.setAttribute('y2', y);
+        lineCenter.setAttribute('stroke', '#475569');
+        lineCenter.setAttribute('stroke-width', '2');
+        lineCenter.setAttribute('class', 'dashed-line');
+        svg.appendChild(lineCenter);
+
+        // Garis titik-titik penghubung antar gelembung berurutan
+        if (prevX !== null) {
+          const lineLoop = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineLoop.setAttribute('x1', prevX);
+          lineLoop.setAttribute('y1', prevY);
+          lineLoop.setAttribute('x2', x);
+          lineLoop.setAttribute('y2', y);
+          lineLoop.setAttribute('stroke', '#f59e0b');
+          lineLoop.setAttribute('stroke-opacity', '0.45');
+          lineLoop.setAttribute('stroke-width', '2');
+          lineLoop.setAttribute('class', 'dashed-line');
+          svg.appendChild(lineLoop);
+        } else {
+          firstX = x; firstY = y;
+        }
+        prevX = x; prevY = y;
+
+        if (index === points.length - 1) {
+          const lineClose = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineClose.setAttribute('x1', x);
+          lineClose.setAttribute('y1', y);
+          lineClose.setAttribute('x2', firstX);
+          lineClose.setAttribute('y2', firstY);
+          lineClose.setAttribute('stroke', '#f59e0b');
+          lineClose.setAttribute('stroke-opacity', '0.45');
+          lineClose.setAttribute('stroke-width', '2');
+          lineClose.setAttribute('class', 'dashed-line');
+          svg.appendChild(lineClose);
+        }
+
+        // Buat Elemen Gelembung 1 Kata
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble w-32 h-32 md:w-36 md:h-36 rounded-full bg-slate-800 border-2 border-blue-400 flex flex-col items-center justify-center text-center p-2 z-20';
+        bubble.style.left = `${x}px`;
+        bubble.style.top = `${y}px`;
+        bubble.onclick = () => zoomIn(pt, x, y);
+        bubble.innerHTML = `
+          <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold flex items-center justify-center mb-1 border border-blue-400/30">${pt.id}</span>
+          <span class="font-extrabold text-sm md:text-base tracking-wider text-white">${pt.word}</span>
+        `;
+        bubblesContainer.appendChild(bubble);
+      });
+    }
+
+    function zoomIn(pt, x, y) {
+      activePoint = pt;
+      currentSubSlide = 0;
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const scale = 3.2;
+      const tx = (cx - x) * scale;
+      const ty = (cy - y) * scale;
+
+      canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+      updateModalContent();
+      overlay.classList.add('active');
+    }
+
+    function updateModalContent() {
+      document.getElementById('modal-badge').innerText = activePoint.id;
+      document.getElementById('modal-title').innerText = activePoint.word;
+      document.getElementById('modal-body').innerHTML = activePoint.slides[currentSubSlide];
+      
+      const total = activePoint.slides.length;
+      document.getElementById('slide-indicator').innerText = `Bagian ${currentSubSlide + 1} dari ${total}`;
+      document.getElementById('prev-btn').classList.toggle('hidden', currentSubSlide === 0);
+      document.getElementById('next-btn').classList.toggle('hidden', currentSubSlide === total - 1);
+    }
+
+    function changeSubSlide(dir) {
+      currentSubSlide += dir;
+      updateModalContent();
+    }
+
+    function zoomOut() {
+      overlay.classList.remove('active');
+      canvas.style.transform = `translate(0px, 0px) scale(1)`;
+    }
+
+    window.addEventListener('resize', renderMindMap);
+    renderMindMap();
+  </script>
+</body>
+</html>
