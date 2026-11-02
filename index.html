@@ -2479,9 +2479,19 @@ document.getElementById("loginForm").addEventListener("submit", (function(e) {
 
 document.getElementById("registerForm").addEventListener("submit", (function(e) {
     e.preventDefault();
-    const t = document.getElementById("reg-email").value,
+    const nama = document.getElementById("reg-nama").value.trim(),
+          wa = document.getElementById("reg-hp").value.trim(),
+          t = document.getElementById("reg-email").value.trim(),
           a = document.getElementById("reg-password").value;
-    window.createUserWithEmailAndPassword(window.auth, t, a).then((() => {
+    window.createUserWithEmailAndPassword(window.auth, t, a).then((async (userCredential) => {
+        try {
+            await window.updateProfile(userCredential.user, { displayName: nama });
+            await window.addDoc(window.collection(window.db, "users"), { email: t, nama: nama, wa: wa });
+            window.currentUserName = nama;
+            window.userWaTersimpan = wa;
+        } catch (err) {
+            console.error("Gagal menyimpan detail profil:", err);
+        }
         showToast("Daftar Berhasil!", "success");
         document.getElementById("registerForm").reset();
         bukaHalaman("beranda");
@@ -2597,7 +2607,7 @@ window.uploadPDFAdmin = function(e, t) {
             });
             const n = await t.json();
             if ("success" !== n.status) throw new Error(n.message || "Gagal mengunggah ke Drive");
-            await window.updateDoc(window.doc(window.db, "pesanan", e), { fileHasil: n.downloadURL, status: "Berhasil" });
+            await window.updateDoc(window.doc(window.db, "pesanan", e), { fileHasil: n.downloadURL, status: "Terbit" });
             showToast("PDF Berhasil disimpan di Drive!", "success");
             window.muatRiwayatAdmin();
         } catch (e) {
@@ -2739,7 +2749,7 @@ window.kirimFormLayanan = async function(e, t) {
         }
         "success" === w.status && w.linkText ? g += `\n*LINK LAMPIRAN KLIEN:*\n${w.linkText}` : g += "\n_(File telah diunggah ke server MTM)._";
 
-        const h = `whatsapp://send?phone=6288294448222&text=${encodeURIComponent(g)}`;
+        const h = `https://wa.me/6288294448222?text=${encodeURIComponent(g)}`;
         o && (o.classList.add("opacity-0"), setTimeout((() => o.classList.add("hidden")), 500));
         showToast(`${t} Berhasil Dikirim!`, "success");
         window.location.href = h;
