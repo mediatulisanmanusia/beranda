@@ -2930,6 +2930,184 @@ function filterTabelAdmin() {
         n.style.display = o && s && c ? "" : "none";
     }));
 }
+  // ==========================================
+// FUNGSI HARGA & PERPINDAHAN STEP FORMULIR
+// ==========================================
+
+// Konfigurasi Rekening & QRIS (Sesuaikan nomor rekening di sini)
+const INFO_PEMBAYARAN = {
+    qris: {
+        judul: "Scan QRIS Resmi PT Media Tulisan Manusia",
+        gambar: "qris.png", // Pastikan file gambar QRIS tersedia di hosting
+        catatan: "Mendukung GoPay, OVO, Dana, ShopeePay, LinkAja, dan seluruh Mobile Banking."
+    },
+    ocbc: {
+        bank: "Bank OCBC NISP",
+        norek: "ISI_NOMOR_REKENING_OCBC", // Ganti dengan nomor rekening OCBC Anda
+        atasNama: "PT MEDIA TULISAN MANUSIA"
+    },
+    bri: {
+        bank: "Bank BRI",
+        norek: "ISI_NOMOR_REKENING_BRI", // Ganti dengan nomor rekening BRI Anda
+        atasNama: "PT MEDIA TULISAN MANUSIA"
+    }
+};
+
+function updateBiayaPenerbitanLangkah1() {
+    const select = document.getElementById("dropdownPenerbitan");
+    const label = document.getElementById("labelHargaPenerbitan");
+    if (!select || !label) return;
+
+    let harga = 0;
+    if (select.value === "Standar") harga = 500000;
+    else if (select.value === "Eksklusif") harga = 1300000;
+
+    if (harga > 0) {
+        label.innerText = formatRp(harga);
+        label.classList.remove("hidden");
+    } else {
+        label.classList.add("hidden");
+    }
+}
+
+function updateBiayaHkiLangkah1() {
+    const select = document.getElementById("dropdownHki");
+    const label = document.getElementById("labelHargaHki");
+    if (!select || !label) return;
+
+    let harga = 0;
+    if (select.value === "Karya Tulis") harga = 800000;
+    else if (select.value === "Karya Lainnya Umum") harga = 1200000;
+
+    if (harga > 0) {
+        label.innerText = formatRp(harga);
+        label.classList.remove("hidden");
+    } else {
+        label.classList.add("hidden");
+    }
+}
+
+function salinRekening(norek) {
+    navigator.clipboard.writeText(norek).then(() => {
+        showToast("Nomor rekening berhasil disalin!", "success");
+    }).catch(() => {
+        showToast("Gagal menyalin nomor rekening", "error");
+    });
+}
+
+function lanjutLangkah2(tipe) {
+    const step1 = document.getElementById(`step1-${tipe}`);
+    const step2 = document.getElementById(`step2-${tipe}`);
+    if (!step1 || !step2) return;
+
+    // 1. Validasi kategori "Lainnya" khusus form Literasi
+    if (tipe === "literasi") {
+        const selectKat = step1.querySelector('select[name="Kategori"]');
+        const inputLainnya = document.getElementById("input-kategori-lainnya");
+        if (selectKat && inputLainnya) {
+            inputLainnya.required = (selectKat.value === "Lainnya");
+        }
+    }
+
+    // 2. Validasi seluruh input wajib (required) di Step 1
+    const inputs = step1.querySelectorAll("input, select, textarea");
+    for (let el of inputs) {
+        if (!el.checkValidity()) {
+            el.reportValidity();
+            return;
+        }
+        // Cek ukuran file maksimal 3MB sebelum lanjut ke tagihan
+        if (el.type === "file" && el.files.length > 0) {
+            if (el.files[0].size / 1024 / 1024 > 3) {
+                showToast(`Berkas "${el.name.replace(/_/g, " ")}" melebihi 3MB. Harap diperkecil.`, "error");
+                return;
+            }
+        }
+    }
+
+    // 3. Hitung nominal tagihan berdasarkan tipe layanan
+    let totalHarga = 0;
+    if (tipe === "penerbitan") {
+        const paket = document.getElementById("dropdownPenerbitan")?.value;
+        totalHarga = paket === "Standar" ? 500000 : paket === "Eksklusif" ? 1300000 : 0;
+        const elTagihan = document.getElementById("tagihan-final-penerbitan");
+        if (elTagihan) elTagihan.innerText = formatRp(totalHarga);
+    } else if (tipe === "hki") {
+        const kategori = document.getElementById("dropdownHki")?.value;
+        totalHarga = kategori === "Karya Tulis" ? 800000 : kategori === "Karya Lainnya Umum" ? 1200000 : 0;
+        const elTagihan = document.getElementById("tagihan-final-hki");
+        if (elTagihan) elTagihan.innerText = formatRp(totalHarga);
+    } else if (tipe === "literasi") {
+        totalHarga = 25000;
+    }
+
+    // 4. Ambil metode pembayaran yang dipilih
+    const metodeDipilih = step1.querySelector('input[name="Metode_Pembayaran"]:checked')?.value;
+    if (!metodeDipilih) {
+        showToast("Pilih metode pembayaran terlebih dahulu!", "error");
+        return;
+    }
+
+    // 5. Tampilkan detail pembayaran di Step 2
+    const displayBox = document.getElementById(`payment-display-${tipe}`);
+    if (displayBox) {
+        if (metodeDipilih === "qris") {
+            displayBox.innerHTML = `
+                <p class="text-xs font-extrabold text-warnautama dark:text-white uppercase tracking-wider mb-3">${INFO_PEMBAYARAN.qris.judul}</p>
+                <div class="bg-white p-3 rounded-2xl inline-block shadow-md border border-gray-200 mb-3">
+                    <img src="${INFO_PEMBAYARAN.qris.gambar}" alt="QRIS MTM" class="w-48 h-48 sm:w-56 sm:h-56 object-contain mx-auto">
+                </div>
+                <p class="text-[11px] text-gray-600 dark:text-gray-300 font-medium">${INFO_PEMBAYARAN.qris.catatan}</p>
+            `;
+        } else {
+            const rek = INFO_PEMBAYARAN[metodeDipilih];
+            displayBox.innerHTML = `
+                <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Transfer ke ${rek.bank}</p>
+                <div class="flex items-center justify-center gap-3 my-2">
+                    <span class="text-xl sm:text-2xl font-black text-warnautama dark:text-white tracking-wider select-all">${rek.norek}</span>
+                    <button type="button" onclick="salinRekening('${rek.norek}')" class="bg-warnautama/10 dark:bg-white/10 hover:bg-warnautama hover:text-white text-warnautama dark:text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition uppercase">Salin</button>
+                </div>
+                <p class="text-xs font-extrabold text-warnakedua uppercase tracking-wide">a.n. ${rek.atasNama}</p>
+                <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-3">Pastikan nominal transfer sesuai dengan total tagihan di atas.</p>
+            `;
+        }
+    }
+
+    // 6. Wajibkan upload bukti transfer di Step 2
+    const mapIdBukti = {
+        penerbitan: "fileBuktiPenerbitan",
+        hki: "fileBuktiHki",
+        literasi: "fileBuktiLiterasi"
+    };
+    const inputBukti = document.getElementById(mapIdBukti[tipe]);
+    if (inputBukti) inputBukti.required = true;
+
+    // 7. Sembunyikan Step 1 & Tampilkan Step 2
+    step1.classList.add("hidden");
+    step1.classList.remove("block");
+    step2.classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function kembaliLangkah1(tipe) {
+    const step1 = document.getElementById(`step1-${tipe}`);
+    const step2 = document.getElementById(`step2-${tipe}`);
+    if (!step1 || !step2) return;
+
+    const mapIdBukti = {
+        penerbitan: "fileBuktiPenerbitan",
+        hki: "fileBuktiHki",
+        literasi: "fileBuktiLiterasi"
+    };
+    const inputBukti = document.getElementById(mapIdBukti[tipe]);
+    if (inputBukti) inputBukti.required = false;
+
+    step2.classList.add("hidden");
+    step1.classList.remove("hidden");
+    step1.classList.add("block");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 </script>
 </body>
 </html>
