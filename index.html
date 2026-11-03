@@ -234,28 +234,6 @@ Mulai Sekarang
 </div>
 </div>
 </section>
-<section class="reveal w-full max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-4 relative z-10">
-<div class="glass p-6 sm:p-8 md:p-10 rounded-[2.5rem] shadow-2xl text-center border-t-4 border-warnakedua animate-fade-up relative overflow-hidden group hover:-translate-y-1 transition-all duration-500">
-<div class="absolute top-0 right-0 w-32 h-32 bg-warnakedua/20 rounded-full filter blur-[50px] pointer-events-none"></div>
-<div class="absolute bottom-0 left-0 w-32 h-32 bg-warnautama/10 rounded-full filter blur-[50px] pointer-events-none"></div>
-<div class="mb-4 relative z-10">
-<span class="bg-warnakedua text-white font-black px-4 py-1.5 rounded-full text-[10px] md:text-xs uppercase tracking-widest shadow-sm inline-flex items-center gap-1 animate-pulse">
-✦ Event Terbaru
-</span>
-</div>
-<h4 class="text-lg md:text-2xl font-black text-warnautama dark:text-white uppercase tracking-tight mb-5 relative z-10">
-Lomba Menulis Novela
-</h4>
-<div class="relative w-full max-w-[280px] sm:max-w-[340px] mx-auto aspect-[4/5] rounded-[1.5rem] overflow-hidden mb-8 shadow-xl border-4 border-white/60 dark:border-gray-700/50 z-10">
-<img src="pamflet.png" loading="lazy" alt="Pamflet Lomba Menulis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-</div>
-<div class="relative z-10">
-<a href="halaman-lomba.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-warnautama dark:bg-white text-white dark:text-warnakeempat font-extrabold py-4 px-10 rounded-full shadow-lg uppercase tracking-widest text-[11px] sm:text-xs hover:scale-105 transition-transform duration-300 ring-4 ring-warnautama/20 dark:ring-white/20">
-Selengkapnya𓂃✍︎
-</a>
-</div>
-</div>
-</section>
 <section id="katalog" class="reveal pt-8 md:pt-10 relative z-10">
 <div class="px-5 md:px-10 mb-8 flex items-center justify-center text-center">
 <h4 class="text-lg md:text-xl font-extrabold text-warnautama dark:text-white tracking-tight">
@@ -2972,25 +2950,20 @@ function filterTabelAdmin() {
         n.style.display = o && s && c ? "" : "none";
     }));
 }
-  // ==========================================
-// FUNGSI HARGA & PERPINDAHAN STEP FORMULIR
-// ==========================================
-
-// Konfigurasi Rekening & QRIS (Sesuaikan nomor rekening di sini)
 const INFO_PEMBAYARAN = {
     qris: {
         judul: "Scan QRIS Resmi PT Media Tulisan Manusia",
-        gambar: "payqris.png", // Pastikan file gambar QRIS tersedia di hosting
+        gambar: "payqris.png",
         catatan: "Mendukung GoPay, OVO, Dana, ShopeePay, dan seluruh Mobile Banking."
     },
     ocbc: {
         bank: "Bank OCBC NISP",
-        norek: "693800151450", // Ganti dengan nomor rekening OCBC Anda
+        norek: "693800151450",
         atasNama: "PT MEDIA TULISAN MANUSIA"
     },
     bri: {
         bank: "Bank BRI",
-        norek: "123001006601501", // Ganti dengan nomor rekening BRI Anda
+        norek: "123001006601501",
         atasNama: "ACH. SUFYAN WAHYUDI"
     }
 };
@@ -3041,8 +3014,6 @@ function lanjutLangkah2(tipe) {
     const step1 = document.getElementById(`step1-${tipe}`);
     const step2 = document.getElementById(`step2-${tipe}`);
     if (!step1 || !step2) return;
-
-    // 1. Validasi kategori "Lainnya" khusus form Literasi
     if (tipe === "literasi") {
         const selectKat = step1.querySelector('select[name="Kategori"]');
         const inputLainnya = document.getElementById("input-kategori-lainnya");
@@ -3050,15 +3021,12 @@ function lanjutLangkah2(tipe) {
             inputLainnya.required = (selectKat.value === "Lainnya");
         }
     }
-
-    // 2. Validasi seluruh input wajib (required) di Step 1
     const inputs = step1.querySelectorAll("input, select, textarea");
     for (let el of inputs) {
         if (!el.checkValidity()) {
             el.reportValidity();
             return;
         }
-        // Cek ukuran file maksimal 3MB sebelum lanjut ke tagihan
         if (el.type === "file" && el.files.length > 0) {
             if (el.files[0].size / 1024 / 1024 > 3) {
                 showToast(`Berkas "${el.name.replace(/_/g, " ")}" melebihi 3MB. Harap diperkecil.`, "error");
@@ -3066,8 +3034,6 @@ function lanjutLangkah2(tipe) {
             }
         }
     }
-
-    // 3. Hitung nominal tagihan berdasarkan tipe layanan
     let totalHarga = 0;
     if (tipe === "penerbitan") {
         const paket = document.getElementById("dropdownPenerbitan")?.value;
@@ -3082,15 +3048,11 @@ function lanjutLangkah2(tipe) {
     } else if (tipe === "literasi") {
         totalHarga = 25000;
     }
-
-    // 4. Ambil metode pembayaran yang dipilih
     const metodeDipilih = step1.querySelector('input[name="Metode_Pembayaran"]:checked')?.value;
     if (!metodeDipilih) {
         showToast("Pilih metode pembayaran terlebih dahulu!", "error");
         return;
     }
-
-    // 5. Tampilkan detail pembayaran di Step 2
     const displayBox = document.getElementById(`payment-display-${tipe}`);
     if (displayBox) {
         if (metodeDipilih === "qris") {
@@ -3114,8 +3076,6 @@ function lanjutLangkah2(tipe) {
             `;
         }
     }
-
-    // 6. Wajibkan upload bukti transfer di Step 2
     const mapIdBukti = {
         penerbitan: "fileBuktiPenerbitan",
         hki: "fileBuktiHki",
@@ -3123,8 +3083,6 @@ function lanjutLangkah2(tipe) {
     };
     const inputBukti = document.getElementById(mapIdBukti[tipe]);
     if (inputBukti) inputBukti.required = true;
-
-    // 7. Sembunyikan Step 1 & Tampilkan Step 2
     step1.classList.add("hidden");
     step1.classList.remove("block");
     step2.classList.remove("hidden");
